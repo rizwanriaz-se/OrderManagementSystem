@@ -8,15 +8,17 @@ namespace OrderManagementSystem.Cache.Models
 {
     public class Order
     {
-
-        public Order()
+        public enum OrderStatus
         {
-
+            Pending,
+            Shipped,
+            Delivered
         }
+
         public int? Id { get; set; }
         public User? User { get; set; }
         public DateTime? OrderDate { get; set; }
-        public string? Status { get; set; }
+        public OrderStatus? Status { get; set; }
         public Dictionary<Product, int> Products { get; set; }
         public DateTime? ShippedDate { get; set; }
         public string? ShippingAddress { get; set; }

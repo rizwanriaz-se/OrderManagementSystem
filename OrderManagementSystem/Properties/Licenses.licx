@@ -1,1 +1,5 @@
 DevExpress.Xpf.Scheduling.SchedulerControl, DevExpress.Xpf.Scheduling.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
+DevExpress.Xpf.LayoutControl.LayoutControl, DevExpress.Xpf.LayoutControl.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
+DevExpress.Xpf.LayoutControl.LayoutItem, DevExpress.Xpf.LayoutControl.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
+DevExpress.Xpf.Editors.ComboBoxEdit, DevExpress.Xpf.Core.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
+DevExpress.Xpf.Editors.SpinEdit, DevExpress.Xpf.Core.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
