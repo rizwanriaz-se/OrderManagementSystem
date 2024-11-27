@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
    
-        <dxg1:GridControl ItemsSource="{Binding Orders}" Height="200">
+        <dxg1:GridControl ItemsSource="{Binding Orders}" Height="250">
         <dxg1:GridControl.Columns>
             <dxg1:GridColumn FieldName="OrderID" Binding="{Binding Id}" Header="Order ID"/>
             <dxg1:GridColumn FieldName="User"  Binding="{Binding User.Name}" Header="User"/>

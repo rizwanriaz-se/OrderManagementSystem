@@ -23,6 +23,7 @@ namespace OrderManagementSystem.Views
     /// </summary>
     public partial class MainView : UserControl
     {
+        private MainViewModel mainViewModel;
         public MainView()
         {
             InitializeComponent();
@@ -30,15 +31,28 @@ namespace OrderManagementSystem.Views
             // Set the DataContext of the view to the ViewModel
             //OrderViewModel mainViewModel = new OrderViewModel();
             //this.DataContext = mainViewModel;
-
-            DataContext = new MainViewModel();
+            mainViewModel = new MainViewModel();
+            this.DataContext = mainViewModel;
         }
 
         private void RibbonControl_SelectedPageChanged(object sender, DevExpress.Xpf.Ribbon.RibbonPropertyChangedEventArgs e)
         {
-            if (Ribbon.SelectedPage.Name == "OrderPage")
+            var selectedPage = Ribbon.SelectedPage;
+            if (selectedPage.Name == "OrderPage")
             {
-
+                mainViewModel.SwitchToOrdersView();
+            }
+            else if (selectedPage.Name == "CategoryPage")
+            {
+                mainViewModel.SwitchToCategoriesView();
+            }
+            else if (selectedPage.Name == "UserPage")
+            {
+                mainViewModel.SwitchToUsersView();
+            }
+            else if (selectedPage.Name == "ProductPage")
+            {
+                mainViewModel.SwitchToProductsView();
             }
         }
     }

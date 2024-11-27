@@ -11,7 +11,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
     
     public class OrderViewModel
     {
-    
+
         public ObservableCollection<Order> Orders { get; private set; }
 
         public OrderViewModel()

@@ -17,11 +17,11 @@
             <dxr:RibbonDefaultPageCategory>
                 <dxr:RibbonPage Caption="Order" Name="OrderPage">
                     <dxr:RibbonPageGroup Caption="View">
-                        <dxb:BarButtonItem Content="View Orders" />
+                        <dxb:BarButtonItem Content="View Orders" Command="{Binding ViewOrderCommand}" />
                     </dxr:RibbonPageGroup>
                     <dxr:RibbonPageGroup Caption="Manage">
-                        <dxb:BarButtonItem Content="Update Order" />
-                        <dxb:BarButtonItem Content="Add Order" />
+                        <dxb:BarButtonItem Content="Add Order" Command="{Binding AddOrderCommand}" />
+                        <dxb:BarButtonItem Content="Edit Order" Command="{Binding EditOrderCommand}" />
                         <dxb:BarButtonItem Content="Delete Order" />
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
@@ -30,8 +30,8 @@
                         <dxb:BarButtonItem Content="View Categories" />
                     </dxr:RibbonPageGroup>
                     <dxr:RibbonPageGroup Caption="Manage">
-                        <dxb:BarButtonItem Content="Update Category" />
                         <dxb:BarButtonItem Content="Add Category" />
+                        <dxb:BarButtonItem Content="Edit Category" />
                         <dxb:BarButtonItem Content="Delete Category" />
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
@@ -40,8 +40,8 @@
                         <dxb:BarButtonItem Content="View Products" />
                     </dxr:RibbonPageGroup>
                     <dxr:RibbonPageGroup Caption="Manage">
-                        <dxb:BarButtonItem Content="Update Product" />
                         <dxb:BarButtonItem Content="Add Product" />
+                        <dxb:BarButtonItem Content="Edit Product" />
                         <dxb:BarButtonItem Content="Delete Product" />
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
@@ -50,17 +50,22 @@
                         <dxb:BarButtonItem Content="View Users" />
                     </dxr:RibbonPageGroup>
                     <dxr:RibbonPageGroup Caption="Manage">
-                        <dxb:BarButtonItem Content="Update User" />
                         <dxb:BarButtonItem Content="Add User" />
+                        <dxb:BarButtonItem Content="Edit User" />
                         <dxb:BarButtonItem Content="Delete User" />
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
             </dxr:RibbonDefaultPageCategory>
             
         </dxr:RibbonControl>
+
+
+        <!-- ContentControl to display the selected view -->
+        <ContentControl Content="{Binding CurrentView}" />
         
+        <!--
         <Views:DisplayOrdersView />
         <Views:DisplayCategoriesView />
-
+        -->
     </StackPanel>
 </UserControl>
