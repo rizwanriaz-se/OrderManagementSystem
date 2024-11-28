@@ -1,10 +1,12 @@
 ﻿using DevExpress.XtraExport.Implementation;
+using OrderManagementSystem.UIComponents.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Xml.Linq;
 
 namespace OrderManagementSystem.Cache.Models
@@ -42,6 +44,11 @@ namespace OrderManagementSystem.Cache.Models
         {
             //return  new Product{ Id = 15, Name = "Genen Shouyu", Description = "24 - 250 ml bottles", Picture = null, UnitPrice = 15.50M, UnitsInStock = 39, Category = CategoryManager.GetCategoryById(2) };
             return _AllProducts.FirstOrDefault(p => p.Id == id);
+        }
+        public static Product GetProductByName(ProductRow product) {
+            MessageBox.Show($"Hey: {product.SelectedProduct.Name} , fdsfs: {_AllProducts.FirstOrDefault(p => p.Name == product.SelectedProduct.Name)}");
+            
+            return _AllProducts.FirstOrDefault(p => p.Name == product.SelectedProduct.Name);
         }
     }
 }

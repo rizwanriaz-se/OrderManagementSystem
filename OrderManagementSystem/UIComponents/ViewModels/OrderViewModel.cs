@@ -26,7 +26,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             //AddProductCommand = new RelayCommand(AddProduct, CanAddProduct);
             //SubmitOrderCommand = new RelayCommand(SubmitOrder, CanSubmitOrder);
             Orders = OrderManager.GetAllOrders();
-
         }
 
         //private void AddProduct(object parameter)

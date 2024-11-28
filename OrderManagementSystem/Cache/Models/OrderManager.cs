@@ -66,6 +66,16 @@ namespace OrderManagementSystem.Cache.Models
         {
             return _AllOrders;
         }
+        public static Order GetOrderById(int id)
+        {
+            return _AllOrders.FirstOrDefault(o => o.Id == id);
+        }
+        public static Order AddOrder(Order order)
+        {
+            //order.Id = _AllOrders.Max(o => o.Id) + 1;
+            _AllOrders.Add(order);
+            return order;
+        }
 
     }
 }
