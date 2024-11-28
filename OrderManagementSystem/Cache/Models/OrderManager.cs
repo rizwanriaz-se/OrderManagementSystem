@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Xml.Linq;
 using System.Windows;
+using System.ComponentModel;
 
 namespace OrderManagementSystem.Cache.Models
 {
@@ -78,9 +79,29 @@ namespace OrderManagementSystem.Cache.Models
             return order;
         }
 
-        internal static void UpdateOrder(Order order)
+        public static void UpdateOrder(Order updatedOrder)
         {
-            MessageBox.Show($"Order Updated: {order.Id} {order.User} {order.OrderDate} {order.Products} {order.ShippedDate} {order.ShippingAddress}");
+            // Retrieve the existing order with the same ID
+            var existingOrder = _AllOrders.FirstOrDefault(o => o.Id == updatedOrder.Id);
+
+            if (existingOrder != null)
+            {
+                // Update the existing order's properties
+                existingOrder.User = updatedOrder.User;
+                existingOrder.OrderDate = updatedOrder.OrderDate;
+                existingOrder.Status = updatedOrder.Status;
+                existingOrder.ShippedDate = updatedOrder.ShippedDate;
+                existingOrder.ShippingAddress = updatedOrder.ShippingAddress;
+                existingOrder.Products = updatedOrder.Products;
+
+                MessageBox.Show($"Order Updated: {existingOrder.Id}, {existingOrder.User.Name}, {existingOrder.OrderDate}, " +
+                    $"{existingOrder.Products.Count} products, {existingOrder.ShippedDate}, {existingOrder.ShippingAddress}");
+            }
+            else
+            {
+                MessageBox.Show("Order not found.");
+            }
         }
+
     }
 }

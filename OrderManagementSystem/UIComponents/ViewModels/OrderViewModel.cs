@@ -43,7 +43,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         //public ObservableCollection<ProductViewModel> Products { get; set; }
 
-
         public OrderViewModel()
         {
             //Products = new ObservableCollection<ProductViewModel>();
@@ -62,7 +61,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             EditOrderViewModel editOrderViewModel = new EditOrderViewModel(SelectedOrder);
             editOrderView.DataContext = editOrderViewModel;
-
+            editOrderViewModel.CloseWindow = editOrderView.Close;
             editOrderView.ShowDialog();
         }
         public bool CanExecuteEditOrder(object arg)

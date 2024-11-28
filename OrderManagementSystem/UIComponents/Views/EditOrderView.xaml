@@ -21,11 +21,7 @@
             <dxlc:LayoutItem MinWidth="150">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="User" FontWeight="Bold" />
-                    <dxe:ComboBoxEdit Width="200"
-                                      ItemsSource="{Binding AllUsers}"
-                                      DisplayMember="Name"
-                                      SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                                      AutoComplete="True" />
+                    <TextBlock TextWrapping="Wrap" Text="{Binding User.Name}"/>
                 </StackPanel>
             </dxlc:LayoutItem>
 
@@ -146,7 +142,7 @@
 -->
                 <StackPanel Orientation="Horizontal">
                     <dxlc:LayoutItem MinWidth="150">
-                        <dx:SimpleButton Content="Submit Order" Width="150" Background="LightGreen" Command="{Binding SubmitOrderCommand}" />
+                        <dx:SimpleButton Content="Save Order" Width="150" Background="LightGreen" Command="{Binding SaveOrderCommand}" />
                     </dxlc:LayoutItem>
                 </StackPanel>
 
