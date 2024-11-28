@@ -5,10 +5,12 @@
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Class="OrderManagementSystem.UIComponents.Views.AddOrderView"
     Title="AddOrderView" Height="600" Width="1000" 
     WindowStartupLocation="CenterOwner"
     >
+
     <dxlc:LayoutControl Header="Add Order"
                         Orientation="Vertical"
                         VerticalAlignment="Stretch"
@@ -80,7 +82,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="Quantity" FontWeight="Bold" />
-                                    <dxe:SpinEdit EditValue="{Binding Quantity, Mode=TwoWay}" IsFloatValue="False" MinValue="1" MaxValue="10" Width="100" />
+                                    <dxe:SpinEdit EditValue="{Binding Quantity, Mode=TwoWay}"   EditValueType="{x:Type sys:Int32}" IsFloatValue="False" MinValue="1" MaxValue="10" Width="100" />
                                 </StackPanel>
                                 <dx:SimpleButton Content="x" Width="30"                                  Command="{Binding DataContext.RemoveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
  CommandParameter="{Binding}" />

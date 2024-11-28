@@ -30,6 +30,7 @@ namespace OrderManagementSystem.UIComponents.Views
             addOrderViewModel.CloseWindow = this.Close;
             OrderStatusComboBox.ItemsSource = Enum.GetValues(typeof(Order.OrderStatus));
             this.DataContext = addOrderViewModel;
+            
             //ProductListComboBox.ItemsSource = addOrderViewModel.AllProducts;
 
 

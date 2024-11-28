@@ -50,5 +50,10 @@ namespace OrderManagementSystem.Cache.Models
             
             return _AllProducts.FirstOrDefault(p => p.Name == product.SelectedProduct.Name);
         }
+
+        public static void AddProduct(Product product)
+        {
+            _AllProducts.Add(product);
+        }
     }
 }

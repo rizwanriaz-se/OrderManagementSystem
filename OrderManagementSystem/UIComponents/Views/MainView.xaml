@@ -27,21 +27,21 @@
                 </dxr:RibbonPage>
                 <dxr:RibbonPage Caption="Category" Name="CategoryPage">
                     <dxr:RibbonPageGroup Caption="View">
-                        <dxb:BarButtonItem Content="View Categories" />
+                        <dxb:BarButtonItem Content="View Categories" Command="{Binding ViewCategoryCommand}" />
                     </dxr:RibbonPageGroup>
                     <dxr:RibbonPageGroup Caption="Manage">
-                        <dxb:BarButtonItem Content="Add Category" />
-                        <dxb:BarButtonItem Content="Edit Category" />
+                        <dxb:BarButtonItem Content="Add Category" Command="{Binding AddCategoryCommand}" />
+                        <dxb:BarButtonItem Content="Edit Category" Command="{Binding EditCategoryCommand}" />
                         <dxb:BarButtonItem Content="Delete Category" />
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
                 <dxr:RibbonPage Caption="Product" Name="ProductPage">
                     <dxr:RibbonPageGroup Caption="View">
-                        <dxb:BarButtonItem Content="View Products" />
+                        <dxb:BarButtonItem Content="View Products" Command="{Binding ViewProductCommand}"/>
                     </dxr:RibbonPageGroup>
                     <dxr:RibbonPageGroup Caption="Manage">
-                        <dxb:BarButtonItem Content="Add Product" />
-                        <dxb:BarButtonItem Content="Edit Product" />
+                        <dxb:BarButtonItem Content="Add Product" Command="{Binding AddProductCommand}" />
+                        <dxb:BarButtonItem Content="Edit Product" Command="{Binding EditProductCommand}"/>
                         <dxb:BarButtonItem Content="Delete Product" />
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>

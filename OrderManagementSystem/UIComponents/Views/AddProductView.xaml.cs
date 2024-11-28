@@ -1,6 +1,4 @@
-﻿using DevExpress.Xpf.Core;
-using OrderManagementSystem.UIComponents.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,21 +10,23 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.ViewModels;
 
 
 namespace OrderManagementSystem.UIComponents.Views
 {
     /// <summary>
-    /// Interaction logic for EditOrderView.xaml
+    /// Interaction logic for AddProductView.xaml
     /// </summary>
-    public partial class EditOrderView : ThemedWindow
+    public partial class AddProductView : ThemedWindow
     {
-        public EditOrderView()
+        public AddProductView()
         {
             InitializeComponent();
-
-            //EditOrderViewModel editOrderViewModel = new EditOrderViewModel();
-            //this.DataContext = editOrderViewModel;
+            ProductViewModel productViewModel = new ProductViewModel();
+            productViewModel.CloseWindow = this.Close;
+            this.DataContext = productViewModel;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Xml.Linq;
+using System.Windows;
 
 namespace OrderManagementSystem.Cache.Models
 {
@@ -77,5 +78,9 @@ namespace OrderManagementSystem.Cache.Models
             return order;
         }
 
+        internal static void UpdateOrder(Order order)
+        {
+            MessageBox.Show($"Order Updated: {order.Id} {order.User} {order.OrderDate} {order.Products} {order.ShippedDate} {order.ShippingAddress}");
+        }
     }
 }

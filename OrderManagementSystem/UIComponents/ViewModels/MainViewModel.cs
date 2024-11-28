@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm.CodeGenerators;
+using OrderManagementSystem.Cache.Models;
 using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.ViewModels;
 using OrderManagementSystem.UIComponents.Views;
@@ -13,11 +14,17 @@ namespace OrderManagementSystem.ViewModels
     {
         private object _currentView;
 
+       
+
         public ICommand ViewOrderCommand { get; set; }
         public ICommand AddOrderCommand { get; set; }
-        public ICommand EditOrderCommand { get; set; }
         public ICommand DeleteOrderCommand { get; set; }
 
+        public ICommand ViewCategoryCommand { get; set; }
+        public ICommand AddCategoryCommand { get; set; }
+
+        public ICommand ViewProductCommand { get; set; }
+        public ICommand AddProductCommand { get; set; }
         public object CurrentView
         {
             get { return _currentView; }
@@ -36,8 +43,31 @@ namespace OrderManagementSystem.ViewModels
             CurrentView = new DisplayOrdersView();
             ViewOrderCommand = new RelayCommand(ExecuteViewOrder, CanExecuteViewOrder);
             AddOrderCommand = new RelayCommand(ExecuteAddOrder, CanExecuteAddOrder);
-            EditOrderCommand = new RelayCommand(ExecuteEditOrder, CanExecuteEditOrder);
+            ViewCategoryCommand = new RelayCommand(ExecuteViewCategory, CanExecuteViewCategory);
+            AddCategoryCommand = new RelayCommand(ExecuteAddCategory, CanExecuteAddCategory);
+            ViewProductCommand = new RelayCommand(ExecuteViewProduct, CanExecuteViewProduct);
+            AddProductCommand = new RelayCommand(ExecuteAddProduct, CanExecuteAddProduct);
             //DeleteOrderCommand = new RelayCommand(ExecuteDeleteOrder, CanExecuteDeleteOrder);
+        }
+
+        public void ExecuteViewProduct(object obj)
+        {
+            CurrentView = new DisplayProductsView();
+        }
+        public bool CanExecuteViewProduct(object arg)
+        {
+            return true;
+        }
+        public void ExecuteAddProduct(object obj)
+        {
+            AddProductView addProductView = new AddProductView();
+            addProductView.Owner = Application.Current.MainWindow;
+
+            addProductView.ShowDialog();
+        }
+        public bool CanExecuteAddProduct(object arg)
+        {
+            return true;
         }
 
         public void ExecuteViewOrder(object obj)
@@ -59,17 +89,27 @@ namespace OrderManagementSystem.ViewModels
         {
             return true;
         }
-        public void ExecuteEditOrder(object obj)
-        {
-            EditOrderView editOrderView = new EditOrderView();
-            editOrderView.Owner = Application.Current.MainWindow;
 
-            editOrderView.ShowDialog();
+        public void ExecuteViewCategory(object obj)
+        {
+            CurrentView = new DisplayCategoriesView();
         }
-        public bool CanExecuteEditOrder(object arg)
+        public bool CanExecuteViewCategory(object arg)
         {
             return true;
         }
+        public void ExecuteAddCategory(object obj)
+        {
+            AddCategoryView addCategoryView = new AddCategoryView();
+            addCategoryView.Owner = Application.Current.MainWindow;
+
+            addCategoryView.ShowDialog();
+        }
+        public bool CanExecuteAddCategory(object arg)
+        {
+            return true;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void SwitchToOrdersView()
