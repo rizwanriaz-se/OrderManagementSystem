@@ -20,7 +20,11 @@
             <dxlc:LayoutItem MinWidth="150">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="User" FontWeight="Bold" />
-                    <dxe:TextEdit Width="200" />
+                    <dxe:ComboBoxEdit Width="200"
+                                      ItemsSource="{Binding AllUsers}"
+                                      DisplayMember="Name"
+                                      SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+                                      AutoComplete="True" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
@@ -28,7 +32,7 @@
             <dxlc:LayoutItem MinWidth="150">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Status" FontWeight="Bold" />
-                    <ComboBox Width="150" x:Name="OrderStatusComboBox"/>
+                    <ComboBox Width="150" x:Name="OrderStatusComboBox" SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
@@ -36,7 +40,7 @@
             <dxlc:LayoutItem MinWidth="150">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Date" FontWeight="Bold" />
-                    <DatePicker Width="200" />
+                    <DatePicker Width="200" SelectedDate="{Binding SelectedShippingDate, Mode=TwoWay}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
@@ -44,7 +48,7 @@
             <dxlc:LayoutItem MinWidth="150">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Address" FontWeight="Bold" />
-                    <dxe:TextEdit Width="300" />
+                    <dxe:TextEdit Width="300" Text="{Binding SelectedShippingAddress}" />
                 </StackPanel>
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>

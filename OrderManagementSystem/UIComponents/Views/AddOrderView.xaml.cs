@@ -27,6 +27,7 @@ namespace OrderManagementSystem.UIComponents.Views
             InitializeComponent();
 
             AddOrderViewModel addOrderViewModel = new AddOrderViewModel();
+            addOrderViewModel.CloseWindow = this.Close;
             OrderStatusComboBox.ItemsSource = Enum.GetValues(typeof(Order.OrderStatus));
             this.DataContext = addOrderViewModel;
             //ProductListComboBox.ItemsSource = addOrderViewModel.AllProducts;

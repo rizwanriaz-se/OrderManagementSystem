@@ -13,7 +13,7 @@ using static OrderManagementSystem.Cache.Models.Order;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-
+    // Data model used to store dynamically created Product Rows
     public class ProductRow : INotifyPropertyChanged
     {
         private Product _selectedProduct;
@@ -31,39 +31,100 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
     }
 
-        public class AddOrderViewModel
+    // View Model for Add Order View
+    public class AddOrderViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<ProductRow> ProductRows { get; set; } = new ObservableCollection<ProductRow>();
+        #region Declarations
+        // Declare Action to close Add Order View window when invoked
+        public Action CloseWindow { get; set; }
+
+        // Declare properties for data bindings
+        private OrderStatus _selectedStatus;
+        private string _selectedShippingAddress;
+        private DateTime _selectedShippingDate = DateTime.Now;
+        private User _selectedUser;
+
+
+        // Declare Commands
         public ICommand AddProductCommand { get; set; }
         public ICommand RemoveProductCommand { get; set; }
         public ICommand SubmitOrderCommand { get; set; }
 
-        //public OrderViewModel orderViewModel { get; set; }
+        // Initialize required ViewModels to avoid null reference
+
         public ProductViewModel productViewModel { get; set; } = new ProductViewModel();
         public OrderViewModel orderViewModel { get; set; } = new OrderViewModel();
-        //public OrderViewModel Order { get; set; }
+        public UserViewModel userViewModel { get; set; } = new UserViewModel();
 
+        // Declare Observable Collections for data bindings
+        public ObservableCollection<ProductRow> ProductRows { get; set; } = new ObservableCollection<ProductRow>();
         public ObservableCollection<Product> AllProducts { get; set; }
-        public ObservableCollection<ProductViewModel> UserProducts { get; set; }
+        public ObservableCollection<User> AllUsers { get; set; }
 
-        //public ICommand AddProductCommand { get; set; }
-        //public ICommand RemoveProductCommand { get; set; }
+        // Declare PropertyChanged event
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
 
+        #region Data Bindings
+
+        // Data Bindings for Selected Properties
+        public OrderStatus SelectedStatus
+        {
+            get { return _selectedStatus; }
+            set
+            {
+                _selectedStatus = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedStatus)));
+            }
+        }
+
+        public string SelectedShippingAddress
+        {
+            get { return _selectedShippingAddress; }
+            set
+            {
+                _selectedShippingAddress = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedShippingAddress)));
+            }
+        }
+        
+        public DateTime SelectedShippingDate
+        {
+            get
+            {
+                return _selectedShippingDate;
+            }
+            set
+            {
+                _selectedShippingDate = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedShippingDate)));
+            }
+        }
+
+        public User SelectedUser
+        {
+            get { return _selectedUser; }
+            set
+            {
+                _selectedUser = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedUser)));
+            }
+        }
+        #endregion
+
+        #region Constructor
         public AddOrderViewModel()
         {
-            // Initialize the ProductViewModel to avoid null reference
-
             AllProducts = productViewModel.Products;
+            AllUsers = userViewModel.Users;
             AddProductCommand = new RelayCommand(AddProductRow, CanAddProductRow);
             RemoveProductCommand = new RelayCommand(RemoveProductRow, CanRemoveProductRow);
             SubmitOrderCommand = new RelayCommand(SubmitOrder, CanSubmitOrder);
-            //UserProducts = new ObservableCollection<ProductViewModel>();
-            //orderViewModel = new OrderViewModel();
-            //AddProductCommand = new RelayCommand(AddProduct, CanAddProduct);
-            //RemoveProductCommand = new RelayCommand(RemoveProduct, CanRemoveProduct);
-            //Order = new OrderViewModel();
         }
+        #endregion
 
+        #region Command Actions
+        // Command Action to Submit Order
         private void SubmitOrder(object obj)
         {
             // Logic for submitting the order
@@ -73,73 +134,57 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 return;
             }
 
-  
-        int? lastOrderId = orderViewModel.Orders.Last().Id;
+            // Get the last order Id to generate new order Id
+            int? lastOrderId = orderViewModel.Orders.Last().Id;
+
+            // Create new Order object
             Order order = new Order
             {
                 Id = lastOrderId + 1,
-                User = new User { Id = 1, Name = "John Doe" },
+                User = _selectedUser,
                 OrderDate = DateTime.Now,
-                Status = Order.OrderStatus.Pending,
+                Status = _selectedStatus,
                 Products = ProductRows.ToDictionary(
                     row => ProductManager.GetProductByName(row), // Key: Product object
                     row => row.Quantity // Value: Quantity
                     ),
-                ShippedDate = DateTime.Now,
-                ShippingAddress = "1234 Main St, Springfield, IL 62701"
+                ShippedDate = _selectedShippingDate,
+                ShippingAddress = _selectedShippingAddress
             };
 
+            // Add the new order to the OrderManager
             OrderManager.AddOrder(order);
 
-        }
-        private bool CanSubmitOrder(object obj)
-        {
-            return true;
+            // Close the Add Order View window
+            CloseWindow?.Invoke();
         }
 
-        private bool CanRemoveProductRow(object obj)
-        {
-            return true;       
-        }
-
+        // Command Actions for adding and removing Product Rows
         private void RemoveProductRow(object productRow)
         {
             ProductRows.Remove(productRow as ProductRow);
         }
 
-        private bool CanAddProductRow(object obj)
-        {
-            return true;        }
-
         private void AddProductRow(object obj)
         {
             ProductRows.Add(new ProductRow { Quantity = 1 });
         }
+        #endregion
 
-        //private bool CanAddProduct(object obj)
-        //{
-        //    return true;
-        //}
-
-
-        //private void AddProduct(object obj)
-        //{
-        //    UserProducts.Add(new ProductViewModel());
-        //}
-        //private void RemoveProduct(object obj) {
-
-        //}
-
-        private bool CanAddProduct(object obj)
+        #region Command Predicates
+        // Command Predicates for Submit Order, Add Product Row and Remove Product Row
+        private bool CanSubmitOrder(object obj)
         {
             return true;
         }
-        private bool CanRemoveProduct(object obj)
+        private bool CanAddProductRow(object obj)
         {
             return true;
         }
-
-
-
+        private bool CanRemoveProductRow(object obj)
+        {
+            return true;
+        }
+        #endregion
     }
 }

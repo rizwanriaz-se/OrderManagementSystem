@@ -46,7 +46,7 @@ namespace OrderManagementSystem.Cache.Models
             return _AllProducts.FirstOrDefault(p => p.Id == id);
         }
         public static Product GetProductByName(ProductRow product) {
-            MessageBox.Show($"Hey: {product.SelectedProduct.Name} , fdsfs: {_AllProducts.FirstOrDefault(p => p.Name == product.SelectedProduct.Name)}");
+            //MessageBox.Show($"Hey: {product.SelectedProduct.Name} , fdsfs: {_AllProducts.FirstOrDefault(p => p.Name == product.SelectedProduct.Name)}");
             
             return _AllProducts.FirstOrDefault(p => p.Name == product.SelectedProduct.Name);
         }

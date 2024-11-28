@@ -17,7 +17,7 @@
            
             
             <dxg1:GridColumn FieldName="Status" Binding="{Binding Status}" Header="Status"/>
-            <dxg1:GridColumn FieldName="ShippedDate" Binding="{Binding ShippedDate}" Header="Shipped Date"/>
+            <dxg1:GridColumn FieldName="ShippingDate" Binding="{Binding ShippedDate}" Header="Shipped Date"/>
             <dxg1:GridColumn FieldName="ShippingAddress" Binding="{Binding ShippingAddress}" Header="Shipping Address"/>
             </dxg1:GridControl.Columns>
             
