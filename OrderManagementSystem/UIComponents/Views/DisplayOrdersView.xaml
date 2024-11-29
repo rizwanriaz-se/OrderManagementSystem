@@ -10,6 +10,11 @@
 
 
     <dxg1:GridControl ItemsSource="{Binding Orders}" Height="250" SelectedItem="{Binding SelectedOrder}">
+
+        <dxg1:GridControl.View>
+            <dxg1:TableView AutoWidth="True" DetailHeaderContent="Products" ShowGroupPanel="False" />
+        </dxg1:GridControl.View>
+        
         <dxg1:GridControl.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Edit Order" Command="{Binding EditOrderCommand}"  />
@@ -19,14 +24,36 @@
         
         <dxg1:GridControl.Columns>
             <dxg1:GridColumn FieldName="OrderID" Binding="{Binding Id}" Header="Order ID"/>
-            <dxg1:GridColumn FieldName="User"  Binding="{Binding User.Name}" Header="User"/>
+            <dxg1:GridColumn FieldName="Employee"  Binding="{Binding User.Name}" Header="Employee"/>
             <dxg1:GridColumn FieldName="OrderDate" Binding="{Binding OrderDate}" Header="Order Date"/>
            
             <dxg1:GridColumn FieldName="Status" Binding="{Binding Status}" Header="Status"/>
             <dxg1:GridColumn FieldName="ShippingDate" Binding="{Binding ShippedDate}" Header="Shipped Date"/>
             <dxg1:GridColumn FieldName="ShippingAddress" Binding="{Binding ShippingAddress}" Header="Shipping Address"/>
             </dxg1:GridControl.Columns>
-            
-        </dxg1:GridControl>
+        
+        <dxg1:GridControl.DetailDescriptor>
+            <dxg1:DataControlDetailDescriptor ItemsSourceBinding="{Binding ProductRows}">
+                <dxg1:DataControlDetailDescriptor.DataControl>
+                    <dxg1:GridControl>
+                        <dxg1:GridControl.View>
+                            <dxg1:TableView AutoWidth="True" ShowGroupPanel="False" />
+                        </dxg1:GridControl.View>
+                        <dxg1:GridControl.Columns>
+                            <dxg1:GridColumn FieldName="SelectedProduct.Name" Header="Product Name"  />
+                            <dxg1:GridColumn FieldName="Quantity" Header="Quantity" />
+                           
+                        </dxg1:GridControl.Columns>
+                    </dxg1:GridControl>
+                </dxg1:DataControlDetailDescriptor.DataControl>
+            </dxg1:DataControlDetailDescriptor>
+        </dxg1:GridControl.DetailDescriptor>
+        
+        
+    </dxg1:GridControl>
+
+  
+    
+    
     
 </UserControl>

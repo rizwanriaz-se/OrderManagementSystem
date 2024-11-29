@@ -13,9 +13,11 @@
   
     <StackPanel>
 
-        <dxr:RibbonControl Name="Ribbon" SelectedPageChanged="RibbonControl_SelectedPageChanged">
+        <dxr:RibbonControl Name="Ribbon" SelectedPageChanged="RibbonControl_SelectedPageChanged" >
             <dxr:RibbonDefaultPageCategory>
+                
                 <dxr:RibbonPage Caption="Order" Name="OrderPage">
+                     
 <!--                    <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Orders" Command="{Binding ViewOrderCommand}" />
                     </dxr:RibbonPageGroup> -->

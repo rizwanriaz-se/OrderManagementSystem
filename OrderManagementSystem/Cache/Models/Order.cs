@@ -1,6 +1,8 @@
 ﻿using DevExpress.XtraRichEdit.Model.History;
+using OrderManagementSystem.UIComponents.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -24,6 +26,7 @@ namespace OrderManagementSystem.Cache.Models
         private Dictionary<Product, int> m_Products;
         private DateTime? m_ShippedDate;
         private string? m_stShippingAddress;
+        
 
         public int? Id
         {
@@ -67,6 +70,7 @@ namespace OrderManagementSystem.Cache.Models
             {
                 m_Products = value;
                 OnPropertyChanged(nameof(Products));
+                OnPropertyChanged(nameof(ProductRows)); // Notify that ProductRows has changed
             }
         }
         public DateTime? ShippedDate {
@@ -85,6 +89,22 @@ namespace OrderManagementSystem.Cache.Models
                 OnPropertyChanged(nameof(ShippingAddress));
             }
         }
+
+        // New property to expose Products as a collection
+        public ObservableCollection<ProductRow> ProductRows
+        {
+            get
+            {
+                return new ObservableCollection<ProductRow>(
+                    m_Products?.Select(p => new ProductRow
+                    {
+                        SelectedProduct = p.Key,
+                        Quantity = p.Value
+                    }) ?? Enumerable.Empty<ProductRow>()
+                );
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)

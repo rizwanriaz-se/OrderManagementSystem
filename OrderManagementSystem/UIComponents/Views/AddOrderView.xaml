@@ -21,7 +21,7 @@
             <!-- User Field -->
             <dxlc:LayoutItem MinWidth="150">
                 <StackPanel HorizontalAlignment="Left">
-                    <Label Content="User" FontWeight="Bold" />
+                    <Label Content="Employee" FontWeight="Bold" />
                     <dxe:ComboBoxEdit Width="200"
                                       ItemsSource="{Binding AllUsers}"
                                       DisplayMember="Name"
@@ -31,13 +31,14 @@
             </dxlc:LayoutItem>
 
             <!-- Status Field -->
+            <!--
             <dxlc:LayoutItem MinWidth="150">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Status" FontWeight="Bold" />
-                    <ComboBox Width="150" x:Name="OrderStatusComboBox" SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" />
+                    <dxe:ComboBoxEdit Width="150" x:Name="OrderStatusComboBox" EditValue="{Binding SelectedStatus, Mode=TwoWay}" ItemsSource="{Binding SelectableStatuses}" AutoComplete="True" />
                 </StackPanel>
             </dxlc:LayoutItem>
-
+-->
             <!-- Shipping Date Field -->
             <dxlc:LayoutItem MinWidth="150">
                 <StackPanel HorizontalAlignment="Left">

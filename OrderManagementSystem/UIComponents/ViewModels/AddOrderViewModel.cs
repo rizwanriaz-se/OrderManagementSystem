@@ -52,14 +52,15 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         // Initialize required ViewModels to avoid null reference
 
-        public ProductViewModel productViewModel { get; set; } = new ProductViewModel();
-        public OrderViewModel orderViewModel { get; set; } = new OrderViewModel();
-        public UserViewModel userViewModel { get; set; } = new UserViewModel();
+        //public ProductViewModel productViewModel { get; set; } = new ProductViewModel();
+        //public OrderViewModel orderViewModel { get; set; } = new OrderViewModel();
+        //public UserViewModel userViewModel { get; set; } = new UserViewModel();
 
         // Declare Observable Collections for data bindings
         public ObservableCollection<ProductRow> ProductRows { get; set; } = new ObservableCollection<ProductRow>();
         public ObservableCollection<Product> AllProducts { get; set; }
         public ObservableCollection<User> AllUsers { get; set; }
+        public ObservableCollection<OrderStatus> SelectableStatuses { get; }
 
         // Declare PropertyChanged event
         public event PropertyChangedEventHandler PropertyChanged;
@@ -117,6 +118,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             AllProducts = ProductManager.GetAllProducts();
             AllUsers = UserManager.GetAllUsers();
+            //SelectedStatus = OrderStatus.Pending;
+
+            //SelectableStatuses = new ObservableCollection<OrderStatus>(
+            //    Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().Where(
+            //        status => status != OrderStatus.Pending)
+            //    );
+
             //AllProducts = productViewModel.Products;
             //AllUsers = userViewModel.Users;
             AddProductCommand = new RelayCommand(AddProductRow, CanAddProductRow);
@@ -146,7 +154,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Id = lastOrderId + 1,
                 User = _selectedUser,
                 OrderDate = DateTime.Now,
-                Status = _selectedStatus,
+                Status = OrderStatus.Pending,
                 Products = ProductRows.ToDictionary(
                     row => ProductManager.GetProductByName(row), // Key: Product object
                     row => row.Quantity // Value: Quantity

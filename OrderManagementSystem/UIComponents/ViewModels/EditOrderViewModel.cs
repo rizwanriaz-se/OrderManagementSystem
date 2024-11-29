@@ -30,6 +30,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             AddProductCommand = new RelayCommand(AddProductRow, CanAddProductRow);
             RemoveProductCommand = new RelayCommand(RemoveProductRow, CanRemoveProductRow);
             SaveOrderCommand = new RelayCommand(SaveOrder, CanSubmitOrder);
+            //SelectedStatus = OrderStatus.Pending;
 
             _order = order;
             //MessageBox.Show($"{ order.Id} {order.OrderDate} {order.User} {order.Products}");
@@ -47,6 +48,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                     Quantity = p.Value
                 })
             );
+            SelectableStatuses = new ObservableCollection<OrderStatus>(
+                Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>()
+                .Where(status => status != OrderStatus.Pending)
+                );
         }
 
         public int? Id { get; } // Non-editable
@@ -57,6 +62,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public string SelectedShippingAddress { get; set; }
         public ObservableCollection<ProductRow> ProductRows { get; set; }
+        public ObservableCollection<OrderStatus> SelectableStatuses { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName) =>
