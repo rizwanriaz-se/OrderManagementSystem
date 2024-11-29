@@ -29,8 +29,6 @@ namespace OrderManagementSystem.Views
             InitializeComponent();
 
             // Set the DataContext of the view to the ViewModel
-            //OrderViewModel mainViewModel = new OrderViewModel();
-            //this.DataContext = mainViewModel;
             mainViewModel = new MainViewModel();
             this.DataContext = mainViewModel;
         }

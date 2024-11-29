@@ -71,8 +71,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void EditProduct(object obj)
         {
             EditProductView editProductView = new EditProductView();
-            //MessageBox.Show($"Hi: {SelectedOrder.Id}");
-
 
             EditProductViewModel editProductViewModel = new EditProductViewModel(SelectedProduct);
             editProductView.DataContext = editProductViewModel;

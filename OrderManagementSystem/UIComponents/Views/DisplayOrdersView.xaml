@@ -49,11 +49,6 @@
             </dxg1:DataControlDetailDescriptor>
         </dxg1:GridControl.DetailDescriptor>
         
-        
     </dxg1:GridControl>
 
-  
-    
-    
-    
 </UserControl>

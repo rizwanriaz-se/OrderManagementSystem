@@ -85,6 +85,5 @@ namespace OrderManagementSystem.Cache.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        //public Order Order { get; set; }
     }
 }

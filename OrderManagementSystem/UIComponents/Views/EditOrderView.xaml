@@ -17,6 +17,7 @@
                         StretchContentHorizontally="True"
                         StretchContentVertically="True">
         <dxlc:LayoutGroup Orientation="Horizontal">
+            
             <!-- User Field -->
             <dxlc:LayoutItem MinWidth="150">
                 <StackPanel HorizontalAlignment="Left">
@@ -87,60 +88,6 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <!--                <StackPanel Orientation="Horizontal">
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Name: " FontWeight="Bold" />
-                            <ComboBox Width="200" ItemsSource="{Binding AllProducts}" DisplayMemberPath="Name" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Quantity" FontWeight="Bold" />
-                            <dxe:SpinEdit MinValue="1" MaxValue="10" EditValue="1" Width="100" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem MinWidth="150" HorizontalAlignment="Right">
-                        <dx:SimpleButton Content="x" Width="30" />
-                    </dxlc:LayoutItem>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Name: " FontWeight="Bold" />
-                            <ComboBox Width="200" ItemsSource="{Binding AllProducts}" DisplayMemberPath="Name" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Quantity" FontWeight="Bold" />
-                            <dxe:SpinEdit EditValue="1" MinValue="1" MaxValue="10" Width="100" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem MinWidth="150" HorizontalAlignment="Right">
-                        <dx:SimpleButton Content="x" Width="30" />
-                    </dxlc:LayoutItem>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Name: " FontWeight="Bold" />
-                            <ComboBox Width="200" ItemsSource="{Binding AllProducts}" DisplayMemberPath="Name" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Quantity" FontWeight="Bold" />
-                            <dxe:SpinEdit EditValue="1" MinValue="1" MaxValue="10" Width="100" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem MinWidth="150" HorizontalAlignment="Right">
-                        <dx:SimpleButton Content="x" Width="30" />
-                    </dxlc:LayoutItem>
-                </StackPanel>
--->
                 <StackPanel Orientation="Horizontal">
                     <dxlc:LayoutItem MinWidth="150">
                         <dx:SimpleButton Content="Save Order" Width="150" Background="LightGreen" Command="{Binding SaveOrderCommand}" />

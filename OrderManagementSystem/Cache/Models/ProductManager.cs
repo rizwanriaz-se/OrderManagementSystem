@@ -43,11 +43,11 @@ namespace OrderManagementSystem.Cache.Models
 
         public static Product GetProductByID(int id)
         {
-            //return  new Product{ Id = 15, Name = "Genen Shouyu", Description = "24 - 250 ml bottles", Picture = null, UnitPrice = 15.50M, UnitsInStock = 39, Category = CategoryManager.GetCategoryById(2) };
+            
             return _AllProducts.FirstOrDefault(p => p.Id == id);
         }
         public static Product GetProductByName(ProductRow product) {
-            //MessageBox.Show($"Hey: {product.SelectedProduct.Name} , fdsfs: {_AllProducts.FirstOrDefault(p => p.Name == product.SelectedProduct.Name)}");
+            
             
             return _AllProducts.FirstOrDefault(p => p.Name == product.SelectedProduct.Name);
         }

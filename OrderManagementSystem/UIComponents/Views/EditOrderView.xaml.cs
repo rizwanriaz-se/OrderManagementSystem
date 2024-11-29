@@ -25,11 +25,7 @@ namespace OrderManagementSystem.UIComponents.Views
         public EditOrderView()
         {
             InitializeComponent();
-            //OrderStatusComboBox.ItemsSource = Enum.GetValues(typeof(Order.OrderStatus));
-
-
-            //EditOrderViewModel editOrderViewModel = new EditOrderViewModel();
-            //this.DataContext = editOrderViewModel;
+            
         }
     }
 }

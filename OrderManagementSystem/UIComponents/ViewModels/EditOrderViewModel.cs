@@ -30,11 +30,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             AddProductCommand = new RelayCommand(AddProductRow, CanAddProductRow);
             RemoveProductCommand = new RelayCommand(RemoveProductRow, CanRemoveProductRow);
             SaveOrderCommand = new RelayCommand(SaveOrder, CanSubmitOrder);
-            //SelectedStatus = OrderStatus.Pending;
 
             _order = order;
-            //MessageBox.Show($"{ order.Id} {order.OrderDate} {order.User} {order.Products}");
-            // Initialize editable fields
+            
             Id = order.Id;
             User = order.User;
             OrderDate = order.OrderDate;
@@ -100,8 +98,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void SaveOrder(object obj)
         {
-            // m_Order
-            // m_stError
+            
             // Logic to save the updated order
             _order.Id = Id;
             _order.User = User;

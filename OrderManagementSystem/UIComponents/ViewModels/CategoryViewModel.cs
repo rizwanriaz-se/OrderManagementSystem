@@ -28,12 +28,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //public string CategoryNameText
-        //{
-        //    get { return _categoryNameText; }
-        //    set { _categoryNameText = value; }
-        //}
-
         private Category m_SelectedCategory { get; set; }
 
         public Category SelectedCategory
@@ -82,7 +76,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void EditCategory(object obj) {
             EditCategoryView editCategoryView = new EditCategoryView();
-            //MessageBox.Show($"Hi: {SelectedOrder.Id}");
 
             EditCategoryViewModel editCategoryViewModel = new EditCategoryViewModel(SelectedCategory);
             editCategoryView.DataContext = editCategoryViewModel;

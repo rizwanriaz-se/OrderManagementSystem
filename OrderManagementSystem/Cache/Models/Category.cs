@@ -53,10 +53,6 @@ namespace OrderManagementSystem.Cache.Models
         }
 
 
-
-
-
         public event PropertyChangedEventHandler PropertyChanged;
-        //public List<Product> Products { get; set; }
     }
 }

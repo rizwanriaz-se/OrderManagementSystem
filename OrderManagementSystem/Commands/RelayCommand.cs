@@ -23,7 +23,6 @@ namespace OrderManagementSystem.Commands
         public bool CanExecute(object parameter)
         {
             return _CanExecute(parameter);
-            //return _CanExecute == null ? true : _CanExecute(parameter);
         }
 
         public void Execute(object parameter) {

@@ -49,13 +49,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public ICommand AddProductCommand { get; set; }
         public ICommand RemoveProductCommand { get; set; }
         public ICommand SubmitOrderCommand { get; set; }
-
-        // Initialize required ViewModels to avoid null reference
-
-        //public ProductViewModel productViewModel { get; set; } = new ProductViewModel();
-        //public OrderViewModel orderViewModel { get; set; } = new OrderViewModel();
-        //public UserViewModel userViewModel { get; set; } = new UserViewModel();
-
+       
         // Declare Observable Collections for data bindings
         public ObservableCollection<ProductRow> ProductRows { get; set; } = new ObservableCollection<ProductRow>();
         public ObservableCollection<Product> AllProducts { get; set; }
@@ -118,15 +112,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             AllProducts = ProductManager.GetAllProducts();
             AllUsers = UserManager.GetAllUsers();
-            //SelectedStatus = OrderStatus.Pending;
-
-            //SelectableStatuses = new ObservableCollection<OrderStatus>(
-            //    Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().Where(
-            //        status => status != OrderStatus.Pending)
-            //    );
-
-            //AllProducts = productViewModel.Products;
-            //AllUsers = userViewModel.Users;
+           
             AddProductCommand = new RelayCommand(AddProductRow, CanAddProductRow);
             RemoveProductCommand = new RelayCommand(RemoveProductRow, CanRemoveProductRow);
             SubmitOrderCommand = new RelayCommand(SubmitOrder, CanSubmitOrder);
@@ -146,7 +132,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             // Get the last order Id to generate new order Id
             int? lastOrderId = OrderManager.GetAllOrders().Last().Id;
-            //int? lastOrderId = orderViewModel.Orders.Last().Id;
 
             // Create new Order object
             Order order = new Order

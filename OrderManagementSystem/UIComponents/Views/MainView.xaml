@@ -65,9 +65,6 @@
         <!-- ContentControl to display the selected view -->
         <ContentControl Content="{Binding CurrentView}" />
         
-        <!--
-        <Views:DisplayOrdersView />
-        <Views:DisplayCategoriesView />
-        -->
+       
     </StackPanel>
 </UserControl>

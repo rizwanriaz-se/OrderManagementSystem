@@ -47,7 +47,6 @@ namespace OrderManagementSystem.ViewModels
             AddCategoryCommand = new RelayCommand(ExecuteAddCategory, CanExecuteAddCategory);
             ViewProductCommand = new RelayCommand(ExecuteViewProduct, CanExecuteViewProduct);
             AddProductCommand = new RelayCommand(ExecuteAddProduct, CanExecuteAddProduct);
-            //DeleteOrderCommand = new RelayCommand(ExecuteDeleteOrder, CanExecuteDeleteOrder);
         }
 
         public void ExecuteViewProduct(object obj)
