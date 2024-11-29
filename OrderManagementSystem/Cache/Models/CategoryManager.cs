@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace OrderManagementSystem.Cache.Models
 {
@@ -35,9 +36,19 @@ namespace OrderManagementSystem.Cache.Models
         {
             _AllCategories.Add(category);
         }
-        public static void RemoveCategory(Category category)
+        public static void DeleteCategory(Category category)
         {
             _AllCategories.Remove(category);
+        }
+
+        public static void UpdateCategory(Category category)
+        {
+            var categoryToUpdate = _AllCategories.FirstOrDefault(c => c.Id == category.Id);
+            categoryToUpdate.Name = category.Name;
+            categoryToUpdate.Description = category.Description;
+            categoryToUpdate.Picture = category.Picture;
+
+            MessageBox.Show("Category updated successfully");
         }
     }
 }

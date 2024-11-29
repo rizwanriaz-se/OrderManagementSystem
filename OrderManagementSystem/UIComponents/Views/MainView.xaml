@@ -16,33 +16,33 @@
         <dxr:RibbonControl Name="Ribbon" SelectedPageChanged="RibbonControl_SelectedPageChanged">
             <dxr:RibbonDefaultPageCategory>
                 <dxr:RibbonPage Caption="Order" Name="OrderPage">
-                    <dxr:RibbonPageGroup Caption="View">
+<!--                    <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Orders" Command="{Binding ViewOrderCommand}" />
-                    </dxr:RibbonPageGroup>
+                    </dxr:RibbonPageGroup> -->
                     <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add Order" Command="{Binding AddOrderCommand}" />
-                        <dxb:BarButtonItem Content="Edit Order" Command="{Binding EditOrderCommand}" />
-                        <dxb:BarButtonItem Content="Delete Order" />
+<!--                        <dxb:BarButtonItem Content="Edit Order" Command="{Binding EditOrderCommand}" />
+                        <dxb:BarButtonItem Content="Delete Order" /> -->
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
                 <dxr:RibbonPage Caption="Category" Name="CategoryPage">
-                    <dxr:RibbonPageGroup Caption="View">
+<!--                    <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Categories" Command="{Binding ViewCategoryCommand}" />
-                    </dxr:RibbonPageGroup>
+                    </dxr:RibbonPageGroup> -->
                     <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add Category" Command="{Binding AddCategoryCommand}" />
-                        <dxb:BarButtonItem Content="Edit Category" Command="{Binding EditCategoryCommand}" />
-                        <dxb:BarButtonItem Content="Delete Category" />
+<!--                        <dxb:BarButtonItem Content="Edit Category" Command="{Binding EditCategoryCommand}" />
+                        <dxb:BarButtonItem Content="Delete Category" /> -->
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
                 <dxr:RibbonPage Caption="Product" Name="ProductPage">
-                    <dxr:RibbonPageGroup Caption="View">
+                    <!-- <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Products" Command="{Binding ViewProductCommand}"/>
-                    </dxr:RibbonPageGroup>
+                    </dxr:RibbonPageGroup> -->
                     <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add Product" Command="{Binding AddProductCommand}" />
-                        <dxb:BarButtonItem Content="Edit Product" Command="{Binding EditProductCommand}"/>
-                        <dxb:BarButtonItem Content="Delete Product" />
+        <!--            <dxb:BarButtonItem Content="Edit Product" Command="{Binding EditProductCommand}"/>
+                        <dxb:BarButtonItem Content="Delete Product" /> -->
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
                 <dxr:RibbonPage Caption="User" Name="UserPage">

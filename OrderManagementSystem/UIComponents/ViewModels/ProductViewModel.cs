@@ -1,6 +1,7 @@
 ﻿using DevExpress.Xpf.Controls;
 using OrderManagementSystem.Cache.Models;
 using OrderManagementSystem.Commands;
+using OrderManagementSystem.UIComponents.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +18,22 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public Action CloseWindow { get; set; }
 
         public ICommand SubmitProductCommand { get; set; }
+        public ICommand EditProductCommand { get; set; }
+
+        public ICommand DeleteProductCommand { get; set; }
+
+        private Product m_SelectedProduct;
+
+        public Product SelectedProduct
+        {
+            get { return m_SelectedProduct; }
+            set
+            {
+                m_SelectedProduct = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedProduct)));
+            }
+        }
+
 
         public ObservableCollection<Product> Products { get; private set; }
         public ObservableCollection<Category> Categories { get; private set; }
@@ -47,7 +64,37 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             Categories = CategoryManager.GetAllCategories();
             Products = ProductManager.GetAllProducts();
             SubmitProductCommand = new RelayCommand(SubmitProduct, CanSubmitProduct);
+            EditProductCommand = new RelayCommand(EditProduct, CanEditProduct);
+            DeleteProductCommand = new RelayCommand(DeleteProduct, CanDeleteProduct);
         }
+
+        private void EditProduct(object obj)
+        {
+            EditProductView editProductView = new EditProductView();
+            //MessageBox.Show($"Hi: {SelectedOrder.Id}");
+
+
+            EditProductViewModel editProductViewModel = new EditProductViewModel(SelectedProduct);
+            editProductView.DataContext = editProductViewModel;
+            editProductViewModel.CloseWindow = editProductView.Close;
+            editProductView.ShowDialog();
+        }
+
+        private bool CanEditProduct(object obj)
+        {
+            return true;
+        }
+
+        private void DeleteProduct(object obj) {
+            ProductManager.DeleteProduct(SelectedProduct);
+            //Products.Remove(SelectedProduct);
+        }
+
+        private bool CanDeleteProduct(object obj)
+        {
+            return true;
+        }
+
 
         public void SubmitProduct(object obj)
         {

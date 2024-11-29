@@ -115,8 +115,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         #region Constructor
         public AddOrderViewModel()
         {
-            AllProducts = productViewModel.Products;
-            AllUsers = userViewModel.Users;
+            AllProducts = ProductManager.GetAllProducts();
+            AllUsers = UserManager.GetAllUsers();
+            //AllProducts = productViewModel.Products;
+            //AllUsers = userViewModel.Users;
             AddProductCommand = new RelayCommand(AddProductRow, CanAddProductRow);
             RemoveProductCommand = new RelayCommand(RemoveProductRow, CanRemoveProductRow);
             SubmitOrderCommand = new RelayCommand(SubmitOrder, CanSubmitOrder);
@@ -135,7 +137,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             // Get the last order Id to generate new order Id
-            int? lastOrderId = orderViewModel.Orders.Last().Id;
+            int? lastOrderId = OrderManager.GetAllOrders().Last().Id;
+            //int? lastOrderId = orderViewModel.Orders.Last().Id;
 
             // Create new Order object
             Order order = new Order

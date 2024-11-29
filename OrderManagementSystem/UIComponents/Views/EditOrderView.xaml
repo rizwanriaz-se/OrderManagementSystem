@@ -10,7 +10,7 @@
     Title="EditOrderView" Height="600" Width="1000"
     WindowStartupLocation="CenterOwner"
     >
-    <dxlc:LayoutControl Header="Add Order"
+    <dxlc:LayoutControl Header="Edit Order"
                         Orientation="Vertical"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"

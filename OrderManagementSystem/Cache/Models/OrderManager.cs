@@ -103,5 +103,9 @@ namespace OrderManagementSystem.Cache.Models
             }
         }
 
+        public static void DeleteOrder(Order order)
+        {
+            _AllOrders.Remove(order);
+        }
     }
 }

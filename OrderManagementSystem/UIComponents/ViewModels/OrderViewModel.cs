@@ -28,6 +28,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         //public ICommand SubmitOrderCommand { get; }
         //public AddOrderView
         public ICommand EditOrderCommand { get; set; }
+        public ICommand DeleteOrderCommand { get; set; }
+
         private Order _selectedOrder;
         public Order SelectedOrder
         {
@@ -50,10 +52,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             //SubmitOrderCommand = new RelayCommand(SubmitOrder, CanSubmitOrder);
             Orders = OrderManager.GetAllOrders();
             EditOrderCommand = new RelayCommand(ExecuteEditOrder, CanExecuteEditOrder);
-
+            DeleteOrderCommand = new RelayCommand(ExecuteDeleteOrder, CanExecuteDeleteOrder);
         }
 
-        public void ExecuteEditOrder(object obj)
+        private void ExecuteEditOrder(object obj)
         {
             EditOrderView editOrderView = new EditOrderView();
             //MessageBox.Show($"Hi: {SelectedOrder.Id}");
@@ -64,10 +66,21 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             editOrderViewModel.CloseWindow = editOrderView.Close;
             editOrderView.ShowDialog();
         }
-        public bool CanExecuteEditOrder(object arg)
+        private bool CanExecuteEditOrder(object obj)
         {
             return true;
         }
+
+        private void ExecuteDeleteOrder(object obj) {
+            OrderManager.DeleteOrder(SelectedOrder);
+            //Orders.Remove(SelectedOrder);
+        }
+
+        private bool CanExecuteDeleteOrder(object obj)
+        {
+            return true;
+        }
+
 
         //private void AddProduct(object parameter)
         //{

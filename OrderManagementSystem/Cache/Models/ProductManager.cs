@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -54,6 +55,34 @@ namespace OrderManagementSystem.Cache.Models
         public static void AddProduct(Product product)
         {
             _AllProducts.Add(product);
+        }
+
+        public static void UpdateProduct(Product product)
+        {
+            var existingProduct = _AllProducts.FirstOrDefault(p => p.Id == product.Id);
+            if (existingProduct != null)
+            {
+                existingProduct.Name = product.Name;
+                existingProduct.Description = product.Description;
+                existingProduct.Category = product.Category;
+                existingProduct.Picture = product.Picture;
+                existingProduct.UnitPrice = product.UnitPrice;
+                existingProduct.UnitsInStock = product.UnitsInStock;
+
+                MessageBox.Show($"Product Updated: {existingProduct.Id}, {existingProduct.Name}, {existingProduct.Description}, {existingProduct.Category.Name}, {existingProduct.UnitPrice}, {existingProduct.UnitsInStock}");
+            }
+        }
+
+        public static void DeleteProduct(Product product)
+        {
+            _AllProducts.Remove(product);
+            //int productId = product.Id;
+
+            //var productToDelete = _AllProducts.FirstOrDefault(p => p.Id == productId);
+            //if (productToDelete != null)
+            //{
+            //    _AllProducts.Remove(productToDelete);
+            //}
         }
     }
 }

@@ -10,7 +10,7 @@
 
     <dxg1:GridControl ItemsSource="{Binding Users}" Height="300">
         <dxg1:GridControl.Columns>
-            <dxg1:GridColumn FieldName="ID" Binding="{Binding Id}" Header="Category ID"/>
+            <dxg1:GridColumn FieldName="ID" Binding="{Binding Id}" Header="ID"/>
             <dxg1:GridColumn FieldName="Name"  Binding="{Binding Name}" Header="Name"/>
             <dxg1:GridColumn FieldName="Email"  Binding="{Binding Email}" Header="Email"/>
             <dxg1:GridColumn FieldName="Phone"  Binding="{Binding Phone}" Header="Phone"/>
