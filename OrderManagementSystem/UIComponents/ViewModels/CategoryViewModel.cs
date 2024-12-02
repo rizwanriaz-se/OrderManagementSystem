@@ -44,7 +44,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public CategoryViewModel()
         {
-            Categories = CategoryManager.GetAllCategories();
+            Categories = GUIHandler.GetInstance().CacheManager.GetAllCategories();
             SubmitCategoryCommand = new RelayCommand(SubmitCategory, CanSubmitCategory);
             EditCategoryCommand = new RelayCommand(EditCategory, CanEditCategory);
             DeleteCategoryCommand = new RelayCommand(DeleteCategory, CanDeleteCategory);
@@ -64,7 +64,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Picture = null
             };
 
-            CategoryManager.AddCategory(category);
+            GUIHandler.GetInstance().CacheManager.AddCategory(category);
             CloseWindow?.Invoke();
 
         }
@@ -89,7 +89,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
 
         private void DeleteCategory(object obj) {
-            CategoryManager.DeleteCategory(SelectedCategory);
+            GUIHandler.GetInstance().CacheManager.DeleteCategory(SelectedCategory);
             //Categories.Remove(SelectedCategory);
         }
 

@@ -13,7 +13,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public ObservableCollection<User> Users { get; private set; }
         public UserViewModel()
         {
-            Users = UserManager.GetAllUsers();
+            Users = GUIHandler.GetInstance().CacheManager.GetAllUsers();
         }
     }
 }

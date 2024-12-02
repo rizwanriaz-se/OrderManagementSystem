@@ -110,8 +110,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         #region Constructor
         public AddOrderViewModel()
         {
-            AllProducts = ProductManager.GetAllProducts();
-            AllUsers = UserManager.GetAllUsers();
+            AllProducts = GUIHandler.GetInstance().CacheManager.GetAllProducts();
+            AllUsers = GUIHandler.GetInstance().CacheManager.GetAllUsers();
            
             AddProductCommand = new RelayCommand(AddProductRow, CanAddProductRow);
             RemoveProductCommand = new RelayCommand(RemoveProductRow, CanRemoveProductRow);
@@ -131,7 +131,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             // Get the last order Id to generate new order Id
-            int? lastOrderId = OrderManager.GetAllOrders().Last().Id;
+            int? lastOrderId = GUIHandler.GetInstance().CacheManager.GetAllOrders().Last().Id;
 
             // Create new Order object
             Order order = new Order
@@ -141,7 +141,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 OrderDate = DateTime.Now,
                 Status = OrderStatus.Pending,
                 Products = ProductRows.ToDictionary(
-                    row => ProductManager.GetProductByName(row), // Key: Product object
+                    row => GUIHandler.GetInstance().CacheManager.GetProductByName(row), // Key: Product object
                     row => row.Quantity // Value: Quantity
                     ),
                 ShippedDate = _selectedShippingDate,
@@ -149,7 +149,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             };
 
             // Add the new order to the OrderManager
-            OrderManager.AddOrder(order);
+            GUIHandler.GetInstance().CacheManager.AddOrder(order);
 
             // Close the Add Order View window
             CloseWindow?.Invoke();

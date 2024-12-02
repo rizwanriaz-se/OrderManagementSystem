@@ -61,8 +61,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public ProductViewModel()
         {
-            Categories = CategoryManager.GetAllCategories();
-            Products = ProductManager.GetAllProducts();
+            Categories = GUIHandler.GetInstance().CacheManager.GetAllCategories();
+            Products = GUIHandler.GetInstance().CacheManager.GetAllProducts();
             SubmitProductCommand = new RelayCommand(SubmitProduct, CanSubmitProduct);
             EditProductCommand = new RelayCommand(EditProduct, CanEditProduct);
             DeleteProductCommand = new RelayCommand(DeleteProduct, CanDeleteProduct);
@@ -84,7 +84,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
 
         private void DeleteProduct(object obj) {
-            ProductManager.DeleteProduct(SelectedProduct);
+            GUIHandler.GetInstance().CacheManager.DeleteProduct(SelectedProduct);
             //Products.Remove(SelectedProduct);
         }
 
@@ -109,7 +109,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Category = SelectedCategory
             };
 
-            ProductManager.AddProduct(product);
+            GUIHandler.GetInstance().CacheManager.AddProduct(product);
             CloseWindow?.Invoke();
         }
 

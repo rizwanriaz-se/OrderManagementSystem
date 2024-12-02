@@ -31,7 +31,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public EditProductViewModel(Product product)
         {
-            Categories = CategoryManager.GetAllCategories();
+            Categories = GUIHandler.GetInstance().CacheManager.GetAllCategories();
             SaveProductCommand = new RelayCommand(SaveProduct, CanSaveProduct);
 
             _Product = product;
@@ -61,7 +61,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _Product.UnitPrice = ProductUnitPriceText;
             _Product.UnitsInStock = ProductUnitsInStockText;
 
-            ProductManager.UpdateProduct(_Product);
+            GUIHandler.GetInstance().CacheManager.UpdateProduct(_Product);
 
             CloseWindow.Invoke();
 

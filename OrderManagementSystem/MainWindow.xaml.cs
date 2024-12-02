@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.Cache;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,13 @@ namespace OrderManagementSystem
     /// </summary>
     public partial class MainWindow : ThemedWindow
     {
+        private CacheManager m_CacheManager = new CacheManager();
+
         public MainWindow()
         {
             InitializeComponent();
+            GUIHandler.GetInstance().Init(m_CacheManager);
+
         }
     }
 }

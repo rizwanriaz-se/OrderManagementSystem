@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.Cache;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,6 +14,8 @@ namespace OrderManagementSystem
     /// </summary>
     public partial class App : Application
     {
+
+
         static App()
         {
             CompatibilitySettings.UseLightweightThemes = true;

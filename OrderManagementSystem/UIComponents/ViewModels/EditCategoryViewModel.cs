@@ -45,8 +45,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _Category.Name = CategoryNameText;
             _Category.Description = CategoryDescriptionText;
             _Category.Picture = Picture;
-            
-            CategoryManager.UpdateCategory(_Category);
+
+            GUIHandler.GetInstance().CacheManager.UpdateCategory(_Category);
 
             CloseWindow.Invoke();
 
