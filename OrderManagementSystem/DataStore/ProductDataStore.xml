@@ -236,4 +236,17 @@
     <UnitPrice>3</UnitPrice>
     <UnitsInStock>22</UnitsInStock>
   </Product>
+  <Product>
+    <Id>18</Id>
+    <Name>qwe</Name>
+    <Description>qwe</Description>
+    <Category>
+      <Id>3</Id>
+      <Name>Confections</Name>
+      <Description>Desserts, candies, and sweet breads</Description>
+      <Picture />
+    </Category>
+    <UnitPrice>2</UnitPrice>
+    <UnitsInStock>2</UnitsInStock>
+  </Product>
 </ArrayOfProduct>

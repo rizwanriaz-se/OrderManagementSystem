@@ -32,122 +32,13 @@ namespace OrderManagementSystem.Cache
         {
 
             _AllUsers = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<User>>($"{m_stDataStorePath}{m_stUserDataStorePath}");
-            //    _AllUsers = new ObservableCollection<User>()
-            //{
-            //    new User(){ Id = 1, Name = "John Doe", Email = "johndoe@example.com", Phone = "1234567890", Password = "Z1W(7MGkQ0", IsAdmin = true },
-            //    new User(){ Id = 2, Name = "Jane David", Email = "janedavid@test.com", Phone = "0987654321", Password = "43GyyVMj_n ", IsAdmin = false },
-            //    new User(){ Id = 3, Name = "John Smith", Email = "johnsmith@xyz.com", Phone = "1234567890", Password = "&qb42KSwtz", IsAdmin = false },
-            //    new User(){ Id = 4, Name = "Taylor Travis", Email = "taylortravis@example.com", Phone = "0987654321", Password = "password", IsAdmin = false },
-            //    new User(){ Id = 5, Name="Andrea Hernandez", Email="andreahernandez@test.com", Phone="3726139894", Password="#THfdeD72", IsAdmin=false },
-            //};
-
-            //_AllCategories = new ObservableCollection<Category>
-            //{
-            //    new Category() { Id = 1, Name = "Beverages", Description = "Soft drinks, coffees, teas, beers, and ales", Picture = null },
-            //    new Category() { Id = 2, Name = "Condiments", Description = "Sweet and savory sauces, relishes, spreads, and seasonings", Picture = null },
-            //    new Category() { Id = 3, Name = "Confections", Description = "Desserts, candies, and sweet breads", Picture = null },
-            //    new Category() { Id = 4, Name = "Dairy Products", Description = "Cheeses", Picture = null },
-            //    new Category() { Id = 5, Name = "Grains/Cereals", Description = "Breads, crackers, pasta, and cereal", Picture = null },
-            //    new Category() { Id = 6, Name = "Meat/Poultry", Description = "Prepared meats", Picture = null },
-            //    new Category() { Id = 7, Name = "Produce", Description = "Dried fruit and bean curd", Picture = null },
-            //    new Category() { Id = 8, Name = "Seafood", Description = "Seaweed and fish", Picture = null }
-            //};
+        
             _AllCategories = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<Category>>($"{m_stDataStorePath}{m_stCategoryDataStorePath}");
 
             _AllProducts = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<Product>>($"{m_stDataStorePath}{m_stProductDataStorePath}");
 
-            //_AllProducts = new ObservableCollection<Product>
-            //{
-            //new Product(){ Id = 1, Name = "Chai", Description = "10 boxes x 20 bags", Picture = null, UnitPrice = 18.00M, UnitsInStock = 39, Category = GetCategoryById(1) },
-            //new Product(){ Id = 2, Name = "Chang", Description = "24 - 12 oz bottles", Picture = null, UnitPrice = 19.00M, UnitsInStock = 17, Category = GetCategoryById(1) },
-            //new Product(){ Id = 3, Name = "Aniseed Syrup", Description = "12 - 550 ml bottles", Picture = null, UnitPrice = 10.00M, UnitsInStock = 13, Category = GetCategoryById(2) },
-            //new Product(){ Id = 4, Name = "Chef Anton's Cajun Seasoning", Description = "48 - 6 oz jars", Picture = null, UnitPrice = 22.00M, UnitsInStock = 53, Category = GetCategoryById(2) },
-            //new Product(){ Id = 5, Name = "Chef Anton's Gumbo Mix", Description = "36 boxes", Picture = null, UnitPrice = 21.35M, UnitsInStock = 0, Category = GetCategoryById(2) },
-            //new Product(){ Id = 6, Name = "Grandma's Boysenberry Spread", Description = "12 - 8 oz jars", Picture = null, UnitPrice = 25.00M, UnitsInStock = 120, Category = GetCategoryById(2) },
-            //new Product(){ Id = 7, Name = "Uncle Bob's Organic Dried Pears", Description = "12 - 1 lb pkgs.", Picture = null, UnitPrice = 30.00M, UnitsInStock = 15, Category = GetCategoryById(7) },
-            //new Product(){ Id = 8, Name = "Northwoods Cranberry Sauce", Description = "12 - 12 oz jars", Picture = null, UnitPrice = 40.00M, UnitsInStock = 6, Category = GetCategoryById(2) },
-            //new Product(){ Id = 9, Name = "Mishi Kobe Niku", Description = "18 - 500 g pkgs.", Picture = null, UnitPrice = 97.00M, UnitsInStock = 29, Category = GetCategoryById(6) },
-            //new Product(){ Id = 10, Name = "Ikura", Description = "12 - 200 ml jars", Picture = null, UnitPrice = 31.00M, UnitsInStock = 31, Category = GetCategoryById(8) },
-            //new Product(){ Id = 11, Name = "Queso Cabrales", Description = "1 kg pkg.", Picture = null, UnitPrice = 21.00M, UnitsInStock = 22, Category = GetCategoryById(4) },
-            //new Product(){ Id = 12, Name = "Queso Manchego La Pastora", Description = "10 - 500 g pkgs.", Picture = null, UnitPrice = 38.00M, UnitsInStock = 86, Category = GetCategoryById(4) },
-            //new Product(){ Id = 13, Name = "Konbu", Description = "2 kg box", Picture = null, UnitPrice = 6.00M, UnitsInStock = 24, Category = GetCategoryById(8) },
-            //new Product(){ Id = 14, Name = "Tofu", Description = "40 - 100 g pkgs.", Picture = null, UnitPrice = 23.25M, UnitsInStock = 35, Category = GetCategoryById(7) },
-            //new Product(){ Id = 15, Name = "Genen Shouyu", Description = "24 - 250 ml bottles", Picture = null, UnitPrice = 15.50M, UnitsInStock = 39, Category = GetCategoryById(2) },
-
-            //};
-
-
             _AllOrders = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<Order>>($"{m_stDataStorePath}{m_stOrderDataStorePath}");
 
-            //_AllOrders = new ObservableCollection<Order>
-            //    {
-            //new Order()
-            //{
-            //    Id = 1,
-            //    User = GetUserByID(1),
-            //    OrderDate = DateTime.Now,
-            //    Status = Order.OrderStatus.Pending,
-            //    ShippedDate = DateTime.Now.AddDays(2),
-            //    ShippingAddress = "1234 Main St, Springfield, IL 62701",
-            //    OrderDetails = new ObservableCollection<OrderDetail>{
-            //        new OrderDetail{Product = GetProductByID(1), Quantity = 1},
-            //        new OrderDetail{Product = GetProductByID(2), Quantity = 3}
-            //    }
-            //},
-            //    new Order()
-            //    {
-            //        Id = 2,
-            //        User = GetUserByID(2),
-            //        OrderDate = DateTime.Now,
-            //        Status = Order.OrderStatus.Shipped,
-            //        ShippedDate = DateTime.Now.AddDays(1),
-            //        ShippingAddress = "5678 Elm St, Springfield, IL 62702" ,
-            //        OrderDetails = new ObservableCollection<OrderDetail>{
-            //            new OrderDetail{Product = GetProductByID(3), Quantity = 1},
-            //            new OrderDetail{Product = GetProductByID(4), Quantity = 2},
-            //            new OrderDetail{Product = GetProductByID(5), Quantity = 1}
-            //            }
-            //    },
-            //    new Order()
-            //    {
-            //        Id = 3,
-            //        User = GetUserByID(3),
-            //        OrderDate = DateTime.Now,
-            //        Status = Order.OrderStatus.Delivered,
-            //        ShippedDate = DateTime.Now.AddDays(3),
-            //        ShippingAddress = "9101 Oak St, Springfield, IL 62703",
-            //        OrderDetails = new ObservableCollection<OrderDetail>{
-            //            new OrderDetail{Product = GetProductByID(6), Quantity = 1},
-            //            new OrderDetail{Product = GetProductByID(7), Quantity = 1},
-            //            new OrderDetail{Product = GetProductByID(8), Quantity = 1}
-            //        }
-            //        },
-
-
-
-
-            //    new Order()
-            //    {
-            //        Id = 4, User = GetUserByID(4), OrderDate = DateTime.Now, Status = Order.OrderStatus.Pending, ShippedDate = DateTime.Now.AddDays(2), ShippingAddress = "1213 Pine St, Springfield, IL 62704", OrderDetails = new ObservableCollection<OrderDetail>{
-            //            new OrderDetail{Product = GetProductByID(9), Quantity = 2},
-            //            new OrderDetail{Product = GetProductByID(10), Quantity = 1},
-            //            new OrderDetail{Product = GetProductByID(11), Quantity = 3}
-            //        }
-
-
-
-            //    },
-            //    new Order()
-            //    {
-            //        Id = 5, User = GetUserByID(5), OrderDate = DateTime.Now, Status = Order.OrderStatus.Shipped, ShippedDate = DateTime.Now.AddDays(1), ShippingAddress = "1415 Cedar St, Springfield, IL 62705", OrderDetails = new ObservableCollection<OrderDetail>{
-            //            new OrderDetail{Product = GetProductByID(12), Quantity = 1},
-            //            new OrderDetail{Product = GetProductByID(13), Quantity = 2},
-            //            new OrderDetail{Product = GetProductByID(14), Quantity = 1}
-            //        }
-
-            //    }
-            //};
-      
         }
 
         public void SaveData()
@@ -174,7 +65,6 @@ namespace OrderManagementSystem.Cache
         {
             _AllCategories.Remove(category);
         }
-
         public void UpdateCategory(Category category)
         {
             var categoryToUpdate = _AllCategories.FirstOrDefault(c => c.Id == category.Id);
@@ -184,7 +74,6 @@ namespace OrderManagementSystem.Cache
 
             //MessageBox.Show("Category updated successfully");
         }
-
         public ObservableCollection<Order> GetAllOrders()
         {
             return _AllOrders;
@@ -199,7 +88,6 @@ namespace OrderManagementSystem.Cache
             _AllOrders.Add(order);
             //return order;
         }
-
         public void UpdateOrder(Order updatedOrder)
         {
             // Retrieve the existing order with the same ID
@@ -223,17 +111,14 @@ namespace OrderManagementSystem.Cache
                 //MessageBox.Show("Order not found.");
             }
         }
-
         public void DeleteOrder(Order order)
         {
             _AllOrders.Remove(order);
         }
-
         public ObservableCollection<Product> GetAllProducts()
         {
             return _AllProducts;
         }
-
         public Product GetProductByID(int id)
         {
 
@@ -245,12 +130,10 @@ namespace OrderManagementSystem.Cache
 
             return _AllProducts.FirstOrDefault(p => p.Name == orderDetail.Product.Name);
         }
-
         public void AddProduct(Product product)
         {
             _AllProducts.Add(product);
         }
-
         public void UpdateProduct(Product product)
         {
             var existingProduct = _AllProducts.FirstOrDefault(p => p.Id == product.Id);
@@ -266,7 +149,6 @@ namespace OrderManagementSystem.Cache
                 //MessageBox.Show($"Product Updated: {existingProduct.Id}, {existingProduct.Name}, {existingProduct.Description}, {existingProduct.Category.Name}, {existingProduct.UnitPrice}, {existingProduct.UnitsInStock}");
             }
         }
-
         public void DeleteProduct(Product product)
         {
             _AllProducts.Remove(product);
@@ -278,17 +160,39 @@ namespace OrderManagementSystem.Cache
             //    _AllProducts.Remove(productToDelete);
             //}
         }
-
         public ObservableCollection<User> GetAllUsers()
         {
             return _AllUsers;
         }
 
+        public void AddUser(User user)
+        {
+            _AllUsers.Add(user);
+            SaveData();
+        }
         public User GetUserByID(int id)
         {
             return _AllUsers.FirstOrDefault(u => u.Id == id);
         }
+        public void UpdateUser(User user)
+        {
+            var existingUser = _AllUsers.FirstOrDefault(u => u.Id == user.Id);
+            if (existingUser != null)
+            {
+                existingUser.Name = user.Name;
+                existingUser.Email = user.Email;
+                existingUser.Phone = user.Phone;
+                existingUser.Password = user.Password;
+                existingUser.IsAdmin = user.IsAdmin;
 
+                //MessageBox.Show($"Product Updated: {existingProduct.Id}, {existingProduct.Name}, {existingProduct.Description}, {existingProduct.Category.Name}, {existingProduct.UnitPrice}, {existingProduct.UnitsInStock}");
+            }
+        }
 
+        public void DeleteUser(User user)
+        {
+            _AllUsers.Remove(user);
+
+        }
     }
 }

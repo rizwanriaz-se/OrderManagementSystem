@@ -48,13 +48,13 @@
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
                 <dxr:RibbonPage Caption="User" Name="UserPage">
-                    <dxr:RibbonPageGroup Caption="View">
+                   <!-- <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Users" />
-                    </dxr:RibbonPageGroup>
+                    </dxr:RibbonPageGroup>-->
                     <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add User" />
-                        <dxb:BarButtonItem Content="Edit User" />
-                        <dxb:BarButtonItem Content="Delete User" />
+                        <!--<dxb:BarButtonItem Content="Edit User" Command="{Binding EditUserCommand}" />
+                        <dxb:BarButtonItem Content="Delete User" /> -->
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
             </dxr:RibbonDefaultPageCategory>

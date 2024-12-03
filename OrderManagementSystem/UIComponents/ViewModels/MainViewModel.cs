@@ -25,6 +25,8 @@ namespace OrderManagementSystem.ViewModels
 
         public ICommand ViewProductCommand { get; set; }
         public ICommand AddProductCommand { get; set; }
+
+
         public object CurrentView
         {
             get { return _currentView; }

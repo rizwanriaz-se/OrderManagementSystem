@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
 using OrderManagementSystem.Cache;
+using OrderManagementSystem.UIComponents.Views;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -21,5 +22,16 @@ namespace OrderManagementSystem
             CompatibilitySettings.UseLightweightThemes = true;
 
         }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            MessageBox.Show("Exiting");
+            GUIHandler.GetInstance().CacheManager.SaveData();
+        }
+
+
+        // App.xaml.cs
+
+
     }
 }

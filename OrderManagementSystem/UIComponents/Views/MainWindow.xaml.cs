@@ -1,5 +1,7 @@
 ﻿using DevExpress.Xpf.Core;
 using OrderManagementSystem.Cache;
+using OrderManagementSystem.UIComponents.ViewModels;
+using OrderManagementSystem.UIComponents.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,11 +30,9 @@ namespace OrderManagementSystem
             InitializeComponent();
             GUIHandler.GetInstance().Init(m_CacheManager);
 
+            AuthViewModel authViewModel = new AuthViewModel();
+            this.DataContext = authViewModel;
         }
 
-        private void ThemedWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            GUIHandler.GetInstance().CacheManager.SaveData();
-        }
     }
 }

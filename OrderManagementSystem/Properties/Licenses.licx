@@ -5,3 +5,5 @@ DevExpress.Xpf.Editors.ComboBoxEdit, DevExpress.Xpf.Core.v24.1, Version=24.1.7.0
 DevExpress.Xpf.Editors.SpinEdit, DevExpress.Xpf.Core.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
 DevExpress.Xpf.Grid.TreeListControl, DevExpress.Xpf.Grid.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
 DevExpress.Xpf.Editors.MemoEdit, DevExpress.Xpf.Core.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
+DevExpress.Xpf.Core.DXTabControl, DevExpress.Xpf.Core.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
+DevExpress.Xpf.Editors.CheckEdit, DevExpress.Xpf.Core.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
