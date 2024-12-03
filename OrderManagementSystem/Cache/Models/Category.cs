@@ -6,10 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Xml;
+using System.Xml.Serialization;
+
 
 namespace OrderManagementSystem.Cache.Models
 {
-    
+    [Serializable]
+    //[XmlRoot("Categories")]
     public class Category : INotifyPropertyChanged
     {
         private int? m_nId;
@@ -17,7 +21,7 @@ namespace OrderManagementSystem.Cache.Models
         private string? m_stDescription;
         private byte[]? m_Picture;
 
-
+        [XmlElement("Id")]
         public int? Id
         {
             get { return m_nId; }
@@ -27,6 +31,8 @@ namespace OrderManagementSystem.Cache.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Id)));
             }
         }
+
+        [XmlElement("Name")]
         public string? Name {
             get { return m_stName; }
             set
@@ -35,6 +41,8 @@ namespace OrderManagementSystem.Cache.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
             }
         }
+
+        [XmlElement("Description")]
         public string? Description {
             get { return m_stDescription; }
             set
@@ -43,6 +51,8 @@ namespace OrderManagementSystem.Cache.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
             }
         }
+
+        [XmlElement("Picture")]
         public byte[]? Picture {
             get { return m_Picture; }
             set

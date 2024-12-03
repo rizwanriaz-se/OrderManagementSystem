@@ -18,8 +18,4 @@
     <PackageReference Include="DevExpress.Mvvm.CodeGenerators" Version="22.1.*-*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Utils\" />
-  </ItemGroup>
-
 </Project>

@@ -74,7 +74,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return true;
         }
 
-        private void EditCategory(object obj) {
+        private void EditCategory(object obj)
+        {
             EditCategoryView editCategoryView = new EditCategoryView();
 
             EditCategoryViewModel editCategoryViewModel = new EditCategoryViewModel(SelectedCategory);
@@ -88,7 +89,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return true;
         }
 
-        private void DeleteCategory(object obj) {
+        private void DeleteCategory(object obj)
+        {
             GUIHandler.GetInstance().CacheManager.DeleteCategory(SelectedCategory);
             //Categories.Remove(SelectedCategory);
         }

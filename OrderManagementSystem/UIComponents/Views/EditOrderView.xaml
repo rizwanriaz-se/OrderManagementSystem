@@ -68,13 +68,13 @@
 
             <dxlc:LayoutGroup Orientation="Vertical">
 
-                <ItemsControl ItemsSource="{Binding ProductRows}">
+                <ItemsControl ItemsSource="{Binding OrderDetails}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="Name: " FontWeight="Bold" />
-                                    <ComboBox Width="200" ItemsSource="{Binding DataContext.AllProducts, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"  DisplayMemberPath="Name"           SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" />
+                                    <ComboBox Width="200" ItemsSource="{Binding DataContext.AllProducts, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"  DisplayMemberPath="Name"           SelectedItem="{Binding Product, Mode=TwoWay}" />
 
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">

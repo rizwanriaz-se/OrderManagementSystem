@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <User>
+    <Id>1</Id>
+    <Name>John Doe</Name>
+    <Email>johndoe@example.com</Email>
+    <Phone>1234567890</Phone>
+    <Password>Z1W(7MGkQ0</Password>
+    <IsAdmin>true</IsAdmin>
+  </User>
+  <User>
+    <Id>2</Id>
+    <Name>Jane David</Name>
+    <Email>janedavid@test.com</Email>
+    <Phone>0987654321</Phone>
+    <Password>43GyyVMj_n</Password>
+    <IsAdmin>false</IsAdmin>
+  </User>
+  <User>
+    <Id>3</Id>
+    <Name>John Smith</Name>
+    <Email>johnsmith@xyz.com</Email>
+    <Phone>1234567890</Phone>
+    <Password>&amp;qb42KSwtz</Password>
+    <IsAdmin>false</IsAdmin>
+  </User>
+  <User>
+    <Id>4</Id>
+    <Name>Taylor Travis</Name>
+    <Email>taylortravis@example.com</Email>
+    <Phone>0987654321</Phone>
+    <Password>password</Password>
+    <IsAdmin>false</IsAdmin>
+  </User>
+  <User>
+    <Id>5</Id>
+    <Name>Andrea Hernandez</Name>
+    <Email>andreahernandez@test.com</Email>
+    <Phone>3726139894</Phone>
+    <Password>#THfdeD72</Password>
+    <IsAdmin>false</IsAdmin>
+  </User>
+</ArrayOfUser>

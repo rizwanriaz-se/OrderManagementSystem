@@ -27,29 +27,30 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public EditOrderViewModel(Order order)
         {
             AllProducts = GUIHandler.GetInstance().CacheManager.GetAllProducts();
-            AddProductCommand = new RelayCommand(AddProductRow, CanAddProductRow);
-            RemoveProductCommand = new RelayCommand(RemoveProductRow, CanRemoveProductRow);
+            AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);
+            RemoveProductCommand = new RelayCommand(RemoveOrderDetails, CanRemoveOrderDetails);
             SaveOrderCommand = new RelayCommand(SaveOrder, CanSubmitOrder);
 
             _order = order;
-            
+
             Id = order.Id;
             User = order.User;
             OrderDate = order.OrderDate;
             SelectedShippingDate = order.ShippedDate;
             SelectedStatus = order.Status;
             SelectedShippingAddress = order.ShippingAddress;
-            ProductRows = new ObservableCollection<ProductRow>(
-                order.Products.Select(p => new ProductRow
-                {
-                    SelectedProduct = p.Key,
-                    Quantity = p.Value
-                })
-            );
+            OrderDetails = new ObservableCollection<OrderDetail>(order.OrderDetails);
+            //ProductRows = new ObservableCollection<ProductRow>(
+            //    order.Products.Select(p => new ProductRow
+            //    {
+            //        SelectedProduct = p.Key,
+            //        Quantity = p.Value
+            //    })
+            //);
             SelectableStatuses = new ObservableCollection<OrderStatus>(
                 Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>()
                 .Where(status => status != OrderStatus.Pending)
-                );
+            );
         }
 
         public int? Id { get; } // Non-editable
@@ -58,35 +59,39 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public DateTime? SelectedShippingDate { get; set; }
         public OrderStatus? SelectedStatus { get; set; }
 
+        public ObservableCollection<OrderDetail> OrderDetails { get; set; }
+
         public string SelectedShippingAddress { get; set; }
-        public ObservableCollection<ProductRow> ProductRows { get; set; }
+        //public ObservableCollection<ProductRow> ProductRows { get; set; }
+
+        //public ObservableCollection<OrderDetail> OrderDetails { get; set; }
         public ObservableCollection<OrderStatus> SelectableStatuses { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        
 
-        private void RemoveProductRow(object productRow)
+
+        private void RemoveOrderDetails(object orderDetails)
         {
-            ProductRows.Remove(productRow as ProductRow);
+            OrderDetails.Remove(orderDetails as OrderDetail);
         }
 
-        private void AddProductRow(object obj)
+        private void AddOrderDetails(object obj)
         {
-            ProductRows.Add(new ProductRow { Quantity = 1 });
+            OrderDetails.Add(new OrderDetail { Quantity = 1 });
         }
 
         private bool CanSubmitOrder(object obj)
         {
             return true;
         }
-        private bool CanAddProductRow(object obj)
+        private bool CanAddOrderDetails(object obj)
         {
             return true;
         }
-        private bool CanRemoveProductRow(object obj)
+        private bool CanRemoveOrderDetails(object obj)
         {
             return true;
         }
@@ -98,7 +103,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void SaveOrder(object obj)
         {
-            
+
             // Logic to save the updated order
             _order.Id = Id;
             _order.User = User;
@@ -106,10 +111,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _order.Status = SelectedStatus;
             _order.ShippedDate = SelectedShippingDate;
             _order.ShippingAddress = SelectedShippingAddress;
-            _order.Products = ProductRows.ToDictionary(
-                row => row.SelectedProduct,
-                row => row.Quantity
-            );
+            _order.OrderDetails = OrderDetails;
+
+
+           
 
             // Update the order in the database or collection
             GUIHandler.GetInstance().CacheManager.UpdateOrder(_order);

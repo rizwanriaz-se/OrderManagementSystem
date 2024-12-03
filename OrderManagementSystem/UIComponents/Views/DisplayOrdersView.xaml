@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
 
-    <dxg1:GridControl ItemsSource="{Binding Orders}" Height="250" SelectedItem="{Binding SelectedOrder}">
+    <dxg1:GridControl ItemsSource="{Binding Orders}" Height="450" SelectedItem="{Binding SelectedOrder}">
 
         <dxg1:GridControl.View>
             <dxg1:TableView AutoWidth="True" DetailHeaderContent="Products" ShowGroupPanel="False" />
@@ -33,14 +33,14 @@
             </dxg1:GridControl.Columns>
         
         <dxg1:GridControl.DetailDescriptor>
-            <dxg1:DataControlDetailDescriptor ItemsSourceBinding="{Binding ProductRows}">
+            <dxg1:DataControlDetailDescriptor ItemsSourceBinding="{Binding OrderDetails}">
                 <dxg1:DataControlDetailDescriptor.DataControl>
                     <dxg1:GridControl>
                         <dxg1:GridControl.View>
                             <dxg1:TableView AutoWidth="True" ShowGroupPanel="False" />
                         </dxg1:GridControl.View>
                         <dxg1:GridControl.Columns>
-                            <dxg1:GridColumn FieldName="SelectedProduct.Name" Header="Product Name"  />
+                            <dxg1:GridColumn FieldName="Product.Name" Header="Product Name"  />
                             <dxg1:GridColumn FieldName="Quantity" Header="Quantity" />
                            
                         </dxg1:GridControl.Columns>

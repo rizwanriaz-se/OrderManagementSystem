@@ -5,10 +5,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using System.Xml.Linq;
 
 namespace OrderManagementSystem.Cache.Models
 {
+
+    
     public class Product : INotifyPropertyChanged
     {
         private int m_nId;

@@ -14,22 +14,22 @@ using static OrderManagementSystem.Cache.Models.Order;
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
     // Data model used to store dynamically created Product Rows
-    public class ProductRow : INotifyPropertyChanged
-    {
-        private Product _selectedProduct;
-        public Product SelectedProduct
-        {
-            get { return _selectedProduct; }
-            set
-            {
-                _selectedProduct = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedProduct)));
-            }
-        }
-        public int Quantity { get; set; }
+    //public class ProductRow : INotifyPropertyChanged
+    //{
+    //    private Product _selectedProduct;
+    //    public Product SelectedProduct
+    //    {
+    //        get { return _selectedProduct; }
+    //        set
+    //        {
+    //            _selectedProduct = value;
+    //            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedProduct)));
+    //        }
+    //    }
+    //    public int Quantity { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-    }
+    //    public event PropertyChangedEventHandler PropertyChanged;
+    //}
 
     // View Model for Add Order View
     public class AddOrderViewModel : INotifyPropertyChanged
@@ -49,9 +49,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public ICommand AddProductCommand { get; set; }
         public ICommand RemoveProductCommand { get; set; }
         public ICommand SubmitOrderCommand { get; set; }
-       
+
         // Declare Observable Collections for data bindings
-        public ObservableCollection<ProductRow> ProductRows { get; set; } = new ObservableCollection<ProductRow>();
+        //public ObservableCollection<ProductRow> ProductRows { get; set; } = new ObservableCollection<ProductRow>();
+        public ObservableCollection<OrderDetail> OrderDetails { get; set; } = new ObservableCollection<OrderDetail>();
+
         public ObservableCollection<Product> AllProducts { get; set; }
         public ObservableCollection<User> AllUsers { get; set; }
         public ObservableCollection<OrderStatus> SelectableStatuses { get; }
@@ -113,8 +115,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             AllProducts = GUIHandler.GetInstance().CacheManager.GetAllProducts();
             AllUsers = GUIHandler.GetInstance().CacheManager.GetAllUsers();
            
-            AddProductCommand = new RelayCommand(AddProductRow, CanAddProductRow);
-            RemoveProductCommand = new RelayCommand(RemoveProductRow, CanRemoveProductRow);
+            AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);
+            RemoveProductCommand = new RelayCommand(RemoveOrderDetails, CanRemoveOrderDetails);
             SubmitOrderCommand = new RelayCommand(SubmitOrder, CanSubmitOrder);
         }
         #endregion
@@ -124,11 +126,17 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void SubmitOrder(object obj)
         {
             // Logic for submitting the order
-            if (ProductRows == null || ProductRows.Count == 0)
-            {
-                MessageBox.Show("Please add at least one product.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+            //if (ProductRows == null || ProductRows.Count == 0)
+            //{
+            //    MessageBox.Show("Please add at least one product.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    return;
+            //}
+
+            //if (OrderDetail == null || ProductRows.Count == 0)
+            //{
+            //    MessageBox.Show("Please add at least one product.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    return;
+            //}
 
             // Get the last order Id to generate new order Id
             int? lastOrderId = GUIHandler.GetInstance().CacheManager.GetAllOrders().Last().Id;
@@ -140,10 +148,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 User = _selectedUser,
                 OrderDate = DateTime.Now,
                 Status = OrderStatus.Pending,
-                Products = ProductRows.ToDictionary(
-                    row => GUIHandler.GetInstance().CacheManager.GetProductByName(row), // Key: Product object
-                    row => row.Quantity // Value: Quantity
-                    ),
+                OrderDetails = OrderDetails,
+                //OrderDetails = ProductRows.Select(row => new OrderDetail
+                //{
+                //    Product = GUIHandler.GetInstance().CacheManager.GetProductByName(row),
+                //    Quantity = row.Quantity
+                //}).ToList(),
+
                 ShippedDate = _selectedShippingDate,
                 ShippingAddress = _selectedShippingAddress
             };
@@ -156,14 +167,14 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
 
         // Command Actions for adding and removing Product Rows
-        private void RemoveProductRow(object productRow)
+        private void RemoveOrderDetails(object orderDetail)
         {
-            ProductRows.Remove(productRow as ProductRow);
+            OrderDetails.Remove(orderDetail as OrderDetail);
         }
 
-        private void AddProductRow(object obj)
+        private void AddOrderDetails(object obj)
         {
-            ProductRows.Add(new ProductRow { Quantity = 1 });
+            OrderDetails.Add(new OrderDetail { Quantity = 1 });
         }
         #endregion
 
@@ -173,11 +184,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             return true;
         }
-        private bool CanAddProductRow(object obj)
+        private bool CanAddOrderDetails(object obj)
         {
             return true;
         }
-        private bool CanRemoveProductRow(object obj)
+        private bool CanRemoveOrderDetails(object obj)
         {
             return true;
         }

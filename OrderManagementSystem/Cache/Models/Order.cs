@@ -7,11 +7,16 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+//using System.Runtime.Serialization;
+
 
 namespace OrderManagementSystem.Cache.Models
 {
+    [Serializable]
     public class Order : INotifyPropertyChanged
     {
+
         public enum OrderStatus
         {
             Pending,
@@ -26,8 +31,8 @@ namespace OrderManagementSystem.Cache.Models
         private Dictionary<Product, int> m_Products;
         private DateTime? m_ShippedDate;
         private string? m_stShippingAddress;
-        
 
+        [XmlElement]
         public int? Id
         {
             get { return m_nId; }
@@ -37,6 +42,8 @@ namespace OrderManagementSystem.Cache.Models
                 OnPropertyChanged(nameof(Id));
             }
         }
+
+        [XmlElement]
         public User? User
         {
             get { return m_User;  }
@@ -46,6 +53,8 @@ namespace OrderManagementSystem.Cache.Models
                 OnPropertyChanged(nameof(User));
             }
         }
+
+        [XmlElement]
         public DateTime? OrderDate
         {
             get { return m_OrderDate; }
@@ -55,6 +64,8 @@ namespace OrderManagementSystem.Cache.Models
                 OnPropertyChanged(nameof(OrderDate));
             }
         }
+
+        [XmlElement]
         public OrderStatus? Status
         {
             get { return m_enStatus; }
@@ -64,15 +75,32 @@ namespace OrderManagementSystem.Cache.Models
                 OnPropertyChanged(nameof(Status));
             }
         }
-        public Dictionary<Product, int> Products {
-            get { return m_Products; }
+
+        private ObservableCollection<OrderDetail> m_OrderDetails;
+
+        [XmlArray("OrderDetails")] // Matches the XML tag
+        [XmlArrayItem("OrderDetail")] // Matches individual elements
+        public ObservableCollection<OrderDetail> OrderDetails
+        {
+            get { return m_OrderDetails; }
             set
             {
-                m_Products = value;
-                OnPropertyChanged(nameof(Products));
-                OnPropertyChanged(nameof(ProductRows)); // Notify that ProductRows has changed
+                m_OrderDetails = value;
+                OnPropertyChanged(nameof(OrderDetails));
             }
         }
+
+        //public Dictionary<Product, int> Products {
+        //    get { return m_Products; }
+        //    set
+        //    {
+        //        m_Products = value;
+        //        OnPropertyChanged(nameof(Products));
+        //        OnPropertyChanged(nameof(ProductRows)); // Notify that ProductRows has changed
+        //    }
+        //}
+
+        [XmlElement]
         public DateTime? ShippedDate {
             get { return m_ShippedDate; }
             set
@@ -81,6 +109,8 @@ namespace OrderManagementSystem.Cache.Models
                 OnPropertyChanged(nameof(ShippedDate));
             }
         }
+
+        [XmlElement]
         public string? ShippingAddress {
             get { return m_stShippingAddress; }
             set
@@ -91,19 +121,19 @@ namespace OrderManagementSystem.Cache.Models
         }
 
         // New property to expose Products as a collection
-        public ObservableCollection<ProductRow> ProductRows
-        {
-            get
-            {
-                return new ObservableCollection<ProductRow>(
-                    m_Products?.Select(p => new ProductRow
-                    {
-                        SelectedProduct = p.Key,
-                        Quantity = p.Value
-                    }) ?? Enumerable.Empty<ProductRow>()
-                );
-            }
-        }
+        //public ObservableCollection<ProductRow> ProductRows
+        //{
+        //    get
+        //    {
+        //        return new ObservableCollection<ProductRow>(
+        //            m_Products?.Select(p => new ProductRow
+        //            {
+        //                SelectedProduct = p.Key,
+        //                Quantity = p.Value
+        //            }) ?? Enumerable.Empty<ProductRow>()
+        //        );
+        //    }
+        //}
 
 
         public event PropertyChangedEventHandler PropertyChanged;

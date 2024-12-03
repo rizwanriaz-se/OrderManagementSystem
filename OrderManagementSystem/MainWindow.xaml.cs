@@ -29,5 +29,10 @@ namespace OrderManagementSystem
             GUIHandler.GetInstance().Init(m_CacheManager);
 
         }
+
+        private void ThemedWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            GUIHandler.GetInstance().CacheManager.SaveData();
+        }
     }
 }
