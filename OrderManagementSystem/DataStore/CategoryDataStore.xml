@@ -58,4 +58,9 @@
     <Name>vdf</Name>
     <Description>fds</Description>
   </Category>
+  <Category>
+    <Id>11</Id>
+    <Name>dsadsa</Name>
+    <Description>sdadas</Description>
+  </Category>
 </ArrayOfCategory>

@@ -1,21 +1,21 @@
 ﻿<dx:ThemedWindow
-    x:Class="OrderManagementSystem.UIComponents.Views.EditUserView"
+    x:Class="OrderManagementSystem.UIComponents.Views.AddUserView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    Title="EditUserView" Height="700" Width="600"
+      xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+  xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+  xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    Title="AddUserView" Height="800" Width="1000"
     >
 
-    <dxlc:LayoutControl Header="Edit User"
-            Orientation="Vertical"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch"
-            StretchContentHorizontally="True"
-            StretchContentVertically="True">
+    <dxlc:LayoutControl Header="Add User"
+         Orientation="Vertical"
+         VerticalAlignment="Stretch"
+         HorizontalAlignment="Stretch"
+         StretchContentHorizontally="True"
+         StretchContentVertically="True">
         <dxlc:LayoutGroup Orientation="Vertical">
 
             <dxlc:LayoutItem MinWidth="150">
@@ -56,11 +56,11 @@
 
 
             <dxlc:LayoutItem MinWidth="150">
-                <dx:SimpleButton Content="Submit User" Width="150" Background="LightGreen" Command="{Binding SaveUserCommand}" />
+                <dx:SimpleButton Content="Submit User" Width="150" Background="LightGreen" Command="{Binding SubmitUserCommand}" />
             </dxlc:LayoutItem>
 
 
         </dxlc:LayoutGroup>
-      
+
     </dxlc:LayoutControl>
 </dx:ThemedWindow>

@@ -7,6 +7,8 @@
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Class="OrderManagementSystem.UIComponents.Views.AddOrderView"
+    xmlns:local="clr-namespace:OrderManagementSystem.UIComponents.Views"
+
     Title="AddOrderView" Height="600" Width="1000" 
     WindowStartupLocation="CenterOwner"
     >
@@ -22,11 +24,18 @@
             <dxlc:LayoutItem MinWidth="150">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Employee" FontWeight="Bold" />
-                    <dxe:ComboBoxEdit Width="200"
+                    <!--<dxe:ComboBoxEdit Width="200"
                                       ItemsSource="{Binding AllUsers}"
                                       DisplayMember="Name"
+                                      
                                       SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                                       AutoComplete="True" />
+                    -->
+
+                    <TextBlock Text="{Binding CurrentUser.Name, Mode=TwoWay}" Width="100" />
+
+                    <!--   <TextBlock Width="100" Text="{Binding DataContext.CurrentUser, RelativeSource={RelativeSource AncestorType={x:Type dx:ThemedWindow}}}" /> -->
+
                 </StackPanel>
             </dxlc:LayoutItem>
 

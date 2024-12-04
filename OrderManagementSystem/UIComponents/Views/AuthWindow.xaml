@@ -9,7 +9,9 @@
  xmlns:sys="clr-namespace:System;assembly=mscorlib"
     Title="AuthWindow" Height="800" Width="1000"
     >
-
+    <dx:ThemedWindow.Resources>
+        <dx:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </dx:ThemedWindow.Resources>
 
     <dx:DXTabControl SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
         <dx:DXTabItem Header="Login">
@@ -34,6 +36,15 @@
                             <TextBox TextWrapping="Wrap" Text="{Binding PasswordLoginText, Mode=TwoWay}" Width="120" />
                         </StackPanel>
                     </dxlc:LayoutItem>
+                    <dxlc:LayoutItem MinWidth="150">
+                        <StackPanel HorizontalAlignment="Left">
+                            <Label Content="Role" FontWeight="Bold" />
+                            <ComboBox x:Name="RoleComboBox" 
+          ItemsSource="{Binding Roles}" 
+          SelectedItem="{Binding SelectedRole}" 
+          Width="150" />
+                        </StackPanel>
+                    </dxlc:LayoutItem>
 
                     <dxlc:LayoutItem MinWidth="150">
                         <dx:SimpleButton Content="Login" Width="150" Background="LightGreen" Command="{Binding LoginUserCommand}" />
@@ -43,7 +54,7 @@
                 </dxlc:LayoutGroup>
             </dxlc:LayoutControl>
         </dx:DXTabItem>
-        <dx:DXTabItem Header="Register">
+        <dx:DXTabItem Header="Register" Visibility="{Binding IsRegisterTabVisible, Converter={StaticResource BoolToVisibilityConverter}}">
             <dxlc:LayoutControl Header="User Authentication"
                  Orientation="Vertical"
                  VerticalAlignment="Stretch"
@@ -72,7 +83,7 @@
                             <dxe:TextEdit Width="200" Text="{Binding PhoneRegisterText, Mode=TwoWay}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
-                    
+
                     <dxlc:LayoutItem MinWidth="150">
                         <StackPanel HorizontalAlignment="Left">
                             <Label Content="Password" FontWeight="Bold" />
@@ -84,7 +95,6 @@
                         <StackPanel HorizontalAlignment="Left">
                             <Label Content="Admin" FontWeight="Bold" />
                             <dxe:CheckEdit IsChecked="{Binding RoleChecked}" />
-
                         </StackPanel>
                     </dxlc:LayoutItem>
 

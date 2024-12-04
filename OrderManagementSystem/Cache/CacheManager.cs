@@ -20,6 +20,15 @@ namespace OrderManagementSystem.Cache
         public ObservableCollection<Product> _AllProducts { get; private set; }
         public ObservableCollection<User> _AllUsers { get; private set; }
 
+        private User m_CurrentUser;
+
+        public User CurrentUser
+        {
+            get { return m_CurrentUser; }
+            set { m_CurrentUser = value; }
+        }
+
+
         private string m_stDataStorePath = "C:\\Users\\rriaz\\source\\repos\\OrderManagementSystem\\OrderManagementSystem\\DataStore\\";
 
         private string m_stUserDataStorePath = "UserDataStore.xml";
@@ -39,14 +48,19 @@ namespace OrderManagementSystem.Cache
 
             _AllOrders = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<Order>>($"{m_stDataStorePath}{m_stOrderDataStorePath}");
 
+
         }
 
-        public void SaveData()
+        public void SaveData(bool onlyUser)
         {
+            if (onlyUser is false) {
+                CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stUserDataStorePath}", _AllUsers);
+                CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stCategoryDataStorePath}", _AllCategories);
+                CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stProductDataStorePath}", _AllProducts);
+                CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stOrderDataStorePath}", _AllOrders);
+            }
             CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stUserDataStorePath}", _AllUsers);
-            CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stCategoryDataStorePath}", _AllCategories);
-            CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stProductDataStorePath}", _AllProducts);
-            CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stOrderDataStorePath}", _AllOrders);
+
         }
 
         public Category GetCategoryById(int id)
@@ -168,7 +182,7 @@ namespace OrderManagementSystem.Cache
         public void AddUser(User user)
         {
             _AllUsers.Add(user);
-            SaveData();
+            SaveData(true);
         }
         public User GetUserByID(int id)
         {
@@ -192,7 +206,16 @@ namespace OrderManagementSystem.Cache
         public void DeleteUser(User user)
         {
             _AllUsers.Remove(user);
-
         }
+
+        //public User GetCurrentUser()
+        //{
+        //    return m_CurrentUser;
+        //}
+
+        //public void SetCurrentUser(User user)
+        //{
+        //    m_CurrentUser = user;
+        //}
     }
 }

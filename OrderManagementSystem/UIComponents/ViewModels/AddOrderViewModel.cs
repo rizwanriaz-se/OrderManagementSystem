@@ -56,7 +56,24 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public ObservableCollection<Product> AllProducts { get; set; }
         public ObservableCollection<User> AllUsers { get; set; }
+        private User _currentUser;
+
+        public User CurrentUser
+        {
+            get => _currentUser;
+            set
+            {
+                if (_currentUser != value)
+                {
+                    _currentUser = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentUser)));
+                }
+            }
+        }
         public ObservableCollection<OrderStatus> SelectableStatuses { get; }
+        //public User CurrentUser { get; set; } = GUIHandler.GetInstance().CacheManager.CurrentUser;
+
+
 
         // Declare PropertyChanged event
         public event PropertyChangedEventHandler PropertyChanged;
@@ -98,15 +115,15 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        public User SelectedUser
-        {
-            get { return _selectedUser; }
-            set
-            {
-                _selectedUser = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedUser)));
-            }
-        }
+        //public User SelectedUser
+        //{
+        //    get { return _selectedUser; }
+        //    set
+        //    {
+        //        _selectedUser = value;
+        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedUser)));
+        //    }
+        //}
         #endregion
 
         #region Constructor
@@ -114,7 +131,14 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             AllProducts = GUIHandler.GetInstance().CacheManager.GetAllProducts();
             AllUsers = GUIHandler.GetInstance().CacheManager.GetAllUsers();
-           
+            CurrentUser = GUIHandler.GetInstance().CurrentUser;
+
+            if (CurrentUser == null)
+            {
+                // Handle the case where CurrentUser is null
+                MessageBox.Show("Current user is not set.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
             AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);
             RemoveProductCommand = new RelayCommand(RemoveOrderDetails, CanRemoveOrderDetails);
             SubmitOrderCommand = new RelayCommand(SubmitOrder, CanSubmitOrder);
@@ -145,7 +169,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             Order order = new Order
             {
                 Id = lastOrderId + 1,
-                User = _selectedUser,
+                User = CurrentUser,
                 OrderDate = DateTime.Now,
                 Status = OrderStatus.Pending,
                 OrderDetails = OrderDetails,

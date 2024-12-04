@@ -9,6 +9,7 @@
       <Phone>1234567890</Phone>
       <Password>Z1W(7MGkQ0</Password>
       <IsAdmin>true</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
     </User>
     <OrderDate>2023-10-01T12:00:00</OrderDate>
     <Status>Pending</Status>
@@ -48,6 +49,7 @@
       <Phone>0987654321</Phone>
       <Password>43GyyVMj_n</Password>
       <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
     </User>
     <OrderDate>2023-10-01T12:00:00</OrderDate>
     <Status>Shipped</Status>
@@ -98,6 +100,7 @@
       <Phone>1234567890</Phone>
       <Password>&amp;qb42KSwtz</Password>
       <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
     </User>
     <OrderDate>2023-10-01T12:00:00</OrderDate>
     <Status>Delivered</Status>
@@ -148,6 +151,7 @@
       <Phone>0987654321</Phone>
       <Password>password</Password>
       <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
     </User>
     <OrderDate>2023-10-01T12:00:00</OrderDate>
     <Status>Pending</Status>
@@ -198,6 +202,7 @@
       <Phone>3726139894</Phone>
       <Password>#THfdeD72</Password>
       <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
     </User>
     <OrderDate>2023-10-01T12:00:00</OrderDate>
     <Status>Shipped</Status>
@@ -248,6 +253,7 @@
       <Phone>0987654321</Phone>
       <Password>43GyyVMj_n</Password>
       <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
     </User>
     <OrderDate>2024-12-02T17:46:41.3606873+05:00</OrderDate>
     <Status>Shipped</Status>
@@ -282,6 +288,7 @@
       <Phone>0987654321</Phone>
       <Password>43GyyVMj_n</Password>
       <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
     </User>
     <OrderDate>2024-12-02T17:59:42.7037899+05:00</OrderDate>
     <Status>Pending</Status>
@@ -298,6 +305,7 @@
       <Phone>1234567890</Phone>
       <Password>&amp;qb42KSwtz</Password>
       <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
     </User>
     <OrderDate>2024-12-02T18:01:52.4302034+05:00</OrderDate>
     <Status>Pending</Status>
@@ -314,6 +322,7 @@
       <Phone>0987654321</Phone>
       <Password>43GyyVMj_n</Password>
       <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
     </User>
     <OrderDate>2024-12-03T09:16:19.5909575+05:00</OrderDate>
     <Status>Pending</Status>
@@ -330,6 +339,7 @@
       <Phone>0987654321</Phone>
       <Password>password</Password>
       <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
     </User>
     <OrderDate>2024-12-03T09:32:36.1395802+05:00</OrderDate>
     <Status>Pending</Status>
@@ -364,6 +374,7 @@
       <Phone>3726139894</Phone>
       <Password>#THfdeD72</Password>
       <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
     </User>
     <OrderDate>2024-12-03T09:33:17.5801804+05:00</OrderDate>
     <Status>Pending</Status>
@@ -421,5 +432,75 @@
     </OrderDetails>
     <ShippedDate>2024-12-04T00:00:00</ShippedDate>
     <ShippingAddress>gvghghghghghc</ShippingAddress>
+  </Order>
+  <Order>
+    <Id>12</Id>
+    <User>
+      <Id>5</Id>
+      <Name>Andrea Hernandez</Name>
+      <Email>andreahernandez@test.com</Email>
+      <Phone>3726139894</Phone>
+      <Password>#THfdeD72</Password>
+      <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
+    </User>
+    <OrderDate>2024-12-03T17:02:07.720419+05:00</OrderDate>
+    <Status>Pending</Status>
+    <OrderDetails>
+      <OrderDetail>
+        <Product>
+          <Id>4</Id>
+          <Name>Chef Anton's Cajun Seasoning</Name>
+          <Description>48 - 6 oz jars</Description>
+          <Category>
+            <Id>2</Id>
+            <Name>Condiments</Name>
+            <Description>Sweet and savory sauces, relishes, spreads, and seasonings</Description>
+            <Picture />
+          </Category>
+          <Picture />
+          <UnitPrice>22.00</UnitPrice>
+          <UnitsInStock>53</UnitsInStock>
+        </Product>
+        <Quantity>3</Quantity>
+      </OrderDetail>
+    </OrderDetails>
+    <ShippedDate>2024-12-04T00:00:00</ShippedDate>
+    <ShippingAddress>sdadsa</ShippingAddress>
+  </Order>
+  <Order>
+    <Id>13</Id>
+    <User>
+      <Id>15</Id>
+      <Name>a</Name>
+      <Email>a</Email>
+      <Phone>a</Phone>
+      <Password>a</Password>
+      <IsAdmin>false</IsAdmin>
+      <ApprovalStatus>Pending</ApprovalStatus>
+    </User>
+    <OrderDate>2024-12-03T17:45:31.6564329+05:00</OrderDate>
+    <Status>Pending</Status>
+    <OrderDetails>
+      <OrderDetail>
+        <Product>
+          <Id>2</Id>
+          <Name>Chang</Name>
+          <Description>24 - 12 oz bottles</Description>
+          <Category>
+            <Id>1</Id>
+            <Name>Beverages</Name>
+            <Description>Soft drinks, coffees, teas, beers, and ales</Description>
+            <Picture />
+          </Category>
+          <Picture />
+          <UnitPrice>19.00</UnitPrice>
+          <UnitsInStock>17</UnitsInStock>
+        </Product>
+        <Quantity>2</Quantity>
+      </OrderDetail>
+    </OrderDetails>
+    <ShippedDate>2024-12-04T00:00:00</ShippedDate>
+    <ShippingAddress>sad</ShippingAddress>
   </Order>
 </ArrayOfOrder>

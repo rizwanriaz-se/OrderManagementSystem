@@ -26,6 +26,10 @@ namespace OrderManagementSystem.ViewModels
         public ICommand ViewProductCommand { get; set; }
         public ICommand AddProductCommand { get; set; }
 
+        public ICommand ViewUserCommand { get; set; }
+        public ICommand AddUserCommand { get; set; }
+
+        private User m_CurrentUser {  get; set; }
 
         public object CurrentView
         {
@@ -36,6 +40,17 @@ namespace OrderManagementSystem.ViewModels
                 OnPropertyChanged(nameof(CurrentView));
             }
         }
+
+        public User CurrentUser
+        {
+            get { return m_CurrentUser; }
+            set
+            {
+                m_CurrentUser = value;
+                OnPropertyChanged(nameof(User));
+            }
+        }
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -49,8 +64,32 @@ namespace OrderManagementSystem.ViewModels
             AddCategoryCommand = new RelayCommand(ExecuteAddCategory, CanExecuteAddCategory);
             ViewProductCommand = new RelayCommand(ExecuteViewProduct, CanExecuteViewProduct);
             AddProductCommand = new RelayCommand(ExecuteAddProduct, CanExecuteAddProduct);
+            ViewUserCommand = new RelayCommand(ExecuteViewUser, CanExecuteViewUser);
+            AddUserCommand = new RelayCommand(ExecuteAddUser, CanExecuteAddUser);
+            CurrentUser = GUIHandler.GetInstance().CurrentUser;
+
+
         }
 
+        public void ExecuteViewUser(object obj)
+        {
+            CurrentView = new DisplayUsersView();
+        }
+        public bool CanExecuteViewUser(object arg)
+        {
+            return true;
+        }
+        public void ExecuteAddUser(object obj)
+        {
+            AddUserView addUserView = new AddUserView();
+            addUserView.Owner = Application.Current.MainWindow;
+
+            addUserView.ShowDialog();
+        }
+        public bool CanExecuteAddUser(object arg)
+        {
+            return true;
+        }
         public void ExecuteViewProduct(object obj)
         {
             CurrentView = new DisplayProductsView();

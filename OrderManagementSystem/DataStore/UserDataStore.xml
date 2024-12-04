@@ -7,6 +7,7 @@
     <Phone>1234567890</Phone>
     <Password>Z1W(7MGkQ0</Password>
     <IsAdmin>true</IsAdmin>
+    <ApprovalStatus>Approved</ApprovalStatus>
   </User>
   <User>
     <Id>2</Id>
@@ -15,6 +16,7 @@
     <Phone>0987654321</Phone>
     <Password>43GyyVMj_n</Password>
     <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
   </User>
   <User>
     <Id>3</Id>
@@ -23,6 +25,7 @@
     <Phone>1234567890</Phone>
     <Password>&amp;qb42KSwtz</Password>
     <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
   </User>
   <User>
     <Id>4</Id>
@@ -31,6 +34,7 @@
     <Phone>0987654321</Phone>
     <Password>password</Password>
     <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
   </User>
   <User>
     <Id>5</Id>
@@ -39,6 +43,7 @@
     <Phone>3726139894</Phone>
     <Password>#THfdeD72</Password>
     <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
   </User>
   <User>
     <Id>6</Id>
@@ -46,7 +51,8 @@
     <Email>dsa</Email>
     <Phone>423</Phone>
     <Password>sda</Password>
-    <IsAdmin>true</IsAdmin>
+    <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
   </User>
   <User>
     <Id>7</Id>
@@ -54,7 +60,8 @@
     <Email>sda</Email>
     <Phone>asd</Phone>
     <Password>asd</Password>
-    <IsAdmin>true</IsAdmin>
+    <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
   </User>
   <User>
     <Id>8</Id>
@@ -63,5 +70,87 @@
     <Phone>test</Phone>
     <Password>test</Password>
     <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
+  </User>
+  <User>
+    <Id>10</Id>
+    <Name>q</Name>
+    <Email>q</Email>
+    <Phone>q</Phone>
+    <Password>q</Password>
+    <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
+  </User>
+  <User>
+    <Id>11</Id>
+    <Name>qwe</Name>
+    <Email>qwe</Email>
+    <Phone>34432</Phone>
+    <Password>qwe</Password>
+    <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
+  </User>
+  <User>
+    <Id>12</Id>
+    <Name>sda</Name>
+    <Email>das</Email>
+    <Phone>sadasd</Phone>
+    <Password>sadas</Password>
+    <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
+  </User>
+  <User>
+    <Id>13</Id>
+    <Name>wqe</Name>
+    <Email>qwe</Email>
+    <Phone>qwe</Phone>
+    <Password>weq</Password>
+    <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
+  </User>
+  <User>
+    <Id>14</Id>
+    <Name>q</Name>
+    <Email>q</Email>
+    <Phone>q</Phone>
+    <Password>q</Password>
+    <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
+  </User>
+  <User>
+    <Id>15</Id>
+    <Name>a</Name>
+    <Email>a</Email>
+    <Phone>a</Phone>
+    <Password>a</Password>
+    <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
+  </User>
+  <User>
+    <Id>16</Id>
+    <Name>adssda</Name>
+    <Email>xczxcz</Email>
+    <Phone>3232</Phone>
+    <Password>assad</Password>
+    <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
+  </User>
+  <User>
+    <Id>17</Id>
+    <Name>t</Name>
+    <Email>t</Email>
+    <Phone>t</Phone>
+    <Password>t</Password>
+    <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Approved</ApprovalStatus>
+  </User>
+  <User>
+    <Id>18</Id>
+    <Name>re</Name>
+    <Email>re</Email>
+    <Phone>re</Phone>
+    <Password>re</Password>
+    <IsAdmin>false</IsAdmin>
+    <ApprovalStatus>Pending</ApprovalStatus>
   </User>
 </ArrayOfUser>

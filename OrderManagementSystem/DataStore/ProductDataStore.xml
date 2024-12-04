@@ -212,34 +212,8 @@
   </Product>
   <Product>
     <Id>16</Id>
-    <Name>as</Name>
-    <Description>das</Description>
-    <Category>
-      <Id>3</Id>
-      <Name>Confections</Name>
-      <Description>Desserts, candies, and sweet breads</Description>
-      <Picture />
-    </Category>
-    <UnitPrice>23</UnitPrice>
-    <UnitsInStock>12</UnitsInStock>
-  </Product>
-  <Product>
-    <Id>17</Id>
-    <Name>sdf</Name>
-    <Description>sfd</Description>
-    <Category>
-      <Id>2</Id>
-      <Name>Condiments</Name>
-      <Description>Sweet and savory sauces, relishes, spreads, and seasonings</Description>
-      <Picture />
-    </Category>
-    <UnitPrice>3</UnitPrice>
-    <UnitsInStock>22</UnitsInStock>
-  </Product>
-  <Product>
-    <Id>18</Id>
-    <Name>qwe</Name>
-    <Description>qwe</Description>
+    <Name>dasdas</Name>
+    <Description>dssda</Description>
     <Category>
       <Id>3</Id>
       <Name>Confections</Name>
@@ -247,6 +221,6 @@
       <Picture />
     </Category>
     <UnitPrice>2</UnitPrice>
-    <UnitsInStock>2</UnitsInStock>
+    <UnitsInStock>23</UnitsInStock>
   </Product>
 </ArrayOfProduct>

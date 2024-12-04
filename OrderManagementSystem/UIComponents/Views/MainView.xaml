@@ -6,11 +6,16 @@
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
     xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling" 
     xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+      xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
     xmlns:Views="clr-namespace:OrderManagementSystem.UIComponents.Views"
     x:Class="OrderManagementSystem.Views.MainView"
     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
-  
+
+    <UserControl.Resources>
+        <dxmvvm:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+    
     <StackPanel>
 
         <dxr:RibbonControl Name="Ribbon" SelectedPageChanged="RibbonControl_SelectedPageChanged" >
@@ -47,12 +52,12 @@
                         <dxb:BarButtonItem Content="Delete Product" /> -->
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
-                <dxr:RibbonPage Caption="User" Name="UserPage">
+                <dxr:RibbonPage Caption="User" Name="UserPage" IsVisible="{Binding CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}">
                    <!-- <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Users" />
                     </dxr:RibbonPageGroup>-->
                     <dxr:RibbonPageGroup Caption="Manage">
-                        <dxb:BarButtonItem Content="Add User" />
+                        <dxb:BarButtonItem Content="Add User" Command="{Binding AddUserCommand}" />
                         <!--<dxb:BarButtonItem Content="Edit User" Command="{Binding EditUserCommand}" />
                         <dxb:BarButtonItem Content="Delete User" /> -->
                     </dxr:RibbonPageGroup>

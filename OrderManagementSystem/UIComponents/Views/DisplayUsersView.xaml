@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:dxg1="http://schemas.devexpress.com/winfx/2008/xaml/grid"
-             xmlns:local="clr-namespace:OrderManagementSystem.UIComponents.Views"
+             xmlns:local="clr-namespace:OrderManagementSystem.UIComponents.Views" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -22,8 +22,14 @@
             <dxg1:GridColumn FieldName="Phone"  Binding="{Binding Phone}" Header="Phone"/>
             <dxg1:GridColumn FieldName="Password"  Binding="{Binding Password}" Header="Password"/>
             <dxg1:GridColumn FieldName="IsAdmin"  Binding="{Binding IsAdmin}" Header="Is Admin"/>
+            <dxg1:GridColumn FieldName="ApprovalStatus" Header="Approval Status">
+                <dxg1:GridColumn.EditSettings>
+                    <dxe:ComboBoxEditSettings Name="ApprovalStatusComboBox" />
+                </dxg1:GridColumn.EditSettings>
+            </dxg1:GridColumn>
 
         </dxg1:GridControl.Columns>
 
     </dxg1:GridControl>
 </UserControl>
+ 

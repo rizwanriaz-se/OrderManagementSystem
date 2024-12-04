@@ -1,10 +1,7 @@
-﻿using OrderManagementSystem.Cache.Models;
-using OrderManagementSystem.UIComponents.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,24 +9,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.ViewModels;
+//using OrderManagementSystem.ViewModels;
+
 
 namespace OrderManagementSystem.UIComponents.Views
 {
     /// <summary>
-    /// Interaction logic for DisplayUsersView.xaml
+    /// Interaction logic for AddUserView.xaml
     /// </summary>
-    public partial class DisplayUsersView : UserControl
+    public partial class AddUserView : ThemedWindow
     {
-        public DisplayUsersView()
+        public AddUserView()
         {
             InitializeComponent();
 
             UserViewModel userViewModel = new UserViewModel();
+            userViewModel.CloseWindow = this.Close;
             this.DataContext = userViewModel;
-
-            ApprovalStatusComboBox.ItemsSource = Enum.GetValues(typeof(User.ApprovalStates));
         }
     }
 }

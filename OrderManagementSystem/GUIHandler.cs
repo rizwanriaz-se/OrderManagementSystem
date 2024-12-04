@@ -1,4 +1,5 @@
 ﻿using OrderManagementSystem.Cache;
+using OrderManagementSystem.Cache.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,18 @@ namespace OrderManagementSystem
     {
         //private CacheManager 
 
-        private static GUIHandler m_Instance;
+        private static GUIHandler m_Instance; 
+        private User m_CurrentUser;
+
+        public User CurrentUser
+        {
+            get { return m_CurrentUser; }
+            set { m_CurrentUser = value; }
+        }
 
         private GUIHandler()
         {
-            CacheManager = new CacheManager();
+            //CacheManager = new CacheManager();
         }
         private CacheManager m_CacheManager;
 

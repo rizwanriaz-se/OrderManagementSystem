@@ -23,15 +23,14 @@ namespace OrderManagementSystem
     /// </summary>
     public partial class MainWindow : ThemedWindow
     {
-        private CacheManager m_CacheManager = new CacheManager();
 
         public MainWindow()
         {
             InitializeComponent();
-            GUIHandler.GetInstance().Init(m_CacheManager);
 
             AuthViewModel authViewModel = new AuthViewModel();
             this.DataContext = authViewModel;
+
         }
 
     }

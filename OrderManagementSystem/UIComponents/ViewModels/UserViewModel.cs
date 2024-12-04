@@ -18,6 +18,14 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<User> Users { get; private set; }
 
+        public Action CloseWindow { get; set; }
+
+        public string UserNameText { get; set; }
+        public string UserPasswordText { get; set; }
+        public string UserEmailText { get; set; }
+        public string UserPhoneText { get; set; }
+        public bool UserIsAdmin { get; set; }
+
         private User m_SelectedUser { get; set; }
 
         public User SelectedUser
@@ -31,6 +39,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
         public ICommand EditUserCommand { get; set; }
 
+        public ICommand SubmitUserCommand { get; set; }
         public ICommand DeleteUserCommand { get; set; }
 
         public UserViewModel()
@@ -38,9 +47,35 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             Users = GUIHandler.GetInstance().CacheManager.GetAllUsers();
             EditUserCommand = new RelayCommand(EditUser, CanEditUser);
             DeleteUserCommand = new RelayCommand(DeleteUser, CanDeleteUser);
+            SubmitUserCommand = new RelayCommand(SubmitUser, CanSubmitUser);
 
         }
 
+
+        private void SubmitUser(object obj)
+        {
+            int lastUserId = Users.Last().Id;
+
+            // Create new Order object
+            User user = new User
+            {
+                Id = lastUserId + 1,
+                Name = UserNameText,
+                Email = UserEmailText,
+                Phone = UserPhoneText,
+                Password = UserPasswordText,
+                IsAdmin = UserIsAdmin
+            };
+
+            GUIHandler.GetInstance().CacheManager.AddUser(user);
+            CloseWindow.Invoke();
+            //Users.Add(user);
+        }
+
+        private bool CanSubmitUser(object obj)
+        {
+            return true;
+        }
         private void DeleteUser(object obj)
         {
             GUIHandler.GetInstance().CacheManager.DeleteUser(SelectedUser);

@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static OrderManagementSystem.Cache.Models.User;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -25,6 +26,32 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private int m_nSelectedTabIndex;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private string m_stSelectedRole;
+        private bool m_bIsRegisterTabVisible;
+
+        public List<string> Roles { get; } = new List<string> { "Admin", "Employee" };
+
+        public string SelectedRole
+        {
+            get => m_stSelectedRole;
+            set
+            {
+                m_stSelectedRole = value;
+                OnPropertyChanged(nameof(SelectedRole));
+                IsRegisterTabVisible = m_stSelectedRole == "Employee";
+            }
+        }
+
+        public bool IsRegisterTabVisible
+        {
+            get => m_bIsRegisterTabVisible;
+            set
+            {
+                m_bIsRegisterTabVisible = value;
+                OnPropertyChanged(nameof(IsRegisterTabVisible));
+            }
+        }
 
         public int SelectedTabIndex
         {
@@ -44,7 +71,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public string PhoneRegisterText { get; set; }
         public string PasswordRegisterText { get; set; }
 
-        public User CurrentUser { get; set; }
+        private User m_User;
+
+        public User CurrentUser {
+            get { return m_User; }
+            set { m_User = value; OnPropertyChanged(nameof(CurrentUser)); }
+        }
         public bool RoleChecked { get; set; }
         public ICommand RegisterUserCommand { get; set; }
         public ICommand LoginUserCommand { get; set; }
@@ -66,9 +98,19 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             if (user != null)
             {
 
-                CurrentUser = user;
+                if (SelectedRole == "Employee" && user.ApprovalStatus != ApprovalStates.Approved)
+                {
+                    DXMessageBox.Show($"Login failed. Your account is {user.ApprovalStatus}.", "Error");
+                    return;
+                }
+                //CurrentUser = user;
 
+                //GUIHandler.GetInstance().CacheManager.SetCurrentUser(user);
 
+                //GUIHandler.GetInstance().CacheManager.CurrentUser = user;
+                GUIHandler.GetInstance().CurrentUser = user;
+
+                DXMessageBox.Show($"Logged in as: {GUIHandler.GetInstance().CurrentUser.Name}");
                 var mainWindow = new MainWindow();
                 mainWindow.Show();
 
@@ -95,7 +137,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Email = EmailRegisterText,
                 Phone = PhoneRegisterText,
                 Password = PasswordRegisterText,
-                IsAdmin = RoleChecked
+                IsAdmin = RoleChecked,
+                ApprovalStatus = ApprovalStates.Pending // Default to Pending
+
             };
 
             // Save the user to the database
@@ -104,7 +148,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             //MainWindow mainWindow = new MainWindow();
             //mainWindow.Show();
-            SelectedTabIndex = 0;
+            //SelectedTabIndex = 0;
+            DXMessageBox.Show("Registration successful. Your account is pending approval.", "Info");
+
 
         }
     }

@@ -11,9 +11,20 @@ using System.ComponentModel;
 
 namespace OrderManagementSystem.Cache.Models
 {
+
+   
+
+
     [Serializable]
     public class User : INotifyPropertyChanged
     {
+
+        public enum ApprovalStates
+        {
+            Pending,
+            Approved,
+            Rejected
+        }
 
         private int m_nId;
         private string m_stName;
@@ -21,6 +32,7 @@ namespace OrderManagementSystem.Cache.Models
         private string m_stPhone;
         private string m_stPassword;
         private bool m_bIsAdmin;
+        private ApprovalStates m_enApprovalStatus = ApprovalStates.Pending;
 
         [XmlElement]
         public int Id {
@@ -80,6 +92,19 @@ namespace OrderManagementSystem.Cache.Models
             }
         }
 
+        [XmlElement]
+        public ApprovalStates ApprovalStatus
+        {
+            get { return m_enApprovalStatus; }
+            set
+            {
+                m_enApprovalStatus = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ApprovalStatus)));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
+
+// todo: add status to user
