@@ -47,7 +47,7 @@ namespace OrderManagementSystem.ViewModels
             set
             {
                 m_CurrentUser = value;
-                OnPropertyChanged(nameof(User));
+                OnPropertyChanged(nameof(CurrentUser));
             }
         }
 

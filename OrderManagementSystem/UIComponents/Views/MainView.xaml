@@ -36,8 +36,8 @@
 <!--                    <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Categories" Command="{Binding ViewCategoryCommand}" />
                     </dxr:RibbonPageGroup> -->
-                    <dxr:RibbonPageGroup Caption="Manage">
-                        <dxb:BarButtonItem Content="Add Category" Command="{Binding AddCategoryCommand}" />
+                    <dxr:RibbonPageGroup Caption="Manage" IsVisible="{Binding CurrentUser.IsAdmin}">
+                        <dxb:BarButtonItem Content="Add Category" Command="{Binding AddCategoryCommand}"  />
 <!--                        <dxb:BarButtonItem Content="Edit Category" Command="{Binding EditCategoryCommand}" />
                         <dxb:BarButtonItem Content="Delete Category" /> -->
                     </dxr:RibbonPageGroup>
@@ -46,13 +46,14 @@
                     <!-- <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Products" Command="{Binding ViewProductCommand}"/>
                     </dxr:RibbonPageGroup> -->
-                    <dxr:RibbonPageGroup Caption="Manage">
+                    <dxr:RibbonPageGroup Caption="Manage" IsVisible="{Binding CurrentUser.IsAdmin}">
                         <dxb:BarButtonItem Content="Add Product" Command="{Binding AddProductCommand}" />
         <!--            <dxb:BarButtonItem Content="Edit Product" Command="{Binding EditProductCommand}"/>
                         <dxb:BarButtonItem Content="Delete Product" /> -->
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
-                <dxr:RibbonPage Caption="User" Name="UserPage" IsVisible="{Binding CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}">
+                <dxr:RibbonPage Caption="User" Name="UserPage"                 IsVisible="{Binding CurrentUser.IsAdmin}">
+                    
                    <!-- <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Users" />
                     </dxr:RibbonPageGroup>-->
