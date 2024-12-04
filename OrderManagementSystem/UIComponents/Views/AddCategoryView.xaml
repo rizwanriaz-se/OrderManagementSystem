@@ -7,32 +7,64 @@
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-    Title="AddCategoryView" Height="800" Width="1000"
+    Title="AddCategoryView" Height="400" Width="400"
     >
+    <dx:ThemedWindow.Resources>
+        <Style TargetType="StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+
+        <Style TargetType="{x:Type dxlc:LayoutGroup}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="{x:Type dxe:TextEdit}">
+            <Setter Property="Margin" Value="5,0" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+
+        <Style TargetType="{x:Type dx:SimpleButton}">
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Margin" Value="0,45" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="DarkGray" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </dx:ThemedWindow.Resources>
 
     <dxlc:LayoutControl Header="Add Category"
-                        Orientation="Vertical"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
-                        StretchContentHorizontally="True"
-                        StretchContentVertically="True">
+                        Orientation="Vertical">
         <dxlc:LayoutGroup Orientation="Vertical">
             <dxlc:LayoutItem MinWidth="150">
-                <StackPanel HorizontalAlignment="Left">
+                <StackPanel>
                     <Label Content="Name" FontWeight="Bold" />
-                    <dxe:TextEdit Width="200" Text="{Binding CategoryNameText, Mode=TwoWay}" />
+                    <dxe:TextEdit Text="{Binding CategoryNameText, Mode=TwoWay}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem MinWidth="150">
-                <StackPanel HorizontalAlignment="Left">
+                <StackPanel>
                     <Label Content="Description" FontWeight="Bold" />
-                    <TextBox TextWrapping="Wrap" Text="{Binding CategoryDescriptionText, Mode=TwoWay}" Width="120" />
+                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding CategoryDescriptionText, Mode=TwoWay}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem MinWidth="150">
-                <StackPanel HorizontalAlignment="Left">
+                <StackPanel>
                     <Label Content="Image" FontWeight="Bold" />
                 </StackPanel>
             </dxlc:LayoutItem>

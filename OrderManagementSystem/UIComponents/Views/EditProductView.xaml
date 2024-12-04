@@ -7,60 +7,98 @@
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    Title="EditProductView" Height="800" Width="1000"
+    Title="EditProductView" Height="600" Width="450"
     >
+    <dx:ThemedWindow.Resources>
+        <Style TargetType="StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
 
+        <Style TargetType="{x:Type dxlc:LayoutGroup}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="{x:Type dxe:TextEdit}">
+            <Setter Property="Margin" Value="5,0" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+
+        <Style TargetType="{x:Type dx:SimpleButton}">
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Margin" Value="0,45" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="DarkGray" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type dxe:ComboBoxEdit}">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Margin" Value="5,0" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+    </dx:ThemedWindow.Resources>
+    
     <dxlc:LayoutControl Header="Edit Product"
                   Orientation="Vertical"
-                  VerticalAlignment="Stretch"
-                  HorizontalAlignment="Stretch"
-                  StretchContentHorizontally="True"
-                  StretchContentVertically="True">
+                >
         <dxlc:LayoutGroup Orientation="Vertical">
-            <dxlc:LayoutItem MinWidth="150">
-                <StackPanel HorizontalAlignment="Left">
-                    <Label Content="Name" FontWeight="Bold" />
-                    <dxe:TextEdit Width="200" Text="{Binding ProductNameText, Mode=TwoWay}" />
+            <dxlc:LayoutItem>
+                <StackPanel>
+                    <Label Content="Name" />
+                    <dxe:TextEdit Text="{Binding ProductNameText, Mode=TwoWay}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
-            <dxlc:LayoutItem MinWidth="150">
-                <StackPanel HorizontalAlignment="Left">
-                    <Label Content="Description" FontWeight="Bold" />
-                    <TextBox TextWrapping="Wrap" Text="{Binding ProductDescriptionText, Mode=TwoWay}" Width="120" />
+            <dxlc:LayoutItem >
+                <StackPanel >
+                    <Label Content="Description"  />
+                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding ProductDescriptionText, Mode=TwoWay}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
-            <dxlc:LayoutItem MinWidth="150">
-                <StackPanel HorizontalAlignment="Left">
-                    <Label Content="Category" FontWeight="Bold" />
-                    <dxe:ComboBoxEdit ItemsSource="{Binding Categories}" Width="100" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" DisplayMember="Name"></dxe:ComboBoxEdit>
+            <dxlc:LayoutItem >
+                <StackPanel>
+                    <Label Content="Category"  />
+                    <dxe:ComboBoxEdit ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" DisplayMember="Name"></dxe:ComboBoxEdit>
                 </StackPanel>
             </dxlc:LayoutItem>
 
-            <dxlc:LayoutItem MinWidth="150">
-                <StackPanel HorizontalAlignment="Left">
-                    <Label Content="Unit Price" FontWeight="Bold" />
-                    <TextBox TextWrapping="Wrap" Text="{Binding ProductUnitPriceText, Mode=TwoWay}" Width="120" />
+            <dxlc:LayoutItem>
+                <StackPanel>
+                    <Label Content="Unit Price" />
+                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding ProductUnitPriceText, Mode=TwoWay}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
-            <dxlc:LayoutItem MinWidth="150">
-                <StackPanel HorizontalAlignment="Left">
-                    <Label Content="Units in Stock" FontWeight="Bold" />
-                    <TextBox TextWrapping="Wrap" Text="{Binding ProductUnitsInStockText, Mode=TwoWay}" Width="120" />
+            <dxlc:LayoutItem>
+                <StackPanel >
+                    <Label Content="Units in Stock" />
+                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding ProductUnitsInStockText, Mode=TwoWay}"  />
                 </StackPanel>
             </dxlc:LayoutItem>
 
-            <dxlc:LayoutItem MinWidth="150">
-                <StackPanel HorizontalAlignment="Left">
-                    <Label Content="Image" FontWeight="Bold" />
+            <dxlc:LayoutItem>
+                <StackPanel>
+                    <Label Content="Image" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
 
-            <dxlc:LayoutItem MinWidth="150">
-                <dx:SimpleButton Content="Save Product" Width="150" Background="LightGreen" Command="{Binding SaveProductCommand}" />
+            <dxlc:LayoutItem>
+                <dx:SimpleButton Content="Save Product" Command="{Binding SaveProductCommand}" />
             </dxlc:LayoutItem>
 
 

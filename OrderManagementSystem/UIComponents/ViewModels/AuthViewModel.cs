@@ -137,7 +137,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Email = EmailRegisterText,
                 Phone = PhoneRegisterText,
                 Password = PasswordRegisterText,
-                IsAdmin = RoleChecked,
+                //IsAdmin = RoleChecked,
+                IsAdmin = false,
                 ApprovalStatus = ApprovalStates.Pending // Default to Pending
 
             };

@@ -7,47 +7,90 @@
  xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
  xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    Title="AuthWindow" Height="800" Width="1000"
+    Title="AuthWindow" Height="550" Width="500"
     >
     <dx:ThemedWindow.Resources>
         <dx:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    </dx:ThemedWindow.Resources>
 
+        <Style TargetType="StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+
+        <Style TargetType="Grid">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="{x:Type dxe:TextEdit}">
+            <Setter Property="Margin" Value="5,0" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+
+        <Style TargetType="{x:Type dx:SimpleButton}">
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Margin" Value="0,45" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="DarkGray" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--
+        <Style TargetType="{x:Type dx:ThemedWindow}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedTabIndex, Mode=TwoWay}" Value="0">
+                    <Setter Property="Height" Value="200" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SelectedTabIndex, Mode=TwoWay}" Value="1">
+                    <Setter Property="Height" Value="500" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style> -->
+    </dx:ThemedWindow.Resources>
+    <Grid>
     <dx:DXTabControl SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
         <dx:DXTabItem Header="Login">
-            <dxlc:LayoutControl Header="User Authentication"
-                 Orientation="Vertical"
-                 VerticalAlignment="Stretch"
-                 HorizontalAlignment="Stretch"
-                 StretchContentHorizontally="True"
-                 StretchContentVertically="True">
-                <dxlc:LayoutGroup Orientation="Vertical">
+                <dxlc:LayoutControl Header="User Authentication"
+                 >
 
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel HorizontalAlignment="Left">
-                            <Label Content="Email" FontWeight="Bold" />
-                            <dxe:TextEdit Width="200" Text="{Binding EmailLoginText, Mode=TwoWay}" />
+                    <dxlc:LayoutGroup Orientation="Vertical">
+
+                    <dxlc:LayoutItem>
+                        <StackPanel >
+                            <Label Content="Email" />
+                            <dxe:TextEdit Text="{Binding EmailLoginText, Mode=TwoWay}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
 
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel HorizontalAlignment="Left">
-                            <Label Content="Password" FontWeight="Bold" />
-                            <TextBox TextWrapping="Wrap" Text="{Binding PasswordLoginText, Mode=TwoWay}" Width="120" />
+                    <dxlc:LayoutItem>
+                        <StackPanel>
+                            <Label Content="Password" />
+                            <dxe:TextEdit TextWrapping="Wrap" Text="{Binding PasswordLoginText, Mode=TwoWay}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel HorizontalAlignment="Left">
-                            <Label Content="Role" FontWeight="Bold" />
+                   
+                    <dxlc:LayoutItem>
+                        <StackPanel>
+                            <Label Content="Role" />
                             <ComboBox x:Name="RoleComboBox" 
-          ItemsSource="{Binding Roles}" 
-          SelectedItem="{Binding SelectedRole}" 
-          Width="150" />
-                        </StackPanel>
+                                ItemsSource="{Binding Roles}" 
+                                SelectedItem="{Binding SelectedRole}" />
+                            </StackPanel>
                     </dxlc:LayoutItem>
 
-                    <dxlc:LayoutItem MinWidth="150">
-                        <dx:SimpleButton Content="Login" Width="150" Background="LightGreen" Command="{Binding LoginUserCommand}" />
+                    <dxlc:LayoutItem>
+                        <dx:SimpleButton Content="Login" Command="{Binding LoginUserCommand}" />
                     </dxlc:LayoutItem>
 
 
@@ -55,51 +98,47 @@
             </dxlc:LayoutControl>
         </dx:DXTabItem>
         <dx:DXTabItem Header="Register" Visibility="{Binding IsRegisterTabVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-            <dxlc:LayoutControl Header="User Authentication"
-                 Orientation="Vertical"
-                 VerticalAlignment="Stretch"
-                 HorizontalAlignment="Stretch"
-                 StretchContentHorizontally="True"
-                 StretchContentVertically="True">
-                <dxlc:LayoutGroup Orientation="Vertical">
+                <dxlc:LayoutControl Header="User Authentication">
 
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel HorizontalAlignment="Left">
-                            <Label Content="Name" FontWeight="Bold" />
-                            <dxe:TextEdit Width="200" Text="{Binding NameRegisterText, Mode=TwoWay}" />
+                    <dxlc:LayoutGroup Orientation="Vertical">
+
+                    <dxlc:LayoutItem>
+                        <StackPanel>
+                            <Label Content="Name" />
+                            <dxe:TextEdit Text="{Binding NameRegisterText, Mode=TwoWay}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
 
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel HorizontalAlignment="Left">
-                            <Label Content="Email" FontWeight="Bold" />
-                            <dxe:TextEdit Width="200" Text="{Binding EmailRegisterText, Mode=TwoWay}" />
+                    <dxlc:LayoutItem>
+                        <StackPanel>
+                            <Label Content="Email" />
+                            <dxe:TextEdit Text="{Binding EmailRegisterText, Mode=TwoWay}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
 
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel HorizontalAlignment="Left">
-                            <Label Content="Phone" FontWeight="Bold" />
-                            <dxe:TextEdit Width="200" Text="{Binding PhoneRegisterText, Mode=TwoWay}" />
+                    <dxlc:LayoutItem>
+                        <StackPanel>
+                            <Label Content="Phone" />
+                            <dxe:TextEdit Text="{Binding PhoneRegisterText, Mode=TwoWay}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
 
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel HorizontalAlignment="Left">
-                            <Label Content="Password" FontWeight="Bold" />
-                            <dxe:TextEdit Width="200" Text="{Binding PasswordRegisterText, Mode=TwoWay}" />
+                    <dxlc:LayoutItem>
+                        <StackPanel>
+                            <Label Content="Password" />
+                            <dxe:TextEdit Text="{Binding PasswordRegisterText, Mode=TwoWay}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
 
-                    <dxlc:LayoutItem MinWidth="150">
-                        <StackPanel HorizontalAlignment="Left">
-                            <Label Content="Admin" FontWeight="Bold" />
+                   <!-- <dxlc:LayoutItem>
+                        <StackPanel>
+                            <Label Content="Admin" />
                             <dxe:CheckEdit IsChecked="{Binding RoleChecked}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
-
-                    <dxlc:LayoutItem MinWidth="150">
-                        <dx:SimpleButton Content="Register" Width="150" Background="LightGreen" Command="{Binding RegisterUserCommand}" />
+-->
+                    <dxlc:LayoutItem>
+                        <dx:SimpleButton Content="Register" Command="{Binding RegisterUserCommand}" />
                     </dxlc:LayoutItem>
 
 
@@ -107,5 +146,5 @@
             </dxlc:LayoutControl>
         </dx:DXTabItem>
     </dx:DXTabControl>
-
+    </Grid>
 </dx:ThemedWindow>
