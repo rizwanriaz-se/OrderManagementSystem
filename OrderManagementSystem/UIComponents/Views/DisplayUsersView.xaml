@@ -7,8 +7,17 @@
              xmlns:local="clr-namespace:OrderManagementSystem.UIComponents.Views" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
-    <dxg1:GridControl ItemsSource="{Binding Users}" Height="300"  SelectedItem="{Binding SelectedUser}">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type dxg1:GridColumnHeader}">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Background" Value="#9fa2c5" />
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+    </UserControl.Resources>
+    <dxg1:GridControl ItemsSource="{Binding Users}" Height="300"  SelectedItem="{Binding SelectedUser}" Margin="0,0,0,20">
+        <dxg1:GridControl.View>
+            <dxg1:TableView ShowGroupPanel="False" />
+        </dxg1:GridControl.View>
         <dxg1:GridControl.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Edit User" Command="{Binding EditUserCommand}"  />
@@ -16,13 +25,13 @@
             </ContextMenu>
         </dxg1:GridControl.ContextMenu>
         <dxg1:GridControl.Columns>
-            <dxg1:GridColumn FieldName="ID" Binding="{Binding Id}" Header="ID"/>
-            <dxg1:GridColumn FieldName="Name"  Binding="{Binding Name}" Header="Name"/>
-            <dxg1:GridColumn FieldName="Email"  Binding="{Binding Email}" Header="Email"/>
-            <dxg1:GridColumn FieldName="Phone"  Binding="{Binding Phone}" Header="Phone"/>
-            <dxg1:GridColumn FieldName="Password"  Binding="{Binding Password}" Header="Password"/>
-            <dxg1:GridColumn FieldName="IsAdmin"  Binding="{Binding IsAdmin}" Header="Is Admin"/>
-            <dxg1:GridColumn FieldName="ApprovalStatus" Header="Approval Status">
+            <dxg1:GridColumn FieldName="ID" Binding="{Binding Id}" Header="ID" Width="30" AllowResizing="False" />
+            <dxg1:GridColumn FieldName="Name"  Binding="{Binding Name}" Header="Name" Width="150" AllowResizing="False" />
+            <dxg1:GridColumn FieldName="Email"  Binding="{Binding Email}" Header="Email" Width="3*" />
+            <dxg1:GridColumn FieldName="Phone"  Binding="{Binding Phone}" Header="Phone" Width="2*" />
+            <dxg1:GridColumn FieldName="Password"  Binding="{Binding Password}" Header="Password" Width="2*" />
+            <dxg1:GridColumn FieldName="IsAdmin"  Binding="{Binding IsAdmin}" Header="Is Admin" Width="*"  />
+            <dxg1:GridColumn FieldName="ApprovalStatus" Header="Approval Status" Width="2*">
                 <dxg1:GridColumn.EditSettings>
                     <dxe:ComboBoxEditSettings Name="ApprovalStatusComboBox" />
                 </dxg1:GridColumn.EditSettings>

@@ -7,13 +7,14 @@
  xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
  xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    Title="AuthWindow" Height="550" Width="500"
-    >
+    Title="Authorization" Height="650" Width="500" MinHeight="630" MinWidth="480">
+
     <dx:ThemedWindow.Resources>
         <dx:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
         <Style TargetType="StackPanel">
             <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="10,4" />
         </Style>
 
         <Style TargetType="Grid">
@@ -29,23 +30,29 @@
         </Style>
 
         <Style TargetType="{x:Type dx:SimpleButton}">
-            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="Background" Value="#9fa2c5" />
             <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Width" Value="120" />
             <Setter Property="Height" Value="40" />
+            <Setter Property="CornerRadius" Value="3" />
             <Setter Property="Margin" Value="0,45" />
             <Setter Property="Padding" Value="10,5" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="Gray" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="DarkGray" />
+                    <Setter Property="Background" Value="#5c67f1" />
                     <Setter Property="Foreground" Value="Black" />
                 </Trigger>
             </Style.Triggers>
         </Style>
 
+        
+
+     
+        
         <!--
         <Style TargetType="{x:Type dx:ThemedWindow}">
             <Style.Triggers>
@@ -58,15 +65,12 @@
             </Style.Triggers>
         </Style> -->
     </dx:ThemedWindow.Resources>
-    <Grid>
-    <dx:DXTabControl SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
-        <dx:DXTabItem Header="Login">
-                <dxlc:LayoutControl Header="User Authentication"
-                 >
-
+    <Grid Background="#eff0fd">
+        <dx:DXTabControl SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" Padding="40,20" >
+            <dx:DXTabItem Header="Login" >
+                <dxlc:LayoutControl Header="User Authentication">
                     <dxlc:LayoutGroup Orientation="Vertical">
-
-                    <dxlc:LayoutItem>
+                        <dxlc:LayoutItem>
                         <StackPanel >
                             <Label Content="Email" />
                             <dxe:TextEdit Text="{Binding EmailLoginText, Mode=TwoWay}" />

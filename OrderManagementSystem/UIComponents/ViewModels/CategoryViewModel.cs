@@ -1,10 +1,13 @@
-﻿using OrderManagementSystem.Cache.Models;
+﻿using DevExpress.Mvvm.POCO;
+using OrderManagementSystem.Cache.Models;
 using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.Views;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,21 +15,24 @@ using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-    public class CategoryViewModel : INotifyPropertyChanged
+    public class CategoryViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         public ObservableCollection<Category> Categories { get; private set; }
         public Action CloseWindow { get; set; }
 
+        [Required(ErrorMessage = "Category name is required")]
         public string CategoryNameText { get; set; }
 
+        [Required(ErrorMessage = "Category description is required")]
         public string CategoryDescriptionText { get; set; }
 
-        public ICommand SubmitCategoryCommand { get; set; }
+        public RelayCommand SubmitCategoryCommand { get; set; }
 
         public ICommand EditCategoryCommand { get; set; }
         public ICommand DeleteCategoryCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         private Category m_SelectedCategory { get; set; }
 
@@ -40,6 +46,22 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
+        Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
+        //public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        public bool HasErrors => Errors.Count > 0;
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            if (Errors.ContainsKey(propertyName))
+            {
+                return Errors[propertyName];
+            }
+            return null;
+        }
+
+        
+
 
 
         public CategoryViewModel()
@@ -50,7 +72,24 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             DeleteCategoryCommand = new RelayCommand(DeleteCategory, CanDeleteCategory);
 
         }
+        public void Validate(string propertyName, object propertyValue)
+        {
+            var results = new List<ValidationResult>();
+            var context = new ValidationContext(this) { MemberName = propertyName };
+            Validator.TryValidateProperty(propertyValue, context, results);
 
+            if (results.Any())
+            {
+                Errors[propertyName] = results.Select(c => c.ErrorMessage).ToList();
+            }
+            else
+            {
+                Errors.Remove(propertyName);
+            }
+
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            SubmitCategoryCommand.RaiseCanExecuteEventChanged();
+        }
         private void SubmitCategory(object obj)
         {
             int? lastCategoryId = Categories.Last().Id;
@@ -66,12 +105,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             GUIHandler.GetInstance().CacheManager.AddCategory(category);
             CloseWindow?.Invoke();
-
         }
 
         private bool CanSubmitCategory(object obj)
         {
-            return true;
+            return Validator.TryValidateObject(this, new ValidationContext(this), null, true);
+            //return true;
         }
 
         private void EditCategory(object obj)
@@ -99,5 +138,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             return true;
         }
+
+        
     }
 }

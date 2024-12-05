@@ -12,6 +12,11 @@ namespace OrderManagementSystem.Commands
         public Action<object> _Execute { get; set; }
         public Predicate<object> _CanExecute { get; set; }
 
+        public void RaiseCanExecuteEventChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
             _Execute = execute;

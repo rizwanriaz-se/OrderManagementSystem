@@ -14,11 +14,12 @@
 
     <UserControl.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
     </UserControl.Resources>
     
     <StackPanel>
 
-        <dxr:RibbonControl Name="Ribbon" SelectedPageChanged="RibbonControl_SelectedPageChanged" >
+        <dxr:RibbonControl Name="Ribbon" SelectedPageChanged="RibbonControl_SelectedPageChanged" RibbonStyle="OfficeSlim" ShowApplicationButton="False">
             <dxr:RibbonDefaultPageCategory>
                 
                 <dxr:RibbonPage Caption="Order" Name="OrderPage">
@@ -36,8 +37,8 @@
 <!--                    <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Categories" Command="{Binding ViewCategoryCommand}" />
                     </dxr:RibbonPageGroup> -->
-                    <dxr:RibbonPageGroup Caption="Manage" IsVisible="{Binding CurrentUser.IsAdmin}">
-                        <dxb:BarButtonItem Content="Add Category" Command="{Binding AddCategoryCommand}"  />
+                    <dxr:RibbonPageGroup Caption="Manage">
+                        <dxb:BarButtonItem Content="Add Category" Command="{Binding AddCategoryCommand}" />
 <!--                        <dxb:BarButtonItem Content="Edit Category" Command="{Binding EditCategoryCommand}" />
                         <dxb:BarButtonItem Content="Delete Category" /> -->
                     </dxr:RibbonPageGroup>
@@ -46,19 +47,19 @@
                     <!-- <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Products" Command="{Binding ViewProductCommand}"/>
                     </dxr:RibbonPageGroup> -->
-                    <dxr:RibbonPageGroup Caption="Manage" IsVisible="{Binding CurrentUser.IsAdmin}">
+                    <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add Product" Command="{Binding AddProductCommand}" />
         <!--            <dxb:BarButtonItem Content="Edit Product" Command="{Binding EditProductCommand}"/>
                         <dxb:BarButtonItem Content="Delete Product" /> -->
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
-                <dxr:RibbonPage Caption="User" Name="UserPage"                 IsVisible="{Binding CurrentUser.IsAdmin}">
+                <dxr:RibbonPage Caption="User" Name="UserPage"                 IsVisible="{Binding CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}">
                     
                    <!-- <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Users" />
                     </dxr:RibbonPageGroup>-->
                     <dxr:RibbonPageGroup Caption="Manage">
-                        <dxb:BarButtonItem Content="Add User" Command="{Binding AddUserCommand}" />
+                        <dxb:BarButtonItem Content="Add User" Command="{Binding AddUserCommand}" IsVisible="False" />
                         <!--<dxb:BarButtonItem Content="Edit User" Command="{Binding EditUserCommand}" />
                         <dxb:BarButtonItem Content="Delete User" /> -->
                     </dxr:RibbonPageGroup>

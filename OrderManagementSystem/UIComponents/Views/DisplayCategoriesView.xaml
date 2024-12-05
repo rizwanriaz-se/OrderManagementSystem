@@ -8,7 +8,17 @@
     
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <dxg1:GridControl ItemsSource="{Binding Categories}" Height="300" SelectedItem="{Binding SelectedCategory}">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type dxg1:GridColumnHeader}">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Background" Value="#9fa2c5" />
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+    </UserControl.Resources>
+    <dxg1:GridControl ItemsSource="{Binding Categories}" Height="300" Margin="0,0,0,20" SelectedItem="{Binding SelectedCategory}">
+        <dxg1:GridControl.View>
+            <dxg1:TableView ShowGroupPanel="False" />
+        </dxg1:GridControl.View>
         <dxg1:GridControl.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Edit Category" Command="{Binding EditCategoryCommand}"  />
@@ -16,9 +26,9 @@
             </ContextMenu>
         </dxg1:GridControl.ContextMenu>
         <dxg1:GridControl.Columns>
-            <dxg1:GridColumn FieldName="ID" Binding="{Binding Id}" Header="ID"/>
-            <dxg1:GridColumn FieldName="Name"  Binding="{Binding Name}" Header="Name"/>
-            <dxg1:GridColumn FieldName="Description"  Binding="{Binding Description}" Header="Description"/>
+            <dxg1:GridColumn FieldName="ID" Binding="{Binding Id}" Header="ID" Width="40" AllowResizing="False" />
+            <dxg1:GridColumn FieldName="Name"  Binding="{Binding Name}" Header="Name" Width="100"  />
+            <dxg1:GridColumn FieldName="Description"  Binding="{Binding Description}" Header="Description" Width="10*" />
 
         </dxg1:GridControl.Columns>
 

@@ -7,47 +7,64 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
 
     x:Class="OrderManagementSystem.UIComponents.Views.EditOrderView"
-    Title="EditOrderView" Height="600" Width="1000"
+    Title="Edit Category" Height="600" Width="1200" MinWidth="1000"
     WindowStartupLocation="CenterOwner"
     >
+    <dx:ThemedWindow.Resources>
+        <Style TargetType="{x:Type dx:SimpleButton}">
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="CornerRadius" Value="3" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="DarkGray" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </dx:ThemedWindow.Resources>
+    
     <dxlc:LayoutControl Header="Edit Order"
-                        Orientation="Vertical"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
-                        StretchContentHorizontally="True"
-                        StretchContentVertically="True">
+                        Orientation="Vertical">
         <dxlc:LayoutGroup Orientation="Horizontal">
-            
             <!-- User Field -->
-            <dxlc:LayoutItem MinWidth="150">
+            <dxlc:LayoutItem Width="140">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Employee" FontWeight="Bold" />
-                    <TextBlock TextWrapping="Wrap" Text="{Binding User.Name}"/>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding User.Name}" Padding="5,0" FontSize="15" FontWeight="SemiBold" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <!-- Status Field -->
-            <dxlc:LayoutItem MinWidth="150">
+            <dxlc:LayoutItem Width="140">
                 <StackPanel HorizontalAlignment="Left">
-                    <Label Content="Status" FontWeight="Bold" />
+                    <Label Content="Status" />
                     
-                    <dxe:ComboBoxEdit Width="150" x:Name="OrderStatusComboBox" EditValue="{Binding SelectedStatus, Mode=TwoWay}" ItemsSource="{Binding SelectableStatuses}" AutoComplete="True" />
+                    <dxe:ComboBoxEdit Width="120" Height="30" x:Name="OrderStatusComboBox" EditValue="{Binding SelectedStatus, Mode=TwoWay}" ItemsSource="{Binding SelectableStatuses}" AutoComplete="True" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <!-- Shipping Date Field -->
-            <dxlc:LayoutItem MinWidth="150">
+            <dxlc:LayoutItem  Width="280">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Date" FontWeight="Bold" />
-                    <DatePicker Width="200" SelectedDate="{Binding SelectedShippingDate, Mode=TwoWay}" />
+                    <!--<DatePicker Width="200" SelectedDate="{Binding SelectedShippingDate, Mode=TwoWay}" /> -->
+                    <dxe:DateEdit EditValue="{Binding SelectedShippingDate, Mode=TwoWay}" Height="30" Width="250" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <!-- Shipping Address Field -->
-            <dxlc:LayoutItem MinWidth="150">
+            <dxlc:LayoutItem>
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Address" FontWeight="Bold" />
-                    <dxe:TextEdit Width="300" Text="{Binding SelectedShippingAddress}" />
+                    <dxe:TextEdit Width="350" Text="{Binding SelectedShippingAddress}" />
                 </StackPanel>
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
@@ -67,30 +84,32 @@
             </dxlc:LayoutItem>
 
             <dxlc:LayoutGroup Orientation="Vertical">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" >
 
-                <ItemsControl ItemsSource="{Binding OrderDetails}">
+                    <ItemsControl ItemsSource="{Binding OrderDetails}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="Name: " FontWeight="Bold" />
-                                    <ComboBox Width="200" ItemsSource="{Binding DataContext.AllProducts, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"  DisplayMemberPath="Name"           SelectedItem="{Binding Product, Mode=TwoWay}" />
+                            <StackPanel Orientation="Horizontal" Margin="0,2">
+                                <StackPanel Orientation="Horizontal" Margin="5,0">
+                                    <Label Content="Name: " />
+                                    <dxe:ComboBoxEdit Width="200" ItemsSource="{Binding DataContext.AllProducts, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"  DisplayMember="Name" AutoComplete="True" SelectedItem="{Binding Product, Mode=TwoWay}" />
 
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="Quantity" FontWeight="Bold" />
-                                    <dxe:SpinEdit EditValue="{Binding Quantity, Mode=TwoWay}" EditValueType="{x:Type sys:Int32}" IsFloatValue="False" MinValue="1" MaxValue="10" Width="100" />
+                                <StackPanel Orientation="Horizontal" Margin="5,0">
+                                    <Label Content="Quantity" />
+                                    <dxe:SpinEdit EditValue="{Binding Quantity, Mode=TwoWay}" EditValueType="{x:Type sys:Int32}" IsFloatValue="False" MinValue="1" MaxValue="10" />
                                 </StackPanel>
-                                <dx:SimpleButton Content="x" Width="30"                                  Command="{Binding DataContext.RemoveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                                <dx:SimpleButton Content="x"  FontWeight="Bold" Width="30" Height="35"  Margin="5,0" Command="{Binding DataContext.RemoveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
  CommandParameter="{Binding}" />
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+                </ScrollViewer>
 
-                <StackPanel Orientation="Horizontal">
-                    <dxlc:LayoutItem MinWidth="150">
-                        <dx:SimpleButton Content="Save Order" Width="150" Background="LightGreen" Command="{Binding SaveOrderCommand}" />
+                <StackPanel  VerticalAlignment="Bottom" HorizontalAlignment="Center" >
+                    <dxlc:LayoutItem>
+                        <dx:SimpleButton Content="Save Order" Command="{Binding SaveOrderCommand}" />
                     </dxlc:LayoutItem>
                 </StackPanel>
 

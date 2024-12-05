@@ -30,13 +30,13 @@
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Margin" Value="5,0" />
+        <Setter Property="Foreground" Value="Black" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
     <!-- Style for TextEdit -->
     <Style TargetType="{x:Type dxe:TextEdit}">
         <Setter Property="Width" Value="200" />
-        
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Padding" Value="5" />
     </Style>
@@ -64,7 +64,7 @@
     <Style TargetType="{x:Type dx:DXTabItem}">
         <Setter Property="Padding" Value="20,10" />
     </Style>
-
+<!--
     <Style TargetType="{x:Type dxlc:LayoutGroup}">
         <Setter Property="Background" Value="SandyBrown" />
     </Style>
@@ -72,7 +72,7 @@
     <Style TargetType="{x:Type dxlc:LayoutItem}">
         <Setter Property="Background" Value="green" />
     </Style>
-
+-->
    
 
     <Style TargetType="{x:Type dxe:SpinEdit}">
@@ -81,10 +81,18 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         
     </Style>
-
+<!--
     <Style TargetType="StackPanel">
         <Setter Property="Background" Value="Red" />
-
     </Style>
+-->
+    <Style TargetType="{x:Type dx:ThemedWindow}">
+        <Setter Property="Background" Value="#333285" />
+    </Style>
+
     
+    <Style x:Key="ErrorLabel" TargetType="Label">
+        <Setter Property="Foreground" Value="Red" />
+    </Style>
+
 </ResourceDictionary>

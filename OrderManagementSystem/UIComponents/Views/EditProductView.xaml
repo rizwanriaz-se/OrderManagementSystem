@@ -7,7 +7,7 @@
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    Title="EditProductView" Height="600" Width="450"
+    Title="Edit Product" Height="600" Width="450"
     >
     <dx:ThemedWindow.Resources>
         <Style TargetType="StackPanel">
@@ -31,6 +31,8 @@
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Width" Value="120" />
+            <Setter Property="CornerRadius" Value="3" />
+            <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Height" Value="40" />
             <Setter Property="Margin" Value="0,45" />
             <Setter Property="Padding" Value="10,5" />
