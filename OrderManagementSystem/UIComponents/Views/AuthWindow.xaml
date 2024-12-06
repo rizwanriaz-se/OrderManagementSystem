@@ -7,7 +7,7 @@
  xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
  xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    Title="Authorization" Height="650" Width="500" MinHeight="630" MinWidth="480">
+    Title="Authorization" SizeToContent="WidthAndHeight">
 
     <dx:ThemedWindow.Resources>
         <dx:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />

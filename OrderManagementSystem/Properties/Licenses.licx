@@ -8,3 +8,5 @@ DevExpress.Xpf.Editors.MemoEdit, DevExpress.Xpf.Core.v24.1, Version=24.1.7.0, Cu
 DevExpress.Xpf.Core.DXTabControl, DevExpress.Xpf.Core.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
 DevExpress.Xpf.Editors.CheckEdit, DevExpress.Xpf.Core.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
 DevExpress.Xpf.Editors.DateNavigator.DateNavigator, DevExpress.Xpf.Core.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
+DevExpress.Xpf.LayoutControl.DockLayoutControl, DevExpress.Xpf.LayoutControl.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a
+DevExpress.Xpf.Docking.DockLayoutManager, DevExpress.Xpf.Docking.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a

@@ -26,6 +26,8 @@ namespace OrderManagementSystem.ViewModels
         public ICommand ViewProductCommand { get; set; }
         public ICommand AddProductCommand { get; set; }
 
+        public ICommand AddOrderBlotterCommand { get; set; }
+
         public ICommand ViewUserCommand { get; set; }
         public ICommand AddUserCommand { get; set; }
 
@@ -67,8 +69,23 @@ namespace OrderManagementSystem.ViewModels
             ViewUserCommand = new RelayCommand(ExecuteViewUser, CanExecuteViewUser);
             AddUserCommand = new RelayCommand(ExecuteAddUser, CanExecuteAddUser);
             CurrentUser = GUIHandler.GetInstance().CurrentUser;
+            AddOrderBlotterCommand = new RelayCommand(ExecuteAddOrderBlotter, CanExecuteAddOrderBlotter);
+
+        }
+
+        private bool CanExecuteAddOrderBlotter(object obj)
+        {
 
 
+            return true;
+        }
+
+        private void ExecuteAddOrderBlotter(object obj)
+        {
+            DisplayOrdersView displayOrdersView = new DisplayOrdersView();
+            displayOrdersView.GeneratePanel();
+            //OrderBlotter orderBlotter = new OrderBlotter();
+            //orderBlotter.Show();
         }
 
         public void ExecuteViewUser(object obj)

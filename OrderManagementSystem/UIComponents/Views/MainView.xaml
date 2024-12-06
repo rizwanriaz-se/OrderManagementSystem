@@ -8,7 +8,7 @@
     xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
       xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
-    xmlns:Views="clr-namespace:OrderManagementSystem.UIComponents.Views"
+    xmlns:Views="clr-namespace:OrderManagementSystem.UIComponents.Views" xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
     x:Class="OrderManagementSystem.Views.MainView"
     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
@@ -19,7 +19,7 @@
     
     <StackPanel>
 
-        <dxr:RibbonControl Name="Ribbon" SelectedPageChanged="RibbonControl_SelectedPageChanged" RibbonStyle="OfficeSlim" ShowApplicationButton="False">
+        <dxr:RibbonControl Name="Ribbon" SelectedPageChanged="RibbonControl_SelectedPageChanged" RibbonStyle="OfficeSlim" ShowApplicationButton="False" ToolbarShowMode="Hide">
             <dxr:RibbonDefaultPageCategory>
                 
                 <dxr:RibbonPage Caption="Order" Name="OrderPage">
@@ -29,6 +29,7 @@
                     </dxr:RibbonPageGroup> -->
                     <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add Order" Command="{Binding AddOrderCommand}" />
+                        <dxb:BarButtonItem Content="Add Blotter" Command="{Binding AddOrderBlotterCommand}" />
 <!--                        <dxb:BarButtonItem Content="Edit Order" Command="{Binding EditOrderCommand}" />
                         <dxb:BarButtonItem Content="Delete Order" /> -->
                     </dxr:RibbonPageGroup>
@@ -68,10 +69,19 @@
             
         </dxr:RibbonControl>
 
+        <dxdo:DockLayoutManager Name="MyDockLayoutManager">
+            <dxdo:LayoutGroup Caption="LayoutRoot" Name="MyLayoutGroup">
+                <dxdo:DocumentGroup x:Name="documentGroup">
+                </dxdo:DocumentGroup>
+            </dxdo:LayoutGroup>
+        </dxdo:DockLayoutManager>
+
 
         <!-- ContentControl to display the selected view -->
+       <!-- 
         <ContentControl Content="{Binding CurrentView}" />
-        
-       
+
+-->
+
     </StackPanel>
 </UserControl>
