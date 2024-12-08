@@ -18,13 +18,29 @@ namespace OrderManagementSystem.UIComponents.ViewModels
     public class CategoryViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         public ObservableCollection<Category> Categories { get; private set; }
+        private string m_stCategoryNameText;
+        private string m_stCategoryDescriptionText;
         public Action CloseWindow { get; set; }
 
         [Required(ErrorMessage = "Category name is required")]
-        public string CategoryNameText { get; set; }
+        public string CategoryNameText {
+            get { return m_stCategoryNameText; }
+            set
+            {
+                m_stCategoryNameText = value;
+                Validate(nameof(CategoryNameText), m_stCategoryNameText);
+            }
+        }
 
         [Required(ErrorMessage = "Category description is required")]
-        public string CategoryDescriptionText { get; set; }
+        public string CategoryDescriptionText {
+            get { return m_stCategoryDescriptionText; }
+            set
+            {
+                m_stCategoryDescriptionText = value;
+                Validate(nameof(CategoryDescriptionText), m_stCategoryDescriptionText);
+            }
+        }
 
         public RelayCommand SubmitCategoryCommand { get; set; }
 
@@ -110,6 +126,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private bool CanSubmitCategory(object obj)
         {
             return Validator.TryValidateObject(this, new ValidationContext(this), null, true);
+            
             //return true;
         }
 

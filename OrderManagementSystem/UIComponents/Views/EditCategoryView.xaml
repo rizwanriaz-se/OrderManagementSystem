@@ -53,14 +53,14 @@ xmlns:sys="clr-namespace:System;assembly=mscorlib">
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Name" />
-                    <dxe:TextEdit Text="{Binding CategoryNameText, Mode=TwoWay}" />
+                    <dxe:TextEdit Text="{Binding CategoryNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Description" />
-                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding CategoryDescriptionText, Mode=TwoWay}" />
+                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding CategoryDescriptionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 

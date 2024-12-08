@@ -184,8 +184,26 @@
       <ApprovalStatus>Approved</ApprovalStatus>
     </User>
     <OrderDate>2024-12-05T10:26:17.221277+05:00</OrderDate>
-    <Status>Pending</Status>
-    <OrderDetails />
+    <Status>Delivered</Status>
+    <OrderDetails>
+      <OrderDetail>
+        <Product>
+          <Id>3</Id>
+          <Name>Aniseed Syrup</Name>
+          <Description>12 - 550 ml bottles</Description>
+          <Category>
+            <Id>2</Id>
+            <Name>Condiments</Name>
+            <Description>Sweet and savory sauces, relishes, spreads, and seasonings</Description>
+            <Picture />
+          </Category>
+          <Picture />
+          <UnitPrice>10.00</UnitPrice>
+          <UnitsInStock>13</UnitsInStock>
+        </Product>
+        <Quantity>2</Quantity>
+      </OrderDetail>
+    </OrderDetails>
     <ShippedDate>2024-12-05T10:26:15.6662822+05:00</ShippedDate>
   </Order>
   <Order>

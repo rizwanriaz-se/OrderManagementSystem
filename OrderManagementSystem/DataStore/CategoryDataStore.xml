@@ -63,4 +63,9 @@
     <Name>dsadsa</Name>
     <Description>sdadas</Description>
   </Category>
+  <Category>
+    <Id>12</Id>
+    <Name>a</Name>
+    <Description>as</Description>
+  </Category>
 </ArrayOfCategory>

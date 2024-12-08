@@ -29,7 +29,7 @@
                     </dxr:RibbonPageGroup> -->
                     <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add Order" Command="{Binding AddOrderCommand}" />
-                        <dxb:BarButtonItem Content="Add Blotter" Command="{Binding AddOrderBlotterCommand}" />
+                        <dxb:BarButtonItem Content="Add Blotter" ItemClick="AddOrderBlotter_Click" />
 <!--                        <dxb:BarButtonItem Content="Edit Order" Command="{Binding EditOrderCommand}" />
                         <dxb:BarButtonItem Content="Delete Order" /> -->
                     </dxr:RibbonPageGroup>
@@ -40,7 +40,7 @@
                     </dxr:RibbonPageGroup> -->
                     <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add Category" Command="{Binding AddCategoryCommand}" />
-<!--                        <dxb:BarButtonItem Content="Edit Category" Command="{Binding EditCategoryCommand}" />
+                        <!--                        <dxb:BarButtonItem Content="Edit Category" Command="{Binding EditCategoryCommand}" />
                         <dxb:BarButtonItem Content="Delete Category" /> -->
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
@@ -50,17 +50,20 @@
                     </dxr:RibbonPageGroup> -->
                     <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add Product" Command="{Binding AddProductCommand}" />
+                        <dxb:BarButtonItem Content="Add Blotter" ItemClick="AddProductBlotter_Click" />
         <!--            <dxb:BarButtonItem Content="Edit Product" Command="{Binding EditProductCommand}"/>
                         <dxb:BarButtonItem Content="Delete Product" /> -->
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
-                <dxr:RibbonPage Caption="User" Name="UserPage"                 IsVisible="{Binding CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}">
+                <dxr:RibbonPage Caption="User" Name="UserPage" IsVisible="{Binding CurrentUser.IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}">
                     
                    <!-- <dxr:RibbonPageGroup Caption="View">
                         <dxb:BarButtonItem Content="View Users" />
                     </dxr:RibbonPageGroup>-->
                     <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add User" Command="{Binding AddUserCommand}" IsVisible="False" />
+                        <dxb:BarButtonItem Content="Add Blotter" ItemClick="AddUserBlotter_Click" />
+
                         <!--<dxb:BarButtonItem Content="Edit User" Command="{Binding EditUserCommand}" />
                         <dxb:BarButtonItem Content="Delete User" /> -->
                     </dxr:RibbonPageGroup>
@@ -72,16 +75,19 @@
         <dxdo:DockLayoutManager Name="MyDockLayoutManager">
             <dxdo:LayoutGroup Caption="LayoutRoot" Name="MyLayoutGroup">
                 <dxdo:DocumentGroup x:Name="documentGroup">
+                    <dxdo:DocumentPanel Caption="Default" AllowClose="False">
+                        <ContentControl Content="{Binding CurrentView}" />
+                    </dxdo:DocumentPanel>
                 </dxdo:DocumentGroup>
             </dxdo:LayoutGroup>
         </dxdo:DockLayoutManager>
 
 
         <!-- ContentControl to display the selected view -->
-       <!-- 
-        <ContentControl Content="{Binding CurrentView}" />
+        
+        <!--<ContentControl Content="{Binding CurrentView}" />-->
+        
 
--->
 
     </StackPanel>
 </UserControl>

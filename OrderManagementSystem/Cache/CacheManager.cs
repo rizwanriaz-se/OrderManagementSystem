@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.IO;
 using OrderManagementSystem.Utils;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace OrderManagementSystem.Cache
         }
 
 
-        private string m_stDataStorePath = "C:\\Users\\rriaz\\source\\repos\\OrderManagementSystem\\OrderManagementSystem\\DataStore\\";
+        private string m_stDataStorePath = $"{Directory.GetCurrentDirectory().Split(new string[] { "\\bin" }, StringSplitOptions.None)[0]}\\DataStore\\";
 
         private string m_stUserDataStorePath = "UserDataStore.xml";
         private string m_stCategoryDataStorePath = "CategoryDataStore.xml";

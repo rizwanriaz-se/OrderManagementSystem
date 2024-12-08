@@ -30,7 +30,7 @@
             <Setter Property="Background" Value="LightGray" />
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Width" Value="120" />
+            <Setter Property="Width" Value="150" />
             <Setter Property="CornerRadius" Value="3" />
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Height" Value="40" />
@@ -50,31 +50,30 @@
     <dxlc:LayoutControl Header="Add Category"
                         Orientation="Vertical">
         <dxlc:LayoutGroup Orientation="Vertical">
-            <dxlc:LayoutItem MinWidth="150">
+            <dxlc:LayoutItem>
                 <StackPanel>
-                    <Label Content="Name" FontWeight="Bold" />
+                    <Label Content="Name" />
                     <dxe:TextEdit Text="{Binding CategoryNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
-                    <Label Content="{Binding ElementName=CategoryNameText, Path=(Validation.Errors)[0].ErrorContent}" />
+                   
                 </StackPanel>
             </dxlc:LayoutItem>
 
-            <dxlc:LayoutItem MinWidth="150">
+            <dxlc:LayoutItem>
                 <StackPanel>
-                    <Label Content="Description" FontWeight="Bold" />
-                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding CategoryDescriptionText, Mode=TwoWay}" />
+                    <Label Content="Description" />
+                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding CategoryDescriptionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
-            <dxlc:LayoutItem MinWidth="150">
+            <dxlc:LayoutItem>
                 <StackPanel>
-                    <Label Content="Image" FontWeight="Bold" />
+                    <Label Content="Image" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
-            <dxlc:LayoutItem MinWidth="150">
+            <dxlc:LayoutItem>
                 <dx:SimpleButton Content="Submit Category" Command="{Binding SubmitCategoryCommand}" />
             </dxlc:LayoutItem>
-
 
         </dxlc:LayoutGroup>
     </dxlc:LayoutControl>
