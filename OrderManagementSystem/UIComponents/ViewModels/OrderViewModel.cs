@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using DevExpress.Xpf.Core;
 using OrderManagementSystem.Cache.Models;
 using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.Views;
@@ -51,16 +52,24 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void ExecuteEditOrder(object obj)
         {
-            EditOrderView editOrderView = new EditOrderView();
 
-            EditOrderViewModel editOrderViewModel = new EditOrderViewModel(SelectedOrder);
-            editOrderView.DataContext = editOrderViewModel;
-            editOrderViewModel.CloseWindow = editOrderView.Close;
-            editOrderView.ShowDialog();
+            if (SelectedOrder != null)
+            {
+                EditOrderView editOrderView = new EditOrderView();
+
+                EditOrderViewModel editOrderViewModel = new EditOrderViewModel(SelectedOrder);
+                editOrderView.DataContext = editOrderViewModel;
+                editOrderViewModel.CloseWindow = editOrderView.Close;
+                editOrderView.ShowDialog();
+            }
+            else
+            {
+                DXMessageBox.Show("Select a valid order to edit.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         private bool CanExecuteEditOrder(object obj)
         {
-            return true;
+            return (SelectedOrder != null);
         }
 
         private void ExecuteDeleteOrder(object obj) {
@@ -70,7 +79,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private bool CanExecuteDeleteOrder(object obj)
         {
-            return true;
+            return (SelectedOrder != null);
         }
 
     }

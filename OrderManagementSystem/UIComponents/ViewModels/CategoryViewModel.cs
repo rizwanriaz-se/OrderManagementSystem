@@ -44,8 +44,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public RelayCommand SubmitCategoryCommand { get; set; }
 
-        public ICommand EditCategoryCommand { get; set; }
-        public ICommand DeleteCategoryCommand { get; set; }
+        public RelayCommand EditCategoryCommand { get; set; }
+        public RelayCommand DeleteCategoryCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
@@ -142,7 +142,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private bool CanEditCategory(object obj)
         {
-            return true;
+            return (SelectedCategory != null);
         }
 
         private void DeleteCategory(object obj)
@@ -153,9 +153,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private bool CanDeleteCategory(object obj)
         {
-            return true;
+            return (SelectedCategory != null);
         }
 
-        
+
     }
 }

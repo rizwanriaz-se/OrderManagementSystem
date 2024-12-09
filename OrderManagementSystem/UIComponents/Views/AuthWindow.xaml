@@ -73,14 +73,14 @@
                         <dxlc:LayoutItem>
                         <StackPanel >
                             <Label Content="Email" />
-                            <dxe:TextEdit Text="{Binding EmailLoginText, Mode=TwoWay}" />
+                            <dxe:TextEdit Text="{Binding EmailLoginText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
 
                     <dxlc:LayoutItem>
                         <StackPanel>
                             <Label Content="Password" />
-                            <dxe:TextEdit TextWrapping="Wrap" Text="{Binding PasswordLoginText, Mode=TwoWay}" />
+                                <dxe:TextEdit TextWrapping="Wrap" Text="{Binding PasswordLoginText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
                    
@@ -89,7 +89,7 @@
                             <Label Content="Role" />
                             <ComboBox x:Name="RoleComboBox" 
                                 ItemsSource="{Binding Roles}" 
-                                SelectedItem="{Binding SelectedRole}" />
+                                SelectedItem="{Binding SelectedRole, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                     </dxlc:LayoutItem>
 
@@ -109,28 +109,28 @@
                     <dxlc:LayoutItem>
                         <StackPanel>
                             <Label Content="Name" />
-                            <dxe:TextEdit Text="{Binding NameRegisterText, Mode=TwoWay}" />
+                                <dxe:TextEdit Text="{Binding NameRegisterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
 
                     <dxlc:LayoutItem>
                         <StackPanel>
                             <Label Content="Email" />
-                            <dxe:TextEdit Text="{Binding EmailRegisterText, Mode=TwoWay}" />
+                                <dxe:TextEdit Text="{Binding EmailRegisterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
 
                     <dxlc:LayoutItem>
                         <StackPanel>
                             <Label Content="Phone" />
-                            <dxe:TextEdit Text="{Binding PhoneRegisterText, Mode=TwoWay}" />
+                                <dxe:TextEdit Text="{Binding PhoneRegisterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
 
                     <dxlc:LayoutItem>
                         <StackPanel>
                             <Label Content="Password" />
-                            <dxe:TextEdit Text="{Binding PasswordRegisterText, Mode=TwoWay}" />
+                                <dxe:TextEdit Text="{Binding PasswordRegisterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </dxlc:LayoutItem>
 

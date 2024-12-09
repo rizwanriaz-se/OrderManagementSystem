@@ -1,9 +1,12 @@
-﻿using OrderManagementSystem.Cache.Models;
+﻿using DevExpress.XtraRichEdit.Fields.Expression;
+using OrderManagementSystem.Cache.Models;
 using OrderManagementSystem.Commands;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +16,7 @@ using static OrderManagementSystem.Cache.Models.Order;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-    public class EditOrderViewModel : INotifyPropertyChanged
+    public class EditOrderViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         private Order _order;
 
@@ -21,9 +24,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public ObservableCollection<Product> AllProducts { get; private set; }
 
 
-        public ICommand AddProductCommand { get; set; }
-        public ICommand RemoveProductCommand { get; set; }
-        public ICommand SaveOrderCommand { get; set; }
+        public RelayCommand AddProductCommand { get; set; }
+        public RelayCommand RemoveProductCommand { get; set; }
+        public RelayCommand SaveOrderCommand { get; set; }
         public EditOrderViewModel(Order order)
         {
             AllProducts = GUIHandler.GetInstance().CacheManager.GetAllProducts();
@@ -53,25 +56,111 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             );
         }
 
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        private DateTime? _orderDate;
+        private DateTime? _selectedShippingDate;
+        private OrderStatus? _selectedStatus;
+        private string _selectedShippingAddress;
+        
+
         public int? Id { get; } // Non-editable
         public User User { get; } // Non-editable
-        public DateTime? OrderDate { get; set; }
-        public DateTime? SelectedShippingDate { get; set; }
-        public OrderStatus? SelectedStatus { get; set; }
+
+        [Required(ErrorMessage = "Order Date is required.")]
+        public DateTime? OrderDate {
+            
+            get { return _orderDate; }
+            set
+            {
+                _orderDate = value;
+                OnPropertyChanged(nameof(OrderDate));
+                Validate(nameof(OrderDate), _orderDate);
+            }
+        }
+
+        //[Required(ErrorMessage = "Shipping Date must be selected.")]
+        public DateTime? SelectedShippingDate {
+
+            get { return _selectedShippingDate; }
+            set
+            {
+                _selectedShippingDate = value;
+                OnPropertyChanged(nameof(SelectedShippingDate));
+                //Validate(nameof(SelectedShippingDate), _selectedShippingDate);
+            }
+
+        }
+
+        [Required(ErrorMessage = "Status must be selected.")]
+        public OrderStatus? SelectedStatus {
+        
+            get { return _selectedStatus; }
+            set
+            {
+                _selectedStatus = value;
+                OnPropertyChanged(nameof(SelectedStatus));
+                Validate(nameof(SelectedStatus), _selectedStatus);
+            }
+        }
 
         public ObservableCollection<OrderDetail> OrderDetails { get; set; }
 
-        public string SelectedShippingAddress { get; set; }
+        [Required(ErrorMessage = "Shipping Address must be selected.")]
+        public string SelectedShippingAddress {
+        
+            get { return _selectedShippingAddress; }
+            set
+            {
+                _selectedShippingAddress = value;
+                OnPropertyChanged(nameof(SelectedShippingAddress));
+                Validate(nameof(SelectedShippingAddress), _selectedShippingAddress);
+            }
+        }
+
+
+
         //public ObservableCollection<ProductRow> ProductRows { get; set; }
 
         //public ObservableCollection<OrderDetail> OrderDetails { get; set; }
         public ObservableCollection<OrderStatus> SelectableStatuses { get; }
 
+        Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
+
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
+        public bool HasErrors => Errors.Count > 0;
 
+        public IEnumerable GetErrors(string propertyName)
+        {
+            if (Errors.ContainsKey(propertyName))
+            {
+                return Errors[propertyName];
+            }
+            return null;
+        }
+
+        public void Validate(string propertyName, object propertyValue)
+        {
+            var results = new List<ValidationResult>();
+            var context = new ValidationContext(this) { MemberName = propertyName };
+            Validator.TryValidateProperty(propertyValue, context, results);
+
+            if (results.Any())
+            {
+                Errors[propertyName] = results.Select(c => c.ErrorMessage).ToList();
+            }
+            else
+            {
+                Errors.Remove(propertyName);
+            }
+
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            SaveOrderCommand.RaiseCanExecuteEventChanged();
+        }
 
         private void RemoveOrderDetails(object orderDetails)
         {
@@ -85,7 +174,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private bool CanSubmitOrder(object obj)
         {
-            return true;
+            return Validator.TryValidateObject(this, new ValidationContext(this), null, true) && OrderDetails.Count > 0 && OrderDetails.All(order =>
+            {
+                return order.Product != null && order.Quantity > 0;
+            });
         }
         private bool CanAddOrderDetails(object obj)
         {

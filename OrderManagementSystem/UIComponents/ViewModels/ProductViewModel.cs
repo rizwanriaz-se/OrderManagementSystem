@@ -34,7 +34,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-
         public ObservableCollection<Product> Products { get; private set; }
         public ObservableCollection<Category> Categories { get; private set; }
 
@@ -45,7 +44,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public string ProductUnitsInStockText { get; set; }
 
         public string ProductDescriptionText { get; set; }
-
         private Category _selectedCategory { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -80,7 +78,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private bool CanEditProduct(object obj)
         {
-            return true;
+            return (SelectedProduct != null);
         }
 
         private void DeleteProduct(object obj) {
@@ -90,9 +88,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private bool CanDeleteProduct(object obj)
         {
-            return true;
+            return (SelectedProduct != null);
         }
-
 
         public void SubmitProduct(object obj)
         {

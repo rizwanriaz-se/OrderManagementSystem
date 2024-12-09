@@ -1,4 +1,5 @@
-﻿using OrderManagementSystem.UIComponents.ViewModels;
+﻿using DevExpress.Xpf.Grid;
+using OrderManagementSystem.UIComponents.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,9 @@ namespace OrderManagementSystem.UIComponents.Views
 
             CategoryViewModel categoryViewModel = new CategoryViewModel();
             this.DataContext = categoryViewModel;
+
+            TableView tableView = CategoryGrid.View as TableView;
+            tableView.AllowEditing = false;
         }
     }
 }

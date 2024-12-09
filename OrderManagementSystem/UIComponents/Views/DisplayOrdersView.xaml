@@ -7,7 +7,6 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:Views="clr-namespace:OrderManagementSystem.UIComponents.Views"
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"  x:Class="OrderManagementSystem.UIComponents.Views.DisplayOrdersView"
-             xmlns:utils="clr-namespace:OrderManagementSystem.Utils"
              mc:Ignorable="d"
              
              d:DesignHeight="300" d:DesignWidth="300">
@@ -18,22 +17,21 @@
             <Setter Property="Background" Value="#9fa2c5" />
             <Setter Property="Foreground" Value="Black" />
         </Style>
-        <utils:StatusToColorConverter x:Key="StatusToColorConverter" />
-        
 
     </UserControl.Resources>
 
 
-    <dxg1:GridControl DockPanel.Dock="Top" ItemsSource="{Binding Orders}" Height="300" SelectedItem="{Binding SelectedOrder}">
+    <dxg1:GridControl DockPanel.Dock="Top" Name="OrderGrid" ItemsSource="{Binding Orders}" Height="300" SelectedItem="{Binding SelectedOrder}" PreviewMouseDown="OrderGrid_PreviewMouseDown">
+        
         <dxg1:GridControl.View>
-            <dxg1:TableView  DetailHeaderContent="Products" ShowGroupPanel="False" />
+            <dxg1:TableView  DetailHeaderContent="Products" ShowGroupPanel="False" Name="OrderTableView" AllowConditionalFormattingManager="True"  AllowEditing="False"/>
         </dxg1:GridControl.View>
 
         
         
         <dxg1:GridControl.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Edit Order" Command="{Binding EditOrderCommand}"  />
+                <MenuItem Header="Edit Order" Command="{Binding EditOrderCommand}" />
                 <MenuItem Header="Delete Order" Command="{Binding DeleteOrderCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
             </ContextMenu>
         </dxg1:GridControl.ContextMenu>
@@ -55,11 +53,8 @@
         <dxg1:GridColumn FieldName="Employee"  Binding="{Binding User.Name}" Header="Employee" Width="130" AllowResizing="False" />
         <dxg1:GridColumn FieldName="OrderDate" Binding="{Binding OrderDate}" Header="Order Date" Width="3*" />
         <dxg1:GridColumn FieldName="Status" Binding="{Binding Status}" Header="Status" Width="2*" HorizontalHeaderContentAlignment="Center">
-            <dxg1:GridColumn.CellStyle>
-                <Style TargetType="dxg1:LightweightCellEditor">
-                    <Setter Property="Background" Value="{Binding Value, Converter={StaticResource StatusToColorConverter}}" />
-                </Style>
-            </dxg1:GridColumn.CellStyle>
+        
+        
         </dxg1:GridColumn>
 
         <dxg1:GridColumn FieldName="ShippingDate" Binding="{Binding ShippedDate}" Header="Shipped Date"  Width="3*" />

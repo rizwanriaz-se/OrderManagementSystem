@@ -1,4 +1,5 @@
-﻿using OrderManagementSystem.Cache.Models;
+﻿using DevExpress.Xpf.Grid;
+using OrderManagementSystem.Cache.Models;
 using OrderManagementSystem.UIComponents.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,9 @@ namespace OrderManagementSystem.UIComponents.Views
 
             UserViewModel userViewModel = new UserViewModel();
             this.DataContext = userViewModel;
+
+            TableView tableView = UserGrid.View as TableView;
+            tableView.AllowEditing = false;
 
             ApprovalStatusComboBox.ItemsSource = Enum.GetValues(typeof(User.ApprovalStates));
         }

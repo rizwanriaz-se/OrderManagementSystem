@@ -47,7 +47,7 @@
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Status" />
                     
-                    <dxe:ComboBoxEdit Width="120" Height="30" x:Name="OrderStatusComboBox" EditValue="{Binding SelectedStatus, Mode=TwoWay}" ItemsSource="{Binding SelectableStatuses}" AutoComplete="True" />
+                    <dxe:ComboBoxEdit Width="120" Height="30" x:Name="OrderStatusComboBox" EditValue="{Binding SelectedStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding SelectableStatuses}" AutoComplete="True" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
@@ -56,7 +56,7 @@
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Date" FontWeight="Bold" />
                     <!--<DatePicker Width="200" SelectedDate="{Binding SelectedShippingDate, Mode=TwoWay}" /> -->
-                    <dxe:DateEdit EditValue="{Binding SelectedShippingDate, Mode=TwoWay}" Height="30" Width="250" />
+                    <dxe:DateEdit EditValue="{Binding SelectedShippingDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
@@ -64,7 +64,7 @@
             <dxlc:LayoutItem>
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Address" FontWeight="Bold" />
-                    <dxe:TextEdit Width="350" Text="{Binding SelectedShippingAddress}" />
+                    <dxe:TextEdit Width="350" Text="{Binding SelectedShippingAddress, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
@@ -79,7 +79,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Label Content="Product(s)" Grid.Column="0" FontWeight="Bold" />
-                    <dx:SimpleButton Content="Add Product" Width="120" Grid.Column="1" Command="{Binding AddProductCommand}"  />
+                    <dx:SimpleButton Content="Add Product" Width="120" Grid.Column="1" Command="{Binding AddProductCommand}" />
                 </Grid>
             </dxlc:LayoutItem>
 
@@ -92,12 +92,12 @@
                             <StackPanel Orientation="Horizontal" Margin="0,2">
                                 <StackPanel Orientation="Horizontal" Margin="5,0">
                                     <Label Content="Name: " />
-                                    <dxe:ComboBoxEdit Width="200" ItemsSource="{Binding DataContext.AllProducts, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"  DisplayMember="Name" AutoComplete="True" SelectedItem="{Binding Product, Mode=TwoWay}" />
+                                        <dxe:ComboBoxEdit Width="200" ItemsSource="{Binding DataContext.AllProducts, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type Window}}}"  DisplayMember="Name" AutoComplete="True" SelectedItem="{Binding Product, Mode=TwoWay}" />
 
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="5,0">
                                     <Label Content="Quantity" />
-                                    <dxe:SpinEdit EditValue="{Binding Quantity, Mode=TwoWay}" EditValueType="{x:Type sys:Int32}" IsFloatValue="False" MinValue="1" MaxValue="10" />
+                                        <dxe:SpinEdit EditValue="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EditValueType="{x:Type sys:Int32}" IsFloatValue="False" MinValue="1" MaxValue="10" />
                                 </StackPanel>
                                 <dx:SimpleButton Content="x"  FontWeight="Bold" Width="30" Height="35"  Margin="5,0" Command="{Binding DataContext.RemoveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
  CommandParameter="{Binding}" />

@@ -1,9 +1,14 @@
 ﻿using DevExpress.XtraExport.Implementation;
+using DevExpress.XtraRichEdit.Fields.Expression;
+using DevExpress.XtraRichEdit.Model.History;
 using OrderManagementSystem.Cache.Models;
 using OrderManagementSystem.Commands;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +16,7 @@ using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-    public class EditProductViewModel
+    public class EditProductViewModel : INotifyDataErrorInfo
     {
         private Product _Product;
 
@@ -19,15 +24,98 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public ObservableCollection<Category> Categories { get; private set; }
 
+        private string _ProductNameText;
+        private string _ProductDescriptionText;
+        //private byte[] _Picture;
+        private decimal _ProductUnitPriceText;
+        private int _ProductUnitsInStockText;
+        
+
         public int Id { get; set; }
-        public string ProductNameText { get; set; }
-        public string ProductDescriptionText { get; set; }
+
+        [Required(ErrorMessage = "Product Name is required")]
+        public string ProductNameText {
+            
+            get { return _ProductNameText; }
+            set
+            {
+                _ProductNameText = value;
+                Validate(nameof(ProductNameText), _ProductNameText);
+            }
+        }
+
+        [Required(ErrorMessage = "Product Description is required")]
+        public string ProductDescriptionText {
+        
+            get { return _ProductDescriptionText; }
+            set {
+                _ProductDescriptionText = value;
+                Validate(nameof(ProductDescriptionText), _ProductDescriptionText);
+            }
+
+        }
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
+
         public Category SelectedCategory { get; set; }
         public byte[] Picture { get; set; }
-        public decimal ProductUnitPriceText { get; set; }
-        public int ProductUnitsInStockText { get; set; }
 
-        public ICommand SaveProductCommand { get; set; }
+        [Required(ErrorMessage = "Product Unit Price is required")]
+        public decimal ProductUnitPriceText {
+
+            get { return _ProductUnitPriceText; }
+            set
+            {
+                _ProductUnitPriceText = value;
+                Validate(nameof(ProductUnitPriceText), _ProductUnitPriceText);
+            }
+        }
+
+        [Required(ErrorMessage = "Product Stock Units value is required")]
+        public int ProductUnitsInStockText {
+        
+            get { return _ProductUnitsInStockText; }
+            set
+            {
+                _ProductUnitsInStockText = value;
+                Validate(nameof(ProductUnitsInStockText), _ProductUnitsInStockText);
+            }
+
+        }
+        public bool HasErrors => Errors.Count > 0;
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            if (Errors.ContainsKey(propertyName))
+            {
+                return Errors[propertyName];
+            }
+            return null;
+        }
+
+        public void Validate(string propertyName, object propertyValue)
+        {
+            var results = new List<ValidationResult>();
+            var context = new ValidationContext(this) { MemberName = propertyName };
+            Validator.TryValidateProperty(propertyValue, context, results);
+
+            if (results.Any())
+            {
+                Errors[propertyName] = results.Select(c => c.ErrorMessage).ToList();
+            }
+            else
+            {
+                Errors.Remove(propertyName);
+            }
+
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            SaveProductCommand.RaiseCanExecuteEventChanged();
+        }
+
+        public RelayCommand SaveProductCommand { get; set; }
 
         public EditProductViewModel(Product product)
         {
@@ -49,7 +137,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private bool CanSaveProduct(object obj)
         {
-            return true;
+            return Validator.TryValidateObject(this, new ValidationContext(this), null, true);
         }
 
         private void SaveProduct(object obj)

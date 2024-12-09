@@ -55,28 +55,28 @@
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Name" />
-                    <dxe:TextEdit Text="{Binding UserNameText, Mode=TwoWay}" />
+                    <dxe:TextEdit Text="{Binding UserNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Description" />
-                    <dxe:TextEdit Text="{Binding UserEmailText, Mode=TwoWay}" />
+                    <dxe:TextEdit Text="{Binding UserEmailText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Phone" />
-                    <dxe:TextEdit Text="{Binding UserPhoneText, Mode=TwoWay}" />
+                    <dxe:TextEdit Text="{Binding UserPhoneText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Password" />
-                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding UserPasswordText, Mode=TwoWay}" />
+                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding UserPasswordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 <!--

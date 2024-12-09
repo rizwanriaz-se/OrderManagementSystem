@@ -14,7 +14,7 @@
             <Setter Property="Foreground" Value="Black" />
         </Style>
     </UserControl.Resources>
-    <dxg1:GridControl ItemsSource="{Binding Users}" Height="300"  SelectedItem="{Binding SelectedUser}" Margin="0,0,0,20">
+    <dxg1:GridControl ItemsSource="{Binding Users}" Height="300"  SelectedItem="{Binding SelectedUser}" Name="UserGrid" Margin="0,0,0,20">
         <dxg1:GridControl.View>
             <dxg1:TableView ShowGroupPanel="False" />
         </dxg1:GridControl.View>

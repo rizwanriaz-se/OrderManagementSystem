@@ -84,13 +84,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private bool CanDeleteUser(object obj)
         {
-            return true;
+            return (SelectedUser != null);
         }
 
 
         private bool CanEditUser(object obj)
         {
-            return true;
+            return (SelectedUser != null);
         }
 
         private void EditUser(object obj)
