@@ -18,7 +18,11 @@ using static OrderManagementSystem.Cache.Models.User;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-          
+    public class Request
+    {
+        public string Type { get; set; }
+        public string Data { get; set; }
+    }
     public class AuthViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         public Action CloseWindow { get; set; }
@@ -235,24 +239,31 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void LoginUser(object obj) {
 
             var user = GUIHandler.GetInstance().CacheManager.GetAllUsers().FirstOrDefault(u => u.Email == EmailLoginText && u.Password == PasswordLoginText);
-
-            
+             //var user =  GUIHandler.GetInstance().ClientManager(EmailLoginText, PasswordLoginText);
+            //GUIHandler.GetInstance().ClientManager.SendRequest(
+            //    new Request
+            //    {
+            //        Type = "Login",
+            //        Data = { Email = EmailLoginText, Password = PasswordLoginText }
+            //    });
+            //var user = ClientManager.Instance().SendLoginRequest(EmailLoginText, PasswordLoginText);
+          
             if (user != null)
             {
 
-                if (SelectedRole == "Employee" && user.ApprovalStatus != ApprovalStates.Approved)
-                {
-                    DXMessageBox.Show($"Login failed. Your account is {user.ApprovalStatus}.", "Error");
-                    return;
-                }
-                //CurrentUser = user;
+                //if (SelectedRole == "Employee" && user.ApprovalStatus != ApprovalStates.Approved)
+                //{
+                //    DXMessageBox.Show($"Login failed. Your account is {user.ApprovalStatus}.", "Error");
+                //    return;
+                //}
+                ////CurrentUser = user;
 
-                //GUIHandler.GetInstance().CacheManager.SetCurrentUser(user);
+                ////GUIHandler.GetInstance().CacheManager.SetCurrentUser(user);
 
-                //GUIHandler.GetInstance().CacheManager.CurrentUser = user;
-                GUIHandler.GetInstance().CurrentUser = user;
+                ////GUIHandler.GetInstance().CacheManager.CurrentUser = user;
+                //GUIHandler.GetInstance().CurrentUser = user;
 
-                DXMessageBox.Show($"Logged in as: {GUIHandler.GetInstance().CurrentUser.Name}");
+                //DXMessageBox.Show($"Logged in as: {GUIHandler.GetInstance().CurrentUser.Name}");
                 var mainWindow = new MainWindow();
                 mainWindow.Show();
 

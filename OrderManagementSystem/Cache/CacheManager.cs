@@ -11,6 +11,7 @@ using OrderManagementSystem.Utils;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
 using DevExpress.XtraRichEdit.Services;
+using System.Net.Sockets;
 
 namespace OrderManagementSystem.Cache
 {
@@ -23,10 +24,32 @@ namespace OrderManagementSystem.Cache
 
         private User m_CurrentUser;
 
+        private static CacheManager m_Instance;
+        public static CacheManager Instance()
+        {
+            if (m_Instance == null)
+            {
+                m_Instance = new CacheManager();
+            }
+            return m_Instance;
+        }
+//        {
+//            "Order": {ORder grid },
+//    "Product": {Product grid  },
+//    "Category": { Category grid  },
+//    "User": { User grid  },
+//}
         public User CurrentUser
         {
             get { return m_CurrentUser; }
             set { m_CurrentUser = value; }
+        }
+
+        public void LoadData(TcpClient client)
+        {
+            // Load data from the server
+            //var data = Connection.GetInstance().GetData(client);
+
         }
 
 
@@ -38,7 +61,7 @@ namespace OrderManagementSystem.Cache
         private string m_stOrderDataStorePath = "OrderDataStore.xml";
 
         //public ObservableCo
-        public CacheManager()
+        private CacheManager()
         {
 
             _AllUsers = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<User>>($"{m_stDataStorePath}{m_stUserDataStorePath}");

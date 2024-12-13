@@ -12,7 +12,7 @@ using System.ComponentModel;
 namespace OrderManagementSystem.Cache.Models
 {
 
-   
+
 
 
     [Serializable]
@@ -35,7 +35,8 @@ namespace OrderManagementSystem.Cache.Models
         private ApprovalStates m_enApprovalStatus = ApprovalStates.Pending;
 
         [XmlElement]
-        public int Id {
+        public int Id
+        {
             get { return m_nId; }
             set
             {
@@ -45,7 +46,8 @@ namespace OrderManagementSystem.Cache.Models
         }
 
         [XmlElement]
-        public string Name {
+        public string Name
+        {
             get { return m_stName; }
             set
             {
@@ -55,7 +57,8 @@ namespace OrderManagementSystem.Cache.Models
         }
 
         [XmlElement]
-        public string Email {
+        public string Email
+        {
             get { return m_stEmail; }
             set
             {
@@ -65,7 +68,8 @@ namespace OrderManagementSystem.Cache.Models
         }
 
         [XmlElement]
-        public string Phone {
+        public string Phone
+        {
             get { return m_stPhone; }
             set
             {
@@ -74,7 +78,8 @@ namespace OrderManagementSystem.Cache.Models
             }
         }
         [XmlElement]
-        public string Password {
+        public string Password
+        {
             get { return m_stPassword; }
             set
             {
@@ -83,7 +88,8 @@ namespace OrderManagementSystem.Cache.Models
             }
         }
         [XmlElement]
-        public bool IsAdmin {
+        public bool IsAdmin
+        {
             get { return m_bIsAdmin; }
             set
             {

@@ -46,7 +46,7 @@ namespace OrderManagementSystem.Cache.Models
         [XmlElement]
         public User? User
         {
-            get { return m_User;  }
+            get { return m_User; }
             set
             {
                 m_User = value;
@@ -101,7 +101,8 @@ namespace OrderManagementSystem.Cache.Models
         //}
 
         [XmlElement]
-        public DateTime? ShippedDate {
+        public DateTime? ShippedDate
+        {
             get { return m_ShippedDate; }
             set
             {
@@ -111,7 +112,8 @@ namespace OrderManagementSystem.Cache.Models
         }
 
         [XmlElement]
-        public string? ShippingAddress {
+        public string? ShippingAddress
+        {
             get { return m_stShippingAddress; }
             set
             {

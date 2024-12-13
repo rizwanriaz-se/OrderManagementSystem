@@ -119,7 +119,18 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Picture = null
             };
 
-            GUIHandler.GetInstance().CacheManager.AddCategory(category);
+            //GUIHandler.GetInstance().CacheManager.AddCategory(category);
+            GUIHandler.GetInstance().MessageProcessor.SendMessage(
+                Enums.MessageType.Category,
+                Enums.MessageAction.Add,
+                category
+            );
+            //GUIHandler.GetInstance().ClientManager.SendMessage(new Classes.Request
+            //{
+            //    MessageType = Enums.MessageType.Category,
+            //    MessageAction = Enums.MessageAction.Add,
+            //    Data = category
+            //});
             CloseWindow?.Invoke();
         }
 

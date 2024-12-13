@@ -13,6 +13,8 @@ namespace OrderManagementSystem
         //private CacheManager 
 
         private static GUIHandler m_Instance; 
+
+
         private User m_CurrentUser;
 
         public User CurrentUser
@@ -25,17 +27,35 @@ namespace OrderManagementSystem
         {
             //CacheManager = new CacheManager();
         }
+
         private CacheManager m_CacheManager;
+        private Connection m_Connection;
+        private MessageProcessor m_MessageProcessor;
+        private ClientManager m_ClientManager;
 
         public CacheManager CacheManager
         {
             get { return m_CacheManager; }
-            private set { m_CacheManager = value; }
+            set { m_CacheManager = value; }
         }
         
+        public MessageProcessor MessageProcessor
+        {
+            get { return m_MessageProcessor; }
+            set { m_MessageProcessor = value; }
+        }
 
+        public ClientManager ClientManager
+        {
+            get { return m_ClientManager; }
+            set { m_ClientManager = value; }
+        }
 
-        //private static readonly object _lock = new object();
+        public Connection Connection
+        {
+            get { return m_Connection; }
+            set { m_Connection = value; }
+        }
 
         public static GUIHandler GetInstance()
         {
@@ -44,16 +64,14 @@ namespace OrderManagementSystem
                m_Instance = new GUIHandler();
                     
             return m_Instance;
-
         }
 
-        public void Init(CacheManager cacheManager)
+        public void Init(CacheManager cacheManager, Connection connection, MessageProcessor messageProcessor)
         {
             m_CacheManager = cacheManager;
-            
+            m_Connection = connection;
+            m_MessageProcessor = messageProcessor;
+            m_Connection.ConnectionInit();
         }
-
-
-       
     }
 }

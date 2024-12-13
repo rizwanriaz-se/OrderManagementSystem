@@ -33,7 +33,8 @@ namespace OrderManagementSystem.Cache.Models
         }
 
         [XmlElement("Name")]
-        public string? Name {
+        public string? Name
+        {
             get { return m_stName; }
             set
             {
@@ -43,7 +44,8 @@ namespace OrderManagementSystem.Cache.Models
         }
 
         [XmlElement("Description")]
-        public string? Description {
+        public string? Description
+        {
             get { return m_stDescription; }
             set
             {
@@ -53,7 +55,8 @@ namespace OrderManagementSystem.Cache.Models
         }
 
         [XmlElement("Picture")]
-        public byte[]? Picture {
+        public byte[]? Picture
+        {
             get { return m_Picture; }
             set
             {
