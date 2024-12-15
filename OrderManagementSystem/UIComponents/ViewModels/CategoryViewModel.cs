@@ -108,16 +108,16 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
         private void SubmitCategory(object obj)
         {
-            //int? lastCategoryId = Categories.Last().Id;
+            int? lastCategoryId = Categories.Last().Id;
 
             // Create new Order object
-            //Category category = new Category
-            //{
-            //    Id = lastCategoryId + 1,
-            //    Name = CategoryNameText,
-            //    Description = CategoryDescriptionText,
-            //    Picture = null
-            //};
+            Category category = new Category
+            {
+                Id = lastCategoryId + 1,
+                Name = CategoryNameText,
+                Description = CategoryDescriptionText,
+                Picture = null
+            };
 
             //GUIHandler.GetInstance().CacheManager.AddCategory(category);
             GUIHandler.GetInstance().MessageProcessor.SendMessage(
