@@ -17,6 +17,7 @@ namespace OrderManagementSystem
 
         public class Response
         {
+
             public Enums.MessageType MessageType { get; set; }
             public Enums.MessageAction MessageAction { get; set; }
             public object Data { get; set; }

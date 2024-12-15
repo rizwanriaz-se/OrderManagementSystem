@@ -218,14 +218,21 @@ namespace OrderManagementSystem
             byte[] data = Encoding.UTF8.GetBytes(json);
             await _stream.WriteAsync(data, 0, data.Length);
         }
-
-        private Classes.Response ReceiveMessage()
+        
+        public void ReceiveMessage(Classes.Response response)
         {
-            byte[] buffer = new byte[2048];
-            int bytesRead = _stream.Read(buffer, 0, buffer.Length);
-            string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-            Console.WriteLine($"Received: {response}");
-            return JsonSerializer.Deserialize<Classes.Response>(response);
+            Debug.WriteLine($"Data Received on client: {response.Data}");
+
+            // Deserialize response.Data to Category type
+            var category = JsonSerializer.Deserialize<Category>(response.Data.ToString());
+            if (category != null)
+            {
+                GUIHandler.GetInstance().CacheManager.AddCategory(category);
+            }
+            else
+            {
+                Debug.WriteLine("Failed to deserialize response.Data to Category.");
+            }
         }
 
         //internal void SendRequest(UIComponents.ViewModels.Request request)

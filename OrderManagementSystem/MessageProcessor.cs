@@ -38,7 +38,7 @@ namespace OrderManagementSystem
 
         public void ReceiveMessage(Enums.MessageType messageType, Enums.MessageAction messageAction, object message = null)
         {
-            Classes.Request request = new Classes.Request
+            Classes.Response response = new Classes.Response
             {
                 MessageAction = messageAction,
                 MessageType = messageType,
@@ -46,7 +46,7 @@ namespace OrderManagementSystem
             };
             try
             {
-                GUIHandler.GetInstance().ClientManager.SendMessage(request);
+                GUIHandler.GetInstance().ClientManager.ReceiveMessage(response);
             }
             catch (Exception ex)
             {
