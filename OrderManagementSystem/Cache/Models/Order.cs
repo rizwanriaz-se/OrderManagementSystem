@@ -137,6 +137,13 @@ namespace OrderManagementSystem.Cache.Models
         //    }
         //}
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not Order other) return false;
+
+            return Id == other.Id && User == other.User && OrderDate == other.OrderDate && Status == other.Status && OrderDetails == other.OrderDetails && ShippingAddress == other.ShippingAddress && ShippedDate == other.ShippedDate;
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)

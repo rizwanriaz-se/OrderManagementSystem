@@ -183,6 +183,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             {
                 // Handle the case where CurrentUser is null
                 MessageBox.Show("Current user is not set.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
             AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);

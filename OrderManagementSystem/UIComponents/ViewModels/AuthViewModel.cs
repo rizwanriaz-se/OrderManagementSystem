@@ -219,6 +219,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public AuthViewModel() {
             RegisterUserCommand = new RelayCommand(RegisterUser, CanRegisterUser);
             LoginUserCommand = new RelayCommand(LoginUser, CanLoginUser);
+            //GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.All, Enums.MessageAction.Load, null);
 
             // Trigger validation for initial state
             //ValidateLogin(nameof(EmailLoginText), EmailLoginText);
@@ -238,6 +239,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void LoginUser(object obj) {
 
+            
+
             var user = GUIHandler.GetInstance().CacheManager.GetAllUsers().FirstOrDefault(u => u.Email == EmailLoginText && u.Password == PasswordLoginText);
              //var user =  GUIHandler.GetInstance().ClientManager(EmailLoginText, PasswordLoginText);
             //GUIHandler.GetInstance().ClientManager.SendRequest(
@@ -250,18 +253,19 @@ namespace OrderManagementSystem.UIComponents.ViewModels
           
             if (user != null)
             {
+                if (SelectedRole == "Employee" && user.ApprovalStatus != ApprovalStates.Approved)
+                {
+                    DXMessageBox.Show($"Login failed. Your account is {user.ApprovalStatus}.", "Error");
+                    return;
+                }
+                //CurrentUser = user;
 
-                //if (SelectedRole == "Employee" && user.ApprovalStatus != ApprovalStates.Approved)
-                //{
-                //    DXMessageBox.Show($"Login failed. Your account is {user.ApprovalStatus}.", "Error");
-                //    return;
-                //}
-                ////CurrentUser = user;
+                //GUIHandler.GetInstance().CacheManager.SetCurrentUser(user);
 
-                ////GUIHandler.GetInstance().CacheManager.SetCurrentUser(user);
+                //GUIHandler.GetInstance().CacheManager.CurrentUser = user;
+                GUIHandler.GetInstance().CurrentUser = user;
 
-                ////GUIHandler.GetInstance().CacheManager.CurrentUser = user;
-                //GUIHandler.GetInstance().CurrentUser = user;
+                //GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.All, Enums.MessageAction.Load, null);
 
                 //DXMessageBox.Show($"Logged in as: {GUIHandler.GetInstance().CurrentUser.Name}");
                 var mainWindow = new MainWindow();
@@ -299,7 +303,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             };
 
             // Save the user to the database
-            GUIHandler.GetInstance().CacheManager.AddUser(user);
+            //GUIHandler.GetInstance().CacheManager.AddUser(user);
+
+            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Add, user);
             //CloseWindow.Invoke();
 
             //MainWindow mainWindow = new MainWindow();

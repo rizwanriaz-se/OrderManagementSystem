@@ -39,7 +39,7 @@ namespace OrderManagementSystem
 
         private void ReceiveData()
         {
-            GUIHandler.GetInstance().CacheManager.LoadData(ClientManager.Instance().Client);
+            //GUIHandler.GetInstance().CacheManager.LoadData(ClientManager.Instance().Client);
         }
 
     }

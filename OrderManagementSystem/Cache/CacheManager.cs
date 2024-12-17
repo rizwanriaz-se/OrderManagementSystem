@@ -12,6 +12,7 @@ using System.Xml.Serialization;
 using System.Threading.Tasks;
 using DevExpress.XtraRichEdit.Services;
 using System.Net.Sockets;
+using System.Diagnostics;
 
 namespace OrderManagementSystem.Cache
 {
@@ -45,11 +46,48 @@ namespace OrderManagementSystem.Cache
             set { m_CurrentUser = value; }
         }
 
-        public void LoadData(TcpClient client)
+        public void LoadCategories(ObservableCollection<Category> categories)
         {
-            // Load data from the server
-            //var data = Connection.GetInstance().GetData(client);
+            if (categories == null) return;
+            _AllCategories = categories;
 
+            //_AllUsers = responseData._AllUsers ?? new ObservableCollection<User>();
+            //_AllCategories = responseData._AllCategories ?? new ObservableCollection<Category>();
+            //_AllProducts = responseData._AllProducts ?? new ObservableCollection<Product>();
+            //_AllOrders = responseData._AllOrders ?? new ObservableCollection<Order>();
+        }
+
+        public void LoadOrders(ObservableCollection<Order> orders)
+        {
+            if (orders == null) return;
+            _AllOrders = orders;
+
+            //_AllUsers = responseData._AllUsers ?? new ObservableCollection<User>();
+            //_AllCategories = responseData._AllCategories ?? new ObservableCollection<Category>();
+            //_AllProducts = responseData._AllProducts ?? new ObservableCollection<Product>();
+            //_AllOrders = responseData._AllOrders ?? new ObservableCollection<Order>();
+        }
+
+        public void LoadProducts(ObservableCollection<Product> products)
+        {
+            if (products == null) return;
+            _AllProducts = products;
+
+            //_AllUsers = responseData._AllUsers ?? new ObservableCollection<User>();
+            //_AllCategories = responseData._AllCategories ?? new ObservableCollection<Category>();
+            //_AllProducts = responseData._AllProducts ?? new ObservableCollection<Product>();
+            //_AllOrders = responseData._AllOrders ?? new ObservableCollection<Order>();
+        }
+
+        public void LoadUsers(ObservableCollection<User> users)
+        {
+            if (users == null) return;
+            _AllUsers = users;
+
+            //_AllUsers = responseData._AllUsers ?? new ObservableCollection<User>();
+            //_AllCategories = responseData._AllCategories ?? new ObservableCollection<Category>();
+            //_AllProducts = responseData._AllProducts ?? new ObservableCollection<Product>();
+            //_AllOrders = responseData._AllOrders ?? new ObservableCollection<Order>();
         }
 
 
@@ -64,17 +102,23 @@ namespace OrderManagementSystem.Cache
         private CacheManager()
         {
 
-            _AllUsers = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<User>>($"{m_stDataStorePath}{m_stUserDataStorePath}");
-        
-            _AllCategories = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<Category>>($"{m_stDataStorePath}{m_stCategoryDataStorePath}");
+            //_AllUsers = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<User>>($"{m_stDataStorePath}{m_stUserDataStorePath}");
 
-            _AllProducts = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<Product>>($"{m_stDataStorePath}{m_stProductDataStorePath}");
+            //_AllCategories = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<Category>>($"{m_stDataStorePath}{m_stCategoryDataStorePath}");
 
-            _AllOrders = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<Order>>($"{m_stDataStorePath}{m_stOrderDataStorePath}");
+            //_AllProducts = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<Product>>($"{m_stDataStorePath}{m_stProductDataStorePath}");
+
+            //_AllOrders = CustomXMLSerializer.DeserializeFromXml<ObservableCollection<Order>>($"{m_stDataStorePath}{m_stOrderDataStorePath}");
 
 
+            _AllUsers = new ObservableCollection<User>();
+
+            _AllCategories = new ObservableCollection<Category>();
+
+            _AllProducts = new ObservableCollection<Product>();
+
+            _AllOrders = new ObservableCollection<Order>();
         }
-
         public void SaveData(bool onlyUser)
         {
             if (onlyUser is false) {

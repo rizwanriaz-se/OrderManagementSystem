@@ -210,54 +210,12 @@
     <Status>Pending</Status>
     <OrderDetails>
       <OrderDetail>
-        <Product>
-          <Id>5</Id>
-          <Name>Chef Anton's Gumbo Mix</Name>
-          <Description>36 boxes</Description>
-          <Category>
-            <Id>2</Id>
-            <Name>Condiments</Name>
-            <Description>Sweet and savory sauces, relishes, spreads, and seasonings</Description>
-            <Picture />
-          </Category>
-          <Picture />
-          <UnitPrice>21.35</UnitPrice>
-          <UnitsInStock>0</UnitsInStock>
-        </Product>
         <Quantity>2</Quantity>
       </OrderDetail>
       <OrderDetail>
-        <Product>
-          <Id>1</Id>
-          <Name>Chai</Name>
-          <Description>10 boxes x 20 bags</Description>
-          <Category>
-            <Id>1</Id>
-            <Name>Beverages</Name>
-            <Description>Soft drinks, coffees, teas, beers, and ales</Description>
-            <Picture />
-          </Category>
-          <Picture />
-          <UnitPrice>18.00</UnitPrice>
-          <UnitsInStock>39</UnitsInStock>
-        </Product>
         <Quantity>1</Quantity>
       </OrderDetail>
       <OrderDetail>
-        <Product>
-          <Id>8</Id>
-          <Name>Northwoods Cranberry Sauce</Name>
-          <Description>12 - 12 oz jars</Description>
-          <Category>
-            <Id>2</Id>
-            <Name>Condiments</Name>
-            <Description>Sweet and savory sauces, relishes, spreads, and seasonings</Description>
-            <Picture />
-          </Category>
-          <Picture />
-          <UnitPrice>40.00</UnitPrice>
-          <UnitsInStock>6</UnitsInStock>
-        </Product>
         <Quantity>3</Quantity>
       </OrderDetail>
     </OrderDetails>
@@ -279,54 +237,12 @@
     <Status>Shipped</Status>
     <OrderDetails>
       <OrderDetail>
-        <Product>
-          <Id>6</Id>
-          <Name>Grandma's Boysenberry Spread</Name>
-          <Description>12 - 8 oz jars</Description>
-          <Category>
-            <Id>2</Id>
-            <Name>Condiments</Name>
-            <Description>Sweet and savory sauces, relishes, spreads, and seasonings</Description>
-            <Picture />
-          </Category>
-          <Picture />
-          <UnitPrice>25.00</UnitPrice>
-          <UnitsInStock>120</UnitsInStock>
-        </Product>
         <Quantity>1</Quantity>
       </OrderDetail>
       <OrderDetail>
-        <Product>
-          <Id>2</Id>
-          <Name>Chang</Name>
-          <Description>24 - 12 oz bottles</Description>
-          <Category>
-            <Id>1</Id>
-            <Name>Beverages</Name>
-            <Description>Soft drinks, coffees, teas, beers, and ales</Description>
-            <Picture />
-          </Category>
-          <Picture />
-          <UnitPrice>19.00</UnitPrice>
-          <UnitsInStock>17</UnitsInStock>
-        </Product>
         <Quantity>2</Quantity>
       </OrderDetail>
       <OrderDetail>
-        <Product>
-          <Id>3</Id>
-          <Name>Aniseed Syrup</Name>
-          <Description>12 - 550 ml bottles</Description>
-          <Category>
-            <Id>2</Id>
-            <Name>Condiments</Name>
-            <Description>Sweet and savory sauces, relishes, spreads, and seasonings</Description>
-            <Picture />
-          </Category>
-          <Picture />
-          <UnitPrice>10.00</UnitPrice>
-          <UnitsInStock>13</UnitsInStock>
-        </Product>
         <Quantity>1</Quantity>
       </OrderDetail>
     </OrderDetails>
@@ -402,57 +318,5 @@
     </OrderDetails>
     <ShippedDate>2024-12-10T10:57:48.1464461</ShippedDate>
     <ShippingAddress>dsadsad</ShippingAddress>
-  </Order>
-  <Order>
-    <Id>13</Id>
-    <User>
-      <Id>17</Id>
-      <Name>t</Name>
-      <Email>t</Email>
-      <Phone>t</Phone>
-      <Password>t</Password>
-      <IsAdmin>false</IsAdmin>
-      <ApprovalStatus>Approved</ApprovalStatus>
-    </User>
-    <OrderDate>2024-12-12T09:56:06.1610486+05:00</OrderDate>
-    <Status>Pending</Status>
-    <OrderDetails>
-      <OrderDetail>
-        <Product>
-          <Id>3</Id>
-          <Name>Aniseed Syrup</Name>
-          <Description>12 - 550 ml bottles</Description>
-          <Category>
-            <Id>2</Id>
-            <Name>Condiments</Name>
-            <Description>Sweet and savory sauces, relishes, spreads, and seasonings</Description>
-            <Picture />
-          </Category>
-          <Picture />
-          <UnitPrice>10.00</UnitPrice>
-          <UnitsInStock>13</UnitsInStock>
-        </Product>
-        <Quantity>4</Quantity>
-      </OrderDetail>
-      <OrderDetail>
-        <Product>
-          <Id>6</Id>
-          <Name>Grandma's Boysenberry Spread</Name>
-          <Description>12 - 8 oz jars</Description>
-          <Category>
-            <Id>2</Id>
-            <Name>Condiments</Name>
-            <Description>Sweet and savory sauces, relishes, spreads, and seasonings</Description>
-            <Picture />
-          </Category>
-          <Picture />
-          <UnitPrice>25.00</UnitPrice>
-          <UnitsInStock>120</UnitsInStock>
-        </Product>
-        <Quantity>1</Quantity>
-      </OrderDetail>
-    </OrderDetails>
-    <ShippedDate>2024-12-13T09:55:53.2487217</ShippedDate>
-    <ShippingAddress>tests</ShippingAddress>
   </Order>
 </ArrayOfOrder>

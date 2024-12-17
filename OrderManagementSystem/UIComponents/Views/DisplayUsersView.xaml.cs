@@ -31,7 +31,7 @@ namespace OrderManagementSystem.UIComponents.Views
             this.DataContext = userViewModel;
 
             TableView tableView = UserGrid.View as TableView;
-            tableView.AllowEditing = false;
+            //tableView.AllowEditing = false;
 
             ApprovalStatusComboBox.ItemsSource = Enum.GetValues(typeof(User.ApprovalStates));
         }

@@ -65,6 +65,12 @@ namespace OrderManagementSystem.Cache.Models
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not Category other) return false;
+
+            return Id == other.Id && Name == other.Name && Description == other.Description;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

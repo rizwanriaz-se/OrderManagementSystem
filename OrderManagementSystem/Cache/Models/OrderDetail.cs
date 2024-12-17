@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace OrderManagementSystem.Cache.Models
 {
@@ -51,6 +52,13 @@ namespace OrderManagementSystem.Cache.Models
                 m_Quantity = value;
                 OnPropertyChanged(nameof(Quantity));
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is not OrderDetail other) return false;
+
+            return Product == other.Product && Quantity == other.Quantity;
         }
 
 

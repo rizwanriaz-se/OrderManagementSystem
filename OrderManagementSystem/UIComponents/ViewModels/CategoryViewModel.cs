@@ -158,7 +158,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void DeleteCategory(object obj)
         {
-            GUIHandler.GetInstance().CacheManager.DeleteCategory(SelectedCategory);
+            //GUIHandler.GetInstance().CacheManager.DeleteCategory(SelectedCategory);
+            GUIHandler.GetInstance().MessageProcessor.SendMessage(
+                Enums.MessageType.Category,
+                Enums.MessageAction.Delete,
+                SelectedCategory
+            );
             //Categories.Remove(SelectedCategory);
         }
 

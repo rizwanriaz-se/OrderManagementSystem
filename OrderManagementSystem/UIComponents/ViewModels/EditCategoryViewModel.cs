@@ -105,7 +105,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _Category.Description = CategoryDescriptionText;
             _Category.Picture = Picture;
 
-            GUIHandler.GetInstance().CacheManager.UpdateCategory(_Category);
+
+
+            //GUIHandler.GetInstance().CacheManager.UpdateCategory(_Category);
+            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Update, _Category);
 
             CloseWindow.Invoke();
 

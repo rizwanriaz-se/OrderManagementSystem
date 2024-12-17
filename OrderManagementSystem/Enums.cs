@@ -14,14 +14,14 @@ namespace OrderManagementSystem
             Category,
             Order,
             Product,
-            HeartBeat
+            User,
         }
         public enum MessageAction
         {
             Add,
             Update,
             Delete,
-            HeartBeat
+            Load,
         }
 
 
