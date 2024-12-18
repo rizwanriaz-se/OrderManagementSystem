@@ -4,7 +4,7 @@ using DevExpress.Xpf.Docking;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.Ribbon;
 using Microsoft.VisualBasic;
-using OrderManagementSystem.Repositories;
+using OrderManagementSystem.Repositories.Repositories;
 using OrderManagementSystem.UIComponents.ViewModels;
 using OrderManagementSystem.UIComponents.Views;
 using OrderManagementSystem.ViewModels;

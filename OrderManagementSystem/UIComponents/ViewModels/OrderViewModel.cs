@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using DevExpress.Xpf.Core;
-using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.Views;
+using OrderManagementSystem.Repositories.Repositories;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-    
+
     public class OrderViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

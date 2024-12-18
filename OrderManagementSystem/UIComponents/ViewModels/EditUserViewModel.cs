@@ -1,7 +1,6 @@
 ﻿using DevExpress.Data;
 using DevExpress.DirectX.Common.DirectWrite;
 using DevExpress.XtraRichEdit.Fields.Expression;
-using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using System;
 using System.Collections;
@@ -12,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using OrderManagementSystem.Repositories.Repositories;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {

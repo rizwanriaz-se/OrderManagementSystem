@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.ComponentModel;
 
-namespace OrderManagementSystem.Repositories
+namespace OrderManagementSystem.Repositories.Repositories
 {
 
     [Serializable]

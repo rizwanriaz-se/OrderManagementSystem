@@ -1,5 +1,4 @@
 ﻿using DevExpress.Mvvm.CodeGenerators;
-using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.ViewModels;
 using OrderManagementSystem.UIComponents.Views;
@@ -7,6 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using OrderManagementSystem.Repositories.Repositories;
 
 namespace OrderManagementSystem.ViewModels
 {

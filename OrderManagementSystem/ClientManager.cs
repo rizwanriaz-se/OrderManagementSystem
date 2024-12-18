@@ -9,42 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 //using OrderManagementSystem.Cache.Models;
-using OrderManagementSystem.Repositories;
 using System.Text.Json;
 using System.Diagnostics;
 using OrderManagementSystem.Cache;
 using System.Collections.ObjectModel;
+using OrderManagementSystem.Repositories.Repositories;
 //using System.ServiceModel.Channels;
 
 namespace OrderManagementSystem
 {
-
-    //public class Request
-    //{
-    //    public string Type { get; set; }
-    //    public string DATA { get; set; }
-    //}
-
-    //public class Response
-    //{
-    //    public string Type
-    //    {
-    //        get; set;
-    //    }
-    //    public string DATA
-    //    {
-    //        get; set;
-    //    }
-    //}
-
-        //public enum Type
-        //{
-        //    USER,
-
-
-        //}
-
-        public class ClientManager
+    public class ClientManager
     {
         private Timer _heartbeatTimer;
         private TcpClient _client;
@@ -83,10 +57,10 @@ namespace OrderManagementSystem
 
                 _stream = _client.GetStream();
 
-                //InitializeHeartbeat();
+                InitializeHeartbeat();
                 ListenAsync();
 
-                //_heartbeatTimer.Start();
+                _heartbeatTimer.Start();
 
             }
             catch (Exception ex)
@@ -156,27 +130,6 @@ namespace OrderManagementSystem
         }
 
 
-        //private async Task ListenAsync()
-        //{
-        //    Debug.WriteLine("START LISTEN");
-        //    try
-        //    {
-        //        while (Connected)
-        //        {
-        //            byte[] buffer = new byte[25600];
-        //            int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
-        //            string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-        //            Debug.WriteLine($"Received on client: {response}");
-        //            //Request request = JsonSerializer.Deserialize<Response>(response);
-
-        //            ProcessResponse(response);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine("Error in listener: " + ex.Message);
-        //    }
-        //}
 
         private void ProcessResponse(string response)
         {
@@ -202,50 +155,52 @@ namespace OrderManagementSystem
             }
         }
 
-        //public void InitializeHeartbeat()
-        //{
-        //    _heartbeatTimer = new Timer(5000); // 5 seconds interval
-        //    _heartbeatTimer.Elapsed += async (sender, e) => await SendHeartbeat();
-        //    _heartbeatTimer.AutoReset = true;
-        //}
+        public async Task InitializeHeartbeat()
+        {
+            _heartbeatTimer = new Timer(5000); // 5 seconds interval
+            _heartbeatTimer.Elapsed += async (sender, e) => await SendHeartbeat();
+            _heartbeatTimer.AutoReset = true;
+        }
 
 
-        //private async Task SendHeartbeat()
-        //{
-        //    if (_client != null && _client.Connected)
-        //    {
-        //        try
-        //        {
-        //            string pingRequest = JsonSerializer.Serialize(new Classes.Request
-        //            {
-        //                MessageAction = Enums.MessageAction.HeartBeat,
-        //                MessageType = Enums.MessageType.HeartBeat,
-        //                Data = "PING"
-        //            });
+        private async Task SendHeartbeat()
+        {
+            if (_client != null && _client.Connected)
+            {
+                try
+                {
+
+                    GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
+                    //string pingRequest = JsonSerializer.Serialize(new Classes.Request
+                    //{
+                    //    MessageAction = Enums.MessageAction.Ping,
+                    //    MessageType = Enums.MessageType.Heartbeat,
+                    //    Data = "PING"
+                    //});
 
 
-        //            byte[] message = Encoding.ASCII.GetBytes(pingRequest);
-        //            await _stream.WriteAsync(message, 0, message.Length);
+                    //byte[] message = Encoding.ASCII.GetBytes(pingRequest);
+                    //await _stream.WriteAsync(message, 0, message.Length);
 
-        //            byte[] responseBuffer = new byte[2048];
-        //            int bytesRead = await _stream.ReadAsync(responseBuffer, 0, responseBuffer.Length);
+                    //byte[] responseBuffer = new byte[2048];
+                    //int bytesRead = await _stream.ReadAsync(responseBuffer, 0, responseBuffer.Length);
 
-        //            string response = Encoding.ASCII.GetString(responseBuffer, 0, bytesRead);
-        //            if (response != "PONG") HandleServerDisconnected();
-        //        }
-        //        catch
-        //        {
-        //            HandleServerDisconnected();
-        //        }
-        //    }
-        //}
+                    //string response = Encoding.ASCII.GetString(responseBuffer, 0, bytesRead);
+                    //if (response != "PONG") HandleServerDisconnected();
+                }
+                catch
+                {
+                    HandleServerDisconnected();
+                }
+            }
+        }
 
-        //private void HandleServerDisconnected()
-        //{
-        //    Console.WriteLine("Server disconnected.");
-        //    Connected = false;
-        //    _heartbeatTimer.Stop();
-        //}
+        private void HandleServerDisconnected()
+        {
+            Console.WriteLine("Server disconnected.");
+            Connected = false;
+            _heartbeatTimer.Stop();
+        }
 
         //public User SendLoginRequest(string email, string password)
         //{

@@ -10,7 +10,7 @@ using System.Xml;
 using System.Xml.Serialization;
 
 
-namespace OrderManagementSystem.Repositories
+namespace OrderManagementSystem.Repositories.Repositories
 {
     [Serializable]
     //[XmlRoot("Categories")]

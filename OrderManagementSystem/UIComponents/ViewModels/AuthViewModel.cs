@@ -2,7 +2,6 @@
 using DevExpress.Xpf.Editors;
 using DevExpress.XtraRichEdit.Model.History;
 using OrderManagementSystem.Cache;
-using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using System;
 using System.Collections;
@@ -14,7 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 //using System.Windows.Controls;
 using System.Windows.Input;
-using static OrderManagementSystem.Repositories.User;
+using static OrderManagementSystem.Repositories.Repositories.User;
+using OrderManagementSystem.Repositories.Repositories;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {

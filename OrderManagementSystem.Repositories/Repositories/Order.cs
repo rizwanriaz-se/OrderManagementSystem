@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 //using System.Runtime.Serialization;
 
 
-namespace OrderManagementSystem.Repositories
+namespace OrderManagementSystem.Repositories.Repositories
 {
     [Serializable]
     public class Order : INotifyPropertyChanged

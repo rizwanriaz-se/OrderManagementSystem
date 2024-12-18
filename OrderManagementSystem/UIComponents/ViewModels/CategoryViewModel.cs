@@ -1,6 +1,5 @@
 ﻿using DevExpress.Mvvm.POCO;
 //using OrderManagementSystem.Cache.Models;
-using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.Views;
 using System;
@@ -13,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using OrderManagementSystem.Repositories.Repositories;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {

@@ -25,7 +25,7 @@ namespace OrderManagementSystem
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            GUIHandler.GetInstance().CacheManager.SaveData(false);
+            //GUIHandler.GetInstance().CacheManager.SaveData(false);
         }
 
 

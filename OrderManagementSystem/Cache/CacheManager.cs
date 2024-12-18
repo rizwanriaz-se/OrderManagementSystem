@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using DevExpress.XtraRichEdit.Services;
 using System.Net.Sockets;
 using System.Diagnostics;
-using OrderManagementSystem.Repositories;
+using OrderManagementSystem.Repositories.Repositories;
 
 namespace OrderManagementSystem.Cache
 {
@@ -35,12 +35,7 @@ namespace OrderManagementSystem.Cache
             }
             return m_Instance;
         }
-//        {
-//            "Order": {ORder grid },
-//    "Product": {Product grid  },
-//    "Category": { Category grid  },
-//    "User": { User grid  },
-//}
+
         public User CurrentUser
         {
             get { return m_CurrentUser; }
@@ -51,53 +46,33 @@ namespace OrderManagementSystem.Cache
         {
             if (categories == null) return;
             _AllCategories = categories;
-
-            //_AllUsers = responseData._AllUsers ?? new ObservableCollection<User>();
-            //_AllCategories = responseData._AllCategories ?? new ObservableCollection<Category>();
-            //_AllProducts = responseData._AllProducts ?? new ObservableCollection<Product>();
-            //_AllOrders = responseData._AllOrders ?? new ObservableCollection<Order>();
-        }
+}
 
         public void LoadOrders(ObservableCollection<Order> orders)
         {
             if (orders == null) return;
             _AllOrders = orders;
-
-            //_AllUsers = responseData._AllUsers ?? new ObservableCollection<User>();
-            //_AllCategories = responseData._AllCategories ?? new ObservableCollection<Category>();
-            //_AllProducts = responseData._AllProducts ?? new ObservableCollection<Product>();
-            //_AllOrders = responseData._AllOrders ?? new ObservableCollection<Order>();
-        }
+}
 
         public void LoadProducts(ObservableCollection<Product> products)
         {
             if (products == null) return;
             _AllProducts = products;
-
-            //_AllUsers = responseData._AllUsers ?? new ObservableCollection<User>();
-            //_AllCategories = responseData._AllCategories ?? new ObservableCollection<Category>();
-            //_AllProducts = responseData._AllProducts ?? new ObservableCollection<Product>();
-            //_AllOrders = responseData._AllOrders ?? new ObservableCollection<Order>();
-        }
+}
 
         public void LoadUsers(ObservableCollection<User> users)
         {
             if (users == null) return;
             _AllUsers = users;
-
-            //_AllUsers = responseData._AllUsers ?? new ObservableCollection<User>();
-            //_AllCategories = responseData._AllCategories ?? new ObservableCollection<Category>();
-            //_AllProducts = responseData._AllProducts ?? new ObservableCollection<Product>();
-            //_AllOrders = responseData._AllOrders ?? new ObservableCollection<Order>();
-        }
+}
 
 
-        private string m_stDataStorePath = $"{Directory.GetCurrentDirectory().Split(new string[] { "\\bin" }, StringSplitOptions.None)[0]}\\DataStore\\";
+        //private string m_stDataStorePath = $"{Directory.GetCurrentDirectory().Split(new string[] { "\\bin" }, StringSplitOptions.None)[0]}\\DataStore\\";
 
-        private string m_stUserDataStorePath = "UserDataStore.xml";
-        private string m_stCategoryDataStorePath = "CategoryDataStore.xml";
-        private string m_stProductDataStorePath = "ProductDataStore.xml";
-        private string m_stOrderDataStorePath = "OrderDataStore.xml";
+        //private string m_stUserDataStorePath = "UserDataStore.xml";
+        //private string m_stCategoryDataStorePath = "CategoryDataStore.xml";
+        //private string m_stProductDataStorePath = "ProductDataStore.xml";
+        //private string m_stOrderDataStorePath = "OrderDataStore.xml";
 
         //public ObservableCo
         private CacheManager()
@@ -120,17 +95,17 @@ namespace OrderManagementSystem.Cache
 
             _AllOrders = new ObservableCollection<Order>();
         }
-        public void SaveData(bool onlyUser)
-        {
-            if (onlyUser is false) {
-                CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stUserDataStorePath}", _AllUsers);
-                CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stCategoryDataStorePath}", _AllCategories);
-                CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stProductDataStorePath}", _AllProducts);
-                CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stOrderDataStorePath}", _AllOrders);
-            }
-            CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stUserDataStorePath}", _AllUsers);
+        //public void SaveData(bool onlyUser)
+        //{
+        //    if (onlyUser is false) {
+        //        CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stUserDataStorePath}", _AllUsers);
+        //        CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stCategoryDataStorePath}", _AllCategories);
+        //        CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stProductDataStorePath}", _AllProducts);
+        //        CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stOrderDataStorePath}", _AllOrders);
+        //    }
+        //    CustomXMLSerializer.SerializeToXml($"{m_stDataStorePath}{m_stUserDataStorePath}", _AllUsers);
 
-        }
+        //}
 
         public Category GetCategoryById(int id)
         {
@@ -251,7 +226,7 @@ namespace OrderManagementSystem.Cache
         public void AddUser(User user)
         {
             _AllUsers.Add(user);
-            SaveData(true);
+            //SaveData(true);
         }
         public User GetUserByID(int id)
         {

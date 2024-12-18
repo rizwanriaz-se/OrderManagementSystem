@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Serialization;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace OrderManagementSystem.Repositories
+namespace OrderManagementSystem.Repositories.Repositories
 {
     [Serializable]
     public class OrderDetail : INotifyPropertyChanged
