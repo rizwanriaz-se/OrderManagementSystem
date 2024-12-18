@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using DevExpress.Xpf.Core;
-using OrderManagementSystem.Cache.Models;
+using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.Views;
 
@@ -73,7 +73,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
 
         private void ExecuteDeleteOrder(object obj) {
-            GUIHandler.GetInstance().CacheManager.DeleteOrder(SelectedOrder);
+            //GUIHandler.GetInstance().CacheManager.DeleteOrder(SelectedOrder);
+            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Delete, SelectedOrder);
             //Orders.Remove(SelectedOrder);
         }
 

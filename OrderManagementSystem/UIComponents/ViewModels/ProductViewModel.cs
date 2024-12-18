@@ -1,5 +1,5 @@
 ﻿using DevExpress.Xpf.Controls;
-using OrderManagementSystem.Cache.Models;
+using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.Views;
 using System;
@@ -69,8 +69,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void EditProduct(object obj)
         {
             EditProductView editProductView = new EditProductView();
-
             EditProductViewModel editProductViewModel = new EditProductViewModel(SelectedProduct);
+            
             editProductView.DataContext = editProductViewModel;
             editProductViewModel.CloseWindow = editProductView.Close;
             editProductView.ShowDialog();
@@ -82,7 +82,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
 
         private void DeleteProduct(object obj) {
-            GUIHandler.GetInstance().CacheManager.DeleteProduct(SelectedProduct);
+            //GUIHandler.GetInstance().CacheManager.DeleteProduct(SelectedProduct);
+            GUIHandler.GetInstance().MessageProcessor.SendMessage(
+                Enums.MessageType.Product,
+                Enums.MessageAction.Delete,
+                SelectedProduct
+            );
             //Products.Remove(SelectedProduct);
         }
 
@@ -106,7 +111,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Category = SelectedCategory
             };
 
-            GUIHandler.GetInstance().CacheManager.AddProduct(product);
+            //GUIHandler.GetInstance().CacheManager.AddProduct(product);
+            GUIHandler.GetInstance().MessageProcessor.SendMessage(
+                Enums.MessageType.Product,
+                Enums.MessageAction.Add,
+                product
+            );
             CloseWindow?.Invoke();
         }
 

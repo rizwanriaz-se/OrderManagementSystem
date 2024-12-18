@@ -1,7 +1,7 @@
 ﻿using DevExpress.Data;
 using DevExpress.DirectX.Common.DirectWrite;
 using DevExpress.XtraRichEdit.Fields.Expression;
-using OrderManagementSystem.Cache.Models;
+using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using System;
 using System.Collections;
@@ -140,7 +140,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _User.IsAdmin = UserIsAdmin;
 
 
-            GUIHandler.GetInstance().CacheManager.UpdateUser(_User);
+            //GUIHandler.GetInstance().CacheManager.UpdateUser(_User);
+            
+            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Update, _User);
 
             CloseWindow.Invoke();
 

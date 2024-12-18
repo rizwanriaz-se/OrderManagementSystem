@@ -1,5 +1,5 @@
 ﻿using DevExpress.Mvvm.CodeGenerators;
-using OrderManagementSystem.Cache.Models;
+using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.ViewModels;
 using OrderManagementSystem.UIComponents.Views;

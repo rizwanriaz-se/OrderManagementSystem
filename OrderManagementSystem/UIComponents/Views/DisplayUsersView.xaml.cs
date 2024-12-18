@@ -1,5 +1,5 @@
 ﻿using DevExpress.Xpf.Grid;
-using OrderManagementSystem.Cache.Models;
+using OrderManagementSystem.Repositories;
 using OrderManagementSystem.UIComponents.ViewModels;
 using System;
 using System.Collections.Generic;

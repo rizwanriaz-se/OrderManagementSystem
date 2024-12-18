@@ -1,5 +1,5 @@
 ﻿using DevExpress.XtraRichEdit.Fields.Expression;
-using OrderManagementSystem.Cache.Models;
+using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using System;
 using System.Collections;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using static OrderManagementSystem.Cache.Models.Order;
+using static OrderManagementSystem.Repositories.Order;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -209,7 +209,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
            
 
             // Update the order in the database or collection
-            GUIHandler.GetInstance().CacheManager.UpdateOrder(_order);
+            //GUIHandler.GetInstance().CacheManager.UpdateOrder(_order);
+            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Update, _order);
 
             // Close the window
             CloseWindow?.Invoke();

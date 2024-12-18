@@ -1,7 +1,7 @@
 ﻿using DevExpress.XtraExport.Implementation;
 using DevExpress.XtraRichEdit.Fields.Expression;
 using DevExpress.XtraRichEdit.Model.History;
-using OrderManagementSystem.Cache.Models;
+using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using System;
 using System.Collections;
@@ -149,7 +149,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _Product.UnitPrice = ProductUnitPriceText;
             _Product.UnitsInStock = ProductUnitsInStockText;
 
-            GUIHandler.GetInstance().CacheManager.UpdateProduct(_Product);
+            //GUIHandler.GetInstance().CacheManager.UpdateProduct(_Product);
+            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Update, _Product);
 
             CloseWindow.Invoke();
 

@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm.POCO;
-using OrderManagementSystem.Cache.Models;
+//using OrderManagementSystem.Cache.Models;
+using OrderManagementSystem.Repositories;
 using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.Views;
 using System;

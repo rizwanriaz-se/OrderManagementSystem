@@ -8,7 +8,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using OrderManagementSystem.Cache.Models;
+//using OrderManagementSystem.Cache.Models;
+using OrderManagementSystem.Repositories;
 using System.Text.Json;
 using System.Diagnostics;
 using OrderManagementSystem.Cache;
@@ -115,7 +116,7 @@ namespace OrderManagementSystem
                     Debug.WriteLine($"Received on client: {response}");
                     //Request request = JsonSerializer.Deserialize<Response>(response);
 
-                    ProcessResponse(response);
+                    //ProcessResponse(response);
                 }
             }
             catch (Exception ex)
@@ -348,7 +349,6 @@ namespace OrderManagementSystem
                                 GUIHandler.GetInstance().CacheManager.AddProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
                                 break;
                             case Enums.MessageAction.Delete:
-
                                 GUIHandler.GetInstance().CacheManager.DeleteProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
                                 break;
                             case Enums.MessageAction.Update:

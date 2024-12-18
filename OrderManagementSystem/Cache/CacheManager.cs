@@ -1,4 +1,4 @@
-﻿using OrderManagementSystem.Cache.Models;
+﻿//using OrderManagementSystem.Cache.Models;
 using OrderManagementSystem.UIComponents.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using DevExpress.XtraRichEdit.Services;
 using System.Net.Sockets;
 using System.Diagnostics;
+using OrderManagementSystem.Repositories;
 
 namespace OrderManagementSystem.Cache
 {
