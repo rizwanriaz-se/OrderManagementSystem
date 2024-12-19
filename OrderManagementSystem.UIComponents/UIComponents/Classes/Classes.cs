@@ -5,12 +5,12 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
 
-namespace OrderManagementSystem
+namespace OrderManagementSystem.UIComponents.UIComponents.Classes
 {
     public class Classes
     {
         //[Serializable]
-        public class  Request
+        public class Request
         {
             public Enums.MessageType MessageType { get; set; }
             public Enums.MessageAction MessageAction { get; set; }

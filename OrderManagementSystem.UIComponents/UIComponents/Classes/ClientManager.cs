@@ -11,16 +11,17 @@ using System.Timers;
 //using OrderManagementSystem.Cache.Models;
 using System.Text.Json;
 using System.Diagnostics;
-using OrderManagementSystem.Cache;
+//using OrderManagementSystem.Cache;
 using System.Collections.ObjectModel;
 using OrderManagementSystem.Repositories.Repositories;
+
 //using System.ServiceModel.Channels;
 
-namespace OrderManagementSystem
+namespace OrderManagementSystem.UIComponents.UIComponents.Classes
 {
     public class ClientManager
     {
-        private Timer _heartbeatTimer;
+        private System.Timers.Timer _heartbeatTimer;
         private TcpClient _client;
 
         public TcpClient Client
@@ -29,6 +30,10 @@ namespace OrderManagementSystem
         }
 
         private NetworkStream _stream;
+        //public NetworkStream Stream
+        //{
+        //    get { return _stream; }
+        //}
 
         public bool Connected = false;
 
@@ -52,20 +57,30 @@ namespace OrderManagementSystem
                 if (_client.Connected)
                 {
                     Connected = true;
+
+                    // Moving it up here as it was causing a null reference exception
+                    // As the client gets connected, the onConnected is invoked which starts AuthWindow, that writes data to stream for authentication, listen for server response etc so it should be initialized before that.
+                    _stream = _client.GetStream();
+
+                    InitializeHeartbeat();
+                    ListenAsync();
+
+                    _heartbeatTimer.Start();
+
                     onConnected?.Invoke();
                 }
 
-                _stream = _client.GetStream();
+                //_stream = _client.GetStream();
 
-                InitializeHeartbeat();
-                ListenAsync();
+                //InitializeHeartbeat();
+                //ListenAsync();
 
-                _heartbeatTimer.Start();
+                //_heartbeatTimer.Start();
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Connection error: {ex.Message}");
+                Debug.WriteLine($"Connection error: {ex.Message}");
             }
         }
 
@@ -82,7 +97,8 @@ namespace OrderManagementSystem
 
                     messageBuffer += Encoding.UTF8.GetString(buffer, 0, bytesRead);
 
-                    while (TryExtractJson(ref messageBuffer, out string jsonMessage)) {
+                    while (TryExtractJson(ref messageBuffer, out string jsonMessage))
+                    {
                         Debug.WriteLine("Received on client: " + jsonMessage);
                         ProcessResponse(jsonMessage);
                     }
@@ -161,7 +177,7 @@ namespace OrderManagementSystem
 
         public async Task InitializeHeartbeat()
         {
-            _heartbeatTimer = new Timer(5000); // 5 seconds interval
+            _heartbeatTimer = new System.Timers.Timer(5000); // 5 seconds interval
             _heartbeatTimer.Elapsed += async (sender, e) => await SendHeartbeat();
             _heartbeatTimer.AutoReset = true;
         }
@@ -190,20 +206,21 @@ namespace OrderManagementSystem
             _heartbeatTimer.Stop();
         }
 
-       
+
         public async Task SendMessage(Classes.Request request)
         {
-            try { 
-            string json = JsonSerializer.Serialize(request);
-            byte[] data = Encoding.UTF8.GetBytes(json);
-            await _stream.WriteAsync(data, 0, data.Length);
+            try
+            {
+                string json = JsonSerializer.Serialize(request);
+                byte[] data = Encoding.UTF8.GetBytes(json);
+                await _stream.WriteAsync(data, 0, data.Length);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Error in SendMessage: " + ex.Message);
             }
         }
-        
+
         //public void ReceiveMessage(Classes.Response response)
         //{
         //    Debug.WriteLine($"Data Received on client: {response.Data}");
@@ -220,7 +237,7 @@ namespace OrderManagementSystem
         //                        GUIHandler.GetInstance().CacheManager.AddCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Delete:
-                                
+
         //                        GUIHandler.GetInstance().CacheManager.DeleteCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Update:

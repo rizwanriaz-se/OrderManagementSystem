@@ -1,4 +1,4 @@
-﻿using OrderManagementSystem.Commands;
+﻿//using OrderManagementSystem.Commands;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +12,9 @@ using System.Windows;
 using System.Windows.Input;
 using static OrderManagementSystem.Repositories.Repositories.Order;
 using OrderManagementSystem.Repositories.Repositories;
+//using OrderManagementSystem.Classes;
+using OrderManagementSystem.UIComponents.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
 
 namespace OrderManagementSystem.UIComponents.UIComponents.ViewModels
 {

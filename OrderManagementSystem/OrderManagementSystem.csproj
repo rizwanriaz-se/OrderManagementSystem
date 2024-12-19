@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
@@ -8,6 +8,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <StartupObject>OrderManagementSystem.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +19,8 @@
     <PackageReference Include="DevExpress.Mvvm.CodeGenerators" Version="22.1.*-*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\OrderManagementSystem.Repositories\OrderManagementSystem.Repositories.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\OrderManagementSystem.Client.Application\OrderManagementSystem.Client.Application.csproj" />
+	</ItemGroup>
 
 </Project>

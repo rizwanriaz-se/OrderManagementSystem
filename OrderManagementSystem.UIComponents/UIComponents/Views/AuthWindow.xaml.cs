@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using DevExpress.Xpf.Core;
 using OrderManagementSystem.Cache;
+//using OrderManagementSystem.Classes;
+using OrderManagementSystem.UIComponents.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.UIComponents.ViewModels;
 
 
@@ -23,14 +25,14 @@ namespace OrderManagementSystem.UIComponents.UIComponents.Views
     public partial class AuthWindow : ThemedWindow
     {
         public Action CloseWindow { get; set; }
-        private CacheManager m_CacheManager = CacheManager.Instance();
-        private Connection m_Connection = Connection.Instance();
+        //private CacheManager m_CacheManager = CacheManager.Instance();
+        //private Connection m_Connection = Connection.Instance();
         private MessageProcessor m_MessageProcessor = new MessageProcessor();
 
         public AuthWindow()
         {
             InitializeComponent();
-            GUIHandler.GetInstance().Init(m_CacheManager, m_Connection, m_MessageProcessor);
+            //GUIHandler.GetInstance().Init(m_CacheManager, m_Connection, m_MessageProcessor);
             GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Load, null);
             GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Load, null);
             GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Load, null);

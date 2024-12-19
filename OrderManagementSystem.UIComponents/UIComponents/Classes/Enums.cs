@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderManagementSystem
+namespace OrderManagementSystem.UIComponents.UIComponents.Classes
 {
     public class Enums
     {
@@ -15,7 +15,7 @@ namespace OrderManagementSystem
             Order,
             Product,
             User,
-            Heartbeat, 
+            Heartbeat,
             Error
         }
         public enum MessageAction

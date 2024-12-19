@@ -1,6 +1,6 @@
 ﻿using DevExpress.Mvvm.POCO;
 //using OrderManagementSystem.Cache.Models;
-using OrderManagementSystem.Commands;
+//using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.UIComponents.Views;
 using System;
 using System.Collections;
@@ -13,6 +13,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using OrderManagementSystem.Repositories.Repositories;
+//using OrderManagementSystem.Classes;
+using OrderManagementSystem.UIComponents.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
 
 namespace OrderManagementSystem.UIComponents.UIComponents.ViewModels
 {
@@ -114,7 +117,7 @@ namespace OrderManagementSystem.UIComponents.UIComponents.ViewModels
             // Create new Order object
             Category category = new Category
             {
-                Id = lastCategoryId + 1,
+                //Id = lastCategoryId + 1,
                 Name = CategoryNameText,
                 Description = CategoryDescriptionText,
                 Picture = null
@@ -132,6 +135,7 @@ namespace OrderManagementSystem.UIComponents.UIComponents.ViewModels
             //    MessageAction = Enums.MessageAction.Add,
             //    Data = category
             //});
+
             CloseWindow?.Invoke();
         }
 

@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using DevExpress.Xpf.Core;
-using OrderManagementSystem.Commands;
+//using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.UIComponents.Views;
 using OrderManagementSystem.Repositories.Repositories;
+//using OrderManagementSystem.Classes;
+using OrderManagementSystem.UIComponents.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
 
 namespace OrderManagementSystem.UIComponents.UIComponents.ViewModels
 {

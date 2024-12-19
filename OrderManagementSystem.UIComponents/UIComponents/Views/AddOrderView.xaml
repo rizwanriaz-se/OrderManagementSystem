@@ -7,7 +7,7 @@
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Class="OrderManagementSystem.UIComponents.UIComponents.Views.AddOrderView"
-    xmlns:local="clr-namespace:OrderManagementSystem.UIComponents.Views"
+    xmlns:local="clr-namespace:OrderManagementSystem.UIComponents.UIComponents.Views"
 Height="440" MinHeight="440" MaxHeight="440"
     Title="Add Order" 
     Width="750" MinWidth="750" MaxWidth="750"

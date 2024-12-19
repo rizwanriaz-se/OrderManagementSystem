@@ -1,16 +1,15 @@
 ﻿using OrderManagementSystem.Cache;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OrderManagementSystem.UIComponents.UIComponents.Views;
 
-namespace OrderManagementSystem
+//using OrderManagementSystem.UI
+//using OrderManagementSystem.UIComponents.UIComponents.Views;
+
+namespace OrderManagementSystem.UIComponents.UIComponents.Classes
 {
     public class Connection
     {
-
         private static Connection m_Instance;
+
         private Connection() { }
         public static Connection Instance()
         {
@@ -23,24 +22,22 @@ namespace OrderManagementSystem
             GUIHandler.GetInstance().CacheManager = CacheManager.Instance();
             GUIHandler.GetInstance().ClientManager = ClientManager.Instance();
             GUIHandler.GetInstance().ClientManager.onConnected += OnServerConnect;
-            //GUIHandler.GetInstance().ClientManager.Receive += ReceiveData;
 
             if (!GUIHandler.GetInstance().ClientManager.Connected)
             {
-               await GUIHandler.GetInstance().ClientManager.ConnectToServer();
-                //GUIHandler.GetInstance().ClientManager.Login("admin", "admin");
+                //GUIHandler.Init
+                await GUIHandler.GetInstance().ClientManager.ConnectToServer();
             }
         }
 
         private void OnServerConnect()
         {
-            //ClientManager.Instance().InitializeHeartbeat();
-        }
+            System.Windows.Application app = new System.Windows.Application();
 
-        private void ReceiveData()
-        {
-            //GUIHandler.GetInstance().CacheManager.LoadData(ClientManager.Instance().Client);
+            AuthWindow authWindow = new AuthWindow();
+            app.MainWindow = authWindow;
+            authWindow.Show();
+            app.Run();
         }
-
     }
 }

@@ -40,6 +40,7 @@
                     </dxr:RibbonPageGroup> -->
                     <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add Category" Command="{Binding AddCategoryCommand}" />
+                        <dxb:BarButtonItem Content="Add Blotter" ItemClick="AddCategoryBlotter_Click" />
                         <!--                        <dxb:BarButtonItem Content="Edit Category" Command="{Binding EditCategoryCommand}" />
                         <dxb:BarButtonItem Content="Delete Category" /> -->
                     </dxr:RibbonPageGroup>

@@ -1,4 +1,7 @@
 ﻿using OrderManagementSystem.Cache;
+
+
+
 //using OrderManagementSystem.Cache.Models;
 using OrderManagementSystem.Repositories.Repositories;
 using System;
@@ -7,13 +10,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderManagementSystem
+namespace OrderManagementSystem.UIComponents.UIComponents.Classes
 {
     public class GUIHandler
     {
         //private CacheManager 
 
-        private static GUIHandler m_Instance; 
+        private static GUIHandler m_Instance;
 
 
         private User m_CurrentUser;
@@ -39,7 +42,7 @@ namespace OrderManagementSystem
             get { return m_CacheManager; }
             set { m_CacheManager = value; }
         }
-        
+
         public MessageProcessor MessageProcessor
         {
             get { return m_MessageProcessor; }
@@ -62,8 +65,8 @@ namespace OrderManagementSystem
         {
 
             if (m_Instance == null)
-               m_Instance = new GUIHandler();
-                    
+                m_Instance = new GUIHandler();
+
             return m_Instance;
         }
 

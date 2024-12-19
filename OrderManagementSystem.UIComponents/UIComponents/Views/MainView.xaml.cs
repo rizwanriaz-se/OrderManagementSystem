@@ -32,7 +32,7 @@ namespace OrderManagementSystem.UIComponents.UIComponents.Views
     {
         private MainViewModel mainViewModel;
         private DocumentPanel orderPanel;
-        //private DocumentPanel categoryPanel;
+        private DocumentPanel categoryPanel;
         private DocumentPanel productPanel;
         private DocumentPanel userPanel;
         //private int orderPanelCount = 0;
@@ -42,6 +42,7 @@ namespace OrderManagementSystem.UIComponents.UIComponents.Views
         Dictionary<string, int> panelCount = new Dictionary<string, int>()
         {
             { "Order", 0 },
+            { "Category", 0 },
             { "Product", 0 },
             { "User", 0 },
         };
@@ -105,6 +106,10 @@ namespace OrderManagementSystem.UIComponents.UIComponents.Views
         {
             AddPanel(ref orderPanel, "Order");
         }
+        private void AddCategoryBlotter_Click(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
+        {
+            AddPanel(ref categoryPanel, "Category");
+        }
         private void AddProductBlotter_Click(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
             AddPanel(ref productPanel, "Product");
@@ -150,6 +155,8 @@ namespace OrderManagementSystem.UIComponents.UIComponents.Views
             {
                 case "Order":
                     return new DisplayOrdersView();
+                case "Category":
+                    return new DisplayCategoriesView();
                 case "Product":
                     return new DisplayProductsView();
                 case "User":

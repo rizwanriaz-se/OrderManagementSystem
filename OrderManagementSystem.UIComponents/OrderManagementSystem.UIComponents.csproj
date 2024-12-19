@@ -16,9 +16,10 @@
     </ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\OrderManagementSystem.Repositories\OrderManagementSystem.Repositories.csproj" />
-	  <ProjectReference Include="..\OrderManagementSystem\OrderManagementSystem.csproj" />
+	  <ProjectReference Include="..\OrderManagementSystem.Cache\OrderManagementSystem.Cache.csproj" />
 	</ItemGroup>
+
+	
   <ItemGroup>
     <Compile Update="UIComponents\Views\AddCategoryView.xaml.cs">
       <SubType>Code</SubType>

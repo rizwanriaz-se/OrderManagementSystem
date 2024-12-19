@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace OrderManagementSystem.Commands
+namespace OrderManagementSystem.UIComponents.Commands
 {
     public class RelayCommand : ICommand
     {
@@ -30,7 +30,8 @@ namespace OrderManagementSystem.Commands
             return _CanExecute(parameter);
         }
 
-        public void Execute(object parameter) {
+        public void Execute(object parameter)
+        {
             _Execute(parameter);
         }
     }

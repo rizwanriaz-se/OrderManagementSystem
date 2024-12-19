@@ -1,8 +1,8 @@
 ﻿using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Editors;
 using DevExpress.XtraRichEdit.Model.History;
-using OrderManagementSystem.Cache;
-using OrderManagementSystem.Commands;
+//using OrderManagementSystem.Cache;
+//using OrderManagementSystem.Commands;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +15,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using static OrderManagementSystem.Repositories.Repositories.User;
 using OrderManagementSystem.Repositories.Repositories;
+//using OrderManagementSystem.Classes;
+using OrderManagementSystem.UIComponents.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
+using OrderManagementSystem.UIComponents.UIComponents.Views;
 
 namespace OrderManagementSystem.UIComponents.UIComponents.ViewModels
 {
@@ -237,9 +241,8 @@ namespace OrderManagementSystem.UIComponents.UIComponents.ViewModels
             return !HasErrors;
         }
 
-        private void LoginUser(object obj) {
-
-            
+        private void LoginUser(object obj) 
+        {
 
             var user = GUIHandler.GetInstance().CacheManager.GetAllUsers().FirstOrDefault(u => u.Email == EmailLoginText && u.Password == PasswordLoginText);
              //var user =  GUIHandler.GetInstance().ClientManager(EmailLoginText, PasswordLoginText);

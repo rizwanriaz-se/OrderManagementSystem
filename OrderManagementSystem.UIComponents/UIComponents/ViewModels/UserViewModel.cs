@@ -1,4 +1,4 @@
-﻿using OrderManagementSystem.Commands;
+﻿//using OrderManagementSystem.Commands;
 using OrderManagementSystem.UIComponents.UIComponents.Views;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Serialization;
 using OrderManagementSystem.Repositories.Repositories;
+//using OrderManagementSystem.Classes;
+using OrderManagementSystem.UIComponents.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
 
 namespace OrderManagementSystem.UIComponents.UIComponents.ViewModels
 {
