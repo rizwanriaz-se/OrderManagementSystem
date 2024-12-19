@@ -1,7 +1,7 @@
 ﻿<Application x:Class="OrderManagementSystem.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="UIComponents/Views/AuthWindow.xaml" Exit="Application_Exit">
+             StartupUri="pack://application:,,,/OrderManagementSystem.UIComponents;component/Views/AuthWindow.xaml" Exit="Application_Exit">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

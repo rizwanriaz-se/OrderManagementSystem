@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderManagementSystem", "Or
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagementSystem.Repositories", "OrderManagementSystem.Repositories\OrderManagementSystem.Repositories.csproj", "{589485A6-16F2-4173-A2C4-D03BF544D791}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagementSystem.UIComponents", "OrderManagementSystem.UIComponents\OrderManagementSystem.UIComponents.csproj", "{35F95952-17A2-452C-B3C3-6CE15C487CC6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{144670CB-6396-488C-A76D-2E03A3B69E78} = {144670CB-6396-488C-A76D-2E03A3B69E78}
+		{589485A6-16F2-4173-A2C4-D03BF544D791} = {589485A6-16F2-4173-A2C4-D03BF544D791}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +27,10 @@ Global
 		{589485A6-16F2-4173-A2C4-D03BF544D791}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{589485A6-16F2-4173-A2C4-D03BF544D791}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{589485A6-16F2-4173-A2C4-D03BF544D791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35F95952-17A2-452C-B3C3-6CE15C487CC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35F95952-17A2-452C-B3C3-6CE15C487CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35F95952-17A2-452C-B3C3-6CE15C487CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35F95952-17A2-452C-B3C3-6CE15C487CC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
