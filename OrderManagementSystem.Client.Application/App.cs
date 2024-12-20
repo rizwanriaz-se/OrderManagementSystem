@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OrderManagementSystem.Cache;
+using OrderManagementSystem.UIComponents.Classes;
+
 
 //using OrderManagementSystem.Cache;
 //using OrderManagementSystem.Classes;
-using OrderManagementSystem.UIComponents.UIComponents.Classes;
 
 namespace OrderManagementSystem.Client.Application
 {

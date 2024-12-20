@@ -7,8 +7,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\OrderManagementSystem.Repositories\OrderManagementSystem.Repositories.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="OrderManagementSystemServer.Repository">
+			<HintPath>..\..\OrderManagementSystemServer\OrderManagementSystemServer.Repository\bin\Debug\net8.0\OrderManagementSystemServer.Repository.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
 
 </Project>

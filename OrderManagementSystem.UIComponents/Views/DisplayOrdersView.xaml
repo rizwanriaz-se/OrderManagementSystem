@@ -1,0 +1,65 @@
+﻿<UserControl xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxg1="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:Views="clr-namespace:OrderManagementSystem.UIComponents.Views"
+             xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"  x:Class="OrderManagementSystem.UIComponents.Views.DisplayOrdersView"
+             mc:Ignorable="d"
+             
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <Style TargetType="{x:Type dxg1:GridColumnHeader}">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Background" Value="#9fa2c5" />
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+
+    </UserControl.Resources>
+
+
+    <dxg1:GridControl DockPanel.Dock="Top" Name="OrderGrid" ItemsSource="{Binding Orders}" Height="300" SelectedItem="{Binding SelectedOrder}" PreviewMouseDown="OrderGrid_PreviewMouseDown">
+        
+        <dxg1:GridControl.View>
+            <dxg1:TableView  DetailHeaderContent="Products" ShowGroupPanel="False" Name="OrderTableView" AllowConditionalFormattingManager="True"  AllowEditing="False"/>
+        </dxg1:GridControl.View>
+
+        
+        
+        <dxg1:GridControl.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Edit Order" Command="{Binding EditOrderCommand}" />
+                <MenuItem Header="Delete Order" Command="{Binding DeleteOrderCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
+            </ContextMenu>
+        </dxg1:GridControl.ContextMenu>
+
+        <dxg1:GridControl.DetailDescriptor>
+            <dxg1:DataControlDetailDescriptor ItemsSourceBinding="{Binding OrderDetails}">
+                <dxg1:GridControl>
+                    <dxg1:GridControl.View>
+                        <dxg1:TableView AutoWidth="True" ShowGroupPanel="False" />
+                    </dxg1:GridControl.View>
+                    <dxg1:GridColumn FieldName="Product.Name" Header="Product Name"  />
+                    <dxg1:GridColumn FieldName="Quantity" Header="Quantity" />
+
+                </dxg1:GridControl>
+            </dxg1:DataControlDetailDescriptor>
+        </dxg1:GridControl.DetailDescriptor>
+
+        <dxg1:GridColumn FieldName="OrderID" Binding="{Binding Id}" Header="ID" Width="30" AllowResizing="False" />
+        <dxg1:GridColumn FieldName="Employee"  Binding="{Binding User.Name}" Header="Employee" Width="130" AllowResizing="False" />
+        <dxg1:GridColumn FieldName="OrderDate" Binding="{Binding OrderDate}" Header="Order Date" Width="3*" />
+        <dxg1:GridColumn FieldName="Status" Binding="{Binding Status}" Header="Status" Width="2*" HorizontalHeaderContentAlignment="Center">
+        
+        
+        </dxg1:GridColumn>
+
+        <dxg1:GridColumn FieldName="ShippingDate" Binding="{Binding ShippedDate}" Header="Shipped Date"  Width="3*" />
+        <dxg1:GridColumn FieldName="ShippingAddress" Binding="{Binding ShippingAddress}" Header="Shipping Address" Width="5*" />
+        
+
+    </dxg1:GridControl>
+</UserControl>

@@ -23,4 +23,5 @@
 		<ProjectReference Include="..\OrderManagementSystem.Client.Application\OrderManagementSystem.Client.Application.csproj" />
 	</ItemGroup>
 
+	
 </Project>

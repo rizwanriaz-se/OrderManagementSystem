@@ -19,45 +19,51 @@
 	  <ProjectReference Include="..\OrderManagementSystem.Cache\OrderManagementSystem.Cache.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Reference Include="OrderManagementSystemServer.Repository">
+	    <HintPath>..\..\OrderManagementSystemServer\OrderManagementSystemServer.Repository\bin\Debug\net8.0\OrderManagementSystemServer.Repository.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
 	
   <ItemGroup>
-    <Compile Update="UIComponents\Views\AddCategoryView.xaml.cs">
+    <Compile Update="Views\AddCategoryView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\AddOrderView.xaml.cs">
+    <Compile Update="Views\AddOrderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\AddProductView.xaml.cs">
+    <Compile Update="Views\AddProductView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\AddUserView.xaml.cs">
+    <Compile Update="Views\AddUserView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\AuthWindow.xaml.cs">
+    <Compile Update="Views\AuthWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\DisplayCategoriesView.xaml.cs">
+    <Compile Update="Views\DisplayCategoriesView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\DisplayOrdersView.xaml.cs">
+    <Compile Update="Views\DisplayOrdersView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\DisplayProductsView.xaml.cs">
+    <Compile Update="Views\DisplayProductsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\DisplayUsersView.xaml.cs">
+    <Compile Update="Views\DisplayUsersView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\EditCategoryView.xaml.cs">
+    <Compile Update="Views\EditCategoryView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\EditOrderView.xaml.cs">
+    <Compile Update="Views\EditOrderView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\EditProductView.xaml.cs">
+    <Compile Update="Views\EditProductView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIComponents\Views\EditUserView.xaml.cs">
+    <Compile Update="Views\EditUserView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
