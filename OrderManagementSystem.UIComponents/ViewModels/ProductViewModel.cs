@@ -15,17 +15,27 @@ using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystemServer.Repository;
 using System.ComponentModel.DataAnnotations;
+using DevExpress.XtraRichEdit.Fields.Expression;
+using System.Collections;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-    public class ProductViewModel : INotifyPropertyChanged
+    public class ProductViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
+
+        private string m_stProductNameText;
+        private string m_stProductDescriptionText;
+        private decimal m_decProductUnitPriceText;
+        private int m_nProductUnitsInStockText;
+        private Category m_objSelectedCategory;
+
+
         public Action CloseWindow { get; set; }
 
-        public ICommand SubmitProductCommand { get; set; }
-        public ICommand EditProductCommand { get; set; }
+        public RelayCommand SubmitProductCommand { get; set; }
+        public RelayCommand EditProductCommand { get; set; }
 
-        public ICommand DeleteProductCommand { get; set; }
+        public RelayCommand DeleteProductCommand { get; set; }
 
         private Product m_SelectedProduct;
 
@@ -42,14 +52,69 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public ObservableCollection<Product> Products { get; private set; }
         public ObservableCollection<Category> Categories { get; private set; }
 
-        public string ProductNameText { get; set; }
 
-        public string ProductUnitPriceText { get; set; }
+        [Required(ErrorMessage = "Product Name is required")]
+        public string ProductNameText {
 
-        public string ProductUnitsInStockText { get; set; }
+            get { return m_stProductNameText; }
+            set
+            {
+                m_stProductNameText = value;
+                Validate(nameof(ProductNameText), m_stProductNameText);
+            }
 
-        public string ProductDescriptionText { get; set; }
-        private Category _selectedCategory { get; set; }
+        }
+
+        [Required(ErrorMessage = "Product Unit Price is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Unit Price must be greater than zero.")]
+        public decimal ProductUnitPriceText {
+
+
+            get { return m_decProductUnitPriceText; }
+            set
+            {
+                m_decProductUnitPriceText = Convert.ToDecimal(value);
+                Validate(nameof(ProductUnitPriceText), m_decProductUnitPriceText);
+            }
+
+        }
+
+        [Required(ErrorMessage = "Product Stock Units value is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Stock Units must be greater than zero.")]
+        public int ProductUnitsInStockText {
+
+
+            get { return m_nProductUnitsInStockText; }
+            set
+            {
+                m_nProductUnitsInStockText = Convert.ToInt32(value);
+                Validate(nameof(ProductUnitsInStockText), m_nProductUnitsInStockText);
+            }
+
+        }
+
+        [Required(ErrorMessage = "Product Description is required")]
+        public string ProductDescriptionText {
+
+
+            get { return m_stProductDescriptionText; }
+            set
+            {
+                m_stProductDescriptionText = value;
+                Validate(nameof(ProductDescriptionText), m_stProductDescriptionText);
+            }
+        }
+
+        [Required(ErrorMessage = "Category must be selected.")]
+        private Category _selectedCategory {
+
+            get { return m_objSelectedCategory; }
+            set
+            {
+                m_objSelectedCategory = value;
+                Validate(nameof(SelectedCategory), m_objSelectedCategory);
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Category SelectedCategory
@@ -62,10 +127,43 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
+        public bool HasErrors => Errors.Count > 0;
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            if (Errors.ContainsKey(propertyName))
+            {
+                return Errors[propertyName];
+            }
+            return null;
+        }
+
+        public void Validate(string propertyName, object propertyValue)
+        {
+            var results = new List<ValidationResult>();
+            var context = new ValidationContext(this) { MemberName = propertyName };
+            Validator.TryValidateProperty(propertyValue, context, results);
+
+            if (results.Any())
+            {
+                Errors[propertyName] = results.Select(c => c.ErrorMessage).ToList();
+            }
+            else
+            {
+                Errors.Remove(propertyName);
+            }
+
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            SubmitProductCommand.RaiseCanExecuteEventChanged();
+        }
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
+
         public ProductViewModel()
         {
-            Categories = GUIHandler.GetInstance().CacheManager.GetAllCategories();
-            Products = GUIHandler.GetInstance().CacheManager.GetAllProducts();
+            Categories = GUIHandler.Instance.CacheManager.GetAllCategories();
+            Products = GUIHandler.Instance.CacheManager.GetAllProducts();
             SubmitProductCommand = new RelayCommand(SubmitProduct, CanSubmitProduct);
             EditProductCommand = new RelayCommand(EditProduct, CanEditProduct);
             DeleteProductCommand = new RelayCommand(DeleteProduct, CanDeleteProduct);
@@ -88,8 +186,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void DeleteProduct(object obj)
         {
-            //GUIHandler.GetInstance().CacheManager.DeleteProduct(SelectedProduct);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(
+            //GUIHandler.Instance.CacheManager.DeleteProduct(SelectedProduct);
+            GUIHandler.Instance.MessageProcessor.SendMessage(
                 Enums.MessageType.Product,
                 Enums.MessageAction.Delete,
                 SelectedProduct
@@ -117,8 +215,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Category = SelectedCategory
             };
 
-            //GUIHandler.GetInstance().CacheManager.AddProduct(product);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(
+            //GUIHandler.Instance.CacheManager.AddProduct(product);
+            GUIHandler.Instance.MessageProcessor.SendMessage(
                 Enums.MessageType.Product,
                 Enums.MessageAction.Add,
                 product

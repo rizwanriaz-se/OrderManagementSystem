@@ -14,19 +14,27 @@ namespace OrderManagementSystem.Client.Application
 {
     public class App
     {
-        private CacheManager m_CacheManager = CacheManager.Instance();
-        private Connection m_Connection = Connection.Instance();
-        private MessageProcessor m_MessageProcessor = new MessageProcessor();
+        private readonly CacheManager m_objCacheManager;
+        private readonly Connection m_objConnection;
+        private readonly MessageProcessor m_objMessageProcessor;
+        private readonly ClientManager m_objClientManager;
 
+        // move above private variables to constructor
         public App()
         {
-            //GUIHandler.GetInstance().Init(m_CacheManager, m_MessageProcessor);
+            m_objCacheManager = CacheManager.Instance();
+            m_objConnection = Connection.Instance();
+            m_objMessageProcessor = new MessageProcessor();
+            m_objClientManager = ClientManager.Instance();
+            //private Connection m_Connection = Connection.Instance();
+
         }
 
         public void Run()
         {
-            GUIHandler.GetInstance().Init(m_CacheManager, m_Connection, m_MessageProcessor);
-
+            //GUIHandler.Instance.Init(m_CacheManager, m_Connection, m_MessageProcessor);
+            GUIHandler guiHandler = GUIHandler.Instance;
+            guiHandler.Init(m_objCacheManager, m_objConnection, m_objMessageProcessor, m_objClientManager);
             //m_Connection.ConnectionInit();
         }
     }

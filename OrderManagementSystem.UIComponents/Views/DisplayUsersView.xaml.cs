@@ -32,7 +32,7 @@ namespace OrderManagementSystem.UIComponents.Views
             this.DataContext = userViewModel;
 
             TableView tableView = UserGrid.View as TableView;
-            bool isAdminUser = GUIHandler.GetInstance().CurrentUser.IsAdmin;
+            bool isAdminUser = GUIHandler.Instance.CurrentUser.IsAdmin;
             if (!isAdminUser)
             {
                 tableView.AllowEditing = false;

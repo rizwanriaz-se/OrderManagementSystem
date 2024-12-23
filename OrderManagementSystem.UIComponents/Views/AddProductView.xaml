@@ -60,35 +60,35 @@ xmlns:sys="clr-namespace:System;assembly=mscorlib"
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Name" FontWeight="Bold" />
-                    <dxe:TextEdit Text="{Binding ProductNameText, Mode=TwoWay}" />
+                    <dxe:TextEdit Text="{Binding ProductNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Description" />
-                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding ProductDescriptionText, Mode=TwoWay}"  />
+                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding ProductDescriptionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Category" />
-                    <dxe:ComboBoxEdit ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" DisplayMember="Name"></dxe:ComboBoxEdit>
+                    <dxe:ComboBoxEdit ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMember="Name"></dxe:ComboBoxEdit>
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Unit Price" />
-                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding ProductUnitPriceText, Mode=TwoWay}"  />
+                    <dxe:TextEdit TextWrapping="Wrap" EditValue="{Binding ProductUnitPriceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="n2" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem >
                 <StackPanel>
                     <Label Content="Units in Stock" />
-                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding ProductUnitsInStockText, Mode=TwoWay}"  />
+                    <dxe:TextEdit TextWrapping="Wrap" EditValue="{Binding ProductUnitsInStockText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  MaskType="Numeric" Mask="d"  />
                 </StackPanel>
             </dxlc:LayoutItem>
 

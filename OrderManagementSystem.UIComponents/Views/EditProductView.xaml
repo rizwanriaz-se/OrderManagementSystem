@@ -80,14 +80,14 @@
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Unit Price" />
-                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding ProductUnitPriceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <dxe:TextEdit TextWrapping="Wrap" EditValue="{Binding ProductUnitPriceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="n2" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem>
                 <StackPanel >
                     <Label Content="Units in Stock" />
-                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding ProductUnitsInStockText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
+                    <dxe:TextEdit TextWrapping="Wrap" EditValue="{Binding ProductUnitsInStockText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Numeric" Mask="d" />
                 </StackPanel>
             </dxlc:LayoutItem>
 

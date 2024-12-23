@@ -48,7 +48,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public OrderViewModel()
         {
 
-            Orders = GUIHandler.GetInstance().CacheManager.GetAllOrders();
+            Orders = GUIHandler.Instance.CacheManager.GetAllOrders();
 
             EditOrderCommand = new RelayCommand(ExecuteEditOrder, CanExecuteEditOrder);
             DeleteOrderCommand = new RelayCommand(ExecuteDeleteOrder, CanExecuteDeleteOrder);
@@ -78,8 +78,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void ExecuteDeleteOrder(object obj)
         {
-            //GUIHandler.GetInstance().CacheManager.DeleteOrder(SelectedOrder);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Delete, SelectedOrder);
+            //GUIHandler.Instance.CacheManager.DeleteOrder(SelectedOrder);
+            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Delete, SelectedOrder);
             //Orders.Remove(SelectedOrder);
         }
 

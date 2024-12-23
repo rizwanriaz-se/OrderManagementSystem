@@ -60,7 +60,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
         public ObservableCollection<OrderStatus> SelectableStatuses { get; }
-        //public User CurrentUser { get; set; } = GUIHandler.GetInstance().CacheManager.CurrentUser;
+        //public User CurrentUser { get; set; } = GUIHandler.Instance.CacheManager.CurrentUser;
 
 
 
@@ -161,9 +161,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         #region Constructor
         public AddOrderViewModel()
         {
-            AllProducts = GUIHandler.GetInstance().CacheManager.GetAllProducts();
-            AllUsers = GUIHandler.GetInstance().CacheManager.GetAllUsers();
-            CurrentUser = GUIHandler.GetInstance().CurrentUser;
+            AllProducts = GUIHandler.Instance.CacheManager.GetAllProducts();
+            AllUsers = GUIHandler.Instance.CacheManager.GetAllUsers();
+            CurrentUser = GUIHandler.Instance.CurrentUser;
 
             if (CurrentUser == null)
             {
@@ -199,7 +199,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             //}
 
             // Get the last order Id to generate new order Id
-            int? lastOrderId = GUIHandler.GetInstance().CacheManager.GetAllOrders().Last().Id;
+            int? lastOrderId = GUIHandler.Instance.CacheManager.GetAllOrders().Last().Id;
 
             // Create new Order object
             Order order = new Order
@@ -211,7 +211,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 OrderDetails = OrderDetails,
                 //OrderDetails = ProductRows.Select(row => new OrderDetail
                 //{
-                //    Product = GUIHandler.GetInstance().CacheManager.GetProductByName(row),
+                //    Product = GUIHandler.Instance.CacheManager.GetProductByName(row),
                 //    Quantity = row.Quantity
                 //}).ToList(),
 
@@ -220,8 +220,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             };
 
             // Add the new order to the OrderManager
-            //GUIHandler.GetInstance().CacheManager.AddOrder(order);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(
+            //GUIHandler.Instance.CacheManager.AddOrder(order);
+            GUIHandler.Instance.MessageProcessor.SendMessage(
                 Enums.MessageType.Order,
                 Enums.MessageAction.Add,
                 order

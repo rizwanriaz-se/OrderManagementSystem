@@ -34,7 +34,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public RelayCommand SaveOrderCommand { get; set; }
         public EditOrderViewModel(Order order)
         {
-            AllProducts = GUIHandler.GetInstance().CacheManager.GetAllProducts();
+            AllProducts = GUIHandler.Instance.CacheManager.GetAllProducts();
             AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);
             RemoveProductCommand = new RelayCommand(RemoveOrderDetails, CanRemoveOrderDetails);
             SaveOrderCommand = new RelayCommand(SaveOrder, CanSubmitOrder);
@@ -227,8 +227,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
 
             // Update the order in the database or collection
-            //GUIHandler.GetInstance().CacheManager.UpdateOrder(_order);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Update, _order);
+            //GUIHandler.Instance.CacheManager.UpdateOrder(_order);
+            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Update, _order);
 
             // Close the window
             CloseWindow?.Invoke();

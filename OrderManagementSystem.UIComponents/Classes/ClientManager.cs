@@ -13,6 +13,9 @@ using System.Text.Json;
 using System.Diagnostics;
 //using OrderManagementSystem.Cache;
 using System.Collections.ObjectModel;
+using DevExpress.Xpf.Core;
+using DevExpress.Internal.WinApi.Windows.UI.Notifications;
+using System.Windows;
 //using OrderManagementSystem.Repositories.Repositories;
 
 
@@ -23,6 +26,7 @@ namespace OrderManagementSystem.UIComponents.Classes
     public class ClientManager
     {
         private System.Timers.Timer _heartbeatTimer;
+
         private TcpClient _client;
 
         public TcpClient Client
@@ -49,6 +53,7 @@ namespace OrderManagementSystem.UIComponents.Classes
             return m_Instance;
         }
 
+        //implement logic for else and also retries in case the server is down and up later. Retry could be like telling user to either send retry or not.
         public async Task ConnectToServer()
         {
             // Connect to server
@@ -71,6 +76,7 @@ namespace OrderManagementSystem.UIComponents.Classes
                     onConnected?.Invoke();
                 }
 
+
                 //_stream = _client.GetStream();
 
                 //InitializeHeartbeat();
@@ -82,6 +88,21 @@ namespace OrderManagementSystem.UIComponents.Classes
             catch (Exception ex)
             {
                 Debug.WriteLine($"Connection error: {ex.Message}");
+
+                MessageBoxResult result = DXMessageBox.Show(
+$"Failed to connect to server. {ex.Message}. Do you want to try again?",
+               "Error",
+               System.Windows.MessageBoxButton.YesNo
+               );
+
+                if (result == System.Windows.MessageBoxResult.Yes)
+                {
+                    ConnectToServer();
+                }
+                else if (result == System.Windows.MessageBoxResult.No)
+                {
+                    HandleServerDisconnected();
+                }
             }
         }
 
@@ -137,7 +158,7 @@ namespace OrderManagementSystem.UIComponents.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error extracting JSON: {ex.Message}");
+                Debug.WriteLine($"Error extracting JSON: {ex.Message}");
             }
 
             return false; // No valid JSON found yet
@@ -168,7 +189,7 @@ namespace OrderManagementSystem.UIComponents.Classes
                     default:
                         break;
                 }
-                //GUIHandler.GetInstance().MessageProcessor.ReceiveMessage(resp.MessageType, resp.MessageAction, resp.Data);
+                //GUIHandler.Instance.MessageProcessor.ReceiveMessage(resp.MessageType, resp.MessageAction, resp.Data);
             }
             catch (Exception ex)
             {
@@ -183,28 +204,74 @@ namespace OrderManagementSystem.UIComponents.Classes
             _heartbeatTimer.AutoReset = true;
         }
 
-
         private async Task SendHeartbeat()
         {
-            if (_client != null && _client.Connected)
-            {
-                try
-                {
 
-                    GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
-                }
-                catch
-                {
+            try
+            {
+                if (_client != null && _client.Connected)
+
+                    GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
+                else
                     HandleServerDisconnected();
-                }
             }
+            catch (Exception ex)
+            {
+
+                // Without Dispatcher, got error: System.InvalidOperationException: 'The calling thread must be STA, because many UI components require this.'
+
+                Debug.WriteLine("Error in SendHeartbeat: " + ex.Message);
+            }
+
+
+            //if (_client != null && _client.Connected)
+            //{
+            //    try
+            //    {
+
+            //        GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
+            //    }
+            //    catch
+            //    {
+            //        HandleServerDisconnected();
+            //    }
+            //}
+            //else
+            //{
+            //    HandleServerDisconnected();
+            //}
         }
 
-        private void HandleServerDisconnected()
+        public async void HandleServerDisconnected()
         {
-            Console.WriteLine("Server disconnected.");
+            Debug.WriteLine("Server disconnected.");
             Connected = false;
-            _heartbeatTimer.Stop();
+            if (System.Windows.Application.Current != null)
+            {
+
+                MessageBoxResult result = System.Windows.Application.Current.Dispatcher.Invoke(() => DXMessageBox.Show("Failed to connect to server. Do you want to try again?", "Error", MessageBoxButton.YesNo));
+                if (result == MessageBoxResult.Yes)
+                {
+
+                    ConnectToServer();
+                }
+                if (result == MessageBoxResult.No)
+                {
+
+                    System.Windows.Application.Current.Dispatcher.Invoke(() => System.Windows.Application.Current.Shutdown());
+                }
+                //if (result.Equals(MessageBoxResult.Yes))
+                //{
+                //    //System.Windows.Application.Current.Dispatcher.Invoke(() => System.Windows.Application.Current.MainWindow.Close());
+                //    ConnectToServer();
+                //}
+                if (_heartbeatTimer != null)
+                {
+                    _heartbeatTimer.Stop();
+                }
+            }
+            //_heartbeatTimer.Stop();
+
         }
 
 
@@ -235,18 +302,18 @@ namespace OrderManagementSystem.UIComponents.Classes
         //                switch (response.MessageAction)
         //                {
         //                    case Enums.MessageAction.Add:
-        //                        GUIHandler.GetInstance().CacheManager.AddCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.AddCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Delete:
 
-        //                        GUIHandler.GetInstance().CacheManager.DeleteCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.DeleteCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Update:
-        //                        GUIHandler.GetInstance().CacheManager.UpdateCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.UpdateCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Load:
         //                        ObservableCollection<Category> categories = JsonSerializer.Deserialize<ObservableCollection<Category>>(response.Data.ToString());
-        //                        GUIHandler.GetInstance().CacheManager.LoadCategories(categories);
+        //                        GUIHandler.Instance.CacheManager.LoadCategories(categories);
         //                        break;
         //                }
         //                break;
@@ -254,17 +321,17 @@ namespace OrderManagementSystem.UIComponents.Classes
         //                switch (response.MessageAction)
         //                {
         //                    case Enums.MessageAction.Add:
-        //                        GUIHandler.GetInstance().CacheManager.AddProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.AddProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Delete:
-        //                        GUIHandler.GetInstance().CacheManager.DeleteProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.DeleteProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Update:
-        //                        GUIHandler.GetInstance().CacheManager.UpdateProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.UpdateProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Load:
         //                        ObservableCollection<Product> products = JsonSerializer.Deserialize<ObservableCollection<Product>>(response.Data.ToString());
-        //                        GUIHandler.GetInstance().CacheManager.LoadProducts(products);
+        //                        GUIHandler.Instance.CacheManager.LoadProducts(products);
         //                        break;
         //                }
         //                break;
@@ -272,17 +339,17 @@ namespace OrderManagementSystem.UIComponents.Classes
         //                switch (response.MessageAction)
         //                {
         //                    case Enums.MessageAction.Add:
-        //                        GUIHandler.GetInstance().CacheManager.AddOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.AddOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Delete:
-        //                        GUIHandler.GetInstance().CacheManager.DeleteOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.DeleteOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Update:
-        //                        GUIHandler.GetInstance().CacheManager.UpdateOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.UpdateOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Load:
         //                        ObservableCollection<Order> orders = JsonSerializer.Deserialize<ObservableCollection<Order>>(response.Data.ToString());
-        //                        GUIHandler.GetInstance().CacheManager.LoadOrders(orders);
+        //                        GUIHandler.Instance.CacheManager.LoadOrders(orders);
         //                        break;
         //                }
         //                break;
@@ -290,17 +357,17 @@ namespace OrderManagementSystem.UIComponents.Classes
         //                switch (response.MessageAction)
         //                {
         //                    case Enums.MessageAction.Add:
-        //                        GUIHandler.GetInstance().CacheManager.AddUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.AddUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Delete:
-        //                        GUIHandler.GetInstance().CacheManager.DeleteUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.DeleteUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Update:
-        //                        GUIHandler.GetInstance().CacheManager.UpdateUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
+        //                        GUIHandler.Instance.CacheManager.UpdateUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
         //                        break;
         //                    case Enums.MessageAction.Load:
         //                        ObservableCollection<User> users = JsonSerializer.Deserialize<ObservableCollection<User>>(response.Data.ToString());
-        //                        GUIHandler.GetInstance().CacheManager.LoadUsers(users);
+        //                        GUIHandler.Instance.CacheManager.LoadUsers(users);
         //                        break;
         //                }
         //                break;

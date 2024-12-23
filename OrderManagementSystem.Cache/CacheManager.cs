@@ -7,10 +7,14 @@ namespace OrderManagementSystem.Cache
 {
     public class CacheManager
     {
-        public ObservableCollection<Category> _AllCategories { get; private set; }
-        public ObservableCollection<Order> _AllOrders { get; private set; }
-        public ObservableCollection<Product> _AllProducts { get; private set; }
-        public ObservableCollection<User> _AllUsers { get; private set; }
+        // change naming convention like _AllCategories to objCategories
+        // make them member variable initially as null, and private setter removal
+
+
+        private ObservableCollection<Category> m_objCategories;
+        private ObservableCollection<Order> m_objOrders;
+        private ObservableCollection<Product> m_objProducts;
+        private ObservableCollection<User> m_objUsers;
 
         private User m_CurrentUser;
 
@@ -33,78 +37,78 @@ namespace OrderManagementSystem.Cache
         public void LoadCategories(ObservableCollection<Category> categories)
         {
             if (categories == null) return;
-            _AllCategories = categories;
+            m_objCategories = categories;
         }
 
         public void LoadOrders(ObservableCollection<Order> orders)
         {
             if (orders == null) return;
-            _AllOrders = orders;
+            m_objOrders = orders;
         }
 
         public void LoadProducts(ObservableCollection<Product> products)
         {
             if (products == null) return;
-            _AllProducts = products;
+            m_objProducts = products;
         }
 
         public void LoadUsers(ObservableCollection<User> users)
         {
             if (users == null) return;
-            _AllUsers = users;
+            m_objUsers = users;
         }
 
         private CacheManager()
         {
 
-            _AllUsers = new ObservableCollection<User>();
+            m_objUsers = new ObservableCollection<User>();
 
-            _AllCategories = new ObservableCollection<Category>();
+            m_objCategories = new ObservableCollection<Category>();
 
-            _AllProducts = new ObservableCollection<Product>();
+            m_objProducts = new ObservableCollection<Product>();
 
-            _AllOrders = new ObservableCollection<Order>();
+            m_objOrders = new ObservableCollection<Order>();
         }
 
         public Category GetCategoryById(int id)
         {
-            return _AllCategories.FirstOrDefault(c => c.Id == id);
+            return m_objCategories.FirstOrDefault(c => c.Id == id);
         }
         public ObservableCollection<Category> GetAllCategories()
         {
-            return _AllCategories;
+            return m_objCategories;
         }
         public void AddCategory(Category category)
         {
-            _AllCategories.Add(category);
+            m_objCategories.Add(category);
         }
         public void DeleteCategory(Category category)
         {
-            _AllCategories.Remove(category);
+            m_objCategories.Remove(category);
         }
         public void UpdateCategory(Category category)
         {
-            var categoryToUpdate = _AllCategories.FirstOrDefault(c => c.Id == category.Id);
+            var categoryToUpdate = m_objCategories.FirstOrDefault(c => c.Id == category.Id);
             categoryToUpdate.Name = category.Name;
             categoryToUpdate.Description = category.Description;
             categoryToUpdate.Picture = category.Picture;
         }
         public ObservableCollection<Order> GetAllOrders()
         {
-            return _AllOrders;
+            return m_objOrders;
         }
         public Order GetOrderById(int id)
         {
-            return _AllOrders.FirstOrDefault(o => o.Id == id);
+            return m_objOrders.FirstOrDefault(o => o.Id == id);
         }
         public void AddOrder(Order order)
         {
-            _AllOrders.Add(order);
+            m_objOrders.Add(order);
         }
         public void UpdateOrder(Order updatedOrder)
         {
             // Retrieve the existing order with the same ID
-            var existingOrder = _AllOrders.FirstOrDefault(o => o.Id == updatedOrder.Id);
+            var existingOrder = m_objOrders.FirstOrDefault(o => o.Id == updatedOrder.Id);
 
             if (existingOrder != null)
             {
@@ -123,30 +127,30 @@ namespace OrderManagementSystem.Cache
         }
         public void DeleteOrder(Order order)
         {
-            _AllOrders.Remove(order);
+            m_objOrders.Remove(order);
         }
         public ObservableCollection<Product> GetAllProducts()
         {
-            return _AllProducts;
+            return m_objProducts;
         }
         public Product GetProductByID(int id)
         {
 
-            return _AllProducts.FirstOrDefault(p => p.Id == id);
+            return m_objProducts.FirstOrDefault(p => p.Id == id);
         }
         public Product GetProductByName(OrderDetail orderDetail)
         {
 
 
-            return _AllProducts.FirstOrDefault(p => p.Name == orderDetail.Product.Name);
+            return m_objProducts.FirstOrDefault(p => p.Name == orderDetail.Product.Name);
         }
         public void AddProduct(Product product)
         {
-            _AllProducts.Add(product);
+            m_objProducts.Add(product);
         }
         public void UpdateProduct(Product product)
         {
-            var existingProduct = _AllProducts.FirstOrDefault(p => p.Id == product.Id);
+            var existingProduct = m_objProducts.FirstOrDefault(p => p.Id == product.Id);
             if (existingProduct != null)
             {
                 existingProduct.Name = product.Name;
@@ -161,26 +165,26 @@ namespace OrderManagementSystem.Cache
         }
         public void DeleteProduct(Product product)
         {
-            _AllProducts.Remove(product);
+            m_objProducts.Remove(product);
             
         }
         public ObservableCollection<User> GetAllUsers()
         {
-            return _AllUsers;
+            return m_objUsers;
         }
 
         public void AddUser(User user)
         {
-            _AllUsers.Add(user);
+            m_objUsers.Add(user);
             //SaveData(true);
         }
         public User GetUserByID(int id)
         {
-            return _AllUsers.FirstOrDefault(u => u.Id == id);
+            return m_objUsers.FirstOrDefault(u => u.Id == id);
         }
         public void UpdateUser(User user)
         {
-            var existingUser = _AllUsers.FirstOrDefault(u => u.Id == user.Id);
+            var existingUser = m_objUsers.FirstOrDefault(u => u.Id == user.Id);
             if (existingUser != null)
             {
                 existingUser.Name = user.Name;
@@ -195,7 +199,7 @@ namespace OrderManagementSystem.Cache
 
         public void DeleteUser(User user)
         {
-            _AllUsers.Remove(user);
+            m_objUsers.Remove(user);
         }
     }
 }

@@ -19,14 +19,18 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         public async void ConnectionInit()
         {
-            GUIHandler.GetInstance().CacheManager = CacheManager.Instance();
-            GUIHandler.GetInstance().ClientManager = ClientManager.Instance();
-            GUIHandler.GetInstance().ClientManager.onConnected += OnServerConnect;
+            // this needs to be removed as results in calling instance multiple times
+            //GUIHandler.Instance.CacheManager = CacheManager.Instance();
+            //GUIHandler.Instance.ClientManager = ClientManager.Instance();
+            //GUIHandler.Instance.ClientManager.onConnected += OnServerConnect;
 
-            if (!GUIHandler.GetInstance().ClientManager.Connected)
+            GUIHandler guiHandler = GUIHandler.Instance;
+            guiHandler.ClientManager.onConnected += OnServerConnect;
+
+            if (!guiHandler.ClientManager.Connected)
             {
                 //GUIHandler.Init
-                await GUIHandler.GetInstance().ClientManager.ConnectToServer();
+                await GUIHandler.Instance.ClientManager.ConnectToServer();
             }
         }
 

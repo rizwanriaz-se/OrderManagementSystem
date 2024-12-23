@@ -77,7 +77,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             AddProductCommand = new RelayCommand(ExecuteAddProduct, CanExecuteAddProduct);
             ViewUserCommand = new RelayCommand(ExecuteViewUser, CanExecuteViewUser);
             AddUserCommand = new RelayCommand(ExecuteAddUser, CanExecuteAddUser);
-            CurrentUser = GUIHandler.GetInstance().CurrentUser;
+            CurrentUser = GUIHandler.Instance.CurrentUser;
             AddOrderBlotterCommand = new RelayCommand(ExecuteAddOrderBlotter, CanExecuteAddOrderBlotter);
             //AddProductBlotterCommand = new RelayCommand(ExecuteAddProductBlotter, CanExecuteAddProductBlotter);
             //AddUserBlotterCommand = new RelayCommand(ExecuteAddUserBlotter, CanExecuteAddUserBlotter);

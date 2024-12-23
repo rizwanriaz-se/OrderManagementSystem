@@ -31,9 +31,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private string _ProductNameText;
         private string _ProductDescriptionText;
         //private byte[] _Picture;
-        private decimal? _ProductUnitPriceText;
-        private int? _ProductUnitsInStockText;
-
+        private decimal _ProductUnitPriceText;
+        private int _ProductUnitsInStockText;
+        private Category _SelectedCategory;
 
         public int Id { get; set; }
 
@@ -67,11 +67,20 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
 
-        public Category SelectedCategory { get; set; }
+        [Required(ErrorMessage = "Category must be selected.")]
+        public Category SelectedCategory {
+            get { return _SelectedCategory; }
+            set
+            {
+                _SelectedCategory = value;
+                Validate(nameof(SelectedCategory), _SelectedCategory);
+            }
+        }
         public byte[] Picture { get; set; }
 
         [Required(ErrorMessage = "Product Unit Price is required")]
-        public decimal? ProductUnitPriceText
+        [Range(1, int.MaxValue, ErrorMessage = "Unit Price must be greater than zero.")]
+        public decimal ProductUnitPriceText
         {
 
             get { return _ProductUnitPriceText; }
@@ -83,7 +92,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
 
         [Required(ErrorMessage = "Product Stock Units value is required")]
-        public int? ProductUnitsInStockText
+        [Range(1, int.MaxValue, ErrorMessage = "Stock Units must be greater than zero.")]
+        public int ProductUnitsInStockText
         {
 
             get { return _ProductUnitsInStockText; }
@@ -128,7 +138,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public EditProductViewModel(Product product)
         {
-            Categories = GUIHandler.GetInstance().CacheManager.GetAllCategories();
+            Categories = GUIHandler.Instance.CacheManager.GetAllCategories();
             SaveProductCommand = new RelayCommand(SaveProduct, CanSaveProduct);
 
             _Product = product;
@@ -158,8 +168,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _Product.UnitPrice = ProductUnitPriceText;
             _Product.UnitsInStock = ProductUnitsInStockText;
 
-            //GUIHandler.GetInstance().CacheManager.UpdateProduct(_Product);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Update, _Product);
+            //GUIHandler.Instance.CacheManager.UpdateProduct(_Product);
+            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Update, _Product);
 
             CloseWindow.Invoke();
 

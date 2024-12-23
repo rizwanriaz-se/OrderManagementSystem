@@ -89,7 +89,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public CategoryViewModel()
         {
-            Categories = GUIHandler.GetInstance().CacheManager.GetAllCategories();
+            Categories = GUIHandler.Instance.CacheManager.GetAllCategories();
             SubmitCategoryCommand = new RelayCommand(SubmitCategory, CanSubmitCategory);
             EditCategoryCommand = new RelayCommand(EditCategory, CanEditCategory);
             DeleteCategoryCommand = new RelayCommand(DeleteCategory, CanDeleteCategory);
@@ -126,13 +126,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Picture = null
             };
 
-            //GUIHandler.GetInstance().CacheManager.AddCategory(category);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(
+            //GUIHandler.Instance.CacheManager.AddCategory(category);
+            GUIHandler.Instance.MessageProcessor.SendMessage(
                 Enums.MessageType.Category,
                 Enums.MessageAction.Add,
                 category
             );
-            //GUIHandler.GetInstance().ClientManager.SendMessage(new Request
+            //GUIHandler.Instance.ClientManager.SendMessage(new Request
             //{
             //    MessageType = Enums.MessageType.Category,
             //    MessageAction = Enums.MessageAction.Add,
@@ -166,8 +166,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void DeleteCategory(object obj)
         {
-            //GUIHandler.GetInstance().CacheManager.DeleteCategory(SelectedCategory);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(
+            //GUIHandler.Instance.CacheManager.DeleteCategory(SelectedCategory);
+            GUIHandler.Instance.MessageProcessor.SendMessage(
                 Enums.MessageType.Category,
                 Enums.MessageAction.Delete,
                 SelectedCategory

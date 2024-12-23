@@ -227,7 +227,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             RegisterUserCommand = new RelayCommand(RegisterUser, CanRegisterUser);
             LoginUserCommand = new RelayCommand(LoginUser, CanLoginUser);
-            //GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.All, Enums.MessageAction.Load, null);
+            //GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.All, Enums.MessageAction.Load, null);
 
             // Trigger validation for initial state
             //ValidateLogin(nameof(EmailLoginText), EmailLoginText);
@@ -248,13 +248,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void LoginUser(object obj)
         {
             
-            User user = GUIHandler.GetInstance().CacheManager.GetAllUsers().FirstOrDefault(u => 
+            User user = GUIHandler.Instance.CacheManager.GetAllUsers().FirstOrDefault(u => 
                 u.Email == EmailLoginText && 
                 u.Password == PasswordLoginText && 
                 u.IsAdmin == (SelectedLoginRole=="Admin")
                 );
-            //var user =  GUIHandler.GetInstance().ClientManager(EmailLoginText, PasswordLoginText);
-            //GUIHandler.GetInstance().ClientManager.SendRequest(
+            //var user =  GUIHandler.Instance.ClientManager(EmailLoginText, PasswordLoginText);
+            //GUIHandler.Instance.ClientManager.SendRequest(
             //    new Request
             //    {
             //        Type = "Login",
@@ -271,14 +271,14 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 }
                 //CurrentUser = user;
 
-                //GUIHandler.GetInstance().CacheManager.SetCurrentUser(user);
+                //GUIHandler.Instance.CacheManager.SetCurrentUser(user);
 
-                //GUIHandler.GetInstance().CacheManager.CurrentUser = user;
-                GUIHandler.GetInstance().CurrentUser = user;
+                //GUIHandler.Instance.CacheManager.CurrentUser = user;
+                GUIHandler.Instance.CurrentUser = user;
 
-                //GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.All, Enums.MessageAction.Load, null);
+                //GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.All, Enums.MessageAction.Load, null);
 
-                //DXMessageBox.Show($"Logged in as: {GUIHandler.GetInstance().CurrentUser.Name}");
+                //DXMessageBox.Show($"Logged in as: {GUIHandler.Instance.CurrentUser.Name}");
                 var mainWindow = new MainWindow();
                 mainWindow.Show();
 
@@ -301,7 +301,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             var user = new User
             {
-                Id = GUIHandler.GetInstance().CacheManager.GetAllUsers().Last().Id + 1,
+                Id = GUIHandler.Instance.CacheManager.GetAllUsers().Last().Id + 1,
                 Name = NameRegisterText,
                 Email = EmailRegisterText,
                 Phone = PhoneRegisterText,
@@ -313,9 +313,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             };
 
             // Save the user to the database
-            //GUIHandler.GetInstance().CacheManager.AddUser(user);
+            //GUIHandler.Instance.CacheManager.AddUser(user);
 
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Add, user);
+            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Add, user);
             //CloseWindow.Invoke();
 
             //MainWindow mainWindow = new MainWindow();

@@ -143,9 +143,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _User.IsAdmin = UserIsAdmin;
 
 
-            //GUIHandler.GetInstance().CacheManager.UpdateUser(_User);
+            //GUIHandler.Instance.CacheManager.UpdateUser(_User);
 
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Update, _User);
+            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Update, _User);
 
             CloseWindow.Invoke();
 

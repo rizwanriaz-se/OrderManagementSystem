@@ -48,7 +48,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public UserViewModel()
         {
-            Users = GUIHandler.GetInstance().CacheManager.GetAllUsers();
+            Users = GUIHandler.Instance.CacheManager.GetAllUsers();
             EditUserCommand = new RelayCommand(EditUser, CanEditUser);
             DeleteUserCommand = new RelayCommand(DeleteUser, CanDeleteUser);
             SubmitUserCommand = new RelayCommand(SubmitUser, CanSubmitUser);
@@ -71,8 +71,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 IsAdmin = UserIsAdmin
             };
 
-            GUIHandler.GetInstance().CacheManager.AddUser(user);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Add, user);
+            GUIHandler.Instance.CacheManager.AddUser(user);
+            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Add, user);
             CloseWindow.Invoke();
             //Users.Add(user);
         }
@@ -83,8 +83,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
         private void DeleteUser(object obj)
         {
-            GUIHandler.GetInstance().CacheManager.DeleteUser(SelectedUser);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Delete, SelectedUser);
+            GUIHandler.Instance.CacheManager.DeleteUser(SelectedUser);
+            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Delete, SelectedUser);
             //Users.Remove(SelectedUser);
         }
 

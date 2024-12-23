@@ -33,11 +33,11 @@ namespace OrderManagementSystem.UIComponents.Views
         public AuthWindow()
         {
             InitializeComponent();
-            //GUIHandler.GetInstance().Init(m_CacheManager, m_Connection, m_MessageProcessor);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Load, null);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Load, null);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Load, null);
-            GUIHandler.GetInstance().MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Load, null);
+            //GUIHandler.Instance.Init(m_CacheManager, m_Connection, m_MessageProcessor);
+            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Load, null);
+            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Load, null);
+            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Load, null);
+            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Load, null);
 
             // Set the DataContext of the window to the ViewModel
             AuthViewModel authViewModel = new AuthViewModel();
