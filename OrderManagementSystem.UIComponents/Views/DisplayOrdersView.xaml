@@ -6,7 +6,7 @@
              xmlns:dxg1="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:Views="clr-namespace:OrderManagementSystem.UIComponents.Views"
-             xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"  x:Class="OrderManagementSystem.UIComponents.Views.DisplayOrdersView"
+             xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking" xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" x:Class="OrderManagementSystem.UIComponents.Views.DisplayOrdersView"
              mc:Ignorable="d"
              
              d:DesignHeight="300" d:DesignWidth="300">
@@ -23,19 +23,29 @@
 
     <dxg1:GridControl DockPanel.Dock="Top" Name="OrderGrid" ItemsSource="{Binding Orders}" Height="300" SelectedItem="{Binding SelectedOrder}" PreviewMouseDown="OrderGrid_PreviewMouseDown">
         
+       
         <dxg1:GridControl.View>
-            <dxg1:TableView  DetailHeaderContent="Products" ShowGroupPanel="False" Name="OrderTableView" AllowConditionalFormattingManager="True"  AllowEditing="False"/>
+            <dxg1:TableView DetailHeaderContent="Products" ShowGroupPanel="False" Name="OrderTableView" AllowConditionalFormattingManager="True"  AllowEditing="False">
+                <dxg1:TableView.RowCellMenuCustomizations>
+                    <dxb:BarButtonItem Name="editRowItem" Content="Edit"
+                       IsEnabled="{Binding Row.Row.CanBeDeleted}"
+                       Command="{Binding DataContext.EditOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
+                    <dxb:BarButtonItem Name="deleteRowItem" Content="Delete"
+                       IsEnabled="{Binding Row.Row.CanBeDeleted}"
+                       Command="{Binding DataContext.DeleteOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}"
+                       CommandParameter="{Binding Row.Row.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
+                </dxg1:TableView.RowCellMenuCustomizations>
+            </dxg1:TableView>
         </dxg1:GridControl.View>
 
-        
-        
+<!--
         <dxg1:GridControl.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Edit Order" Command="{Binding EditOrderCommand}" />
                 <MenuItem Header="Delete Order" Command="{Binding DeleteOrderCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
             </ContextMenu>
         </dxg1:GridControl.ContextMenu>
-
+-->
         <dxg1:GridControl.DetailDescriptor>
             <dxg1:DataControlDetailDescriptor ItemsSourceBinding="{Binding OrderDetails}">
                 <dxg1:GridControl>

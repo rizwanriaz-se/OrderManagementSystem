@@ -221,7 +221,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             // Add the new order to the OrderManager
             //GUIHandler.Instance.CacheManager.AddOrder(order);
-            GUIHandler.Instance.MessageProcessor.SendMessage(
+            MessageProcessor.SendMessage(
                 Enums.MessageType.Order,
                 Enums.MessageAction.Add,
                 order

@@ -165,7 +165,9 @@ namespace OrderManagementSystem.Cache
         }
         public void DeleteProduct(Product product)
         {
-            m_objProducts.Remove(product);
+            Product productToDelete = m_objProducts.FirstOrDefault(p => p.Equals(product));
+            //_AllProducts.Remove(productToDelete);
+            m_objProducts.Remove(productToDelete);
             
         }
         public ObservableCollection<User> GetAllUsers()

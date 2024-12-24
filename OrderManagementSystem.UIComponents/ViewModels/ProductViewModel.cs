@@ -187,7 +187,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void DeleteProduct(object obj)
         {
             //GUIHandler.Instance.CacheManager.DeleteProduct(SelectedProduct);
-            GUIHandler.Instance.MessageProcessor.SendMessage(
+            MessageProcessor.SendMessage(
                 Enums.MessageType.Product,
                 Enums.MessageAction.Delete,
                 SelectedProduct
@@ -216,7 +216,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             };
 
             //GUIHandler.Instance.CacheManager.AddProduct(product);
-            GUIHandler.Instance.MessageProcessor.SendMessage(
+            MessageProcessor.SendMessage(
                 Enums.MessageType.Product,
                 Enums.MessageAction.Add,
                 product

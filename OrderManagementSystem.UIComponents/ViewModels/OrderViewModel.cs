@@ -79,7 +79,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void ExecuteDeleteOrder(object obj)
         {
             //GUIHandler.Instance.CacheManager.DeleteOrder(SelectedOrder);
-            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Delete, SelectedOrder);
+            MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Delete, SelectedOrder);
             //Orders.Remove(SelectedOrder);
         }
 

@@ -72,7 +72,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             };
 
             GUIHandler.Instance.CacheManager.AddUser(user);
-            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Add, user);
+            MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Add, user);
             CloseWindow.Invoke();
             //Users.Add(user);
         }
@@ -84,7 +84,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void DeleteUser(object obj)
         {
             GUIHandler.Instance.CacheManager.DeleteUser(SelectedUser);
-            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Delete, SelectedUser);
+            MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Delete, SelectedUser);
             //Users.Remove(SelectedUser);
         }
 

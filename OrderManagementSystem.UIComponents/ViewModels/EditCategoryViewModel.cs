@@ -111,7 +111,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
 
             //GUIHandler.Instance.CacheManager.UpdateCategory(_Category);
-            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Update, _Category);
+            MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Update, _Category);
 
             CloseWindow.Invoke();
 

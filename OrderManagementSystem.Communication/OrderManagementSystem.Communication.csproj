@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+	
+	<ItemGroup>
+		<PackageReference Include="DevExpress.Images" Version="24.1.7" />
+		<PackageReference Include="DevExpress.Wpf.Core" Version="24.1.7" />
+		<PackageReference Include="DevExpress.Wpf.Scheduling" Version="24.1.7" />
+		<PackageReference Include="DevExpress.Wpf.ThemesLW" Version="24.1.7" />
+		<PackageReference Include="DevExpress.Mvvm.CodeGenerators" Version="22.1.*-*" />
+    </ItemGroup>
+
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\OrderManagementSystem.Cache\OrderManagementSystem.Cache.csproj" />
+	</ItemGroup>
+	
+  <ItemGroup>
+    <Reference Include="DevExpress.Xpf.Core.v24.1">
+      <HintPath>..\..\..\..\..\..\Program Files\DevExpress 24.1\Components\Offline Packages\devexpress.wpf.core\24.1.7\lib\net6.0-windows\DevExpress.Xpf.Core.v24.1.dll</HintPath>
+    </Reference>
+    <Reference Include="OrderManagementSystemServer.Repository">
+      <HintPath>..\..\OrderManagementSystemServer\OrderManagementSystemServer.Repository\bin\Debug\net8.0\OrderManagementSystemServer.Repository.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+	
+
+	
+</Project>

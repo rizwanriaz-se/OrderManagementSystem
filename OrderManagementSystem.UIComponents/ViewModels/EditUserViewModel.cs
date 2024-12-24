@@ -145,7 +145,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             //GUIHandler.Instance.CacheManager.UpdateUser(_User);
 
-            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Update, _User);
+            MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Update, _User);
 
             CloseWindow.Invoke();
 

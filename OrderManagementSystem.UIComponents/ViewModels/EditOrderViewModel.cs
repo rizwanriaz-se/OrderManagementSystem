@@ -228,7 +228,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             // Update the order in the database or collection
             //GUIHandler.Instance.CacheManager.UpdateOrder(_order);
-            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Update, _order);
+            MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Update, _order);
 
             // Close the window
             CloseWindow?.Invoke();

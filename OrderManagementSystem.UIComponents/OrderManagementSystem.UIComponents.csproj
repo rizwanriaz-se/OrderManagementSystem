@@ -15,16 +15,19 @@
 		<PackageReference Include="DevExpress.Mvvm.CodeGenerators" Version="22.1.*-*" />
     </ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\OrderManagementSystem.Cache\OrderManagementSystem.Cache.csproj" />
-	</ItemGroup>
-
+	
 	<ItemGroup>
 	  <Reference Include="OrderManagementSystemServer.Repository">
 	    <HintPath>..\..\OrderManagementSystemServer\OrderManagementSystemServer.Repository\bin\Debug\net8.0\OrderManagementSystemServer.Repository.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\OrderManagementSystem.Cache\OrderManagementSystem.Cache.csproj" />
+		<ProjectReference Include="..\OrderManagementSystem.Communication\OrderManagementSystem.Communication.csproj" />
+		
+	</ItemGroup>
+	
 	
   <ItemGroup>
     <Compile Update="Views\AddCategoryView.xaml.cs">

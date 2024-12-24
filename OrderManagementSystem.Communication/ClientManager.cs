@@ -1,5 +1,5 @@
-﻿using DevExpress.Pdf.Native.BouncyCastle.Asn1.Ocsp;
-using DevExpress.XtraRichEdit.Fields.Expression;
+﻿//using DevExpress.Pdf.Native.BouncyCastle.Asn1.Ocsp;
+//using DevExpress.XtraRichEdit.Fields.Expression;
 //using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,12 @@ using System.Text.Json;
 using System.Diagnostics;
 //using OrderManagementSystem.Cache;
 using System.Collections.ObjectModel;
-using DevExpress.Xpf.Core;
-using DevExpress.Internal.WinApi.Windows.UI.Notifications;
+//using DevExpress.Xpf.Core;
+//using DevExpress.Wpf.Core;
+//using DevExpress.Internal.WinApi.Windows.UI.Notifications;
 using System.Windows;
+using DevExpress.Xpf.Core;
+using System.Reflection.Metadata;
 //using OrderManagementSystem.Repositories.Repositories;
 
 
@@ -211,7 +214,7 @@ $"Failed to connect to server. {ex.Message}. Do you want to try again?",
             {
                 if (_client != null && _client.Connected)
 
-                    GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
+                    MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
                 else
                     HandleServerDisconnected();
             }
@@ -229,7 +232,7 @@ $"Failed to connect to server. {ex.Message}. Do you want to try again?",
             //    try
             //    {
 
-            //        GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
+            //        MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
             //    }
             //    catch
             //    {

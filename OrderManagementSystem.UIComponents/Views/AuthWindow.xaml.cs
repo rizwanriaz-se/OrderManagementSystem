@@ -28,16 +28,17 @@ namespace OrderManagementSystem.UIComponents.Views
         public Action CloseWindow { get; set; }
         //private CacheManager m_CacheManager = CacheManager.Instance();
         //private Connection m_Connection = Connection.Instance();
-        private MessageProcessor m_MessageProcessor = new MessageProcessor();
+        //private MessageProcessor m_MessageProcessor = new MessageProcessor();
 
         public AuthWindow()
         {
             InitializeComponent();
             //GUIHandler.Instance.Init(m_CacheManager, m_Connection, m_MessageProcessor);
-            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Load, null);
-            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Load, null);
-            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Load, null);
-            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Load, null);
+            MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Load, null);
+            MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Load, null);
+            MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Load, null);
+            MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Load, null);
+
 
             // Set the DataContext of the window to the ViewModel
             AuthViewModel authViewModel = new AuthViewModel();

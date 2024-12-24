@@ -127,7 +127,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             };
 
             //GUIHandler.Instance.CacheManager.AddCategory(category);
-            GUIHandler.Instance.MessageProcessor.SendMessage(
+            MessageProcessor.SendMessage(
                 Enums.MessageType.Category,
                 Enums.MessageAction.Add,
                 category
@@ -167,7 +167,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void DeleteCategory(object obj)
         {
             //GUIHandler.Instance.CacheManager.DeleteCategory(SelectedCategory);
-            GUIHandler.Instance.MessageProcessor.SendMessage(
+            MessageProcessor.SendMessage(
                 Enums.MessageType.Category,
                 Enums.MessageAction.Delete,
                 SelectedCategory

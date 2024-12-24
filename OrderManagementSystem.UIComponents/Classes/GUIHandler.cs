@@ -1,4 +1,5 @@
-﻿using OrderManagementSystem.Cache;
+﻿using DevExpress.XtraRichEdit.Model;
+using OrderManagementSystem.Cache;
 using OrderManagementSystemServer.Repository;
 
 //using OrderManagementSystem.Repositories;
@@ -91,15 +92,26 @@ namespace OrderManagementSystem.UIComponents.Classes
             }
         }
 
-
-        public void Init(CacheManager cacheManager, Connection connection, MessageProcessor messageProcessor, ClientManager clientManager)
+        public void Init()
         {
-            m_objCacheManager = cacheManager;
-            m_objConnection = connection;
-            m_objMessageProcessor = messageProcessor;
-            m_objClientManager = clientManager;
+            m_objCacheManager = CacheManager.Instance();
+            m_objConnection = Connection.Instance();
+            m_objMessageProcessor = new MessageProcessor();
+            m_objClientManager = ClientManager.Instance();
 
             m_objConnection.ConnectionInit();
         }
+
+        //public void Init(CacheManager cacheManager, Connection connection, MessageProcessor messageProcessor, ClientManager clientManager)
+        //{
+        //    m_objCacheManager = cacheManager;
+        //    m_objConnection = connection;
+        //    m_objMessageProcessor = messageProcessor;
+        //    m_objClientManager = clientManager;
+
+        //    m_objConnection.ConnectionInit();
+        //}
+
+
     }
 }

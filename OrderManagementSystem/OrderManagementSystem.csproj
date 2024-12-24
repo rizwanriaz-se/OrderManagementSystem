@@ -19,9 +19,13 @@
     <PackageReference Include="DevExpress.Mvvm.CodeGenerators" Version="22.1.*-*" />
   </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\OrderManagementSystem.Client.Application\OrderManagementSystem.Client.Application.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OrderManagementSystem.Cache\OrderManagementSystem.Cache.csproj" />
+    <ProjectReference Include="..\OrderManagementSystem.Communication\OrderManagementSystem.Communication.csproj" />
+	  	<ProjectReference Include="..\OrderManagementSystem.UIComponents\OrderManagementSystem.UIComponents.csproj" />
+  </ItemGroup>
+
+	
 
 	
 </Project>

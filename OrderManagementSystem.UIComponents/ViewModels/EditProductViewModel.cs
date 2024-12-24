@@ -86,7 +86,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             get { return _ProductUnitPriceText; }
             set
             {
-                _ProductUnitPriceText = value;
+                _ProductUnitPriceText = Convert.ToDecimal(value); ;
                 Validate(nameof(ProductUnitPriceText), _ProductUnitPriceText);
             }
         }
@@ -99,7 +99,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             get { return _ProductUnitsInStockText; }
             set
             {
-                _ProductUnitsInStockText = value;
+                _ProductUnitsInStockText = Convert.ToInt32(value);
                 Validate(nameof(ProductUnitsInStockText), _ProductUnitsInStockText);
             }
 
@@ -169,7 +169,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _Product.UnitsInStock = ProductUnitsInStockText;
 
             //GUIHandler.Instance.CacheManager.UpdateProduct(_Product);
-            GUIHandler.Instance.MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Update, _Product);
+            MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Update, _Product);
 
             CloseWindow.Invoke();
 
