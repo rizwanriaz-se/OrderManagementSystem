@@ -22,10 +22,17 @@ namespace OrderManagementSystem.UIComponents.Views
     /// </summary>
     public partial class EditOrderView : ThemedWindow
     {
+        EditOrderViewModel editOrderViewModel = null;
         public EditOrderView()
         {
             InitializeComponent();
-            
+            //OrderStatusComboBox.EditValue = "text";
+
+            editOrderViewModel = new EditOrderViewModel(); //SelectedOrder
+            DataContext = editOrderViewModel;
+            editOrderViewModel.CloseWindow = this.Close;
         }
+
+        //loadOrder(SelectedOrder)
     }
 }

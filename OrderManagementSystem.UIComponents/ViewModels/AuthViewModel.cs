@@ -660,7 +660,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private bool CanRegisterUser(object obj)
         {
             //return !RegisterErrors.Any();
-            return Validator.TryValidateObject(registerInfo, new ValidationContext(loginInfo), null, true);
+            return Validator.TryValidateObject(registerInfo, new ValidationContext(registerInfo), null, true);
             //return !HasErrors;
 
         }

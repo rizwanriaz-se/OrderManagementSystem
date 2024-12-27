@@ -1,7 +1,8 @@
-﻿using DevExpress.XtraRichEdit.Model;
+﻿using DevExpress.Mvvm.UI.Native;
+using DevExpress.XtraRichEdit.Model;
 using OrderManagementSystem.Cache;
 using OrderManagementSystemServer.Repository;
-
+using OrderManagementSystem;
 //using OrderManagementSystem.Repositories;
 
 
@@ -39,7 +40,7 @@ namespace OrderManagementSystem.UIComponents.Classes
         }
 
         private CacheManager m_objCacheManager;
-        private Connection m_objConnection;
+        //private Connection m_objConnection;
         private MessageProcessor m_objMessageProcessor;
         private ClientManager m_objClientManager;
         //private ClientManager m_ClientManager;
@@ -68,7 +69,7 @@ namespace OrderManagementSystem.UIComponents.Classes
         //    set { m_Connection = value; }
         //}
         public CacheManager CacheManager => m_objCacheManager;
-        public Connection Connection => m_objConnection;
+        //public Connection Connection => m_objConnection;
         public MessageProcessor MessageProcessor => m_objMessageProcessor;
 
         public ClientManager ClientManager => m_objClientManager;
@@ -95,11 +96,12 @@ namespace OrderManagementSystem.UIComponents.Classes
         public void Init()
         {
             m_objCacheManager = CacheManager.Instance();
-            m_objConnection = Connection.Instance();
+            //m_objConnection = Connection.Instance();
+            //m_objConnection = new Connection();
             m_objMessageProcessor = new MessageProcessor();
             m_objClientManager = ClientManager.Instance();
 
-            m_objConnection.ConnectionInit();
+            //m_objConnection.ConnectionInit();
         }
 
         //public void Init(CacheManager cacheManager, Connection connection, MessageProcessor messageProcessor, ClientManager clientManager)

@@ -60,10 +60,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             if (SelectedOrder != null)
             {
                 EditOrderView editOrderView = new EditOrderView();
-
-                EditOrderViewModel editOrderViewModel = new EditOrderViewModel(SelectedOrder);
-                editOrderView.DataContext = editOrderViewModel;
-                editOrderViewModel.CloseWindow = editOrderView.Close;
+                //editOrderView.LoadOrder(SelectedOrder);
+                //EditOrderViewModel editOrderViewModel = new EditOrderViewModel(SelectedOrder);
+                //editOrderView.DataContext = editOrderViewModel;
+              
+                //editOrderViewModel.CloseWindow = editOrderView.Close;
                 editOrderView.ShowDialog();
             }
             else

@@ -30,7 +30,7 @@
             </Style.Triggers>
         </Style>
     </dx:ThemedWindow.Resources>
-    
+
     <dxlc:LayoutControl Header="Edit Order"
                         Orientation="Vertical">
         <dxlc:LayoutGroup Orientation="Horizontal">
@@ -46,7 +46,7 @@
             <dxlc:LayoutItem Width="140">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Status" />
-                    
+
                     <dxe:ComboBoxEdit Width="120" Height="30" x:Name="OrderStatusComboBox" EditValue="{Binding SelectedStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding SelectableStatuses}" AutoComplete="True" />
                 </StackPanel>
             </dxlc:LayoutItem>
@@ -87,24 +87,24 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto" >
 
                     <ItemsControl ItemsSource="{Binding OrderDetails}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="0,2">
-                                <StackPanel Orientation="Horizontal" Margin="5,0">
-                                    <Label Content="Name: " />
-                                        <dxe:ComboBoxEdit Width="200" ItemsSource="{Binding DataContext.AllProducts, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type Window}}}"  DisplayMember="Name" AutoComplete="True" SelectedItem="{Binding Product, Mode=TwoWay}" />
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="0,2">
+                                    <StackPanel Orientation="Horizontal" Margin="5,0">
+                                        <Label Content="Name: " />
+                                        <dxe:ComboBoxEdit Width="200" ItemsSource="{Binding DataContext.AllProducts, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type Window}}}"  DisplayMember="Name" AutoComplete="True" EditValue="{Binding Product, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="5,0">
-                                    <Label Content="Quantity" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="5,0">
+                                        <Label Content="Quantity" />
                                         <dxe:SpinEdit EditValue="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EditValueType="{x:Type sys:Int32}" IsFloatValue="False" MinValue="1" MaxValue="10" />
-                                </StackPanel>
-                                <dx:SimpleButton Content="x"  FontWeight="Bold" Width="30" Height="35"  Margin="5,0" Command="{Binding DataContext.RemoveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                                    </StackPanel>
+                                    <dx:SimpleButton Content="x"  FontWeight="Bold" Width="30" Height="35"  Margin="5,0" Command="{Binding DataContext.RemoveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
  CommandParameter="{Binding}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </ScrollViewer>
 
                 <StackPanel  VerticalAlignment="Bottom" HorizontalAlignment="Center" >

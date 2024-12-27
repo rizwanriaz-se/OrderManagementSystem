@@ -19,6 +19,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using DevExpress.Xpf.Core;
 using System.Reflection.Metadata;
+using DevExpress.Internal.WinApi.Windows.UI.Notifications;
 //using OrderManagementSystem.Repositories.Repositories;
 
 
@@ -37,6 +38,9 @@ namespace OrderManagementSystem.UIComponents.Classes
             get { return _client; }
         }
 
+        private const int m_nMaxPingRetries = 3;
+        private int m_nPingRetries = 0;
+        private bool m_bPingResponseReceived = false;
         private NetworkStream _stream;
         //public NetworkStream Stream
         //{
@@ -48,7 +52,17 @@ namespace OrderManagementSystem.UIComponents.Classes
         private static ClientManager m_Instance;
 
         public event Action onConnected;
-        private ClientManager() { }
+        public event Action<string> onReceive;
+        public event Action onDisconnected;
+
+        private ClientManager() {
+
+            //_client = new TcpClient(Constants.IPAddress, Constants.Port);
+            _client = new TcpClient();
+
+            _heartbeatTimer = new System.Timers.Timer(Constants.HeartbeatInterval);
+            //_heartbeatTimer = new System.Timers.Timer();
+        }
 
         public static ClientManager Instance()
         {
@@ -56,60 +70,138 @@ namespace OrderManagementSystem.UIComponents.Classes
             return m_Instance;
         }
 
-        //implement logic for else and also retries in case the server is down and up later. Retry could be like telling user to either send retry or not.
-        public async Task ConnectToServer()
+        public void ConnectToServer()
         {
-            // Connect to server
-            try
-            {
-                _client = new TcpClient(Constants.IPAddress, Constants.Port);
-                if (_client.Connected)
+            //Task.Run(async () =>
+            //{
+                while (!Connected)
                 {
-                    Connected = true;
+                    // Connect to server
+                    try
+                    {
+                        //if (_client == null)
+                        //{
+                        //    _client = new TcpClient(Constants.IPAddress, Constants.Port);
+                        //}
+                         _client.Connect(Constants.IPAddress, Constants.Port);
 
-                    // Moving it up here as it was causing a null reference exception
-                    // As the client gets connected, the onConnected is invoked which starts AuthWindow, that writes data to stream for authentication, listen for server response etc so it should be initialized before that.
-                    _stream = _client.GetStream();
+                        if (_client.Connected)
+                        {
+                            Connected = true;
 
-                    InitializeHeartbeat();
-                    ListenAsync();
+                            // Moving it up here as it was causing a null reference exception
+                            // As the client gets connected, the onConnected is invoked which starts AuthWindow, that writes data to stream for authentication, listen for server response etc so it should be initialized before that.
+                            _stream = _client.GetStream();
 
-                    _heartbeatTimer.Start();
+                            //move them to connection.cs
+                            //InitializeHeartbeat();
+                            //ListenAsync();
+                            onConnected?.Invoke();
 
-                    onConnected?.Invoke();
+                            _heartbeatTimer.Start();
+
+                            //onConnected?.Invoke();
+                        }
+
+
+                        //_stream = _client.GetStream();
+
+                        //InitializeHeartbeat();
+                        //ListenAsync();
+
+                        //_heartbeatTimer.Start();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Connection error: {ex.Message}");
+
+                        MessageBoxResult result = DXMessageBox.Show(
+        $"Failed to connect to server. {ex.Message}. Do you want to try again?",
+                       "Error",
+                       System.Windows.MessageBoxButton.YesNo
+                       );
+
+                    //    if (result == System.Windows.MessageBoxResult.Yes)
+                    //{
+                    //    ConnectToServer();
+                    //}
+                    if (result == System.Windows.MessageBoxResult.No)
+                        {
+                            HandleServerDisconnected();
+                        }
+                    }
+
+                    if (!Connected)
+                    {
+                        Task.Delay(Constants.HeartbeatTimeout); // Wait before retrying
+
+                    }
                 }
-
-
-                //_stream = _client.GetStream();
-
-                //InitializeHeartbeat();
-                //ListenAsync();
-
-                //_heartbeatTimer.Start();
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Connection error: {ex.Message}");
-
-                MessageBoxResult result = DXMessageBox.Show(
-$"Failed to connect to server. {ex.Message}. Do you want to try again?",
-               "Error",
-               System.Windows.MessageBoxButton.YesNo
-               );
-
-                if (result == System.Windows.MessageBoxResult.Yes)
-                {
-                    ConnectToServer();
-                }
-                else if (result == System.Windows.MessageBoxResult.No)
-                {
-                    HandleServerDisconnected();
-                }
-            }
+            //});
         }
 
-        private async Task ListenAsync()
+        //implement logic for else and also retries in case the server is down and up later. Retry could be like telling user to either send retry or not.
+        //        public void ConnectToServer()
+        //        {
+        //            // Connect to server
+        //            try
+        //            {
+        //                //if (_client == null)
+        //                //{
+        //                //    _client = new TcpClient(Constants.IPAddress, Constants.Port);
+        //                //}
+        //                _client.Connect(Constants.IPAddress, Constants.Port);
+
+        //                if (_client.Connected)
+        //                {
+        //                    Connected = true;
+
+        //                    // Moving it up here as it was causing a null reference exception
+        //                    // As the client gets connected, the onConnected is invoked which starts AuthWindow, that writes data to stream for authentication, listen for server response etc so it should be initialized before that.
+        //                    _stream = _client.GetStream();
+
+        //                    //move them to connection.cs
+        //                    //InitializeHeartbeat();
+        //                    //ListenAsync();
+        //                    onConnected?.Invoke();
+
+        //                    _heartbeatTimer.Start();
+
+        //                    //onConnected?.Invoke();
+        //                }
+
+
+        //                //_stream = _client.GetStream();
+
+        //                //InitializeHeartbeat();
+        //                //ListenAsync();
+
+        //                //_heartbeatTimer.Start();
+
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Debug.WriteLine($"Connection error: {ex.Message}");
+
+        //                MessageBoxResult result = DXMessageBox.Show(
+        //$"Failed to connect to server. {ex.Message}. Do you want to try again?",
+        //               "Error",
+        //               System.Windows.MessageBoxButton.YesNo
+        //               );
+
+        //                if (result == System.Windows.MessageBoxResult.Yes)
+        //                {
+        //                    ConnectToServer();
+        //                }
+        //                else if (result == System.Windows.MessageBoxResult.No)
+        //                {
+        //                    HandleServerDisconnected();
+        //                }
+        //            }
+        //        }
+
+        public void ListenAsync()
         {
             string messageBuffer = string.Empty;
             Debug.WriteLine("START LISTEN");
@@ -118,14 +210,16 @@ $"Failed to connect to server. {ex.Message}. Do you want to try again?",
                 while (Connected)
                 {
                     byte[] buffer = new byte[Constants.BufferSize];
-                    int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
+                    int bytesRead = _stream.Read(buffer, 0, buffer.Length);
 
                     messageBuffer += Encoding.UTF8.GetString(buffer, 0, bytesRead);
 
                     while (TryExtractJson(ref messageBuffer, out string jsonMessage))
                     {
                         Debug.WriteLine("Received on client: " + jsonMessage);
-                        ProcessResponse(jsonMessage);
+                        //ProcessResponse(jsonMessage);
+                        onReceive?.Invoke(jsonMessage);
+                        
                     }
                     string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                     Debug.WriteLine($"Received on client: {response}");
@@ -167,11 +261,18 @@ $"Failed to connect to server. {ex.Message}. Do you want to try again?",
             return false; // No valid JSON found yet
         }
 
-        private void ProcessResponse(string response)
+        public void ProcessResponse(string response)
         {
             try
             {
                 Response responseObject = JsonSerializer.Deserialize<Response>(response);
+
+
+                if (responseObject.MessageType == Enums.MessageType.Heartbeat && responseObject.MessageAction == Enums.MessageAction.Ping)
+                {
+                    m_bPingResponseReceived = true;
+                    return;
+                }
 
                 switch (responseObject.MessageType)
                 {
@@ -202,7 +303,7 @@ $"Failed to connect to server. {ex.Message}. Do you want to try again?",
 
         public async Task InitializeHeartbeat()
         {
-            _heartbeatTimer = new System.Timers.Timer(Constants.HeartbeatInterval); // 5 seconds interval
+            //_heartbeatTimer = new System.Timers.Timer(Constants.HeartbeatInterval); // 5 seconds interval
             _heartbeatTimer.Elapsed += async (sender, e) => await SendHeartbeat();
             _heartbeatTimer.AutoReset = true;
         }
@@ -212,11 +313,11 @@ $"Failed to connect to server. {ex.Message}. Do you want to try again?",
 
             try
             {
-                if (_client != null && _client.Connected)
+                //if (_client != null && _client.Connected)
 
                     MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
-                else
-                    HandleServerDisconnected();
+                //else
+                //    HandleServerDisconnected();
             }
             catch (Exception ex)
             {
@@ -225,59 +326,39 @@ $"Failed to connect to server. {ex.Message}. Do you want to try again?",
 
                 Debug.WriteLine("Error in SendHeartbeat: " + ex.Message);
             }
-
-
-            //if (_client != null && _client.Connected)
-            //{
-            //    try
-            //    {
-
-            //        MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
-            //    }
-            //    catch
-            //    {
-            //        HandleServerDisconnected();
-            //    }
-            //}
-            //else
-            //{
-            //    HandleServerDisconnected();
-            //}
         }
 
-        public async void HandleServerDisconnected()
+            public void HandleServerDisconnected()
         {
             Debug.WriteLine("Server disconnected.");
             Connected = false;
+            _client.Close();
+
+            //if (System.Windows.Application.Current != null)
+            //{
+            //    System.Windows.Application.Current.Dispatcher.Invoke(() => System.Windows.Application.Current.Shutdown());
+            //}
+            if (_heartbeatTimer != null)
+            {
+                _heartbeatTimer.Stop();
+            }
             if (System.Windows.Application.Current != null)
             {
-
                 MessageBoxResult result = System.Windows.Application.Current.Dispatcher.Invoke(() => DXMessageBox.Show("Failed to connect to server. Do you want to try again?", "Error", MessageBoxButton.YesNo));
-                if (result == MessageBoxResult.Yes)
-                {
-
-                    ConnectToServer();
-                }
-                if (result == MessageBoxResult.No)
-                {
-
-                    System.Windows.Application.Current.Dispatcher.Invoke(() => System.Windows.Application.Current.Shutdown());
-                }
-                //if (result.Equals(MessageBoxResult.Yes))
+                //if (result == MessageBoxResult.Yes)
                 //{
-                //    //System.Windows.Application.Current.Dispatcher.Invoke(() => System.Windows.Application.Current.MainWindow.Close());
                 //    ConnectToServer();
                 //}
+                if (result == MessageBoxResult.No)
+                {
+                    System.Windows.Application.Current.Dispatcher.Invoke(() => System.Windows.Application.Current.Shutdown());
+                }
                 if (_heartbeatTimer != null)
                 {
                     _heartbeatTimer.Stop();
                 }
             }
-            //_heartbeatTimer.Stop();
-
         }
-
-
         public async Task SendMessage(Request request)
         {
             try
@@ -289,8 +370,101 @@ $"Failed to connect to server. {ex.Message}. Do you want to try again?",
             catch (Exception ex)
             {
                 Debug.WriteLine("Error in SendMessage: " + ex.Message);
+                HandleServerDisconnected();
             }
         }
+
+        //private async Task SendHeartbeat()
+        //{
+        //    try
+        //    {
+        //        if (_client != null && _client.Connected)
+        //        {
+        //            m_bPingResponseReceived = false;
+        //            m_nPingRetries = 0;
+
+        //            while (m_nPingRetries < m_nMaxPingRetries && !m_bPingResponseReceived)
+        //            {
+        //                MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
+        //                await Task.Delay(Constants.HeartbeatTimeout);
+
+        //                if (!m_bPingResponseReceived)
+        //                {
+        //                    m_nPingRetries++;
+        //                }
+        //            }
+
+        //            if (!m_bPingResponseReceived)
+        //            {
+        //                onDisconnected?.Invoke();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            //HandleServerDisconnected();
+        //            onDisconnected?.Invoke();
+
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine("Error in SendHeartbeat: " + ex.Message);
+        //    }
+        //}
+
+        //if (_client != null && _client.Connected)
+        //{
+        //    try
+        //    {
+
+        //        MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
+        //    }
+        //    catch
+        //    {
+        //        HandleServerDisconnected();
+        //    }
+        //}
+        //else
+        //{
+        //    HandleServerDisconnected();
+        //}
+    }
+
+   
+    //public async void HandleServerDisconnected()
+    //    {
+    //        Debug.WriteLine("Server disconnected.");
+    //        Connected = false;
+    //        if (System.Windows.Application.Current != null)
+    //        {
+
+    //            MessageBoxResult result = System.Windows.Application.Current.Dispatcher.Invoke(() => DXMessageBox.Show("Failed to connect to server. Do you want to try again?", "Error", MessageBoxButton.YesNo));
+    //            if (result == MessageBoxResult.Yes)
+    //            {
+
+    //                ConnectToServer();
+    //            }
+    //            if (result == MessageBoxResult.No)
+    //            {
+
+    //                System.Windows.Application.Current.Dispatcher.Invoke(() => System.Windows.Application.Current.Shutdown());
+    //            }
+    //            //if (result.Equals(MessageBoxResult.Yes))
+    //            //{
+    //            //    //System.Windows.Application.Current.Dispatcher.Invoke(() => System.Windows.Application.Current.MainWindow.Close());
+    //            //    ConnectToServer();
+    //            //}
+    //            if (_heartbeatTimer != null)
+    //            {
+    //                _heartbeatTimer.Stop();
+    //            }
+    //        }
+    //        //_heartbeatTimer.Stop();
+
+    //    }
+
+
+    
 
         //public void ReceiveMessage(Response response)
         //{
@@ -384,5 +558,5 @@ $"Failed to connect to server. {ex.Message}. Do you want to try again?",
         //        Debug.WriteLine("Failed to deserialize response.Data to Category.");
         //    }
         //}
-    }
+    
 }
