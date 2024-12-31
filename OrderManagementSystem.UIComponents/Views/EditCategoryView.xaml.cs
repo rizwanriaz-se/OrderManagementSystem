@@ -1,4 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.ViewModels;
+using OrderManagementSystemServer.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +22,24 @@ namespace OrderManagementSystem.UIComponents.Views
     /// </summary>
     public partial class EditCategoryView : ThemedWindow
     {
+        EditCategoryViewModel editCategoryViewModel = null;
         public EditCategoryView()
         {
             InitializeComponent();
+
+            editCategoryViewModel = new EditCategoryViewModel();
+            DataContext = editCategoryViewModel;
+            editCategoryViewModel.CloseWindow = this.Close;
+        }
+
+        public void LoadCategory(Category SelectedCategory)
+        {
+            //if (SelectedCategory == null) throw new ArgumentNullException(nameof(SelectedCategory));
+
+            editCategoryViewModel.Id = SelectedCategory.Id;
+            editCategoryViewModel.CategoryNameText = SelectedCategory.Name;
+            editCategoryViewModel.CategoryDescriptionText = SelectedCategory.Description;
+            editCategoryViewModel.Picture = SelectedCategory.Picture;
         }
     }
 }

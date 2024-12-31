@@ -172,10 +172,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void EditProduct(object obj)
         {
             EditProductView editProductView = new EditProductView();
-            EditProductViewModel editProductViewModel = new EditProductViewModel(SelectedProduct);
+            editProductView.LoadProduct(SelectedProduct);
+            //EditProductViewModel editProductViewModel = new EditProductViewModel(SelectedProduct);
 
-            editProductView.DataContext = editProductViewModel;
-            editProductViewModel.CloseWindow = editProductView.Close;
+            //editProductView.DataContext = editProductViewModel;
+            //editProductViewModel.CloseWindow = editProductView.Close;
             editProductView.ShowDialog();
         }
 

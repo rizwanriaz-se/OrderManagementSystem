@@ -1,4 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.ViewModels;
+using OrderManagementSystemServer.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +22,28 @@ namespace OrderManagementSystem.UIComponents.Views
     /// </summary>
     public partial class EditProductView : ThemedWindow
     {
+        EditProductViewModel editProductViewModel = null;
         public EditProductView()
         {
             InitializeComponent();
+
+            editProductViewModel = new EditProductViewModel();
+            DataContext = editProductViewModel;
+            editProductViewModel.CloseWindow = this.Close;
+
+        }
+
+        public void LoadProduct(Product SelectedProduct)
+        {
+            //if (SelectedProduct == null) throw new ArgumentNullException(nameof(SelectedProduct));
+
+            editProductViewModel.Id = SelectedProduct.Id;
+            editProductViewModel.ProductNameText = SelectedProduct.Name;
+            editProductViewModel.ProductDescriptionText = SelectedProduct.Description;
+            editProductViewModel.ProductUnitPriceText = SelectedProduct.UnitPrice;
+            editProductViewModel.SelectedCategory = editProductViewModel.Categories.FirstOrDefault(c => c.Id == SelectedProduct.Category.Id);
+            editProductViewModel.Picture = SelectedProduct.Picture;
+            editProductViewModel.ProductUnitsInStockText = SelectedProduct.UnitsInStock;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public Action CloseWindow { get; set; }
 
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
         public string UserNameText
@@ -115,19 +115,33 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public RelayCommand SaveUserCommand { get; set; }
 
-        public EditUserViewModel(User user)
+        public EditUserViewModel()
         {
             SaveUserCommand = new RelayCommand(SaveUser, CanSaveUser);
 
-            _User = user;
+            //_User = user;
 
-            Id = user.Id;
-            UserNameText = user.Name;
-            UserEmailText = user.Email;
-            UserPhoneText = user.Phone;
-            UserPasswordText = user.Password;
-            UserIsAdmin = user.IsAdmin;
+            //Id = user.Id;
+            //UserNameText = user.Name;
+            //UserEmailText = user.Email;
+            //UserPhoneText = user.Phone;
+            //UserPasswordText = user.Password;
+            //UserIsAdmin = user.IsAdmin;
         }
+
+        //public EditUserViewModel(User user)
+        //{
+        //    SaveUserCommand = new RelayCommand(SaveUser, CanSaveUser);
+
+        //    _User = user;
+
+        //    Id = user.Id;
+        //    UserNameText = user.Name;
+        //    UserEmailText = user.Email;
+        //    UserPhoneText = user.Phone;
+        //    UserPasswordText = user.Password;
+        //    UserIsAdmin = user.IsAdmin;
+        //}
 
         private bool CanSaveUser(object obj)
         {
@@ -136,6 +150,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void SaveUser(object obj)
         {
+            _User = new User();
+            _User.Id = Id;
             _User.Name = UserNameText;
             _User.Email = UserEmailText;
             _User.Phone = UserPhoneText;

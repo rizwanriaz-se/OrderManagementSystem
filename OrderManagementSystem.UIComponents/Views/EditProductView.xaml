@@ -73,7 +73,7 @@
             <dxlc:LayoutItem >
                 <StackPanel>
                     <Label Content="Category"  />
-                    <dxe:ComboBoxEdit ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMember="Name"></dxe:ComboBoxEdit>
+                    <dxe:ComboBoxEdit ItemsSource="{Binding Categories}" EditValue="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  DisplayMember="Name"></dxe:ComboBoxEdit>
                 </StackPanel>
             </dxlc:LayoutItem>
 

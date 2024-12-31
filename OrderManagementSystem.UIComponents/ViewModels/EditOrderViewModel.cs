@@ -23,7 +23,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 {
     public class EditOrderViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
-        private Order _order;
+        //private Order _order;
 
         public Action CloseWindow { get; set; }
         public ObservableCollection<Product> AllProducts { get; private set; }
@@ -32,46 +32,43 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public RelayCommand AddProductCommand { get; set; }
         public RelayCommand RemoveProductCommand { get; set; }
         public RelayCommand SaveOrderCommand { get; set; }
-        public EditOrderViewModel(Order order)
+
+        public EditOrderViewModel()
         {
+            //OrderDetails = new ObservableCollection<OrderDetail>(); // Ensure this is initialized
+
             AllProducts = GUIHandler.Instance.CacheManager.GetAllProducts();
             AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);
             RemoveProductCommand = new RelayCommand(RemoveOrderDetails, CanRemoveOrderDetails);
-            SaveOrderCommand = new RelayCommand(SaveOrder, CanSubmitOrder);
+            SaveOrderCommand = new RelayCommand(SaveOrder, CanSaveOrder);
 
-            _order = order;
-
-            Id = order.Id;
-            User = order.User;
-            OrderDate = order.OrderDate;
-            SelectedShippingDate = order.ShippedDate;
-            SelectedStatus = order.Status;
-            SelectedShippingAddress = order.ShippingAddress;
-            //OrderDetails = new ObservableCollection<OrderDetail>(order.OrderDetails);
-            OrderDetails = new ObservableCollection<OrderDetail>(
-                order.OrderDetails.Select(od =>
-                    new OrderDetail
-                    {
-                        Product = od.Product,
-                        Quantity = od.Quantity
-                    })
-                );
-
-            //ProductRows = new ObservableCollection<ProductRow>(
-            //    order.Products.Select(p => new ProductRow
-            //    {
-            //        SelectedProduct = p.Key,
-            //        Quantity = p.Value
-            //    })
-            //);
             SelectableStatuses = new ObservableCollection<OrderStatus>(
-                Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>()
-                .Where(status => status != OrderStatus.Pending)
-            );
+                 Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>()
+                 .Where(status => status != OrderStatus.Pending)
+             );
 
-            OrderDetails.CollectionChanged += (s, e) => SaveOrderCommand.RaiseCanExecuteEventChanged();
+            //OrderDetails.CollectionChanged += (s, e) => SaveOrderCommand.RaiseCanExecuteEventChanged();
 
         }
+        //public void LoadOrderData(Order selectedOrder)
+        //{
+        //    if (selectedOrder != null)
+        //    {
+        //        //Id = selectedOrder.Id;
+        //        //User = selectedOrder.User;
+        //        OrderDate = selectedOrder.OrderDate;
+        //        SelectedShippingDate = selectedOrder.ShippedDate;
+        //        SelectedStatus = selectedOrder.Status;
+        //        SelectedShippingAddress = selectedOrder.ShippingAddress;
+        //        OrderDetails = new ObservableCollection<OrderDetail>(selectedOrder.OrderDetails.Select(od =>
+        //            new OrderDetail
+        //            {
+        //                Product = od.Product,
+        //                Quantity = od.Quantity
+        //            }));
+        //    }
+        //}
+
         //public EditOrderViewModel(Order order)
         //{
         //    AllProducts = GUIHandler.Instance.CacheManager.GetAllProducts();
@@ -112,6 +109,46 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         //    OrderDetails.CollectionChanged += (s, e) => SaveOrderCommand.RaiseCanExecuteEventChanged();
 
         //}
+        //public EditOrderViewModel(Order order)
+        //{
+        //    AllProducts = GUIHandler.Instance.CacheManager.GetAllProducts();
+        //    AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);
+        //    RemoveProductCommand = new RelayCommand(RemoveOrderDetails, CanRemoveOrderDetails);
+        //    SaveOrderCommand = new RelayCommand(SaveOrder, CanSubmitOrder);
+
+        //    _order = order;
+
+        //    Id = order.Id;
+        //    User = order.User;
+        //    OrderDate = order.OrderDate;
+        //    SelectedShippingDate = order.ShippedDate;
+        //    SelectedStatus = order.Status;
+        //    SelectedShippingAddress = order.ShippingAddress;
+        //    //OrderDetails = new ObservableCollection<OrderDetail>(order.OrderDetails);
+        //    OrderDetails = new ObservableCollection<OrderDetail>(
+        //        order.OrderDetails.Select(od =>
+        //            new OrderDetail
+        //            {
+        //                Product = od.Product,
+        //                Quantity = od.Quantity
+        //            })
+        //        );
+
+        //    //ProductRows = new ObservableCollection<ProductRow>(
+        //    //    order.Products.Select(p => new ProductRow
+        //    //    {
+        //    //        SelectedProduct = p.Key,
+        //    //        Quantity = p.Value
+        //    //    })
+        //    //);
+            //SelectableStatuses = new ObservableCollection<OrderStatus>(
+            //    Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>()
+            //    .Where(status => status != OrderStatus.Pending)
+            //);
+
+        //    OrderDetails.CollectionChanged += (s, e) => SaveOrderCommand.RaiseCanExecuteEventChanged();
+
+        //}
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
@@ -121,8 +158,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private string _selectedShippingAddress;
 
 
-        public int? Id { get; } // Non-editable
-        public User User { get; } // Non-editable
+        public int? Id { get; set; } // editable
+        public User User { get; set; } // editable
+        //public int? Id { get; } // Non-editable
+        //public User User { get; } // Non-editable
 
         [Required(ErrorMessage = "Order Date is required.")]
         public DateTime? OrderDate
@@ -239,7 +278,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             //OrderDetails.Add(new OrderDetail { Quantity = 1 });
         }
 
-        private bool CanSubmitOrder(object obj)
+        private bool CanSaveOrder(object obj)
         {
             return Validator.TryValidateObject(this, new ValidationContext(this), null, true) && OrderDetails.Count > 0 && OrderDetails.All(order =>
             {
@@ -255,15 +294,16 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return true;
         }
 
-        private bool CanSaveOrder(object obj)
-        {
-            return true;
-        }
+        //private bool CanSaveOrder(object obj)
+        //{
+        //    return true;
+        //}
 
         private void SaveOrder(object obj)
         {
 
             // Logic to save the updated order
+            Order _order = new Order();
             _order.Id = Id;
             _order.User = User;
             _order.OrderDate = OrderDate;

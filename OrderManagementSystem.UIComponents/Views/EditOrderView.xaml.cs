@@ -13,6 +13,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using OrderManagementSystem.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
+using static OrderManagementSystemServer.Repository.Order;
+using System.Collections.ObjectModel;
+using System.Printing;
+using System.Diagnostics;
+using DevExpress.Xpf.Editors;
 
 
 namespace OrderManagementSystem.UIComponents.Views
@@ -22,17 +29,41 @@ namespace OrderManagementSystem.UIComponents.Views
     /// </summary>
     public partial class EditOrderView : ThemedWindow
     {
-        EditOrderViewModel editOrderViewModel = null;
+        EditOrderViewModel editOrderViewModel;
         public EditOrderView()
         {
             InitializeComponent();
-            //OrderStatusComboBox.EditValue = "text";
-
-            editOrderViewModel = new EditOrderViewModel(); //SelectedOrder
+            editOrderViewModel = new EditOrderViewModel();
             DataContext = editOrderViewModel;
             editOrderViewModel.CloseWindow = this.Close;
-        }
+            
+            // Accessing ComboBoxes after InitializeComponent
+            //ProductComboBox1.SelectedItem = editOrderViewModel.OrderDetails[0].Product;
+            //ProductComboBox2.SelectedItem = editOrderViewModel.OrderDetails[0].Product;
 
-        //loadOrder(SelectedOrder)
+        }
+       
+        public void LoadOrder(Order SelectedOrder)
+        {
+            if (SelectedOrder == null) throw new ArgumentNullException(nameof(SelectedOrder));
+
+            editOrderViewModel.Id = SelectedOrder.Id;
+            editOrderViewModel.User = SelectedOrder.User ?? throw new ArgumentNullException(nameof(SelectedOrder.User));
+            editOrderViewModel.OrderDate = SelectedOrder.OrderDate;
+            editOrderViewModel.SelectedShippingDate = SelectedOrder.ShippedDate;
+            editOrderViewModel.SelectedStatus = SelectedOrder.Status;
+            editOrderViewModel.SelectedShippingAddress = SelectedOrder.ShippingAddress ?? throw new ArgumentNullException(nameof(SelectedOrder.ShippingAddress));
+            editOrderViewModel.OrderDetails = new ObservableCollection<OrderDetail>(SelectedOrder.OrderDetails.Select(od =>
+                new OrderDetail
+                {
+                    Product =  editOrderViewModel.AllProducts.FirstOrDefault(p => p.Id == od.Product.Id),
+                    Quantity = od.Quantity
+                }));
+
+            //ProductComboBox1.SelectedItem = editOrderViewModel.OrderDetails[0].Product;
+            //ProductComboBox2.SelectedItem = editOrderViewModel.OrderDetails[0].Product;
+
+            editOrderViewModel.OrderDetails.CollectionChanged += (s, e) => editOrderViewModel.SaveOrderCommand.RaiseCanExecuteEventChanged();
+        }
     }
 }

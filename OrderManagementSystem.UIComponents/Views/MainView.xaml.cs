@@ -1,4 +1,5 @@
-﻿using DevExpress.Xpf.Docking;
+﻿using DevExpress.Mvvm;
+using DevExpress.Xpf.Docking;
 using OrderManagementSystem.UIComponents.ViewModels;
 using OrderManagementSystemServer.Repository;
 
@@ -14,15 +15,11 @@ namespace OrderManagementSystem.UIComponents.Views
     public partial class MainView : System.Windows.Controls.UserControl
     {
         private MainViewModel mainViewModel;
-        private DocumentPanel orderPanel;
-        private DocumentPanel categoryPanel;
-        private DocumentPanel productPanel;
-        private DocumentPanel userPanel;
-        //private int orderPanelCount = 0;
-        //private int categoryPanelCount = 0;
-        //private int productPanelCount = 0;
-        //private int userPanelCount = 0;
-        Dictionary<string, int> panelCount = new Dictionary<string, int>()
+        private DocumentPanel? orderPanel;
+        private DocumentPanel? categoryPanel;
+        private DocumentPanel? productPanel;
+        private DocumentPanel? userPanel;
+        private Dictionary<string, int> panelCount = new Dictionary<string, int>()
         {
             { "Order", 0 },
             { "Category", 0 },
@@ -30,58 +27,37 @@ namespace OrderManagementSystem.UIComponents.Views
             { "User", 0 },
         };
 
-
         public MainView()
         {
             InitializeComponent();
 
-            // Set the DataContext of the view to the ViewModel
             mainViewModel = new MainViewModel();
             this.DataContext = mainViewModel;
 
-            //AddPanel(ref orderPanel, "Order");
-            //orderPanel = new DocumentPanel();
-            //orderPanel.Content = mainViewModel.CurrentView;
-            //orderPanel.Caption = "Order";
-            //documentGroup.Add(orderPanel);
+            AddPanel(ref orderPanel, "Order");
         }
 
-        public User CurrentUser { get; }
+        public User? CurrentUser { get; }
 
         private void RibbonControl_SelectedPageChanged(object sender, DevExpress.Xpf.Ribbon.RibbonPropertyChangedEventArgs e)
         {
             var selectedPage = Ribbon.SelectedPage;
-            
+
             if (selectedPage.Name == "OrderPage")
             {
-                //DocumentPanel orderPanel = new DocumentPanel();
-                //orderPanel.Content = mainViewModel.CurrentView;
-                //documentGroup.Add(orderPanel);
-                
                 mainViewModel.SwitchToOrdersView();
-                
-                //orderPanelCount++;
-                //AddPanel(ref orderPanel, orderPanelCount, "Order");
             }
             else if (selectedPage.Name == "CategoryPage")
             {
                 mainViewModel.SwitchToCategoriesView();
-                //categoryPanelCount++;
-                //AddPanel(ref categoryPanel, categoryPanelCount, "Category");
             }
             else if (selectedPage.Name == "UserPage")
             {
-                
                 mainViewModel.SwitchToUsersView();
-                //userPanelCount++;
-                //AddPanel(ref userPanel, userPanelCount, "User");
             }
             else if (selectedPage.Name == "ProductPage")
             {
-                
                 mainViewModel.SwitchToProductsView();
-                //productPanelCount++;
-                //AddPanel(ref productPanel, productPanelCount, "Product");
             }
         }
 
@@ -102,27 +78,19 @@ namespace OrderManagementSystem.UIComponents.Views
             AddPanel(ref userPanel, "User");
         }
 
-        //private void BarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
-        //{
-
-        //}
-
         private readonly Dictionary<string, List<DocumentPanel>> activePanels = new();
 
-        private void AddPanel(ref DocumentPanel docPanel, string panelCaption)
+        private void AddPanel(ref DocumentPanel? docPanel, string panelCaption)
         {
             if (!activePanels.ContainsKey(panelCaption))
             {
                 activePanels[panelCaption] = new List<DocumentPanel>();
             }
 
-            if (activePanels[panelCaption].Count < 3)
+            int panelLimit = panelCaption == "Order" ? 3 : 1;
+
+            if (activePanels[panelCaption].Count < panelLimit)
             {
-                //docPanel = new DocumentPanel
-                //{
-                //    Caption = $"{panelCaption} {activePanels[panelCaption].Count + 1}",
-                //    Content = mainViewModel.CurrentView
-                //};
                 docPanel = new DocumentPanel
                 {
                     Caption = panelCaption,
@@ -131,24 +99,29 @@ namespace OrderManagementSystem.UIComponents.Views
                 documentGroup.Add(docPanel);
                 activePanels[panelCaption].Add(docPanel);
             }
-        }
-        private object CreateViewForPanel(string panelCaption)
-        {
-            switch (panelCaption)
+            else
             {
-                case "Order":
-                    return new DisplayOrdersView();
-                case "Category":
-                    return new DisplayCategoriesView();
-                case "Product":
-                    return new DisplayProductsView();
-                case "User":
-                    return new DisplayUsersView();
-                default:
-                    return null; // Or throw an exception if this case shouldn't happen
+                var panelToSelect = documentGroup.Items
+                    .OfType<DocumentPanel>()
+                    .FirstOrDefault(panel => string.Equals(panel.Caption.ToString(), panelCaption, StringComparison.Ordinal));
+
+                if (panelToSelect != null)
+                {
+                    documentGroup.SelectedTabIndex = documentGroup.Items.IndexOf(panelToSelect);
+                }
             }
         }
 
-
+        private object CreateViewForPanel(string panelCaption)
+        {
+            return panelCaption switch
+            {
+                "Order" => new DisplayOrdersView(),
+                "Category" => new DisplayCategoriesView(),
+                "Product" => new DisplayProductsView(),
+                "User" => new DisplayUsersView(),
+                _ => throw new ArgumentException("Invalid panel caption", nameof(panelCaption)),
+            };
+        }
     }
 }

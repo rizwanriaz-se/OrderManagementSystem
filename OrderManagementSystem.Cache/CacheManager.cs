@@ -84,6 +84,11 @@ namespace OrderManagementSystem.Cache
         }
         public void DeleteCategory(Category category)
         {
+            Category categoryToDelete = m_objCategories.FirstOrDefault(c => c.Id == category.Id);
+            if (categoryToDelete != null)
+            {
+                m_objCategories.Remove(categoryToDelete);
+            }
             m_objCategories.Remove(category);
         }
         public void UpdateCategory(Category category)
@@ -127,7 +132,18 @@ namespace OrderManagementSystem.Cache
         }
         public void DeleteOrder(Order order)
         {
-            m_objOrders.Remove(order);
+            Order orderToDelete = m_objOrders.FirstOrDefault(o => o.Id == order.Id);
+            if (orderToDelete != null)
+            {
+                m_objOrders.Remove(orderToDelete);
+            }
+
+            // try this too later on
+            //if (m_objOrders.Contains(order))
+            //{
+            //    m_objOrders.Remove(order);
+            //}
+            //m_objOrders.Remove(order);
         }
         public ObservableCollection<Product> GetAllProducts()
         {
@@ -165,10 +181,15 @@ namespace OrderManagementSystem.Cache
         }
         public void DeleteProduct(Product product)
         {
-            Product productToDelete = m_objProducts.FirstOrDefault(p => p.Equals(product));
-            //_AllProducts.Remove(productToDelete);
-            m_objProducts.Remove(productToDelete);
-            
+            //Product productToDelete = m_objProducts.FirstOrDefault(p => p.Equals(product));
+            ////_AllProducts.Remove(productToDelete);
+            //m_objProducts.Remove(productToDelete);
+            Product productToDelete = m_objProducts.FirstOrDefault(p => p.Id == product.Id);
+            if (productToDelete != null)
+            {
+                m_objProducts.Remove(productToDelete);
+            }
+
         }
         public ObservableCollection<User> GetAllUsers()
         {
@@ -201,7 +222,11 @@ namespace OrderManagementSystem.Cache
 
         public void DeleteUser(User user)
         {
-            m_objUsers.Remove(user);
+            User userToDelete = m_objUsers.FirstOrDefault(u => u.Id == user.Id);
+            if (userToDelete != null)
+            {
+                m_objUsers.Remove(userToDelete);
+            }            
         }
     }
 }

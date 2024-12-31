@@ -75,11 +75,15 @@
 
         <dxdo:DockLayoutManager Name="MyDockLayoutManager">
             <dxdo:LayoutGroup Caption="LayoutRoot" Name="MyLayoutGroup">
+                
                 <dxdo:DocumentGroup x:Name="documentGroup">
+                    <!--
                     <dxdo:DocumentPanel Caption="Default" AllowClose="False">
                         <ContentControl Content="{Binding CurrentView}" />
                     </dxdo:DocumentPanel>
+                    -->
                 </dxdo:DocumentGroup>
+                
             </dxdo:LayoutGroup>
         </dxdo:DockLayoutManager>
 

@@ -86,17 +86,29 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             SaveCategoryCommand.RaiseCanExecuteEventChanged();
         }
 
-        public EditCategoryViewModel(Category category)
+        public EditCategoryViewModel()
         {
             SaveCategoryCommand = new RelayCommand(SaveCategory, CanSaveCategory);
 
-            _Category = category;
+            //_Category = category;
 
-            Id = category.Id;
-            CategoryNameText = category.Name;
-            CategoryDescriptionText = category.Description;
-            Picture = category.Picture;
+            //Id = category.Id;
+            //CategoryNameText = category.Name;
+            //CategoryDescriptionText = category.Description;
+            //Picture = category.Picture;
         }
+
+        //public EditCategoryViewModel(Category category)
+        //{
+        //    SaveCategoryCommand = new RelayCommand(SaveCategory, CanSaveCategory);
+
+        //    _Category = category;
+
+        //    Id = category.Id;
+        //    CategoryNameText = category.Name;
+        //    CategoryDescriptionText = category.Description;
+        //    Picture = category.Picture;
+        //}
 
         private bool CanSaveCategory(object obj)
         {
@@ -105,6 +117,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void SaveCategory(object obj)
         {
+            _Category = new Category();
+            _Category.Id = Id;
             _Category.Name = CategoryNameText;
             _Category.Description = CategoryDescriptionText;
             _Category.Picture = Picture;

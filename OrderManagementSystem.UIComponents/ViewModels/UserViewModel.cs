@@ -83,7 +83,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
         private void DeleteUser(object obj)
         {
-            GUIHandler.Instance.CacheManager.DeleteUser(SelectedUser);
+            //GUIHandler.Instance.CacheManager.DeleteUser(SelectedUser);
             MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Delete, SelectedUser);
             //Users.Remove(SelectedUser);
         }
@@ -102,10 +102,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void EditUser(object obj)
         {
             EditUserView editUserView = new EditUserView();
+            editUserView.LoadUser(SelectedUser);
 
-            EditUserViewModel editUserViewModel = new EditUserViewModel(SelectedUser);
-            editUserView.DataContext = editUserViewModel;
-            editUserViewModel.CloseWindow = editUserView.Close;
+            //EditUserViewModel editUserViewModel = new EditUserViewModel(SelectedUser);
+            //editUserView.DataContext = editUserViewModel;
+            //editUserViewModel.CloseWindow = editUserView.Close;
             editUserView.ShowDialog();
         }
     }

@@ -38,7 +38,7 @@
             <dxlc:LayoutItem Width="140">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Employee" FontWeight="Bold" />
-                    <TextBlock TextWrapping="Wrap" Text="{Binding User.Name}" Padding="5,0" FontSize="15" FontWeight="SemiBold" />
+                    <TextBlock TextWrapping="Wrap" x:Name="UserText" Text="{Binding User.Name}" Padding="5,0" FontSize="15" FontWeight="SemiBold" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
@@ -56,7 +56,7 @@
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Date" FontWeight="Bold" />
                     <!--<DatePicker Width="200" SelectedDate="{Binding SelectedShippingDate, Mode=TwoWay}" /> -->
-                    <dxe:DateEdit EditValue="{Binding SelectedShippingDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250" />
+                    <dxe:DateEdit x:Name="ShippingDateMenu" EditValue="{Binding SelectedShippingDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" Width="250" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
@@ -64,7 +64,7 @@
             <dxlc:LayoutItem>
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Address" FontWeight="Bold" />
-                    <dxe:TextEdit Width="350" Text="{Binding SelectedShippingAddress, UpdateSourceTrigger=PropertyChanged}" />
+                    <dxe:TextEdit x:Name="ShippingAddressText" Width="350" EditValue="{Binding SelectedShippingAddress, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
@@ -86,18 +86,29 @@
             <dxlc:LayoutGroup Orientation="Vertical">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" >
 
-                    <ItemsControl ItemsSource="{Binding OrderDetails}">
+                    <ItemsControl ItemsSource="{Binding OrderDetails}" x:Name="OrderDetailsGrid">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="0,2">
                                     <StackPanel Orientation="Horizontal" Margin="5,0">
                                         <Label Content="Name: " />
-                                        <dxe:ComboBoxEdit Width="200" ItemsSource="{Binding DataContext.AllProducts, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type Window}}}"  DisplayMember="Name" AutoComplete="True" EditValue="{Binding Product, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+<!--
+                                        <ComboBox Width="200" x:Name="ProductComboBox1" ItemsSource="{Binding DataContext.AllProducts, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type Window}}}"  DisplayMemberPath="Name"  SelectedItem="{Binding Product, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        -->
+
+                                        <dxe:ComboBoxEdit 
+                                            Width="200"
+                                            ItemsSource="{Binding DataContext.AllProducts, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                                            EditValue ="{Binding Product, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                            DisplayMember="Name" 
+                                            AutoComplete="True"  
+                                            />
+
 
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="5,0">
                                         <Label Content="Quantity" />
-                                        <dxe:SpinEdit EditValue="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EditValueType="{x:Type sys:Int32}" IsFloatValue="False" MinValue="1" MaxValue="10" />
+                                        <dxe:SpinEdit EditValue="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EditValueType="{x:Type sys:Int32}" IsFloatValue="False" MinValue="1" MaxValue="10" x:Name="QuantitySpinBtn" />
                                     </StackPanel>
                                     <dx:SimpleButton Content="x"  FontWeight="Bold" Width="30" Height="35"  Margin="5,0" Command="{Binding DataContext.RemoveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
  CommandParameter="{Binding}" />

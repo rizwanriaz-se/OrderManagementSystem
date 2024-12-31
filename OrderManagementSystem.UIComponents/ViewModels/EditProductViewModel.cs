@@ -136,23 +136,49 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public RelayCommand SaveProductCommand { get; set; }
 
-        public EditProductViewModel(Product product)
+
+        public EditProductViewModel()
         {
             Categories = GUIHandler.Instance.CacheManager.GetAllCategories();
             SaveProductCommand = new RelayCommand(SaveProduct, CanSaveProduct);
 
-            _Product = product;
+            //_Product = product;
 
 
-            Id = product.Id;
-            ProductNameText = product.Name;
-            ProductDescriptionText = product.Description;
-            SelectedCategory = product.Category;
-            Picture = product.Picture;
-            ProductUnitPriceText = product.UnitPrice;
-            ProductUnitsInStockText = product.UnitsInStock;
+            //Id = product.Id;
+            //ProductNameText = product.Name;
+            //ProductDescriptionText = product.Description;
+            ////SelectedCategory = product.Category;
+            ////SelectedCategory =   
+            //// Match SelectedCategory with the object in Categories
+            //SelectedCategory = Categories.FirstOrDefault(c => c.Id == product.Category.Id);
+
+            //Picture = product.Picture;
+            //ProductUnitPriceText = product.UnitPrice;
+            //ProductUnitsInStockText = product.UnitsInStock;
 
         }
+        //public EditProductViewModel(Product product)
+        //{
+        //    Categories = GUIHandler.Instance.CacheManager.GetAllCategories();
+        //    SaveProductCommand = new RelayCommand(SaveProduct, CanSaveProduct);
+
+        //    _Product = product;
+
+
+        //    Id = product.Id;
+        //    ProductNameText = product.Name;
+        //    ProductDescriptionText = product.Description;
+        //    //SelectedCategory = product.Category;
+        //    //SelectedCategory =   
+        //    // Match SelectedCategory with the object in Categories
+        //    SelectedCategory = Categories.FirstOrDefault(c => c.Id == product.Category.Id);
+
+        //    Picture = product.Picture;
+        //    ProductUnitPriceText = product.UnitPrice;
+        //    ProductUnitsInStockText = product.UnitsInStock;
+
+        //}
 
         private bool CanSaveProduct(object obj)
         {
@@ -161,6 +187,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void SaveProduct(object obj)
         {
+            _Product = new Product();
+            _Product.Id = Id;
             _Product.Name = ProductNameText;
             _Product.Description = ProductDescriptionText;
             _Product.Category = SelectedCategory;

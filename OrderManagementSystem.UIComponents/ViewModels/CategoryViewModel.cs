@@ -152,10 +152,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void EditCategory(object obj)
         {
             EditCategoryView editCategoryView = new EditCategoryView();
+            editCategoryView.LoadCategory(SelectedCategory);
 
-            EditCategoryViewModel editCategoryViewModel = new EditCategoryViewModel(SelectedCategory);
-            editCategoryView.DataContext = editCategoryViewModel;
-            editCategoryViewModel.CloseWindow = editCategoryView.Close;
+            //EditCategoryViewModel editCategoryViewModel = new EditCategoryViewModel(SelectedCategory);
+            //editCategoryView.DataContext = editCategoryViewModel;
+            //editCategoryViewModel.CloseWindow = editCategoryView.Close;
             editCategoryView.ShowDialog();
         }
 
