@@ -18,23 +18,23 @@ namespace OrderManagementSystem.UIComponents.ViewModels
     {
         private object _currentView;
 
-        public ICommand ViewOrderCommand { get; set; }
-        public ICommand AddOrderCommand { get; set; }
-        public ICommand DeleteOrderCommand { get; set; }
+        public RelayCommand ViewOrderCommand { get; set; }
+        public RelayCommand AddOrderCommand { get; set; }
+        public RelayCommand DeleteOrderCommand { get; set; }
 
-        public ICommand ViewCategoryCommand { get; set; }
+        public RelayCommand ViewCategoryCommand { get; set; }
         public ICommand AddCategoryCommand { get; set; }
 
-        public ICommand AddProductBlotterCommand { get; set; }
-        public ICommand AddUserBlotterCommand { get; set; }
+        //public RelayCommand AddProductBlotterCommand { get; set; }
+        //public RelayCommand AddUserBlotterCommand { get; set; }
 
-        public ICommand ViewProductCommand { get; set; }
-        public ICommand AddProductCommand { get; set; }
+        public RelayCommand ViewProductCommand { get; set; }
+        public RelayCommand AddProductCommand { get; set; }
 
-        public ICommand AddOrderBlotterCommand { get; set; }
+        //public RelayCommand AddOrderBlotterCommand { get; set; }
 
-        public ICommand ViewUserCommand { get; set; }
-        public ICommand AddUserCommand { get; set; }
+        public RelayCommand ViewUserCommand { get; set; }
+        public RelayCommand AddUserCommand { get; set; }
 
 
 
@@ -78,25 +78,25 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             ViewUserCommand = new RelayCommand(ExecuteViewUser, CanExecuteViewUser);
             AddUserCommand = new RelayCommand(ExecuteAddUser, CanExecuteAddUser);
             CurrentUser = GUIHandler.Instance.CurrentUser;
-            AddOrderBlotterCommand = new RelayCommand(ExecuteAddOrderBlotter, CanExecuteAddOrderBlotter);
+            //AddOrderBlotterCommand = new RelayCommand(ExecuteAddOrderBlotter, CanExecuteAddOrderBlotter);
             //AddProductBlotterCommand = new RelayCommand(ExecuteAddProductBlotter, CanExecuteAddProductBlotter);
             //AddUserBlotterCommand = new RelayCommand(ExecuteAddUserBlotter, CanExecuteAddUserBlotter);
 
         }
 
-        private bool CanExecuteAddOrderBlotter(object obj)
-        {
-            return true;
-        }
+        //private bool CanExecuteAddOrderBlotter(object obj)
+        //{
+        //    return true;
+        //}
 
-        private void ExecuteAddOrderBlotter(object obj)
-        {
-            //DisplayOrdersView displayOrdersView = new DisplayOrdersView();
-            //displayOrdersView.GeneratePanel();
+        //private void ExecuteAddOrderBlotter(object obj)
+        //{
+        //    //DisplayOrdersView displayOrdersView = new DisplayOrdersView();
+        //    //displayOrdersView.GeneratePanel();
 
-            //OrderBlotter orderBlotter = new OrderBlotter();
-            //orderBlotter.Show();
-        }
+        //    //OrderBlotter orderBlotter = new OrderBlotter();
+        //    //orderBlotter.Show();
+        //}
 
         public void ExecuteViewUser(object obj)
         {
