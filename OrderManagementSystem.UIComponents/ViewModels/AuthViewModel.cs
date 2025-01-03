@@ -489,8 +489,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        [Required(ErrorMessage = "Phone number is required")]
-        //[Phone(ErrorMessage = "Not a valid phone number")]
+        [Required(ErrorMessage = "Phone number is required"), Phone(ErrorMessage = "Not a valid phone number")]
         public string PhoneRegisterText
         {
             get { return registerInfo.PhoneRegisterText; }
@@ -689,7 +688,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             //MainWindow mainWindow = new MainWindow();
             //mainWindow.Show();
             //SelectedTabIndex = 0;
-            DXMessageBox.Show("Registration successful. Your account is pending approval.", "Info");
+            //DXMessageBox.Show("Registration successful. Your account is pending approval.", "Info");
 
         }
 

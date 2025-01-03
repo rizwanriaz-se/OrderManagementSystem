@@ -345,7 +345,8 @@ namespace OrderManagementSystem.UIComponents.Classes
                 //    return;
                 //}
 
-                switch (responseObject.MessageType)
+                if (responseObject.Error == null) { 
+                    switch (responseObject.MessageType)
                 {
                     case Enums.MessageType.Category:
                         MessageProcessor.ProcessCategoryMessage(responseObject);
@@ -363,6 +364,15 @@ namespace OrderManagementSystem.UIComponents.Classes
                         break;
                     default:
                         break;
+                }
+                }
+                else
+                {
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                                        DXMessageBox.Show(responseObject.Error,
+                                               "Error",
+                                               System.Windows.MessageBoxButton.OK
+                                    ));
                 }
             }
             catch (Exception ex)
