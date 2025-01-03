@@ -173,10 +173,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             EditProductView editProductView = new EditProductView();
             editProductView.LoadProduct(SelectedProduct);
-            //EditProductViewModel editProductViewModel = new EditProductViewModel(SelectedProduct);
-
-            //editProductView.DataContext = editProductViewModel;
-            //editProductViewModel.CloseWindow = editProductView.Close;
+        ;
             editProductView.ShowDialog();
         }
 
@@ -187,13 +184,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void DeleteProduct(object obj)
         {
-            //GUIHandler.Instance.CacheManager.DeleteProduct(SelectedProduct);
             MessageProcessor.SendMessage(
                 Enums.MessageType.Product,
                 Enums.MessageAction.Delete,
                 SelectedProduct
             );
-            //Products.Remove(SelectedProduct);
         }
 
         private bool CanDeleteProduct(object obj)
@@ -216,7 +211,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Category = SelectedCategory
             };
 
-            //GUIHandler.Instance.CacheManager.AddProduct(product);
             MessageProcessor.SendMessage(
                 Enums.MessageType.Product,
                 Enums.MessageAction.Add,

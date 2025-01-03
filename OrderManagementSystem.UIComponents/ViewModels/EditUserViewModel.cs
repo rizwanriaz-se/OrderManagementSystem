@@ -118,30 +118,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public EditUserViewModel()
         {
             SaveUserCommand = new RelayCommand(SaveUser, CanSaveUser);
-
-            //_User = user;
-
-            //Id = user.Id;
-            //UserNameText = user.Name;
-            //UserEmailText = user.Email;
-            //UserPhoneText = user.Phone;
-            //UserPasswordText = user.Password;
-            //UserIsAdmin = user.IsAdmin;
         }
-
-        //public EditUserViewModel(User user)
-        //{
-        //    SaveUserCommand = new RelayCommand(SaveUser, CanSaveUser);
-
-        //    _User = user;
-
-        //    Id = user.Id;
-        //    UserNameText = user.Name;
-        //    UserEmailText = user.Email;
-        //    UserPhoneText = user.Phone;
-        //    UserPasswordText = user.Password;
-        //    UserIsAdmin = user.IsAdmin;
-        //}
 
         private bool CanSaveUser(object obj)
         {
@@ -157,9 +134,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _User.Phone = UserPhoneText;
             _User.Password = UserPasswordText;
             _User.IsAdmin = UserIsAdmin;
-
-
-            //GUIHandler.Instance.CacheManager.UpdateUser(_User);
 
             MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Update, _User);
 

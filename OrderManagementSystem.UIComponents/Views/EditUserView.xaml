@@ -79,14 +79,7 @@
                     <dxe:TextEdit TextWrapping="Wrap" Text="{Binding UserPasswordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
-<!--
-            <dxlc:LayoutItem>
-                <StackPanel>
-                    <Label Content="Is Admin" />
-                    <CheckBox IsChecked="{Binding UserIsAdmin, Mode=TwoWay}" />
-                </StackPanel>
-            </dxlc:LayoutItem>
--->
+
 
 
             <dxlc:LayoutItem MinWidth="150">

@@ -74,7 +74,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             GUIHandler.Instance.CacheManager.AddUser(user);
             MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Add, user);
             CloseWindow.Invoke();
-            //Users.Add(user);
         }
 
         private bool CanSubmitUser(object obj)
@@ -83,9 +82,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
         private void DeleteUser(object obj)
         {
-            //GUIHandler.Instance.CacheManager.DeleteUser(SelectedUser);
             MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Delete, SelectedUser);
-            //Users.Remove(SelectedUser);
         }
 
         private bool CanDeleteUser(object obj)
@@ -104,9 +101,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             EditUserView editUserView = new EditUserView();
             editUserView.LoadUser(SelectedUser);
 
-            //EditUserViewModel editUserViewModel = new EditUserViewModel(SelectedUser);
-            //editUserView.DataContext = editUserViewModel;
-            //editUserViewModel.CloseWindow = editUserView.Close;
             editUserView.ShowDialog();
         }
     }

@@ -48,23 +48,8 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
-        
-
-     
-        
-        <!--
-        <Style TargetType="{x:Type dx:ThemedWindow}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectedTabIndex, Mode=TwoWay}" Value="0">
-                    <Setter Property="Height" Value="200" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTabIndex, Mode=TwoWay}" Value="1">
-                    <Setter Property="Height" Value="500" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style> -->
     </dx:ThemedWindow.Resources>
+    
     <Grid Background="#eff0fd" Margin="30">
         <dx:DXTabControl SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" Padding="40,20">
             <dx:DXTabItem Header="Login" AccentColor="Black">
@@ -134,13 +119,6 @@
                         </StackPanel>
                     </dxlc:LayoutItem>
 
-                   <!-- <dxlc:LayoutItem>
-                        <StackPanel>
-                            <Label Content="Admin" />
-                            <dxe:CheckEdit IsChecked="{Binding RoleChecked}" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
--->
                     <dxlc:LayoutItem>
                         <dx:SimpleButton Content="Register" Command="{Binding RegisterUserCommand}" />
                     </dxlc:LayoutItem>

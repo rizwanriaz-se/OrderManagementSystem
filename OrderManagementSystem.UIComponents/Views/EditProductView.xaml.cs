@@ -35,8 +35,6 @@ namespace OrderManagementSystem.UIComponents.Views
 
         public void LoadProduct(Product SelectedProduct)
         {
-            //if (SelectedProduct == null) throw new ArgumentNullException(nameof(SelectedProduct));
-
             editProductViewModel.Id = SelectedProduct.Id;
             editProductViewModel.ProductNameText = SelectedProduct.Name;
             editProductViewModel.ProductDescriptionText = SelectedProduct.Description;

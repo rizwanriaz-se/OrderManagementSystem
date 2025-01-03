@@ -11,7 +11,7 @@ namespace OrderManagementSystem.UIComponents.Classes
 {
     public class Connection
     {
-        
+
         public async void ConnectionInit()
         {
             GUIHandler.Instance.Init();
@@ -24,16 +24,14 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         private void OnDisconnected()
         {
-            //GUIHandler.Instance.ClientManager.HandleServerDisconnected();
             GUIHandler.Instance.ClientManager.HandleDisconnection();
-
         }
 
         private void OnServerConnect()
         {
             Task.Run(() =>
             {
-                 GUIHandler.Instance.ClientManager.InitializeHeartbeat();
+                GUIHandler.Instance.ClientManager.InitializeHeartbeat();
                 GUIHandler.Instance.ClientManager.ListenAsync();
             });
         }

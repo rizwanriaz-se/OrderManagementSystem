@@ -34,7 +34,6 @@ namespace OrderManagementSystem.UIComponents.Views
 
         public void LoadUser(User SelectedUser)
         {
-            //if (SelectedUser == null) throw new ArgumentNullException(nameof(SelectedUser));
 
             editUserViewModel.Id = SelectedUser.Id;
             editUserViewModel.UserNameText = SelectedUser.Name;

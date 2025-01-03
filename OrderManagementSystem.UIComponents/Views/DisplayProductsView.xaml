@@ -29,14 +29,6 @@
             </dxg1:TableView>
         </dxg1:GridControl.View>
 
-<!--
-        <dxg1:GridControl.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="Edit Product" Command="{Binding EditProductCommand}" />
-                <MenuItem Header="Delete Product" Command="{Binding DeleteProductCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
-            </ContextMenu>
-        </dxg1:GridControl.ContextMenu>
-        -->
         <dxg1:GridControl.Columns>
             <dxg1:GridColumn FieldName="ID" Binding="{Binding Id}" Header="ID" Width="30" AllowResizing="False" />
             <dxg1:GridColumn FieldName="Name"  Binding="{Binding Name}" Header="Name" Width="220" AllowResizing="False" />

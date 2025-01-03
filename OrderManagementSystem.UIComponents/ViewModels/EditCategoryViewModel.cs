@@ -50,8 +50,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
 
         public int? Id { get; set; }
-        //public string CategoryNameText { get; set; }
-        //public string CategoryDescriptionText { get; set; }
         public byte[] Picture { get; set; }
 
         public RelayCommand SaveCategoryCommand { get; set; }
@@ -89,26 +87,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public EditCategoryViewModel()
         {
             SaveCategoryCommand = new RelayCommand(SaveCategory, CanSaveCategory);
-
-            //_Category = category;
-
-            //Id = category.Id;
-            //CategoryNameText = category.Name;
-            //CategoryDescriptionText = category.Description;
-            //Picture = category.Picture;
         }
-
-        //public EditCategoryViewModel(Category category)
-        //{
-        //    SaveCategoryCommand = new RelayCommand(SaveCategory, CanSaveCategory);
-
-        //    _Category = category;
-
-        //    Id = category.Id;
-        //    CategoryNameText = category.Name;
-        //    CategoryDescriptionText = category.Description;
-        //    Picture = category.Picture;
-        //}
 
         private bool CanSaveCategory(object obj)
         {
@@ -123,12 +102,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _Category.Description = CategoryDescriptionText;
             _Category.Picture = Picture;
 
-
-            //GUIHandler.Instance.CacheManager.UpdateCategory(_Category);
             MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Update, _Category);
 
             CloseWindow.Invoke();
-
         }
     }
 }

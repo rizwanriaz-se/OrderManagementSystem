@@ -23,11 +23,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 {
     public class EditOrderViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
-        //private Order _order;
-
         public Action CloseWindow { get; set; }
         public ObservableCollection<Product> AllProducts { get; private set; }
-
 
         public RelayCommand AddProductCommand { get; set; }
         public RelayCommand RemoveProductCommand { get; set; }
@@ -35,121 +32,16 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public EditOrderViewModel()
         {
-            //OrderDetails = new ObservableCollection<OrderDetail>(); // Ensure this is initialized
-
             AllProducts = GUIHandler.Instance.CacheManager.GetAllProducts();
             AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);
             RemoveProductCommand = new RelayCommand(RemoveOrderDetails, CanRemoveOrderDetails);
             SaveOrderCommand = new RelayCommand(SaveOrder, CanSaveOrder);
-
             SelectableStatuses = new ObservableCollection<OrderStatus>(
                  Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>()
                  .Where(status => status != OrderStatus.Pending)
              );
-
-            //OrderDetails.CollectionChanged += (s, e) => SaveOrderCommand.RaiseCanExecuteEventChanged();
-
         }
-        //public void LoadOrderData(Order selectedOrder)
-        //{
-        //    if (selectedOrder != null)
-        //    {
-        //        //Id = selectedOrder.Id;
-        //        //User = selectedOrder.User;
-        //        OrderDate = selectedOrder.OrderDate;
-        //        SelectedShippingDate = selectedOrder.ShippedDate;
-        //        SelectedStatus = selectedOrder.Status;
-        //        SelectedShippingAddress = selectedOrder.ShippingAddress;
-        //        OrderDetails = new ObservableCollection<OrderDetail>(selectedOrder.OrderDetails.Select(od =>
-        //            new OrderDetail
-        //            {
-        //                Product = od.Product,
-        //                Quantity = od.Quantity
-        //            }));
-        //    }
-        //}
-
-        //public EditOrderViewModel(Order order)
-        //{
-        //    AllProducts = GUIHandler.Instance.CacheManager.GetAllProducts();
-        //    AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);
-        //    RemoveProductCommand = new RelayCommand(RemoveOrderDetails, CanRemoveOrderDetails);
-        //    SaveOrderCommand = new RelayCommand(SaveOrder, CanSubmitOrder);
-
-        //    _order = order;
-
-        //    Id = order.Id;
-        //    User = order.User;
-        //    OrderDate = order.OrderDate;
-        //    SelectedShippingDate = order.ShippedDate;
-        //    SelectedStatus = order.Status;
-        //    SelectedShippingAddress = order.ShippingAddress;
-        //    //OrderDetails = new ObservableCollection<OrderDetail>(order.OrderDetails);
-        //    OrderDetails = new ObservableCollection<OrderDetail>(
-        //        order.OrderDetails.Select(od =>
-        //            new OrderDetail
-        //            {
-        //                Product = od.Product,
-        //                Quantity = od.Quantity
-        //            })
-        //        );
-
-        //    //ProductRows = new ObservableCollection<ProductRow>(
-        //    //    order.Products.Select(p => new ProductRow
-        //    //    {
-        //    //        SelectedProduct = p.Key,
-        //    //        Quantity = p.Value
-        //    //    })
-        //    //);
-        //    SelectableStatuses = new ObservableCollection<OrderStatus>(
-        //        Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>()
-        //        .Where(status => status != OrderStatus.Pending)
-        //    );
-
-        //    OrderDetails.CollectionChanged += (s, e) => SaveOrderCommand.RaiseCanExecuteEventChanged();
-
-        //}
-        //public EditOrderViewModel(Order order)
-        //{
-        //    AllProducts = GUIHandler.Instance.CacheManager.GetAllProducts();
-        //    AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);
-        //    RemoveProductCommand = new RelayCommand(RemoveOrderDetails, CanRemoveOrderDetails);
-        //    SaveOrderCommand = new RelayCommand(SaveOrder, CanSubmitOrder);
-
-        //    _order = order;
-
-        //    Id = order.Id;
-        //    User = order.User;
-        //    OrderDate = order.OrderDate;
-        //    SelectedShippingDate = order.ShippedDate;
-        //    SelectedStatus = order.Status;
-        //    SelectedShippingAddress = order.ShippingAddress;
-        //    //OrderDetails = new ObservableCollection<OrderDetail>(order.OrderDetails);
-        //    OrderDetails = new ObservableCollection<OrderDetail>(
-        //        order.OrderDetails.Select(od =>
-        //            new OrderDetail
-        //            {
-        //                Product = od.Product,
-        //                Quantity = od.Quantity
-        //            })
-        //        );
-
-        //    //ProductRows = new ObservableCollection<ProductRow>(
-        //    //    order.Products.Select(p => new ProductRow
-        //    //    {
-        //    //        SelectedProduct = p.Key,
-        //    //        Quantity = p.Value
-        //    //    })
-        //    //);
-            //SelectableStatuses = new ObservableCollection<OrderStatus>(
-            //    Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>()
-            //    .Where(status => status != OrderStatus.Pending)
-            //);
-
-        //    OrderDetails.CollectionChanged += (s, e) => SaveOrderCommand.RaiseCanExecuteEventChanged();
-
-        //}
-
+     
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         private DateTime? _orderDate;
@@ -166,7 +58,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         [Required(ErrorMessage = "Order Date is required.")]
         public DateTime? OrderDate
         {
-
             get { return _orderDate; }
             set
             {
@@ -218,11 +109,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-
-
-        //public ObservableCollection<ProductRow> ProductRows { get; set; }
-
-        //public ObservableCollection<OrderDetail> OrderDetails { get; set; }
         public ObservableCollection<OrderStatus> SelectableStatuses { get; }
 
         Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
@@ -260,8 +146,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
             SaveOrderCommand.RaiseCanExecuteEventChanged();
-
-
         }
 
         private void RemoveOrderDetails(object orderDetails)
@@ -274,8 +158,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             var newOrderDetail = new OrderDetail { Quantity = 1 };
             newOrderDetail.PropertyChanged += (s, e) => SaveOrderCommand.RaiseCanExecuteEventChanged();
             OrderDetails.Add(newOrderDetail);
-
-            //OrderDetails.Add(new OrderDetail { Quantity = 1 });
         }
 
         private bool CanSaveOrder(object obj)
@@ -294,11 +176,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return true;
         }
 
-        //private bool CanSaveOrder(object obj)
-        //{
-        //    return true;
-        //}
-
         private void SaveOrder(object obj)
         {
 
@@ -310,19 +187,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _order.Status = SelectedStatus;
             _order.ShippedDate = SelectedShippingDate;
             _order.ShippingAddress = SelectedShippingAddress;
-            //_order.OrderDetails = OrderDetails;
             _order.OrderDetails = new ObservableCollection<OrderDetail>(OrderDetails);
 
-
-
-
             // Update the order in the database or collection
-            //GUIHandler.Instance.CacheManager.UpdateOrder(_order);
             MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Update, _order);
 
             // Close the window
             CloseWindow?.Invoke();
-
         }
     }
 }

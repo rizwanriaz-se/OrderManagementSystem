@@ -39,14 +39,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public RelayCommand SubmitOrderCommand { get; set; }
 
         // Declare Observable Collections for data bindings
-        //public ObservableCollection<ProductRow> ProductRows { get; set; } = new ObservableCollection<ProductRow>();
         public ObservableCollection<OrderDetail> OrderDetails { get; set; } = new ObservableCollection<OrderDetail>();
 
         public ObservableCollection<Product> AllProducts { get; set; }
         public ObservableCollection<User> AllUsers { get; set; }
         private User _currentUser;
 
-        //[Required(ErrorMessage = "Current name is required")]
         public User CurrentUser
         {
             get => _currentUser;
@@ -60,7 +58,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
         public ObservableCollection<OrderStatus> SelectableStatuses { get; }
-        //public User CurrentUser { get; set; } = GUIHandler.Instance.CacheManager.CurrentUser;
+      
 
 
 
@@ -115,7 +113,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
 
         Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
-        //public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public bool HasErrors => Errors.Count > 0;
 
@@ -147,15 +144,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             SubmitOrderCommand.RaiseCanExecuteEventChanged();
         }
 
-        //public User SelectedUser
-        //{
-        //    get { return _selectedUser; }
-        //    set
-        //    {
-        //        _selectedUser = value;
-        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedUser)));
-        //    }
-        //}
+       
         #endregion
 
         #region Constructor
@@ -185,19 +174,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         // Command Action to Submit Order
         private void SubmitOrder(object obj)
         {
-            // Logic for submitting the order
-            //if (ProductRows == null || ProductRows.Count == 0)
-            //{
-            //    MessageBox.Show("Please add at least one product.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //    return;
-            //}
-
-            //if (OrderDetail == null || ProductRows.Count == 0)
-            //{
-            //    MessageBox.Show("Please add at least one product.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //    return;
-            //}
-
             // Get the last order Id to generate new order Id
             int? lastOrderId = GUIHandler.Instance.CacheManager.GetAllOrders().Last().Id;
 
@@ -209,18 +185,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 OrderDate = DateTime.Now,
                 Status = OrderStatus.Pending,
                 OrderDetails = OrderDetails,
-                //OrderDetails = ProductRows.Select(row => new OrderDetail
-                //{
-                //    Product = GUIHandler.Instance.CacheManager.GetProductByName(row),
-                //    Quantity = row.Quantity
-                //}).ToList(),
-
                 ShippedDate = _selectedShippingDate,
                 ShippingAddress = _selectedShippingAddress
             };
 
             // Add the new order to the OrderManager
-            //GUIHandler.Instance.CacheManager.AddOrder(order);
             MessageProcessor.SendMessage(
                 Enums.MessageType.Order,
                 Enums.MessageAction.Add,
@@ -241,8 +210,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             var newOrderDetail = new OrderDetail { Quantity = 1 };
             newOrderDetail.PropertyChanged += (s, e) => SubmitOrderCommand.RaiseCanExecuteEventChanged();
             OrderDetails.Add(newOrderDetail);
-            //OrderDetails.Add(new OrderDetail { Quantity = 1 });
         }
+
         // Command Predicates for Submit Order, Add Product Row and Remove Product Row
         private bool CanSubmitOrder(object obj)
         {

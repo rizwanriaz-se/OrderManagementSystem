@@ -34,8 +34,6 @@ namespace OrderManagementSystem.UIComponents.Views
 
         public void LoadCategory(Category SelectedCategory)
         {
-            //if (SelectedCategory == null) throw new ArgumentNullException(nameof(SelectedCategory));
-
             editCategoryViewModel.Id = SelectedCategory.Id;
             editCategoryViewModel.CategoryNameText = SelectedCategory.Name;
             editCategoryViewModel.CategoryDescriptionText = SelectedCategory.Description;

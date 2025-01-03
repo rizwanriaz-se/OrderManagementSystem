@@ -30,7 +30,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private string _ProductNameText;
         private string _ProductDescriptionText;
-        //private byte[] _Picture;
         private decimal _ProductUnitPriceText;
         private int _ProductUnitsInStockText;
         private Category _SelectedCategory;
@@ -141,44 +140,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             Categories = GUIHandler.Instance.CacheManager.GetAllCategories();
             SaveProductCommand = new RelayCommand(SaveProduct, CanSaveProduct);
-
-            //_Product = product;
-
-
-            //Id = product.Id;
-            //ProductNameText = product.Name;
-            //ProductDescriptionText = product.Description;
-            ////SelectedCategory = product.Category;
-            ////SelectedCategory =   
-            //// Match SelectedCategory with the object in Categories
-            //SelectedCategory = Categories.FirstOrDefault(c => c.Id == product.Category.Id);
-
-            //Picture = product.Picture;
-            //ProductUnitPriceText = product.UnitPrice;
-            //ProductUnitsInStockText = product.UnitsInStock;
-
         }
-        //public EditProductViewModel(Product product)
-        //{
-        //    Categories = GUIHandler.Instance.CacheManager.GetAllCategories();
-        //    SaveProductCommand = new RelayCommand(SaveProduct, CanSaveProduct);
-
-        //    _Product = product;
-
-
-        //    Id = product.Id;
-        //    ProductNameText = product.Name;
-        //    ProductDescriptionText = product.Description;
-        //    //SelectedCategory = product.Category;
-        //    //SelectedCategory =   
-        //    // Match SelectedCategory with the object in Categories
-        //    SelectedCategory = Categories.FirstOrDefault(c => c.Id == product.Category.Id);
-
-        //    Picture = product.Picture;
-        //    ProductUnitPriceText = product.UnitPrice;
-        //    ProductUnitsInStockText = product.UnitsInStock;
-
-        //}
 
         private bool CanSaveProduct(object obj)
         {
@@ -196,7 +158,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             _Product.UnitPrice = ProductUnitPriceText;
             _Product.UnitsInStock = ProductUnitsInStockText;
 
-            //GUIHandler.Instance.CacheManager.UpdateProduct(_Product);
             MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Update, _Product);
 
             CloseWindow.Invoke();

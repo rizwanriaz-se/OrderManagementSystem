@@ -60,13 +60,9 @@ namespace OrderManagementSystem.Cache
 
         private CacheManager()
         {
-
             m_objUsers = new ObservableCollection<User>();
-
             m_objCategories = new ObservableCollection<Category>();
-
             m_objProducts = new ObservableCollection<Product>();
-
             m_objOrders = new ObservableCollection<Order>();
         }
 
@@ -125,10 +121,6 @@ namespace OrderManagementSystem.Cache
                 existingOrder.ShippingAddress = updatedOrder.ShippingAddress;
                 existingOrder.OrderDetails = updatedOrder.OrderDetails;
             }
-            else
-            {
-                //MessageBox.Show("Order not found.");
-            }
         }
         public void DeleteOrder(Order order)
         {
@@ -175,22 +167,17 @@ namespace OrderManagementSystem.Cache
                 existingProduct.Picture = product.Picture;
                 existingProduct.UnitPrice = product.UnitPrice;
                 existingProduct.UnitsInStock = product.UnitsInStock;
-
-                //MessageBox.Show($"Product Updated: {existingProduct.Id}, {existingProduct.Name}, {existingProduct.Description}, {existingProduct.Category.Name}, {existingProduct.UnitPrice}, {existingProduct.UnitsInStock}");
             }
         }
         public void DeleteProduct(Product product)
         {
-            //Product productToDelete = m_objProducts.FirstOrDefault(p => p.Equals(product));
-            ////_AllProducts.Remove(productToDelete);
-            //m_objProducts.Remove(productToDelete);
             Product productToDelete = m_objProducts.FirstOrDefault(p => p.Id == product.Id);
             if (productToDelete != null)
             {
                 m_objProducts.Remove(productToDelete);
             }
-
         }
+
         public ObservableCollection<User> GetAllUsers()
         {
             return m_objUsers;
@@ -199,7 +186,6 @@ namespace OrderManagementSystem.Cache
         public void AddUser(User user)
         {
             m_objUsers.Add(user);
-            //SaveData(true);
         }
         public User GetUserByID(int id)
         {
@@ -215,8 +201,6 @@ namespace OrderManagementSystem.Cache
                 existingUser.Phone = user.Phone;
                 existingUser.Password = user.Password;
                 existingUser.IsAdmin = user.IsAdmin;
-
-                //MessageBox.Show($"Product Updated: {existingProduct.Id}, {existingProduct.Name}, {existingProduct.Description}, {existingProduct.Category.Name}, {existingProduct.UnitPrice}, {existingProduct.UnitsInStock}");
             }
         }
 

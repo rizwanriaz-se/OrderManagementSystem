@@ -24,10 +24,6 @@ namespace OrderManagementSystem
         public void Init()
         {
             m_objConnection = new Connection();
-            //if (!ClientManager.Instance().Connected)
-            //{
-            //    m_objConnection.ConnectionInit();
-            //}
             m_objConnection.ConnectionInit();
         }
     }

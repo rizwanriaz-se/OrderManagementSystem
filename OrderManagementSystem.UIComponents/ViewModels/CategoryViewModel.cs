@@ -70,7 +70,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
 
         Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
-        //public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public bool HasErrors => Errors.Count > 0;
 
@@ -120,24 +119,16 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             // Create new Order object
             Category category = new Category
             {
-                //Id = lastCategoryId + 1,
                 Name = CategoryNameText,
                 Description = CategoryDescriptionText,
                 Picture = null
             };
 
-            //GUIHandler.Instance.CacheManager.AddCategory(category);
             MessageProcessor.SendMessage(
                 Enums.MessageType.Category,
                 Enums.MessageAction.Add,
                 category
             );
-            //GUIHandler.Instance.ClientManager.SendMessage(new Request
-            //{
-            //    MessageType = Enums.MessageType.Category,
-            //    MessageAction = Enums.MessageAction.Add,
-            //    Data = category
-            //});
 
             CloseWindow?.Invoke();
         }
@@ -145,8 +136,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private bool CanSubmitCategory(object obj)
         {
             return Validator.TryValidateObject(this, new ValidationContext(this), null, true);
-
-            //return true;
         }
 
         private void EditCategory(object obj)
@@ -154,9 +143,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             EditCategoryView editCategoryView = new EditCategoryView();
             editCategoryView.LoadCategory(SelectedCategory);
 
-            //EditCategoryViewModel editCategoryViewModel = new EditCategoryViewModel(SelectedCategory);
-            //editCategoryView.DataContext = editCategoryViewModel;
-            //editCategoryViewModel.CloseWindow = editCategoryView.Close;
             editCategoryView.ShowDialog();
         }
 
@@ -167,13 +153,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void DeleteCategory(object obj)
         {
-            //GUIHandler.Instance.CacheManager.DeleteCategory(SelectedCategory);
             MessageProcessor.SendMessage(
                 Enums.MessageType.Category,
                 Enums.MessageAction.Delete,
                 SelectedCategory
             );
-            //Categories.Remove(SelectedCategory);
         }
 
         private bool CanDeleteCategory(object obj)

@@ -26,10 +26,7 @@ namespace OrderManagementSystem.UIComponents.Views
     public partial class AuthWindow : ThemedWindow
     {
         public Action CloseWindow { get; set; }
-        //private CacheManager m_CacheManager = CacheManager.Instance();
-        //private Connection m_Connection = Connection.Instance();
-        //private MessageProcessor m_MessageProcessor = new MessageProcessor();
-
+     
         public AuthWindow()
         {
             InitializeComponent();

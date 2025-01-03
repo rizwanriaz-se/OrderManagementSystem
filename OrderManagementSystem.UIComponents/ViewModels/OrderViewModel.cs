@@ -47,7 +47,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public OrderViewModel()
         {
-
             Orders = GUIHandler.Instance.CacheManager.GetAllOrders();
 
             EditOrderCommand = new RelayCommand(ExecuteEditOrder, CanExecuteEditOrder);
@@ -61,10 +60,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             {
                 EditOrderView editOrderView = new EditOrderView();
                 editOrderView.LoadOrder(SelectedOrder);
-                //EditOrderViewModel editOrderViewModel = new EditOrderViewModel(SelectedOrder);
-                //editOrderView.DataContext = editOrderViewModel;
-
-                //editOrderViewModel.CloseWindow = editOrderView.Close;
+               
                 editOrderView.ShowDialog();
             }
             else
@@ -79,9 +75,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void ExecuteDeleteOrder(object obj)
         {
-            //GUIHandler.Instance.CacheManager.DeleteOrder(SelectedOrder);
             MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Delete, SelectedOrder);
-            //Orders.Remove(SelectedOrder);
         }
 
         private bool CanExecuteDeleteOrder(object obj)

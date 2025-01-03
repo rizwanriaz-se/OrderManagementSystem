@@ -37,7 +37,6 @@ namespace OrderManagementSystem.UIComponents.Views
             {
                 tableView.AllowEditing = false;
             }
-            //tableView.AllowEditing = false;
 
             ApprovalStatusComboBox.ItemsSource = Enum.GetValues(typeof(User.ApprovalStates));
         }

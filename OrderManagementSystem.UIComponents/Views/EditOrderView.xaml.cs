@@ -36,11 +36,7 @@ namespace OrderManagementSystem.UIComponents.Views
             editOrderViewModel = new EditOrderViewModel();
             DataContext = editOrderViewModel;
             editOrderViewModel.CloseWindow = this.Close;
-            
-            // Accessing ComboBoxes after InitializeComponent
-            //ProductComboBox1.SelectedItem = editOrderViewModel.OrderDetails[0].Product;
-            //ProductComboBox2.SelectedItem = editOrderViewModel.OrderDetails[0].Product;
-
+        
         }
        
         public void LoadOrder(Order SelectedOrder)
@@ -60,8 +56,7 @@ namespace OrderManagementSystem.UIComponents.Views
                     Quantity = od.Quantity
                 }));
 
-            //ProductComboBox1.SelectedItem = editOrderViewModel.OrderDetails[0].Product;
-            //ProductComboBox2.SelectedItem = editOrderViewModel.OrderDetails[0].Product;
+            
 
             editOrderViewModel.OrderDetails.CollectionChanged += (s, e) => editOrderViewModel.SaveOrderCommand.RaiseCanExecuteEventChanged();
         }

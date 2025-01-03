@@ -44,31 +44,12 @@ Height="440" MinHeight="440" MaxHeight="440"
             <dxlc:LayoutItem Width="140">
                 <StackPanel>
                     <Label Content="Employee" />
-                    <!--<dxe:ComboBoxEdit Width="200"
-                                      ItemsSource="{Binding AllUsers}"
-                                      DisplayMember="Name"
-                                      
-                                      SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                                      AutoComplete="True" />
-                    -->
-                    
 
                     <TextBlock Text="{Binding CurrentUser.Name, Mode=TwoWay}" Padding="5,0" FontSize="15" FontWeight="SemiBold" />
 
-                    <!--   <TextBlock Width="100" Text="{Binding DataContext.CurrentUser, RelativeSource={RelativeSource AncestorType={x:Type dx:ThemedWindow}}}" /> -->
-
                 </StackPanel>
             </dxlc:LayoutItem>
 
-            <!-- Status Field -->
-            <!--
-            <dxlc:LayoutItem MinWidth="150">
-                <StackPanel HorizontalAlignment="Left">
-                    <Label Content="Status" FontWeight="Bold" />
-                    <dxe:ComboBoxEdit Width="150" x:Name="OrderStatusComboBox" EditValue="{Binding SelectedStatus, Mode=TwoWay}" ItemsSource="{Binding SelectableStatuses}" AutoComplete="True" />
-                </StackPanel>
-            </dxlc:LayoutItem>
--->
             <!-- Shipping Date Field -->
             <dxlc:LayoutItem Width="205">
                 <StackPanel HorizontalAlignment="Left" >
