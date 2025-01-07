@@ -1,19 +1,9 @@
-﻿//using OrderManagementSystem.Commands;
+﻿using OrderManagementSystem.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.Views;
-using System;
-using System.Collections.Generic;
+using OrderManagementSystemServer.Repository;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Xml.Serialization;
-//using OrderManagementSystem.Classes;
-using OrderManagementSystem.UIComponents.Commands;
-//using OrderManagementSystem.Repositories;
-using OrderManagementSystem.UIComponents.Classes;
-using OrderManagementSystemServer.Repository;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -41,10 +31,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedUser)));
             }
         }
-        public ICommand EditUserCommand { get; set; }
+        public RelayCommand EditUserCommand { get; set; }
 
-        public ICommand SubmitUserCommand { get; set; }
-        public ICommand DeleteUserCommand { get; set; }
+        public RelayCommand SubmitUserCommand { get; set; }
+        public RelayCommand DeleteUserCommand { get; set; }
 
         public UserViewModel()
         {

@@ -1,31 +1,20 @@
-﻿using DevExpress.Data;
-using DevExpress.DirectX.Common.DirectWrite;
-using DevExpress.XtraRichEdit.Fields.Expression;
-//using OrderManagementSystem.Commands;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-//using OrderManagementSystem.Classes;
+﻿using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystemServer.Repository;
-using OrderManagementSystem.UIComponents.Classes;
+using System.Collections;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
     public class EditUserViewModel : INotifyDataErrorInfo
     {
-        private User _User;
+        private User m_objUser;
 
-        private string _UserNameText;
-        private string _UserEmailText;
-        private string _UserPhoneText;
-        private string _UserPasswordText;
+        private string m_stUserNameText;
+        private string m_stUserEmailText;
+        private string m_stUserPhoneText;
+        private string m_stUserPasswordText;
 
         public Action CloseWindow { get; set; }
 
@@ -35,22 +24,22 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public string UserNameText
         {
 
-            get { return _UserNameText; }
+            get { return m_stUserNameText; }
             set
             {
-                _UserNameText = value;
-                Validate(nameof(UserNameText), _UserNameText);
+                m_stUserNameText = value;
+                Validate(nameof(UserNameText), m_stUserNameText);
             }
         }
 
         [Required(ErrorMessage = "Email is required")]
         public string UserEmailText
         {
-            get { return _UserEmailText; }
+            get { return m_stUserEmailText; }
             set
             {
-                _UserEmailText = value;
-                Validate(nameof(UserEmailText), _UserEmailText);
+                m_stUserEmailText = value;
+                Validate(nameof(UserEmailText), m_stUserEmailText);
             }
         }
 
@@ -58,11 +47,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public string UserPhoneText
         {
 
-            get { return _UserPhoneText; }
+            get { return m_stUserPhoneText; }
             set
             {
-                _UserPhoneText = value;
-                Validate(nameof(UserPhoneText), _UserPhoneText);
+                m_stUserPhoneText = value;
+                Validate(nameof(UserPhoneText), m_stUserPhoneText);
             }
         }
 
@@ -70,11 +59,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public string UserPasswordText
         {
 
-            get { return _UserPasswordText; }
+            get { return m_stUserPasswordText; }
             set
             {
-                _UserPasswordText = value;
-                Validate(nameof(UserPasswordText), _UserPasswordText);
+                m_stUserPasswordText = value;
+                Validate(nameof(UserPasswordText), m_stUserPasswordText);
             }
         }
 
@@ -127,15 +116,15 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void SaveUser(object obj)
         {
-            _User = new User();
-            _User.Id = Id;
-            _User.Name = UserNameText;
-            _User.Email = UserEmailText;
-            _User.Phone = UserPhoneText;
-            _User.Password = UserPasswordText;
-            _User.IsAdmin = UserIsAdmin;
+            m_objUser = new User();
+            m_objUser.Id = Id;
+            m_objUser.Name = UserNameText;
+            m_objUser.Email = UserEmailText;
+            m_objUser.Phone = UserPhoneText;
+            m_objUser.Password = UserPasswordText;
+            m_objUser.IsAdmin = UserIsAdmin;
 
-            MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Update, _User);
+            MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Update, m_objUser);
 
             CloseWindow.Invoke();
 

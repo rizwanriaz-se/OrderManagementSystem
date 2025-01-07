@@ -1,22 +1,11 @@
-﻿using DevExpress.Mvvm.POCO;
-//using OrderManagementSystem.Cache.Models;
-//using OrderManagementSystem.Commands;
+﻿using OrderManagementSystem.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.Views;
-using System;
+using OrderManagementSystemServer.Repository;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-//using OrderManagementSystem.Classes;
-using OrderManagementSystem.UIComponents.Commands;
-//using OrderManagementSystem.Repositories;
-using OrderManagementSystem.UIComponents.Classes;
-using OrderManagementSystemServer.Repository;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -57,14 +46,14 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        private Category m_SelectedCategory { get; set; }
+        private Category m_objSelectedCategory { get; set; }
 
         public Category SelectedCategory
         {
-            get { return m_SelectedCategory; }
+            get { return m_objSelectedCategory; }
             set
             {
-                m_SelectedCategory = value;
+                m_objSelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
             }
         }

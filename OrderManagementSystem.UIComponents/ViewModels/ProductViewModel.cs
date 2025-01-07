@@ -1,22 +1,11 @@
-﻿using DevExpress.Xpf.Controls;
-//using OrderManagementSystem.Commands;
+﻿using OrderManagementSystem.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.Views;
-using System;
-using System.Collections.Generic;
+using OrderManagementSystemServer.Repository;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-//using OrderManagementSystem.Classes;
-using OrderManagementSystem.UIComponents.Commands;
-//using OrderManagementSystem.Repositories;
-using OrderManagementSystem.UIComponents.Classes;
-using OrderManagementSystemServer.Repository;
 using System.ComponentModel.DataAnnotations;
-using DevExpress.XtraRichEdit.Fields.Expression;
-using System.Collections;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -37,14 +26,14 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public RelayCommand DeleteProductCommand { get; set; }
 
-        private Product m_SelectedProduct;
+        private Product m_objSelectedProduct;
 
         public Product SelectedProduct
         {
-            get { return m_SelectedProduct; }
+            get { return m_objSelectedProduct; }
             set
             {
-                m_SelectedProduct = value;
+                m_objSelectedProduct = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedProduct)));
             }
         }
@@ -173,7 +162,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             EditProductView editProductView = new EditProductView();
             editProductView.LoadProduct(SelectedProduct);
-        ;
+        
             editProductView.ShowDialog();
         }
 
@@ -222,7 +211,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private bool CanSubmitProduct(object obj)
         {
             return Validator.TryValidateObject(this, new ValidationContext(this), null, true);
-            return true;
+            
         }
 
     }

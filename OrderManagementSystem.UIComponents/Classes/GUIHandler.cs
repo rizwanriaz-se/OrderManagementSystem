@@ -7,12 +7,12 @@ namespace OrderManagementSystem.UIComponents.Classes
     {
         private static GUIHandler m_objInstance;
 
-        private User m_CurrentUser;
+        private User m_objCurrentUser;
 
         public User CurrentUser
         {
-            get { return m_CurrentUser; }
-            set { m_CurrentUser = value; }
+            get { return m_objCurrentUser; }
+            set { m_objCurrentUser = value; }
         }
 
         private GUIHandler() { }
@@ -37,9 +37,9 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         public void Init()
         {
-            m_objCacheManager = CacheManager.Instance();
+            m_objCacheManager = CacheManager.Instance;
             m_objMessageProcessor = new MessageProcessor();
-            m_objClientManager = ClientManager.Instance();
+            m_objClientManager = ClientManager.Instance;
         }
     }
 }

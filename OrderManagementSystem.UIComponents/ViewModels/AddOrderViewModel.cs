@@ -1,22 +1,12 @@
-﻿//using OrderManagementSystem.Commands;
-using System;
+﻿using OrderManagementSystem.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
+using OrderManagementSystemServer.Repository;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-//using static OrderManagementSystem.Repositories.Order;
-//using OrderManagementSystem.Classes;
-using OrderManagementSystem.UIComponents.Commands;
-//using OrderManagementSystem.Repositories;
-using OrderManagementSystem.UIComponents.Classes;
 using static OrderManagementSystemServer.Repository.Order;
-using OrderManagementSystemServer.Repository;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -27,10 +17,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public Action CloseWindow { get; set; }
 
         // Declare properties for data bindings
-        private OrderStatus _selectedStatus;
-        private string _selectedShippingAddress;
-        private DateTime _selectedShippingDate = DateTime.Now;
-        private User _selectedUser;
+        private OrderStatus m_objSelectedStatus;
+        private string m_objSelectedShippingAddress;
+        private DateTime m_objSelectedShippingDate = DateTime.Now;
+        private User m_objSelectedUser;
 
 
         // Declare Commands
@@ -43,16 +33,16 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public ObservableCollection<Product> AllProducts { get; set; }
         public ObservableCollection<User> AllUsers { get; set; }
-        private User _currentUser;
+        private User m_objCurrentUser;
 
         public User CurrentUser
         {
-            get => _currentUser;
+            get => m_objCurrentUser;
             set
             {
-                if (_currentUser != value)
+                if (m_objCurrentUser != value)
                 {
-                    _currentUser = value;
+                    m_objCurrentUser = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentUser)));
                 }
             }
@@ -73,12 +63,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         [Required(ErrorMessage = "Status must be selected.")]
         public OrderStatus SelectedStatus
         {
-            get { return _selectedStatus; }
+            get { return m_objSelectedStatus; }
             set
             {
-                _selectedStatus = value;
+                m_objSelectedStatus = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedStatus)));
-                Validate(nameof(SelectedStatus), _selectedStatus);
+                Validate(nameof(SelectedStatus), m_objSelectedStatus);
 
             }
         }
@@ -86,12 +76,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         [Required(ErrorMessage = "Shipping Address is required")]
         public string SelectedShippingAddress
         {
-            get { return _selectedShippingAddress; }
+            get { return m_objSelectedShippingAddress; }
             set
             {
-                _selectedShippingAddress = value;
+                m_objSelectedShippingAddress = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedShippingAddress)));
-                Validate(nameof(SelectedShippingAddress), _selectedShippingAddress);
+                Validate(nameof(SelectedShippingAddress), m_objSelectedShippingAddress);
 
             }
         }
@@ -101,13 +91,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             get
             {
-                return _selectedShippingDate;
+                return m_objSelectedShippingDate;
             }
             set
             {
-                _selectedShippingDate = value;
+                m_objSelectedShippingDate = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedShippingDate)));
-                Validate(nameof(SelectedShippingDate), _selectedShippingDate);
+                Validate(nameof(SelectedShippingDate), m_objSelectedShippingDate);
 
             }
         }
@@ -185,8 +175,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 OrderDate = DateTime.Now,
                 Status = OrderStatus.Pending,
                 OrderDetails = OrderDetails,
-                ShippedDate = _selectedShippingDate,
-                ShippingAddress = _selectedShippingAddress
+                ShippedDate = m_objSelectedShippingDate,
+                ShippingAddress = m_objSelectedShippingAddress
             };
 
             // Add the new order to the OrderManager
@@ -214,11 +204,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         // Command Predicates for Submit Order, Add Product Row and Remove Product Row
         private bool CanSubmitOrder(object obj)
-        {
-            // Validate the entire object
+        { 
             bool isValid = Validator.TryValidateObject(this, new ValidationContext(this), null, true);
 
-            // Check if OrderDetails is not empty and all products and quantities are valid
             bool hasValidOrderDetails = OrderDetails.Count > 0 && OrderDetails.All(order => order.Product != null && order.Quantity > 0);
 
             return isValid && hasValidOrderDetails;

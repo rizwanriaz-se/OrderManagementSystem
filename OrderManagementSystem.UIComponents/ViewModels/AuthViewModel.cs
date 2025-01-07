@@ -1,25 +1,13 @@
 ﻿using DevExpress.Xpf.Core;
-using DevExpress.Xpf.Editors;
-using DevExpress.XtraRichEdit.Model.History;
-//using OrderManagementSystem.Cache;
-//using OrderManagementSystem.Commands;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-//using System.Windows.Controls;
-using System.Windows.Input;
-//using static OrderManagementSystem.Repositories.User;
-//using OrderManagementSystem.Classes;
+using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.Views;
-//using OrderManagementSystem.Repositories;
-using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystemServer.Repository;
+using System.Collections;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+using System.Text;
 using static OrderManagementSystemServer.Repository.User;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -33,7 +21,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             public string SelectedLoginRole { get; set; }
           
 
-            [Required(ErrorMessage = "Email is required")]
+            [Required(ErrorMessage = "Email is required"), RegularExpression(@"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$", ErrorMessage = "Please enter a valid email address.")]
             public string EmailLoginText { get; set; }
             //{
            
@@ -49,17 +37,15 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             [Required(ErrorMessage = "Name is required")]
             public string NameRegisterText { get; set; }
 
-            //public string PasswordRegisterText { get; set; }
-            [Required(ErrorMessage = "Email is required")]
+            [Required(ErrorMessage = "Email is required"), RegularExpression(@"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$", ErrorMessage = "Please enter a valid email address.")]
             public string EmailRegisterText { get; set; }
             
 
-            [Required(ErrorMessage = "Phone number is required")]
-            //[Phone(ErrorMessage = "Not a valid phone number")]
+            [Required(ErrorMessage = "Phone number is required"), RegularExpression(@"^([\+]?33[-]?|[0])?[1-9][0-9]{8}$", ErrorMessage = "Please enter a valid phone number.")]
             public string PhoneRegisterText { get; set; }
             
 
-            [Required(ErrorMessage = "Password is required")]
+            [Required(ErrorMessage = "Password is required"), RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d).{6,}$", ErrorMessage = "Password must consist of at least 6 alphanumeric characters.")]
             //[PasswordPropertyText(true)]
             public string PasswordRegisterText { get; set; }
             
@@ -69,19 +55,19 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public Action CloseWindow { get; set; }
 
         public string NameRegisterText {
-            get { return registerInfo.NameRegisterText; }
+            get { return m_objRegisterInfo.NameRegisterText; }
             set
             {
-                registerInfo.NameRegisterText = value;
-                OnPropertyChanged(nameof(registerInfo.NameRegisterText));
-                ValidateRegister(nameof(registerInfo.NameRegisterText), registerInfo.NameRegisterText, registerInfo);
+                m_objRegisterInfo.NameRegisterText = value;
+                OnPropertyChanged(nameof(m_objRegisterInfo.NameRegisterText));
+                ValidateRegister(nameof(m_objRegisterInfo.NameRegisterText), m_objRegisterInfo.NameRegisterText, m_objRegisterInfo);
             }
         }
 
         private int m_nSelectedTabIndex;
 
-        private LoginInfo loginInfo = new LoginInfo();
-        private RegisterInfo registerInfo = new RegisterInfo();
+        private LoginInfo m_objLoginInfo = new LoginInfo();
+        private RegisterInfo m_objRegisterInfo = new RegisterInfo();
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
@@ -103,37 +89,37 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         [Required(ErrorMessage = "Role must be selected.")]
         public string SelectedLoginRole
         {
-            get => loginInfo.SelectedLoginRole;
+            get => m_objLoginInfo.SelectedLoginRole;
             set
             {
-                loginInfo.SelectedLoginRole = value;
-                OnPropertyChanged(nameof(loginInfo.SelectedLoginRole));
-                IsRegisterTabVisible = loginInfo.SelectedLoginRole == "Employee";
-                ValidateLogin(nameof(loginInfo.SelectedLoginRole), loginInfo.SelectedLoginRole, loginInfo);
+                m_objLoginInfo.SelectedLoginRole = value;
+                OnPropertyChanged(nameof(m_objLoginInfo.SelectedLoginRole));
+                IsRegisterTabVisible = m_objLoginInfo.SelectedLoginRole == "Employee";
+                ValidateLogin(nameof(m_objLoginInfo.SelectedLoginRole), m_objLoginInfo.SelectedLoginRole, m_objLoginInfo);
             }
         }
 
         [Required(ErrorMessage = "Email is required")]
         public string EmailLoginText
         {
-            get { return loginInfo.EmailLoginText; }
+            get { return m_objLoginInfo.EmailLoginText; }
             set
             {
-                loginInfo.EmailLoginText = value;
-                OnPropertyChanged(nameof(loginInfo.EmailLoginText));
-                ValidateLogin(nameof(loginInfo.EmailLoginText), loginInfo.EmailLoginText, loginInfo);
+                m_objLoginInfo.EmailLoginText = value;
+                OnPropertyChanged(nameof(m_objLoginInfo.EmailLoginText));
+                ValidateLogin(nameof(m_objLoginInfo.EmailLoginText), m_objLoginInfo.EmailLoginText, m_objLoginInfo);
             }
         }
 
         [Required(ErrorMessage = "Password is required")]
         public string PasswordLoginText
         {
-            get { return loginInfo.PasswordLoginText; }
+            get { return m_objLoginInfo.PasswordLoginText; }
             set
             {
-                loginInfo.PasswordLoginText = value;
-                OnPropertyChanged(nameof(loginInfo.PasswordLoginText));
-                ValidateLogin(nameof(loginInfo.PasswordLoginText), loginInfo.PasswordLoginText, loginInfo);
+                m_objLoginInfo.PasswordLoginText = value;
+                OnPropertyChanged(nameof(m_objLoginInfo.PasswordLoginText));
+                ValidateLogin(nameof(m_objLoginInfo.PasswordLoginText), m_objLoginInfo.PasswordLoginText, m_objLoginInfo);
             }
         }
         public int SelectedTabIndex
@@ -153,24 +139,24 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         [Required(ErrorMessage = "Email is required")]
         public string EmailRegisterText
         {
-            get { return registerInfo.EmailRegisterText; }
+            get { return m_objRegisterInfo.EmailRegisterText; }
             set
             {
-                registerInfo.EmailRegisterText = value;
-                OnPropertyChanged(nameof(registerInfo.EmailRegisterText));
-                ValidateRegister(nameof(registerInfo.EmailRegisterText), registerInfo.EmailRegisterText, registerInfo);
+                m_objRegisterInfo.EmailRegisterText = value;
+                OnPropertyChanged(nameof(m_objRegisterInfo.EmailRegisterText));
+                ValidateRegister(nameof(m_objRegisterInfo.EmailRegisterText), m_objRegisterInfo.EmailRegisterText, m_objRegisterInfo);
             }
         }
 
-        [Required(ErrorMessage = "Phone number is required"), Phone(ErrorMessage = "Not a valid phone number")]
+        [Required(ErrorMessage = "Phone number is required")]
         public string PhoneRegisterText
         {
-            get { return registerInfo.PhoneRegisterText; }
+            get { return m_objRegisterInfo.PhoneRegisterText; }
             set
             {
-                registerInfo.PhoneRegisterText = value;
-                OnPropertyChanged(nameof(registerInfo.PhoneRegisterText));
-                ValidateRegister(nameof(registerInfo.PhoneRegisterText), registerInfo.PhoneRegisterText, registerInfo);
+                m_objRegisterInfo.PhoneRegisterText = value;
+                OnPropertyChanged(nameof(m_objRegisterInfo.PhoneRegisterText));
+                ValidateRegister(nameof(m_objRegisterInfo.PhoneRegisterText), m_objRegisterInfo.PhoneRegisterText, m_objRegisterInfo);
             }
         }
 
@@ -178,12 +164,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         //[PasswordPropertyText(true)]
         public string PasswordRegisterText
         {
-            get { return registerInfo.PasswordRegisterText; }
+            get { return m_objRegisterInfo.PasswordRegisterText; }
             set
             {
-                registerInfo.PasswordRegisterText = value;
-                OnPropertyChanged(nameof(registerInfo.PasswordRegisterText));
-                ValidateRegister(nameof(registerInfo.PasswordRegisterText), registerInfo.PasswordRegisterText, registerInfo);
+                m_objRegisterInfo.PasswordRegisterText = value;
+                OnPropertyChanged(nameof(m_objRegisterInfo.PasswordRegisterText));
+                ValidateRegister(nameof(m_objRegisterInfo.PasswordRegisterText), m_objRegisterInfo.PasswordRegisterText, m_objRegisterInfo);
             }
         }
 
@@ -262,15 +248,17 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private bool CanLoginUser(object obj)
         {
-            return Validator.TryValidateObject(loginInfo, new ValidationContext(loginInfo), null, true);
+            return Validator.TryValidateObject(m_objLoginInfo, new ValidationContext(m_objLoginInfo), null, true);
         }
 
         private void LoginUser(object obj)
         {
 
+
+
             User user = GUIHandler.Instance.CacheManager.GetAllUsers().FirstOrDefault(u =>
                 u.Email == EmailLoginText &&
-                u.Password == PasswordLoginText &&
+                CompareHashValues(u.Password, PasswordLoginText) &&
                 u.IsAdmin == (SelectedLoginRole == "Admin")
                 );
             if (user != null)
@@ -295,7 +283,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private bool CanRegisterUser(object obj)
         {
-            return Validator.TryValidateObject(registerInfo, new ValidationContext(registerInfo), null, true);
+            return Validator.TryValidateObject(m_objRegisterInfo, new ValidationContext(m_objRegisterInfo), null, true);
         }
 
         private void RegisterUser(object obj)
@@ -317,7 +305,47 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         }
 
-        
+        public bool CompareHashValues(string userStoredPasswordHash, string userInputPassword)
+        {
+            byte[] inputPasswordInBytes = Encoding.UTF8.GetBytes(userInputPassword);
+            byte[] inputPasswordHashInBytes = SHA256.HashData(inputPasswordInBytes);
+
+            byte[] storedPasswordHashInBytes = StringToByteArray(userStoredPasswordHash);
+
+            bool bEqual = false;
+            if (inputPasswordHashInBytes.Length == storedPasswordHashInBytes.Length)
+            {
+                int i = 0;
+                while ((i < inputPasswordHashInBytes.Length) && (inputPasswordHashInBytes[i] == storedPasswordHashInBytes[i]))
+                {
+                    i += 1;
+                }
+                if (i == inputPasswordHashInBytes.Length)
+                {
+                    bEqual = true;
+                }
+            }
+            return bEqual;
+        }
+        private static byte[] StringToByteArray(string hexInput)
+        {
+            if (hexInput.Length % 2 != 0)
+            {
+                throw new ArgumentException("Hexadecimal string must have an even length.");
+            }
+
+            byte[] byteArray = new byte[hexInput.Length / 2];
+
+            for (int i = 0; i < hexInput.Length; i += 2)
+            {
+                string hexPair = hexInput.Substring(i, 2);
+                byteArray[i / 2] = Convert.ToByte(hexPair, 16);
+            }
+
+            return byteArray;
+        }
+
+
     }
 }
 

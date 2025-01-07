@@ -1,18 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
 using OrderManagementSystem.UIComponents.ViewModels;
 using OrderManagementSystemServer.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 
 namespace OrderManagementSystem.UIComponents.Views
@@ -22,22 +10,23 @@ namespace OrderManagementSystem.UIComponents.Views
     /// </summary>
     public partial class EditCategoryView : ThemedWindow
     {
-        EditCategoryViewModel editCategoryViewModel = null;
+        private EditCategoryViewModel m_objEditCategoryViewModel = null;
         public EditCategoryView()
         {
             InitializeComponent();
 
-            editCategoryViewModel = new EditCategoryViewModel();
-            DataContext = editCategoryViewModel;
-            editCategoryViewModel.CloseWindow = this.Close;
+            m_objEditCategoryViewModel = new EditCategoryViewModel();
+            this.Owner = System.Windows.Application.Current.MainWindow;
+            DataContext = m_objEditCategoryViewModel;
+            m_objEditCategoryViewModel.CloseWindow = this.Close;
         }
 
         public void LoadCategory(Category SelectedCategory)
         {
-            editCategoryViewModel.Id = SelectedCategory.Id;
-            editCategoryViewModel.CategoryNameText = SelectedCategory.Name;
-            editCategoryViewModel.CategoryDescriptionText = SelectedCategory.Description;
-            editCategoryViewModel.Picture = SelectedCategory.Picture;
+            m_objEditCategoryViewModel.Id = SelectedCategory.Id;
+            m_objEditCategoryViewModel.CategoryNameText = SelectedCategory.Name;
+            m_objEditCategoryViewModel.CategoryDescriptionText = SelectedCategory.Description;
+            m_objEditCategoryViewModel.Picture = SelectedCategory.Picture;
         }
     }
 }

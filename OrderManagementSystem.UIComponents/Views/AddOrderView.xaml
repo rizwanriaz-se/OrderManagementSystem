@@ -1,41 +1,18 @@
 ﻿<dx:ThemedWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Class="OrderManagementSystem.UIComponents.Views.AddOrderView"
-    xmlns:local="clr-namespace:OrderManagementSystem.UIComponents.Views"
-Height="440" MinHeight="440" MaxHeight="440"
+    Height="440" MinHeight="440" MaxHeight="440"
     Title="Add Order" 
-    Width="750" MinWidth="750" MaxWidth="750"
+    Width="750" MinWidth="750" MaxWidth="750" Background="Black"  Margin="0" Padding="0"
      
     WindowStartupLocation="CenterOwner"
     >
 
-    <dx:ThemedWindow.Resources>
-        <Style TargetType="{x:Type dx:SimpleButton}">
-            <Setter Property="Background" Value="LightGray" />
-            <Setter Property="Foreground" Value="Black" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="Width" Value="120" />
-            <Setter Property="Height" Value="40" />
-            <Setter Property="CornerRadius" Value="3" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Padding" Value="10,5" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="Gray" />
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="DarkGray" />
-                    <Setter Property="Foreground" Value="Black" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </dx:ThemedWindow.Resources>
-    
 
     <dxlc:LayoutControl Header="Add Order"
                         Orientation="Vertical">
@@ -45,7 +22,7 @@ Height="440" MinHeight="440" MaxHeight="440"
                 <StackPanel>
                     <Label Content="Employee" />
 
-                    <TextBlock Text="{Binding CurrentUser.Name, Mode=TwoWay}" Padding="5,0" FontSize="15" FontWeight="SemiBold" />
+                    <TextBlock Foreground="White" Text="{Binding CurrentUser.Name, Mode=TwoWay}" Padding="5,0" FontSize="15" FontWeight="SemiBold" />
 
                 </StackPanel>
             </dxlc:LayoutItem>
@@ -64,20 +41,20 @@ Height="440" MinHeight="440" MaxHeight="440"
             <dxlc:LayoutItem>
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Address" />
-                    <dxe:TextEdit Text="{Binding SelectedShippingAddress, UpdateSourceTrigger=PropertyChanged}" Width="350" />
+                    <dxe:TextEdit EditValue="{Binding SelectedShippingAddress, UpdateSourceTrigger=PropertyChanged}" Width="350" />
                 </StackPanel>
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
 
         <dxlc:LayoutGroup Orientation="Vertical" >
-            <dxlc:LayoutItem Background="#eff0fd">
+            <dxlc:LayoutItem Background="#2C2C2C">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Label Content="Product(s)" Grid.Column="0" />
-                    <dx:SimpleButton Content="Add Product" Grid.Column="1" Command="{Binding AddProductCommand}"  />
+                    <Label Content="Product(s)" Grid.Column="0"  FontWeight="Bold" />
+                    <dx:SimpleButton Content="Add Product" Margin="0" Grid.Column="1" Command="{Binding AddProductCommand}"  />
                 </Grid>
             </dxlc:LayoutItem>
 
@@ -97,7 +74,7 @@ Height="440" MinHeight="440" MaxHeight="440"
                                     <Label Content="Quantity" />
                                         <dxe:SpinEdit EditValue="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   EditValueType="{x:Type sys:Int32}" IsFloatValue="False" MinValue="1" MaxValue="10" />
                                 </StackPanel>
-                                <dx:SimpleButton Content="x" FontWeight="Bold" Width="30" Height="35"  Margin="5,0" Background="White" Command="{Binding DataContext.RemoveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                                <dx:SimpleButton Content="x" FontWeight="Bold" Width="30" Height="35"  Margin="5,0" Command="{Binding DataContext.RemoveProductCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
  CommandParameter="{Binding}" />
                             </StackPanel>
                         </DataTemplate>
@@ -108,10 +85,10 @@ Height="440" MinHeight="440" MaxHeight="440"
 
                 <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,10,0,0">
                     <dxlc:LayoutItem >
-                        <dx:SimpleButton Content="Submit Order" Command="{Binding SubmitOrderCommand}" />
+                        <dx:SimpleButton Content="Submit Order"  Command="{Binding SubmitOrderCommand}" />
                     </dxlc:LayoutItem>
                 </StackPanel>
-               
+           
             </dxlc:LayoutGroup>
         </dxlc:LayoutGroup>
     </dxlc:LayoutControl>

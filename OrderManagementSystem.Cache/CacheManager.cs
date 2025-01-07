@@ -1,37 +1,33 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
-//using OrderManagementSystem.Repository;
+using DevExpress.Xpf.Core;
 using OrderManagementSystemServer.Repository;
 
 namespace OrderManagementSystem.Cache
 {
     public class CacheManager
     {
-        // change naming convention like _AllCategories to objCategories
-        // make them member variable initially as null, and private setter removal
-
-
         private ObservableCollection<Category> m_objCategories;
         private ObservableCollection<Order> m_objOrders;
         private ObservableCollection<Product> m_objProducts;
         private ObservableCollection<User> m_objUsers;
 
-        private User m_CurrentUser;
+        private User m_objCurrentUser;
 
-        private static CacheManager m_Instance;
-        public static CacheManager Instance()
+        private static CacheManager m_objInstance;
+
+        public static CacheManager Instance
         {
-            if (m_Instance == null)
-            {
-                m_Instance = new CacheManager();
+            get { 
+                if (m_objInstance == null)
+                    m_objInstance = new CacheManager();
+                return m_objInstance;
             }
-            return m_Instance;
         }
 
         public User CurrentUser
         {
-            get { return m_CurrentUser; }
-            set { m_CurrentUser = value; }
+            get { return m_objCurrentUser; }
+            set { m_objCurrentUser = value; }
         }
 
         public void LoadCategories(ObservableCollection<Category> categories)
@@ -66,10 +62,7 @@ namespace OrderManagementSystem.Cache
             m_objOrders = new ObservableCollection<Order>();
         }
 
-        public Category GetCategoryById(int id)
-        {
-            return m_objCategories.FirstOrDefault(c => c.Id == id);
-        }
+       
         public ObservableCollection<Category> GetAllCategories()
         {
             return m_objCategories;
@@ -89,7 +82,7 @@ namespace OrderManagementSystem.Cache
         }
         public void UpdateCategory(Category category)
         {
-            var categoryToUpdate = m_objCategories.FirstOrDefault(c => c.Id == category.Id);
+            Category categoryToUpdate = m_objCategories.FirstOrDefault(c => c.Id == category.Id);
             categoryToUpdate.Name = category.Name;
             categoryToUpdate.Description = category.Description;
             categoryToUpdate.Picture = category.Picture;
@@ -98,10 +91,7 @@ namespace OrderManagementSystem.Cache
         {
             return m_objOrders;
         }
-        public Order GetOrderById(int id)
-        {
-            return m_objOrders.FirstOrDefault(o => o.Id == id);
-        }
+       
         public void AddOrder(Order order)
         {
             m_objOrders.Add(order);
@@ -109,7 +99,7 @@ namespace OrderManagementSystem.Cache
         public void UpdateOrder(Order updatedOrder)
         {
             // Retrieve the existing order with the same ID
-            var existingOrder = m_objOrders.FirstOrDefault(o => o.Id == updatedOrder.Id);
+            Order existingOrder = m_objOrders.FirstOrDefault(o => o.Id == updatedOrder.Id);
 
             if (existingOrder != null)
             {
@@ -141,24 +131,14 @@ namespace OrderManagementSystem.Cache
         {
             return m_objProducts;
         }
-        public Product GetProductByID(int id)
-        {
-
-            return m_objProducts.FirstOrDefault(p => p.Id == id);
-        }
-        public Product GetProductByName(OrderDetail orderDetail)
-        {
-
-
-            return m_objProducts.FirstOrDefault(p => p.Name == orderDetail.Product.Name);
-        }
+       
         public void AddProduct(Product product)
         {
             m_objProducts.Add(product);
         }
         public void UpdateProduct(Product product)
         {
-            var existingProduct = m_objProducts.FirstOrDefault(p => p.Id == product.Id);
+            Product existingProduct = m_objProducts.FirstOrDefault(p => p.Id == product.Id);
             if (existingProduct != null)
             {
                 existingProduct.Name = product.Name;
@@ -186,14 +166,12 @@ namespace OrderManagementSystem.Cache
         public void AddUser(User user)
         {
             m_objUsers.Add(user);
+            DXMessageBox.Show("Registration successful!! Your account is pending approval.");
         }
-        public User GetUserByID(int id)
-        {
-            return m_objUsers.FirstOrDefault(u => u.Id == id);
-        }
+        
         public void UpdateUser(User user)
         {
-            var existingUser = m_objUsers.FirstOrDefault(u => u.Id == user.Id);
+            User existingUser = m_objUsers.FirstOrDefault(u => u.Id == user.Id);
             if (existingUser != null)
             {
                 existingUser.Name = user.Name;
@@ -212,5 +190,9 @@ namespace OrderManagementSystem.Cache
                 m_objUsers.Remove(userToDelete);
             }            
         }
+
+     
+
+
     }
 }

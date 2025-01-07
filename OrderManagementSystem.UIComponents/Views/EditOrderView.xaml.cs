@@ -1,25 +1,7 @@
 ﻿using DevExpress.Xpf.Core;
-using OrderManagementSystemServer.Repository;
 using OrderManagementSystem.UIComponents.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using OrderManagementSystem.UIComponents.Classes;
-using OrderManagementSystem.UIComponents.Commands;
-using static OrderManagementSystemServer.Repository.Order;
+using OrderManagementSystemServer.Repository;
 using System.Collections.ObjectModel;
-using System.Printing;
-using System.Diagnostics;
-using DevExpress.Xpf.Editors;
 
 
 namespace OrderManagementSystem.UIComponents.Views
@@ -29,13 +11,14 @@ namespace OrderManagementSystem.UIComponents.Views
     /// </summary>
     public partial class EditOrderView : ThemedWindow
     {
-        EditOrderViewModel editOrderViewModel;
+        private EditOrderViewModel m_objEditOrderViewModel;
         public EditOrderView()
         {
             InitializeComponent();
-            editOrderViewModel = new EditOrderViewModel();
-            DataContext = editOrderViewModel;
-            editOrderViewModel.CloseWindow = this.Close;
+            m_objEditOrderViewModel = new EditOrderViewModel();
+            this.Owner = System.Windows.Application.Current.MainWindow;
+            DataContext = m_objEditOrderViewModel;
+            m_objEditOrderViewModel.CloseWindow = this.Close;
         
         }
        
@@ -43,22 +26,22 @@ namespace OrderManagementSystem.UIComponents.Views
         {
             if (SelectedOrder == null) throw new ArgumentNullException(nameof(SelectedOrder));
 
-            editOrderViewModel.Id = SelectedOrder.Id;
-            editOrderViewModel.User = SelectedOrder.User ?? throw new ArgumentNullException(nameof(SelectedOrder.User));
-            editOrderViewModel.OrderDate = SelectedOrder.OrderDate;
-            editOrderViewModel.SelectedShippingDate = SelectedOrder.ShippedDate;
-            editOrderViewModel.SelectedStatus = SelectedOrder.Status;
-            editOrderViewModel.SelectedShippingAddress = SelectedOrder.ShippingAddress ?? throw new ArgumentNullException(nameof(SelectedOrder.ShippingAddress));
-            editOrderViewModel.OrderDetails = new ObservableCollection<OrderDetail>(SelectedOrder.OrderDetails.Select(od =>
+            m_objEditOrderViewModel.Id = SelectedOrder.Id;
+            m_objEditOrderViewModel.User = SelectedOrder.User ?? throw new ArgumentNullException(nameof(SelectedOrder.User));
+            m_objEditOrderViewModel.OrderDate = SelectedOrder.OrderDate;
+            m_objEditOrderViewModel.SelectedShippingDate = SelectedOrder.ShippedDate;
+            m_objEditOrderViewModel.SelectedStatus = SelectedOrder.Status;
+            m_objEditOrderViewModel.SelectedShippingAddress = SelectedOrder.ShippingAddress ?? throw new ArgumentNullException(nameof(SelectedOrder.ShippingAddress));
+            m_objEditOrderViewModel.OrderDetails = new ObservableCollection<OrderDetail>(SelectedOrder.OrderDetails.Select(od =>
                 new OrderDetail
                 {
-                    Product =  editOrderViewModel.AllProducts.FirstOrDefault(p => p.Id == od.Product.Id),
+                    Product =  m_objEditOrderViewModel.AllProducts.FirstOrDefault(p => p.Id == od.Product.Id),
                     Quantity = od.Quantity
                 }));
 
             
 
-            editOrderViewModel.OrderDetails.CollectionChanged += (s, e) => editOrderViewModel.SaveOrderCommand.RaiseCanExecuteEventChanged();
+            m_objEditOrderViewModel.OrderDetails.CollectionChanged += (s, e) => m_objEditOrderViewModel.SaveOrderCommand.RaiseCanExecuteEventChanged();
         }
     }
 }

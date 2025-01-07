@@ -1,11 +1,7 @@
-﻿using DevExpress.Mvvm;
-using DevExpress.Xpf.Docking;
+﻿using DevExpress.Xpf.Docking;
 using OrderManagementSystem.UIComponents.ViewModels;
 using OrderManagementSystemServer.Repository;
 
-//using OrderManagementSystem.UIComponents.ViewModels;
-//using OrderManagementSystem.UIComponents.Views;
-//using OrderManagementSystem.ViewModels;
 
 namespace OrderManagementSystem.UIComponents.Views
 {
@@ -14,27 +10,27 @@ namespace OrderManagementSystem.UIComponents.Views
     /// </summary>
     public partial class MainView : System.Windows.Controls.UserControl
     {
-        private MainViewModel mainViewModel;
-        private DocumentPanel? orderPanel;
-        private DocumentPanel? categoryPanel;
-        private DocumentPanel? productPanel;
-        private DocumentPanel? userPanel;
-        private Dictionary<string, int> panelCount = new Dictionary<string, int>()
-        {
-            { "Order", 0 },
-            { "Category", 0 },
-            { "Product", 0 },
-            { "User", 0 },
-        };
+        private MainViewModel m_objMainViewModel;
+        private DocumentPanel? m_objOrderPanel;
+        private DocumentPanel? m_objCategoryPanel;
+        private DocumentPanel? m_objProductPanel;
+        private DocumentPanel? m_objUserPanel;
+        //private Dictionary<string, int> m_objPanelCount = new Dictionary<string, int>()
+        //{
+        //    { "Order", 0 },
+        //    { "Category", 0 },
+        //    { "Product", 0 },
+        //    { "User", 0 },
+        //};
 
         public MainView()
         {
             InitializeComponent();
 
-            mainViewModel = new MainViewModel();
-            this.DataContext = mainViewModel;
+            m_objMainViewModel = new MainViewModel();
+            this.DataContext = m_objMainViewModel;
 
-            AddPanel(ref orderPanel, "Order");
+            AddPanel(ref m_objOrderPanel, "Order");
         }
 
         public User? CurrentUser { get; }
@@ -45,37 +41,37 @@ namespace OrderManagementSystem.UIComponents.Views
 
             if (selectedPage.Name == "OrderPage")
             {
-                mainViewModel.SwitchToOrdersView();
+                m_objMainViewModel.SwitchToOrdersView();
             }
             else if (selectedPage.Name == "CategoryPage")
             {
-                mainViewModel.SwitchToCategoriesView();
+                m_objMainViewModel.SwitchToCategoriesView();
             }
             else if (selectedPage.Name == "UserPage")
             {
-                mainViewModel.SwitchToUsersView();
+                m_objMainViewModel.SwitchToUsersView();
             }
             else if (selectedPage.Name == "ProductPage")
             {
-                mainViewModel.SwitchToProductsView();
+                m_objMainViewModel.SwitchToProductsView();
             }
         }
 
         private void AddOrderBlotter_Click(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            AddPanel(ref orderPanel, "Order");
+            AddPanel(ref m_objOrderPanel, "Order");
         }
         private void AddCategoryBlotter_Click(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            AddPanel(ref categoryPanel, "Category");
+            AddPanel(ref m_objCategoryPanel, "Category");
         }
         private void AddProductBlotter_Click(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            AddPanel(ref productPanel, "Product");
+            AddPanel(ref m_objProductPanel, "Product");
         }
         private void AddUserBlotter_Click(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            AddPanel(ref userPanel, "User");
+            AddPanel(ref m_objUserPanel, "User");
         }
 
         private readonly Dictionary<string, List<DocumentPanel>> activePanels = new();

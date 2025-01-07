@@ -1,22 +1,10 @@
-﻿using DevExpress.XtraExport.Implementation;
-using DevExpress.XtraRichEdit.Fields.Expression;
-using DevExpress.XtraRichEdit.Model.History;
-//using OrderManagementSystem.Commands;
-using System;
+﻿using OrderManagementSystem.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
+using OrderManagementSystemServer.Repository;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-//using OrderManagementSystem.Classes;
-using OrderManagementSystem.UIComponents.Commands;
-//using OrderManagementSystem.Repositories;
-using OrderManagementSystem.UIComponents.Classes;
-using OrderManagementSystemServer.Repository;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -28,11 +16,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public ObservableCollection<Category> Categories { get; private set; }
 
-        private string _ProductNameText;
-        private string _ProductDescriptionText;
-        private decimal _ProductUnitPriceText;
-        private int _ProductUnitsInStockText;
-        private Category _SelectedCategory;
+        private string m_stProductNameText;
+        private string m_stProductDescriptionText;
+        private decimal m_decProductUnitPriceText;
+        private int m_nProductUnitsInStockText;
+        private Category m_objSelectedCategory;
 
         public int Id { get; set; }
 
@@ -40,11 +28,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public string ProductNameText
         {
 
-            get { return _ProductNameText; }
+            get { return m_stProductNameText; }
             set
             {
-                _ProductNameText = value;
-                Validate(nameof(ProductNameText), _ProductNameText);
+                m_stProductNameText = value;
+                Validate(nameof(ProductNameText), m_stProductNameText);
             }
         }
 
@@ -52,11 +40,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public string ProductDescriptionText
         {
 
-            get { return _ProductDescriptionText; }
+            get { return m_stProductDescriptionText; }
             set
             {
-                _ProductDescriptionText = value;
-                Validate(nameof(ProductDescriptionText), _ProductDescriptionText);
+                m_stProductDescriptionText = value;
+                Validate(nameof(ProductDescriptionText), m_stProductDescriptionText);
             }
 
         }
@@ -68,11 +56,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         [Required(ErrorMessage = "Category must be selected.")]
         public Category SelectedCategory {
-            get { return _SelectedCategory; }
+            get { return m_objSelectedCategory; }
             set
             {
-                _SelectedCategory = value;
-                Validate(nameof(SelectedCategory), _SelectedCategory);
+                m_objSelectedCategory = value;
+                Validate(nameof(SelectedCategory), m_objSelectedCategory);
             }
         }
         public byte[] Picture { get; set; }
@@ -82,11 +70,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public decimal ProductUnitPriceText
         {
 
-            get { return _ProductUnitPriceText; }
+            get { return m_decProductUnitPriceText; }
             set
             {
-                _ProductUnitPriceText = Convert.ToDecimal(value); ;
-                Validate(nameof(ProductUnitPriceText), _ProductUnitPriceText);
+                m_decProductUnitPriceText = Convert.ToDecimal(value); ;
+                Validate(nameof(ProductUnitPriceText), m_decProductUnitPriceText);
             }
         }
 
@@ -95,11 +83,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public int ProductUnitsInStockText
         {
 
-            get { return _ProductUnitsInStockText; }
+            get { return m_nProductUnitsInStockText; }
             set
             {
-                _ProductUnitsInStockText = Convert.ToInt32(value);
-                Validate(nameof(ProductUnitsInStockText), _ProductUnitsInStockText);
+                m_nProductUnitsInStockText = Convert.ToInt32(value);
+                Validate(nameof(ProductUnitsInStockText), m_nProductUnitsInStockText);
             }
 
         }

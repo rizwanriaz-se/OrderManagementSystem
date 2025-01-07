@@ -14,13 +14,11 @@ namespace OrderManagementSystem
             App app = new App();
             app.Init();
 
-            // TO-DO: if client manager is connected, then show the auth window
-            if (ClientManager.Instance().Connected)
+            if (ClientManager.Instance.Connected)
             {
                 Application mainApp = new Application();
 
-                // Load the ResourceDictionary from UIStyles.xaml
-                var resourceDictionary = new ResourceDictionary
+                ResourceDictionary resourceDictionary = new ResourceDictionary
                 {
                     Source = new Uri("pack://application:,,,/OrderManagementSystem.UIComponents;component/Styles/UIStyles.xaml")
                 };

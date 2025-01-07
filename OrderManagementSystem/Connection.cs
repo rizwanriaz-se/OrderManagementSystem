@@ -1,11 +1,4 @@
-﻿//using OrderManagementSystem.Cache;
-//using OrderManagementSystem.UIComponents.Views;
-//using OrderManagementSystem.App;
-//using OrderManagementSystem.UI
-//using OrderManagementSystem.UIComponents.UIComponents.Views;
-
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace OrderManagementSystem.UIComponents.Classes
 {

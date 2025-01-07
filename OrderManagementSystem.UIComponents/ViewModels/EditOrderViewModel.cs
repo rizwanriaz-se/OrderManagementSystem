@@ -1,22 +1,10 @@
-﻿using DevExpress.XtraRichEdit.Fields.Expression;
-//using OrderManagementSystem.Commands;
-using System;
+﻿using OrderManagementSystem.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
+using OrderManagementSystemServer.Repository;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-//using static OrderManagementSystem.Repositories.Order;
-//using OrderManagementSystem.Classes;
-using OrderManagementSystem.UIComponents.Commands;
-//using OrderManagementSystem.Repositories;
-using OrderManagementSystem.UIComponents.Classes;
-using OrderManagementSystemServer.Repository;
 using static OrderManagementSystemServer.Repository.Order;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -44,26 +32,25 @@ namespace OrderManagementSystem.UIComponents.ViewModels
      
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        private DateTime? _orderDate;
-        private DateTime? _selectedShippingDate;
-        private OrderStatus? _selectedStatus;
-        private string _selectedShippingAddress;
+        private DateTime? m_objOrderDate;
+        private DateTime? m_objSelectedShippingDate;
+        private OrderStatus? m_objSelectedStatus;
+        private string m_stSelectedShippingAddress;
 
 
-        public int? Id { get; set; } // editable
-        public User User { get; set; } // editable
-        //public int? Id { get; } // Non-editable
-        //public User User { get; } // Non-editable
+        public int? Id { get; set; }
+        public User User { get; set; }
+        
 
         [Required(ErrorMessage = "Order Date is required.")]
         public DateTime? OrderDate
         {
-            get { return _orderDate; }
+            get { return m_objOrderDate; }
             set
             {
-                _orderDate = value;
+                m_objOrderDate = value;
                 OnPropertyChanged(nameof(OrderDate));
-                Validate(nameof(OrderDate), _orderDate);
+                Validate(nameof(OrderDate), m_objOrderDate);
             }
         }
 
@@ -71,12 +58,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public DateTime? SelectedShippingDate
         {
 
-            get { return _selectedShippingDate; }
+            get { return m_objSelectedShippingDate; }
             set
             {
-                _selectedShippingDate = value;
+                m_objSelectedShippingDate = value;
                 OnPropertyChanged(nameof(SelectedShippingDate));
-                //Validate(nameof(SelectedShippingDate), _selectedShippingDate);
+                //Validate(nameof(SelectedShippingDate), m_objSelectedShippingDate);
             }
 
         }
@@ -85,12 +72,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public OrderStatus? SelectedStatus
         {
 
-            get { return _selectedStatus; }
+            get { return m_objSelectedStatus; }
             set
             {
-                _selectedStatus = value;
+                m_objSelectedStatus = value;
                 OnPropertyChanged(nameof(SelectedStatus));
-                Validate(nameof(SelectedStatus), _selectedStatus);
+                Validate(nameof(SelectedStatus), m_objSelectedStatus);
             }
         }
 
@@ -100,12 +87,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public string SelectedShippingAddress
         {
 
-            get { return _selectedShippingAddress; }
+            get { return m_stSelectedShippingAddress; }
             set
             {
-                _selectedShippingAddress = value;
+                m_stSelectedShippingAddress = value;
                 OnPropertyChanged(nameof(SelectedShippingAddress));
-                Validate(nameof(SelectedShippingAddress), _selectedShippingAddress);
+                Validate(nameof(SelectedShippingAddress), m_stSelectedShippingAddress);
             }
         }
 

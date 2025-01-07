@@ -1,25 +1,15 @@
-﻿//using OrderManagementSystem.Commands;
-using System;
+﻿using OrderManagementSystem.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
+using OrderManagementSystemServer.Repository;
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-//using OrderManagementSystem.Classes;
-using OrderManagementSystem.UIComponents.Commands;
-//using OrderManagementSystem.Repositories;
-using OrderManagementSystem.UIComponents.Classes;
-using OrderManagementSystemServer.Repository;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
     public class EditCategoryViewModel : INotifyDataErrorInfo
     {
-        private Category _Category;
+        private Category m_objCategory;
         private string m_stCategoryNameText;
         private string m_stCategoryDescriptionText;
         public Action CloseWindow { get; set; }
@@ -96,13 +86,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void SaveCategory(object obj)
         {
-            _Category = new Category();
-            _Category.Id = Id;
-            _Category.Name = CategoryNameText;
-            _Category.Description = CategoryDescriptionText;
-            _Category.Picture = Picture;
+            m_objCategory = new Category();
+            m_objCategory.Id = Id;
+            m_objCategory.Name = CategoryNameText;
+            m_objCategory.Description = CategoryDescriptionText;
+            m_objCategory.Picture = Picture;
 
-            MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Update, _Category);
+            MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Update, m_objCategory);
 
             CloseWindow.Invoke();
         }

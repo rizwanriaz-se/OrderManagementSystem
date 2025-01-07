@@ -1,18 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
 using OrderManagementSystem.UIComponents.ViewModels;
 using OrderManagementSystemServer.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 
 namespace OrderManagementSystem.UIComponents.Views
@@ -22,26 +10,27 @@ namespace OrderManagementSystem.UIComponents.Views
     /// </summary>
     public partial class EditProductView : ThemedWindow
     {
-        EditProductViewModel editProductViewModel = null;
+        private EditProductViewModel m_objEditProductViewModel = null;
         public EditProductView()
         {
             InitializeComponent();
 
-            editProductViewModel = new EditProductViewModel();
-            DataContext = editProductViewModel;
-            editProductViewModel.CloseWindow = this.Close;
+            m_objEditProductViewModel = new EditProductViewModel();
+            DataContext = m_objEditProductViewModel;
+            this.Owner = System.Windows.Application.Current.MainWindow;
+            m_objEditProductViewModel.CloseWindow = this.Close;
 
         }
 
         public void LoadProduct(Product SelectedProduct)
         {
-            editProductViewModel.Id = SelectedProduct.Id;
-            editProductViewModel.ProductNameText = SelectedProduct.Name;
-            editProductViewModel.ProductDescriptionText = SelectedProduct.Description;
-            editProductViewModel.ProductUnitPriceText = SelectedProduct.UnitPrice;
-            editProductViewModel.SelectedCategory = editProductViewModel.Categories.FirstOrDefault(c => c.Id == SelectedProduct.Category.Id);
-            editProductViewModel.Picture = SelectedProduct.Picture;
-            editProductViewModel.ProductUnitsInStockText = SelectedProduct.UnitsInStock;
+            m_objEditProductViewModel.Id = SelectedProduct.Id;
+            m_objEditProductViewModel.ProductNameText = SelectedProduct.Name;
+            m_objEditProductViewModel.ProductDescriptionText = SelectedProduct.Description;
+            m_objEditProductViewModel.ProductUnitPriceText = SelectedProduct.UnitPrice;
+            m_objEditProductViewModel.SelectedCategory = m_objEditProductViewModel.Categories.FirstOrDefault(c => c.Id == SelectedProduct.Category.Id);
+            m_objEditProductViewModel.Picture = SelectedProduct.Picture;
+            m_objEditProductViewModel.ProductUnitsInStockText = SelectedProduct.UnitsInStock;
         }
     }
 }

@@ -1,29 +1,21 @@
-﻿using DevExpress.Mvvm.CodeGenerators;
-//using OrderManagementSystem.Commands;
-//using OrderManagementSystem.UIComponents.ViewModels;
-using OrderManagementSystem.UIComponents.Views;
-using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Input;
-//using OrderManagementSystem.Classes;
+﻿using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
-//using OrderManagementSystem.Repositories;
-using OrderManagementSystem.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Views;
 using OrderManagementSystemServer.Repository;
+using System.ComponentModel;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        private object _currentView;
+        private object m_objCurrentView;
 
         public RelayCommand ViewOrderCommand { get; set; }
         public RelayCommand AddOrderCommand { get; set; }
         public RelayCommand DeleteOrderCommand { get; set; }
 
         public RelayCommand ViewCategoryCommand { get; set; }
-        public ICommand AddCategoryCommand { get; set; }
+        public RelayCommand AddCategoryCommand { get; set; }
 
         public RelayCommand ViewProductCommand { get; set; }
         public RelayCommand AddProductCommand { get; set; }
@@ -34,24 +26,24 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
 
 
-        private User m_CurrentUser { get; set; }
+        private User m_objCurrentUser { get; set; }
 
         public object CurrentView
         {
-            get { return _currentView; }
+            get { return m_objCurrentView; }
             set
             {
-                _currentView = value;
+                m_objCurrentView = value;
                 OnPropertyChanged(nameof(CurrentView));
             }
         }
 
         public User CurrentUser
         {
-            get { return m_CurrentUser; }
+            get { return m_objCurrentUser; }
             set
             {
-                m_CurrentUser = value;
+                m_objCurrentUser = value;
                 OnPropertyChanged(nameof(CurrentUser));
             }
         }

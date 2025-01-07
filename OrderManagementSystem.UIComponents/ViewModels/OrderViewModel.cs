@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
+using OrderManagementSystem.UIComponents.Views;
+using OrderManagementSystemServer.Repository;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using DevExpress.Xpf.Core;
-//using OrderManagementSystem.Commands;
-using OrderManagementSystem.UIComponents.Views;
-//using OrderManagementSystem.Classes;
-using OrderManagementSystem.UIComponents.Commands;
-//using OrderManagementSystem.Repositories;
-using OrderManagementSystem.UIComponents.Classes;
-using OrderManagementSystemServer.Repository;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -28,17 +19,17 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public ICommand EditOrderCommand { get; set; }
-        public ICommand DeleteOrderCommand { get; set; }
+        public RelayCommand EditOrderCommand { get; set; }
+        public RelayCommand DeleteOrderCommand { get; set; }
 
 
-        private Order _selectedOrder;
+        private Order m_objSelectedOrder;
         public Order SelectedOrder
         {
-            get { return _selectedOrder; }
+            get { return m_objSelectedOrder; }
             set
             {
-                _selectedOrder = value;
+                m_objSelectedOrder = value;
                 OnPropertyChanged(nameof(SelectedOrder));
             }
         }

@@ -1,11 +1,4 @@
-﻿using DevExpress.Office.Drawing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OrderManagementSystem.UIComponents.Classes
+﻿namespace OrderManagementSystem.UIComponents.Classes
 {
     public class Enums
     {

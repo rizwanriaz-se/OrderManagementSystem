@@ -1,19 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DevExpress.XtraRichEdit.Commands.Internal;
-using OrderManagementSystem.Cache;
-
-//using OrderManagementSystem.Cache;
-using OrderManagementSystem.UIComponents.Classes;
-using OrderManagementSystem.UIComponents.Views;
-//using OrderManagementSystem.UIComponents.Views;
-
-
-//using OrderManagementSystem.Cache;
-//using OrderManagementSystem.Classes;
+﻿using OrderManagementSystem.UIComponents.Classes;
 
 namespace OrderManagementSystem
 {

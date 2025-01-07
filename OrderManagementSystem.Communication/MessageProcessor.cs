@@ -1,21 +1,8 @@
-﻿using DevExpress.Office.Drawing;
-//using OrderManagementSystem.Cache;
+﻿using OrderManagementSystem.Cache;
 using OrderManagementSystemServer.Repository;
-
-//using OrderManagementSystemServer.Repository;
-
-//using OrderManagementSystem.Repositories;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using OrderManagementSystem.UIComponents.Classes;
-using OrderManagementSystem.Cache;
-using DevExpress.Xpf.Core;
 
 
 namespace OrderManagementSystem.UIComponents.Classes
@@ -51,7 +38,7 @@ namespace OrderManagementSystem.UIComponents.Classes
             };
             try
             {
-                ClientManager.Instance().SendMessage(request);
+                ClientManager.Instance.SendMessage(request);
             }
             catch (Exception ex)
             {
@@ -68,17 +55,17 @@ namespace OrderManagementSystem.UIComponents.Classes
                     switch (response.MessageAction)
                     {
                         case Enums.MessageAction.Add:
-                            CacheManager.Instance().AddCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
+                            CacheManager.Instance.AddCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Update:
-                            CacheManager.Instance().UpdateCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
+                            CacheManager.Instance.UpdateCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Delete:
-                            CacheManager.Instance().DeleteCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
+                            CacheManager.Instance.DeleteCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Load:
                             ObservableCollection<Category> categories = JsonSerializer.Deserialize<ObservableCollection<Category>>(response.Data.ToString());
-                            CacheManager.Instance().LoadCategories(categories);
+                            CacheManager.Instance.LoadCategories(categories);
                             break;
                         default:
                             break;
@@ -104,17 +91,17 @@ namespace OrderManagementSystem.UIComponents.Classes
                     switch (response.MessageAction)
                     {
                         case Enums.MessageAction.Add:
-                            CacheManager.Instance().AddOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
+                            CacheManager.Instance.AddOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Delete:
-                            CacheManager.Instance().DeleteOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
+                            CacheManager.Instance.DeleteOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Update:
-                            CacheManager.Instance().UpdateOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
+                            CacheManager.Instance.UpdateOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Load:
                             ObservableCollection<Order> orders = JsonSerializer.Deserialize<ObservableCollection<Order>>(response.Data.ToString());
-                            CacheManager.Instance().LoadOrders(orders);
+                            CacheManager.Instance.LoadOrders(orders);
                             break;
                     }
                 };
@@ -138,17 +125,17 @@ namespace OrderManagementSystem.UIComponents.Classes
                     switch (response.MessageAction)
                     {
                         case Enums.MessageAction.Add:
-                            CacheManager.Instance().AddProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
+                            CacheManager.Instance.AddProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Delete:
-                            CacheManager.Instance().DeleteProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
+                            CacheManager.Instance.DeleteProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Update:
-                            CacheManager.Instance().UpdateProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
+                            CacheManager.Instance.UpdateProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Load:
                             ObservableCollection<Product> products = JsonSerializer.Deserialize<ObservableCollection<Product>>(response.Data.ToString());
-                            CacheManager.Instance().LoadProducts(products);
+                            CacheManager.Instance.LoadProducts(products);
                             break;
                     }
                 };
@@ -170,17 +157,17 @@ namespace OrderManagementSystem.UIComponents.Classes
                     switch (response.MessageAction)
                     {
                         case Enums.MessageAction.Add:
-                            CacheManager.Instance().AddUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
+                            CacheManager.Instance.AddUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Delete:
-                            CacheManager.Instance().DeleteUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
+                            CacheManager.Instance.DeleteUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Update:
-                            CacheManager.Instance().UpdateUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
+                            CacheManager.Instance.UpdateUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Load:
                             ObservableCollection<User> users = JsonSerializer.Deserialize<ObservableCollection<User>>(response.Data.ToString());
-                            CacheManager.Instance().LoadUsers(users);
+                            CacheManager.Instance.LoadUsers(users);
                             break;
                     }
                 };

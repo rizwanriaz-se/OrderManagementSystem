@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using DevExpress.Drawing.Internal.Fonts.Interop;
-using DevExpress.Xpf.Core.ConditionalFormatting;
-using DevExpress.Xpf.Docking;
+﻿using DevExpress.Xpf.Core.ConditionalFormatting;
 using DevExpress.Xpf.Grid;
 using OrderManagementSystem.UIComponents.ViewModels;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace OrderManagementSystem.UIComponents.Views
 {
@@ -25,14 +13,14 @@ namespace OrderManagementSystem.UIComponents.Views
     public partial class DisplayOrdersView : System.Windows.Controls.UserControl
     {
 
-        private OrderViewModel m_OrderViewModel;
+        private OrderViewModel m_objOrderViewModel;
         public DisplayOrdersView()
         {
             InitializeComponent();
 
             // Set the data context of the view to the view model
-            m_OrderViewModel = new OrderViewModel();
-            this.DataContext = m_OrderViewModel;
+            m_objOrderViewModel = new OrderViewModel();
+            this.DataContext = m_objOrderViewModel;
 
             TableView tableView = OrderGrid.View as TableView;
             tableView.AllowEditing = false;
@@ -44,24 +32,25 @@ namespace OrderManagementSystem.UIComponents.Views
                     Expression = "[Status] == 'Pending'",
                     FieldName = "Status",
                     Format = new Format() {
-                        Background = System.Windows.Media.Brushes.OrangeRed,
-                    }
+                            Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(128, 255, 69, 0)) // OrangeRed with 50% opacity
+}
                 },
                 new FormatCondition() {
                     Expression = "[Status] == 'Delivered'",
                     FieldName = "Status",
                     Format = new Format() {
-                        Background = System.Windows.Media.Brushes.LightGreen
-                    }
+ // LightGreen with 50% opacity
+Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(64, 255, 255, 0))
+}
                 },
                 new FormatCondition() {
                     Expression = "[Status] == 'Shipped'",
                     FieldName = "Status",
                     Format = new Format() {
-                        Background = System.Windows.Media.Brushes.Yellow
-                    }
+ Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(128, 144, 238, 0))
+}
                 },
-
+                    //rgb(157, 149, 6)
 
 
             });

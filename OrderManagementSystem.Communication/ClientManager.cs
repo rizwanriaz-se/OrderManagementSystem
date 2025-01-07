@@ -9,17 +9,17 @@ namespace OrderManagementSystem.UIComponents.Classes
 {
     public class ClientManager
     {
-        private static ClientManager m_Instance;
-        private System.Timers.Timer _heartbeatTimer;
-        private System.Timers.Timer _retryTimer;
-        private TcpClient _client;
-        private CancellationToken _token;
-        private CancellationTokenSource _cts;
-        private NetworkStream _stream;
+        private static ClientManager m_objInstance;
+        private System.Timers.Timer m_objHeartbeatTimer;
+        private System.Timers.Timer m_objRetryTimer;
+        private TcpClient m_objClient;
+        private CancellationToken m_objToken;
+        private CancellationTokenSource m_objCts;
+        private NetworkStream m_objStream;
 
         public TcpClient Client
         {
-            get { return _client; }
+            get { return m_objClient; }
         }
         public bool Connected = false;
         public event Action OnConnected;
@@ -28,16 +28,18 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         private ClientManager()
         {
-
-            _client = new TcpClient();
-            _heartbeatTimer = new System.Timers.Timer(Constants.HeartbeatInterval);
-            _retryTimer = new System.Timers.Timer(5000);
+            m_objClient = new TcpClient();
+            m_objHeartbeatTimer = new System.Timers.Timer(Constants.HeartbeatInterval);
+            m_objRetryTimer = new System.Timers.Timer(5000);
         }
 
-        public static ClientManager Instance()
+        public static ClientManager Instance
         {
-            if (m_Instance == null) m_Instance = new ClientManager();
-            return m_Instance;
+            get { 
+                if (m_objInstance == null) 
+                    m_objInstance = new ClientManager();
+                return m_objInstance;
+            }
         }
 
         public void ConnectToServer()
@@ -47,14 +49,14 @@ namespace OrderManagementSystem.UIComponents.Classes
 
             try
             {
-                _client = new TcpClient(new System.Net.IPEndPoint(System.Net.IPAddress.Any, Int32.Parse(RandomPort)));
-                _client.Connect(Constants.IPAddress, Constants.Port);
-                if (_client.Connected)
+                m_objClient = new TcpClient(new System.Net.IPEndPoint(System.Net.IPAddress.Any, Int32.Parse(RandomPort)));
+                m_objClient.Connect(Constants.IPAddress, Constants.Port);
+                if (m_objClient.Connected)
                 {
                     Connected = true;
-                    _stream = Client.GetStream();
+                    m_objStream = Client.GetStream();
                     OnConnected?.Invoke();
-                    _heartbeatTimer.Start();
+                    m_objHeartbeatTimer.Start();
                 }
             }
             catch (SocketException ex)
@@ -81,10 +83,10 @@ namespace OrderManagementSystem.UIComponents.Classes
                 ));
                 if (result == MessageBoxResult.Yes)
                 {
-                    _retryTimer.Elapsed -= RetryTimerElapsed; 
-                    _retryTimer.Elapsed += RetryTimerElapsed; 
-                    _retryTimer.AutoReset = true;
-                    _retryTimer.Start();
+                    m_objRetryTimer.Elapsed -= RetryTimerElapsed; 
+                    m_objRetryTimer.Elapsed += RetryTimerElapsed; 
+                    m_objRetryTimer.AutoReset = true;
+                    m_objRetryTimer.Start();
                 }
                 else
                 {
@@ -98,20 +100,20 @@ namespace OrderManagementSystem.UIComponents.Classes
                            System.Windows.MessageBoxButton.OK
                 );
             }
-            _heartbeatTimer.Stop();
+            m_objHeartbeatTimer.Stop();
 
-            _stream?.Close();
-            _client?.Close();
+            m_objStream?.Close();
+            m_objClient?.Close();
 
         }
 
         private async void RetryTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            _retryTimer.Stop(); // Stop the timer to prevent multiple concurrent attempts
+            m_objRetryTimer.Stop(); // Stop the timer to prevent multiple concurrent attempts
             ConnectToServer();
             if (!Connected)
             {
-                _retryTimer.Start(); // Restart the timer if the connection attempt failed
+                m_objRetryTimer.Start(); // Restart the timer if the connection attempt failed
             }
         }
 
@@ -124,10 +126,9 @@ namespace OrderManagementSystem.UIComponents.Classes
                 while (Connected)
                 {
                     byte[] buffer = new byte[Constants.BufferSize];
-                    int bytesRead = _stream.Read(buffer, 0, buffer.Length);
+                    int bytesRead = m_objStream.Read(buffer, 0, buffer.Length);
                     if (bytesRead == 0)
                     {
-                        //HandleDisconnection();
                         return;
                     }
 
@@ -185,8 +186,16 @@ namespace OrderManagementSystem.UIComponents.Classes
             {
                 Response responseObject = JsonSerializer.Deserialize<Response>(response);
 
-                if (responseObject.Error == null) { 
-                    switch (responseObject.MessageType)
+                if (responseObject.Error != null)
+                {
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                                        DXMessageBox.Show(responseObject.Error,
+                                               "Error",
+                                               System.Windows.MessageBoxButton.OK
+                                    ));
+                    return;
+                }
+                switch (responseObject.MessageType)
                 {
                     case Enums.MessageType.Category:
                         MessageProcessor.ProcessCategoryMessage(responseObject);
@@ -205,15 +214,7 @@ namespace OrderManagementSystem.UIComponents.Classes
                     default:
                         break;
                 }
-                }
-                else
-                {
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                                        DXMessageBox.Show(responseObject.Error,
-                                               "Error",
-                                               System.Windows.MessageBoxButton.OK
-                                    ));
-                }
+
             }
             catch (Exception ex)
             {
@@ -223,8 +224,8 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         public async Task InitializeHeartbeat()
         {
-            _heartbeatTimer.Elapsed += async (sender, e) => await SendHeartbeat();
-            _heartbeatTimer.AutoReset = true;
+            m_objHeartbeatTimer.Elapsed += async (sender, e) => await SendHeartbeat();
+            m_objHeartbeatTimer.AutoReset = true;
         }
 
         private async Task SendHeartbeat()
@@ -239,7 +240,6 @@ namespace OrderManagementSystem.UIComponents.Classes
                 // Without Dispatcher in case of MessageBox, got error: System.InvalidOperationException: 'The calling thread must be STA, because many UI components require this.'
 
                 Debug.WriteLine("Error in SendHeartbeat: " + ex.Message);
-                //HandleDisconnection();
             }
         }
 
@@ -250,7 +250,7 @@ namespace OrderManagementSystem.UIComponents.Classes
             {
                 string json = JsonSerializer.Serialize(request);
                 byte[] data = Encoding.UTF8.GetBytes(json);
-                await _stream.WriteAsync(data, 0, data.Length);
+                await m_objStream.WriteAsync(data, 0, data.Length);
             }
             catch (Exception ex)
             {
