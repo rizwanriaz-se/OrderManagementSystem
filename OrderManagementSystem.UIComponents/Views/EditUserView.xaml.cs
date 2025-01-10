@@ -17,19 +17,22 @@ namespace OrderManagementSystem.UIComponents.Views
 
             m_objEditUserViewModel = new EditUserViewModel();
             DataContext = m_objEditUserViewModel;
-            this.Owner = System.Windows.Application.Current.MainWindow;
+            Owner = System.Windows.Application.Current.MainWindow;
             m_objEditUserViewModel.CloseWindow = this.Close;
+
+            ApprovalStatusComboBox.ItemsSource = Enum.GetValues(typeof(User.ApprovalStates));
+
         }
 
         public void LoadUser(User SelectedUser)
         {
-
             m_objEditUserViewModel.Id = SelectedUser.Id;
             m_objEditUserViewModel.UserNameText = SelectedUser.Name;
             m_objEditUserViewModel.UserEmailText = SelectedUser.Email;
             m_objEditUserViewModel.UserPhoneText = SelectedUser.Phone;
-            //m_objEditUserViewModel.UserPasswordText = SelectedUser.Password;
+            m_objEditUserViewModel.UserIsArchived = SelectedUser.IsArchived;
             m_objEditUserViewModel.UserIsAdmin = SelectedUser.IsAdmin;
+            m_objEditUserViewModel.UserApprovalStatus = SelectedUser.ApprovalStatus;
         }
     }
 }

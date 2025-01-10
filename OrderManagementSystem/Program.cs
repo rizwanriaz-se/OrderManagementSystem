@@ -24,6 +24,8 @@ namespace OrderManagementSystem
                 };
                 mainApp.Resources.MergedDictionaries.Add(resourceDictionary);
 
+                ClientManager.Instance.LoadData();
+
                 AuthWindow authWindow = new AuthWindow();
                 mainApp.MainWindow = authWindow;
                 authWindow.Show();

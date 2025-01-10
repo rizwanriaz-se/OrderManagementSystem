@@ -1,4 +1,5 @@
-﻿using OrderManagementSystem.UIComponents.Classes;
+﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.Views;
 using OrderManagementSystemServer.Repository;
@@ -6,6 +7,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -21,10 +23,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public Action CloseWindow { get; set; }
 
-        public RelayCommand SubmitProductCommand { get; set; }
-        public RelayCommand EditProductCommand { get; set; }
+        public ICommand SubmitProductCommand { get; set; }
+        public ICommand EditProductCommand { get; set; }
 
-        public RelayCommand DeleteProductCommand { get; set; }
+        public ICommand DeleteProductCommand { get; set; }
 
         private Product m_objSelectedProduct;
 
@@ -43,75 +45,80 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
 
         [Required(ErrorMessage = "Product Name is required")]
-        public string ProductNameText {
+        public string ProductNameText
+        {
 
             get { return m_stProductNameText; }
             set
             {
                 m_stProductNameText = value;
-                Validate(nameof(ProductNameText), m_stProductNameText);
+                //Validate(nameof(ProductNameText), m_stProductNameText);
             }
 
         }
 
         [Required(ErrorMessage = "Product Unit Price is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Unit Price must be greater than zero.")]
-        public decimal ProductUnitPriceText {
+        public decimal ProductUnitPriceText
+        {
 
 
             get { return m_decProductUnitPriceText; }
             set
             {
                 m_decProductUnitPriceText = Convert.ToDecimal(value);
-                Validate(nameof(ProductUnitPriceText), m_decProductUnitPriceText);
+                //Validate(nameof(ProductUnitPriceText), m_decProductUnitPriceText);
             }
 
         }
 
         [Required(ErrorMessage = "Product Stock Units value is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Stock Units must be greater than zero.")]
-        public int ProductUnitsInStockText {
+        public int ProductUnitsInStockText
+        {
 
 
             get { return m_nProductUnitsInStockText; }
             set
             {
                 m_nProductUnitsInStockText = Convert.ToInt32(value);
-                Validate(nameof(ProductUnitsInStockText), m_nProductUnitsInStockText);
+                //Validate(nameof(ProductUnitsInStockText), m_nProductUnitsInStockText);
             }
 
         }
 
         [Required(ErrorMessage = "Product Description is required")]
-        public string ProductDescriptionText {
+        public string ProductDescriptionText
+        {
 
 
             get { return m_stProductDescriptionText; }
             set
             {
                 m_stProductDescriptionText = value;
-                Validate(nameof(ProductDescriptionText), m_stProductDescriptionText);
+                //Validate(nameof(ProductDescriptionText), m_stProductDescriptionText);
             }
         }
 
-        [Required(ErrorMessage = "Category must be selected.")]
-        private Category _selectedCategory {
+        //[Required(ErrorMessage = "Category must be selected.")]
+        //private Category _selectedCategory {
 
+        //    get { return m_objSelectedCategory; }
+        //    set
+        //    {
+        //        m_objSelectedCategory = value;
+        //        //Validate(nameof(SelectedCategory), m_objSelectedCategory);
+        //    }
+        //}
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [Required(ErrorMessage = "Category must be selected.")]
+        public Category SelectedCategory
+        {
             get { return m_objSelectedCategory; }
             set
             {
                 m_objSelectedCategory = value;
-                Validate(nameof(SelectedCategory), m_objSelectedCategory);
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public Category SelectedCategory
-        {
-            get { return _selectedCategory; }
-            set
-            {
-                _selectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
             }
         }
@@ -127,7 +134,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return null;
         }
 
-        public void Validate(string propertyName, object propertyValue)
+        public bool Validate(string propertyName, object propertyValue)
         {
             var results = new List<ValidationResult>();
             var context = new ValidationContext(this) { MemberName = propertyName };
@@ -143,7 +150,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            SubmitProductCommand.RaiseCanExecuteEventChanged();
+            //SubmitProductCommand.RaiseCanExecuteEventChanged();
+
+            return Errors.ContainsKey(propertyName);
         }
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
@@ -153,23 +162,19 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             Categories = GUIHandler.Instance.CacheManager.GetAllCategories();
             Products = GUIHandler.Instance.CacheManager.GetAllProducts();
-            SubmitProductCommand = new RelayCommand(SubmitProduct, CanSubmitProduct);
-            EditProductCommand = new RelayCommand(EditProduct, CanEditProduct);
-            DeleteProductCommand = new RelayCommand(DeleteProduct, CanDeleteProduct);
+            SubmitProductCommand = new RelayCommand(SubmitProduct);
+            EditProductCommand = new RelayCommand(EditProduct);
+            DeleteProductCommand = new RelayCommand(DeleteProduct);
         }
 
         private void EditProduct(object obj)
         {
             EditProductView editProductView = new EditProductView();
             editProductView.LoadProduct(SelectedProduct);
-        
+
             editProductView.ShowDialog();
         }
 
-        private bool CanEditProduct(object obj)
-        {
-            return SelectedProduct != null;
-        }
 
         private void DeleteProduct(object obj)
         {
@@ -180,39 +185,44 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             );
         }
 
-        private bool CanDeleteProduct(object obj)
-        {
-            return SelectedProduct != null;
-        }
 
         public void SubmitProduct(object obj)
         {
-            int lastProductId = Products.Last().Id;
-
-            // Create new Product object
-            Product product = new Product
+            try
             {
-                Id = lastProductId + 1,
-                Name = ProductNameText,
-                UnitPrice = Convert.ToDecimal(ProductUnitPriceText),
-                UnitsInStock = Convert.ToInt32(ProductUnitsInStockText),
-                Description = ProductDescriptionText,
-                Category = SelectedCategory
-            };
+                int lastProductId = Products.Last().Id;
 
-            MessageProcessor.SendMessage(
-                Enums.MessageType.Product,
-                Enums.MessageAction.Add,
-                product
-            );
-            CloseWindow?.Invoke();
+                if (Validate(nameof(ProductNameText), m_stProductNameText) || (Validate(nameof(ProductDescriptionText), m_stProductDescriptionText) || Validate(nameof(SelectedCategory), m_objSelectedCategory) || Validate(nameof(ProductUnitPriceText), m_decProductUnitPriceText) || Validate(nameof(ProductUnitsInStockText), m_nProductUnitsInStockText)))
+                {
+                    var errors = Errors.SelectMany(e => e.Value);
+                    throw new Exception(string.Join('\n', errors));
+                }
+
+                // Create new Product object
+                Product product = new Product
+                {
+                    Id = lastProductId + 1,
+                    Name = ProductNameText,
+                    UnitPrice = Convert.ToDecimal(ProductUnitPriceText),
+                    UnitsInStock = Convert.ToInt32(ProductUnitsInStockText),
+                    Description = ProductDescriptionText,
+                    Category = SelectedCategory
+                };
+
+                MessageProcessor.SendMessage(
+                    Enums.MessageType.Product,
+                    Enums.MessageAction.Add,
+                    product
+                );
+                CloseWindow?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
         }
 
-        private bool CanSubmitProduct(object obj)
-        {
-            return Validator.TryValidateObject(this, new ValidationContext(this), null, true);
-            
-        }
 
     }
 }

@@ -4,7 +4,6 @@ namespace OrderManagementSystem.UIComponents.Classes
 {
     public class Connection
     {
-
         public async void ConnectionInit()
         {
             GUIHandler.Instance.Init();

@@ -13,7 +13,7 @@
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Margin" Value="5,0" />
-        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Foreground" Value="Black" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
@@ -80,37 +80,45 @@
 
     <Style TargetType="{x:Type dxb:BarButtonItem}" x:Key="RibbonBarButtons">
         <Setter Property="Background" Value="#2C2C2C" />
-
+        
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Border Background="#00002C" Width="100" BorderBrush="Black" CornerRadius="5" BorderThickness="1" >
-                        <TextBlock Text="{Binding}" Foreground="White" TextAlignment="Center" Padding="0,3,0,3" />
-                    </Border>
+                    
+                            <TextBlock Text="{Binding}" Foreground="Black" TextAlignment="Center" FontWeight="SemiBold" Opacity="1" />
+                   
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-        
-       
+        <Style.Triggers>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="Background" Value="Red" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
+    
     <Style TargetType="dxr:RibbonPage">
-        <Setter Property="BorderBrush" Value="#2C2C2C"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
         <Setter Property="BorderThickness" Value="1" />
         <Style.Triggers>
-            
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#DAA520" />
-            </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#4C8BF5" />
+                <Setter Property="Background" Value="red" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#2C2C2C" />
+                <Setter Property="Foreground" Value="White" />
+            </Trigger>
+
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="Background" Value="red" />
             </Trigger>
 
         </Style.Triggers>
     </Style>
 
     <Style TargetType="dxg1:GridControl">
-        <Setter Property="Background" Value="Black" />
-        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="LightGray" />
+        <Setter Property="Foreground" Value="Black" />
     </Style>
     <Style TargetType="{x:Type dxg1:GridColumnHeader}">
         <Setter Property="Foreground" Value="#FFFFFF" />
@@ -122,7 +130,7 @@
     </Style>
 
     <Style TargetType="dx:ThemedWindowHeader">
-        <Setter Property="Background" Value="Black" />
+        <Setter Property="Background" Value="#2C2C2C" />
     </Style>
 
     <Style TargetType="dx:ThemedWindowTitle">
@@ -130,7 +138,7 @@
     </Style>
 
     <Style TargetType="dx:SimpleButton">
-        <Setter Property="Background" Value="#008080" />
+        <Setter Property="Background" Value="#2C2C2C" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="FontSize" Value="14" />
@@ -145,12 +153,15 @@
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#4C8BF5" />
-                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="Foreground" Value="Black" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="#D3D3D3" />
+                
+                <Setter Property="Background" Value="#666" />
                 <Setter Property="Foreground" Value="Black" />
+                <Setter Property="BorderBrush" Value="Black" />
+                <Setter Property="BorderThickness" Value="2" />
             </Trigger>
         </Style.Triggers>
     </Style>

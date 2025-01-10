@@ -5,7 +5,7 @@
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Authorization" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Background="Black" Margin="0" Padding="0" >
+    Title="Authorization" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"  Margin="0" Padding="0" Background="LightGray" >
 
     <dx:ThemedWindow.Resources>
         <dx:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -33,88 +33,156 @@
             <Setter Property="FontSize" Value="12" />
             <Setter Property="Padding" Value="5" />
         </Style>
+        <DataTemplate x:Key="DXTabControlBackgroundTemplate1">
+            <Border BorderBrush="#2C2C2C" BorderThickness="2" CornerRadius="5" />
+        </DataTemplate>
 
 
     </dx:ThemedWindow.Resources>
-    
-    <Grid Margin="30" Background="#2C2C2C">
-        <dx:DXTabControl SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" Padding="40,20">
-           
-            <dx:DXTabItem Header="Login" AccentColor="White" >
+
+    <Grid Margin="30" ClipToBounds="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="69*"/>
+            <RowDefinition Height="247*"/>
+        </Grid.RowDefinitions>
+
+        <dx:DXTabControl BackgroundTemplate="{DynamicResource DXTabControlBackgroundTemplate1}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" Padding="40,20" Grid.RowSpan="2">
+            <dx:DXTabControl.Resources>
+
+                <Style TargetType="dx:DXTabItem">
+                    <Setter Property="AccentColor" Value="Black" />
+                    <Setter Property="Visibility" Value="Collapsed"/>
+
+                    <Setter Property="NormalBackgroundTemplate" >
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Border Background="{Binding RelativeSource={RelativeSource AncestorType=dx:DXTabItem}, Path=Background}"
+                                        BorderThickness="2"
+                                        BorderBrush="#2C2C2C"
+                                        
+                                />
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="FocusedBackgroundTemplate" >
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Border Background="{Binding RelativeSource={RelativeSource AncestorType=dx:DXTabItem}, Path=Background}"
+                                BorderBrush="#2C2C2C"
+                               />
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="SelectedBackgroundTemplate" >
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Border Background="{Binding RelativeSource={RelativeSource AncestorType=dx:DXTabItem}, Path=Background}"
+                                BorderThickness="1"
+                                BorderBrush="#2C2C2C"
+                               />
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#2C2C2C" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </dx:DXTabControl.Resources>
+            <dx:DXTabItem Header="Login" FontWeight="SemiBold" Padding="12,10">
                 <dxlc:LayoutControl Header="User Authentication" >
                     <dxlc:LayoutGroup Orientation="Vertical" >
+                        <Label Content="Login" HorizontalAlignment="Center" FontSize="30" FontWeight="SemiBold" />
                         <dxlc:LayoutItem>
-                        <StackPanel>
-                            <Label Content="Email" />
-                            <dxe:TextEdit EditValue="{Binding EmailLoginText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
+                            <StackPanel>
+                                <Label Content="Email" />
+                                <dxe:TextEdit EditValue="{Binding EmailLoginText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </dxlc:LayoutItem>
 
-                    <dxlc:LayoutItem>
-                        <StackPanel>
-                            <Label Content="Password" />
+                        <dxlc:LayoutItem>
+                            <StackPanel>
+                                <Label Content="Password" />
                                 <dxe:PasswordBoxEdit TextWrapping="Wrap" EditValue="{Binding PasswordLoginText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  MaxLength="12" ShowPasswordButtonVisibility="Auto" ShowCapsLockWarningToolTip="True" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
-                   
-                    <dxlc:LayoutItem>
-                        <StackPanel>
-                            <Label Content="Role" />
-                            <ComboBox x:Name="RoleComboBox" 
+                            </StackPanel>
+                        </dxlc:LayoutItem>
+
+                        <dxlc:LayoutItem>
+                            <StackPanel>
+                                <Label Content="Role" />
+                                <ComboBox x:Name="RoleComboBox" 
                                 ItemsSource="{Binding Roles}" 
                                 SelectedItem="{Binding SelectedLoginRole, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
-                    </dxlc:LayoutItem>
+                        </dxlc:LayoutItem>
+                        
+                        <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding IsRegisterTabVisible, Converter={StaticResource BoolToVisibilityConverter}}" >
+                            <TextBlock>
+                                <Run Text="Don't have an account? " />
+                                <Hyperlink Command="{Binding NavigateToRegisterCommand}" TextDecorations="None">
+                                     <Run Text="Register" />
+                                </Hyperlink>            
+                            </TextBlock>
+                        </StackPanel>
+                        <dxlc:LayoutItem>
+                            <dx:SimpleButton Content="Login" Margin="10" Command="{Binding LoginUserCommand}" />
+                        </dxlc:LayoutItem>
 
-                    <dxlc:LayoutItem>
-                        <dx:SimpleButton Content="Login" Command="{Binding LoginUserCommand}" />
-                    </dxlc:LayoutItem>
-
-
-                </dxlc:LayoutGroup>
-            </dxlc:LayoutControl>
-        </dx:DXTabItem>
-        <dx:DXTabItem Header="Register" Foreground="White" Visibility="{Binding IsRegisterTabVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutControl>
+            </dx:DXTabItem>
+        <dx:DXTabItem Header="Register" Foreground="White" >
                 <dxlc:LayoutControl Header="User Authentication">
 
                     <dxlc:LayoutGroup Orientation="Vertical">
+                        <Label Content="Register" HorizontalAlignment="Center" FontSize="30" FontWeight="SemiBold" />
 
-                    <dxlc:LayoutItem>
-                        <StackPanel>
-                            <Label Content="Name" />
+                        <dxlc:LayoutItem>
+                            <StackPanel>
+                                <Label Content="Name" />
                                 <dxe:TextEdit EditValue="{Binding NameRegisterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="40" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
+                            </StackPanel>
+                        </dxlc:LayoutItem>
 
-                    <dxlc:LayoutItem>
-                        <StackPanel>
-                            <Label Content="Email" />
+                        <dxlc:LayoutItem>
+                            <StackPanel>
+                                <Label Content="Email" />
                                 <dxe:TextEdit EditValue="{Binding EmailRegisterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="26" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
+                            </StackPanel>
+                        </dxlc:LayoutItem>
 
-                    <dxlc:LayoutItem>
-                        <StackPanel>
-                            <Label Content="Phone" />
+                        <dxlc:LayoutItem>
+                            <StackPanel>
+                                <Label Content="Phone" />
                                 <dxe:TextEdit EditValue="{Binding PhoneRegisterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="16" />
-                        </StackPanel>
-                    </dxlc:LayoutItem>
+                            </StackPanel>
+                        </dxlc:LayoutItem>
 
-                    <dxlc:LayoutItem>
-                        <StackPanel>
-                            <Label Content="Password" />
+                        <dxlc:LayoutItem>
+                            <StackPanel>
+                                <Label Content="Password" />
                                 <dxe:PasswordBoxEdit EditValue="{Binding PasswordRegisterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="12" ShowPasswordButtonVisibility="Auto" ShowCapsLockWarningToolTip="True" />
+                            </StackPanel>
+                        </dxlc:LayoutItem>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock>
+<Run Text="Already have an account? " />
+<Hyperlink Command="{Binding NavigateToLoginCommand}" TextDecorations="None">
+    <Run Text="Login" />
+</Hyperlink>
+                            </TextBlock>
                         </StackPanel>
-                    </dxlc:LayoutItem>
-
-                    <dxlc:LayoutItem>
-                        <dx:SimpleButton Content="Register" Command="{Binding RegisterUserCommand}" />
-                    </dxlc:LayoutItem>
+                        <dxlc:LayoutItem>
+                            <dx:SimpleButton  Margin="0" Content="Register" Command="{Binding RegisterUserCommand}" />
+                        </dxlc:LayoutItem>
 
 
-                </dxlc:LayoutGroup>
-            </dxlc:LayoutControl>
-        </dx:DXTabItem>
-    </dx:DXTabControl>
+
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutControl>
+            </dx:DXTabItem>
+        </dx:DXTabControl>
     </Grid>
 </dx:ThemedWindow>

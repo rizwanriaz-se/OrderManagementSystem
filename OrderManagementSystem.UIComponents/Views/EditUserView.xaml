@@ -5,7 +5,8 @@
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Edit User" Height="500" Width="400" WindowStartupLocation="CenterOwner" Margin="0" Padding="0" Background="Black"
+    xmlns:local="clr-namespace:OrderManagementSystemServer.Repository;assembly=OrderManagementSystemServer.Repository"
+    Title="Edit User" Height="600" Width="400" WindowStartupLocation="CenterOwner" Margin="0" Padding="0" Background="LightGray"
     >
     <dx:ThemedWindow.Resources>
         <Style TargetType="StackPanel">
@@ -23,8 +24,12 @@
             <Setter Property="FontSize" Value="12" />
             <Setter Property="Padding" Value="5" />
         </Style>
-
-     
+        
+        <Style TargetType="{x:Type dxe:ComboBoxEdit}">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Margin" Value="5,0" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
 
     </dx:ThemedWindow.Resources>
 
@@ -60,6 +65,12 @@
                 </StackPanel>
             </dxlc:LayoutItem>
 
+            <dxlc:LayoutItem>
+                <StackPanel>
+                    <Label Content="Approval Status" />
+                    <dxe:ComboBoxEdit x:Name="ApprovalStatusComboBox" EditValue="{Binding UserApprovalStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  ></dxe:ComboBoxEdit>
+                </StackPanel>
+            </dxlc:LayoutItem>
 
 
             <dxlc:LayoutItem MinWidth="150">

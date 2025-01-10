@@ -5,7 +5,7 @@
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Add Product" Height="600" Width="450" Background="Black" Margin="0" Padding="0"
+    Title="Add Product" Height="600" Width="450" Background="LightGray" Margin="0" Padding="0"
     >
     <dx:ThemedWindow.Resources>
         <Style TargetType="StackPanel">
@@ -72,15 +72,9 @@
                 </StackPanel>
             </dxlc:LayoutItem>
 
-            <dxlc:LayoutItem >
-                <StackPanel>
-                    <Label Content="Image" FontWeight="Bold" />
-                </StackPanel>
-            </dxlc:LayoutItem>
-
 
             <dxlc:LayoutItem>
-                <dx:SimpleButton Content="Submit Product" Command="{Binding SubmitProductCommand}" />
+                <dx:SimpleButton Content="Submit Product" Width="130" Command="{Binding SubmitProductCommand}" />
             </dxlc:LayoutItem>
 
 

@@ -5,7 +5,7 @@
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Add Category" Height="400" Width="400" Background="Black" Margin="0" Padding="0"
+    Title="Add Category" Height="400" Width="400" Background="LightGray" Margin="0" Padding="0"
     >
     <dx:ThemedWindow.Resources>
         <Style TargetType="StackPanel">
@@ -42,12 +42,6 @@
                 <StackPanel>
                     <Label Content="Description" />
                     <dxe:TextEdit TextWrapping="Wrap" Text="{Binding CategoryDescriptionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-            </dxlc:LayoutItem>
-
-            <dxlc:LayoutItem>
-                <StackPanel>
-                    <Label Content="Image" />
                 </StackPanel>
             </dxlc:LayoutItem>
 

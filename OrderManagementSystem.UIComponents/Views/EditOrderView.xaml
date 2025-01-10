@@ -8,31 +8,31 @@
     x:Class="OrderManagementSystem.UIComponents.Views.EditOrderView"
     Title="Edit Order" Height="440" MinHeight="440" MaxHeight="440"
     Width="750" MinWidth="750" MaxWidth="750" Margin="0" Padding="0"
-    WindowStartupLocation="CenterOwner" Background="Black"
+    WindowStartupLocation="CenterOwner" Background="LightGray"
     >
    
     <dxlc:LayoutControl Header="Edit Order"
                         Orientation="Vertical">
         <dxlc:LayoutGroup Orientation="Horizontal"  Margin="0,0,0,10">
             <!-- User Field -->
-            <dxlc:LayoutItem Width="140">
+            <dxlc:LayoutItem Width="150">
                 <StackPanel>
                     <Label Content="Employee" />
-                    <TextBlock Foreground="White" x:Name="UserText" Text="{Binding User.Name}" Padding="5,0" FontSize="15" FontWeight="SemiBold"  />
+                    <TextBlock Foreground="Black" x:Name="UserText" Text="{Binding User.Name}" Padding="5,0" FontSize="15" FontWeight="SemiBold" TextWrapping="WrapWithOverflow"  />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <!-- Status Field -->
-            <dxlc:LayoutItem Width="140">
+            <dxlc:LayoutItem Width="130">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Status" />
 
-                    <dxe:ComboBoxEdit Width="120" Height="30" x:Name="OrderStatusComboBox" EditValue="{Binding SelectedStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding SelectableStatuses}" AutoComplete="True" />
+                    <dxe:ComboBoxEdit Width="120" Height="32" x:Name="OrderStatusComboBox" EditValue="{Binding SelectedStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding SelectableStatuses}" AutoComplete="True" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
             <!-- Shipping Date Field -->
-            <dxlc:LayoutItem  Width="205">
+            <dxlc:LayoutItem  Width="160">
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Date" FontWeight="Bold" />
                     <!--<DatePicker Width="200" SelectedDate="{Binding SelectedShippingDate, Mode=TwoWay}" /> -->
@@ -44,7 +44,7 @@
             <dxlc:LayoutItem>
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Address" FontWeight="Bold" />
-                    <dxe:TextEdit x:Name="ShippingAddressText" Width="350" EditValue="{Binding SelectedShippingAddress, UpdateSourceTrigger=PropertyChanged}" />
+                    <dxe:TextEdit x:Name="ShippingAddressText" Width="270" EditValue="{Binding SelectedShippingAddress, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
@@ -52,7 +52,7 @@
 
 
         <dxlc:LayoutGroup Orientation="Vertical">
-            <dxlc:LayoutItem  Background="#2C2C2C">
+            <dxlc:LayoutItem  Background="Gray">
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />

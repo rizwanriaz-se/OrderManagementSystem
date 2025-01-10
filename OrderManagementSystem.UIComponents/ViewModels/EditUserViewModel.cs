@@ -1,9 +1,11 @@
-﻿using OrderManagementSystem.UIComponents.Classes;
+﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystemServer.Repository;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -15,6 +17,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private string m_stUserEmailText;
         private string m_stUserPhoneText;
         private string m_stUserPasswordText;
+        private User.ApprovalStates m_objSelectedStatus;
 
         public Action CloseWindow { get; set; }
 
@@ -28,7 +31,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stUserNameText = value;
-                Validate(nameof(UserNameText), m_stUserNameText);
+                //Validate(nameof(UserNameText), m_stUserNameText);
             }
         }
 
@@ -39,7 +42,18 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stUserEmailText = value;
-                Validate(nameof(UserEmailText), m_stUserEmailText);
+                //Validate(nameof(UserEmailText), m_stUserEmailText);
+            }
+        }
+
+        [Required(ErrorMessage = "User Appoval Status value is required")]
+        public User.ApprovalStates UserApprovalStatus
+        {
+            get { return m_objSelectedStatus; }
+            set
+            {
+                m_objSelectedStatus = value;
+                //Validate(nameof(UserApprovalStatus), m_objSelectedStatus);
             }
         }
 
@@ -51,7 +65,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stUserPhoneText = value;
-                Validate(nameof(UserPhoneText), m_stUserPhoneText);
+                //Validate(nameof(UserPhoneText), m_stUserPhoneText);
             }
         }
 
@@ -63,11 +77,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stUserPasswordText = value;
-                Validate(nameof(UserPasswordText), m_stUserPasswordText);
+                //Validate(nameof(UserPasswordText), m_stUserPasswordText);
             }
         }
 
-        public void Validate(string propertyName, object propertyValue)
+        public bool Validate(string propertyName, object propertyValue)
         {
             var results = new List<ValidationResult>();
             var context = new ValidationContext(this) { MemberName = propertyName };
@@ -83,10 +97,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            SaveUserCommand.RaiseCanExecuteEventChanged();
+            //SaveUserCommand.RaiseCanExecuteEventChanged();
+
+            return Errors.ContainsKey(propertyName);
         }
 
         public bool UserIsAdmin { get; set; }
+        public bool UserIsArchived { get; set; }
 
         public bool HasErrors => Errors.Count > 0;
 
@@ -102,31 +119,44 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return null;
         }
 
-        public RelayCommand SaveUserCommand { get; set; }
+        public ICommand SaveUserCommand { get; set; }
 
         public EditUserViewModel()
         {
-            SaveUserCommand = new RelayCommand(SaveUser, CanSaveUser);
+            SaveUserCommand = new RelayCommand(SaveUser);
         }
 
-        private bool CanSaveUser(object obj)
-        {
-            return Validator.TryValidateObject(this, new ValidationContext(this), null, true);
-        }
 
         private void SaveUser(object obj)
         {
-            m_objUser = new User();
-            m_objUser.Id = Id;
-            m_objUser.Name = UserNameText;
-            m_objUser.Email = UserEmailText;
-            m_objUser.Phone = UserPhoneText;
-            m_objUser.Password = UserPasswordText;
-            m_objUser.IsAdmin = UserIsAdmin;
 
-            MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Update, m_objUser);
+            try
+            {
+                if (Validate(nameof(UserNameText), m_stUserNameText) || Validate(nameof(UserEmailText), m_stUserEmailText) || Validate(nameof(UserApprovalStatus), m_objSelectedStatus) || Validate(nameof(UserPhoneText), m_stUserPhoneText) || Validate(nameof(UserPasswordText), m_stUserPasswordText))
+                {
+                    var errors = Errors.SelectMany(e => e.Value);
+                    throw new Exception(string.Join('\n', errors));
+                }
 
-            CloseWindow.Invoke();
+                m_objUser = new User();
+                m_objUser.Id = Id;
+                m_objUser.Name = UserNameText;
+                m_objUser.Email = UserEmailText;
+                m_objUser.Phone = UserPhoneText;
+                m_objUser.IsArchived = UserIsArchived;
+                m_objUser.Password = UserPasswordText;
+                m_objUser.IsAdmin = UserIsAdmin;
+                m_objUser.ApprovalStatus = UserApprovalStatus;
+
+                MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Update, m_objUser);
+
+                CloseWindow.Invoke();
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
 
         }
     }

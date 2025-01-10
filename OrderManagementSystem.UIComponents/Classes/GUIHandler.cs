@@ -5,7 +5,7 @@ namespace OrderManagementSystem.UIComponents.Classes
 {
     public class GUIHandler
     {
-        private static GUIHandler m_objInstance;
+        private static GUIHandler? m_objInstance;
 
         private User m_objCurrentUser;
 
@@ -17,13 +17,13 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         private GUIHandler() { }
 
-        private CacheManager m_objCacheManager;
-        private MessageProcessor m_objMessageProcessor;
-        private ClientManager m_objClientManager;
+        private CacheManager? m_objCacheManager;
+        private MessageProcessor? m_objMessageProcessor;
+        private ClientManager? m_objClientManager;
 
-        public CacheManager CacheManager => m_objCacheManager;
-        public MessageProcessor MessageProcessor => m_objMessageProcessor;
-        public ClientManager ClientManager => m_objClientManager;
+        public CacheManager? CacheManager => m_objCacheManager;
+        public MessageProcessor? MessageProcessor => m_objMessageProcessor;
+        public ClientManager? ClientManager => m_objClientManager;
 
         public static GUIHandler Instance
         {

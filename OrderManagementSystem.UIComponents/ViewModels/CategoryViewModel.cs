@@ -1,4 +1,5 @@
-﻿using OrderManagementSystem.UIComponents.Classes;
+﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.Views;
 using OrderManagementSystemServer.Repository;
@@ -6,6 +7,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -38,10 +40,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        public RelayCommand SubmitCategoryCommand { get; set; }
+        public ICommand SubmitCategoryCommand { get; set; }
 
-        public RelayCommand EditCategoryCommand { get; set; }
-        public RelayCommand DeleteCategoryCommand { get; set; }
+        public ICommand EditCategoryCommand { get; set; }
+        public ICommand DeleteCategoryCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
@@ -71,19 +73,28 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return null;
         }
 
+        private User m_objCurrentUser { get; set; }
 
-
-
+        public User CurrentUser
+        {
+            get { return m_objCurrentUser; }
+            set
+            {
+                m_objCurrentUser = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentUser)));
+            }
+        }
 
         public CategoryViewModel()
         {
             Categories = GUIHandler.Instance.CacheManager.GetAllCategories();
-            SubmitCategoryCommand = new RelayCommand(SubmitCategory, CanSubmitCategory);
-            EditCategoryCommand = new RelayCommand(EditCategory, CanEditCategory);
-            DeleteCategoryCommand = new RelayCommand(DeleteCategory, CanDeleteCategory);
-
+            SubmitCategoryCommand = new RelayCommand(SubmitCategory);
+            EditCategoryCommand = new RelayCommand(EditCategory);
+            DeleteCategoryCommand = new RelayCommand(DeleteCategory);
+            CurrentUser = GUIHandler.Instance.CurrentUser;
         }
-        public void Validate(string propertyName, object propertyValue)
+
+        public bool Validate(string propertyName, object propertyValue)
         {
             var results = new List<ValidationResult>();
             var context = new ValidationContext(this) { MemberName = propertyName };
@@ -99,33 +110,57 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            SubmitCategoryCommand.RaiseCanExecuteEventChanged();
+            //SubmitCategoryCommand.RaiseCanExecuteEventChanged();
+            return Errors.ContainsKey(propertyName);
         }
         private void SubmitCategory(object obj)
         {
-            int? lastCategoryId = Categories.Last().Id;
-
-            // Create new Order object
-            Category category = new Category
+            try
             {
-                Name = CategoryNameText,
-                Description = CategoryDescriptionText,
-                Picture = null
-            };
+                int? lastCategoryId = Categories.Last().Id;
 
-            MessageProcessor.SendMessage(
-                Enums.MessageType.Category,
-                Enums.MessageAction.Add,
-                category
-            );
+                // Create new Order object
+                Category category = new Category
+                {
+                    Name = CategoryNameText,
+                    Description = CategoryDescriptionText,
+                    //Picture = null
+                };
 
-            CloseWindow?.Invoke();
+                if (string.IsNullOrWhiteSpace(category.Name))
+                {
+                    throw new ArgumentException("The category name cannot be empty.");
+                }
+
+                if (string.IsNullOrWhiteSpace(category.Description))
+                {
+                    throw new ArgumentException("The category description cannot be empty.");
+                }
+
+                
+
+                if (Categories.Any(c => c.Name.Equals(category.Name, StringComparison.OrdinalIgnoreCase)))
+                {
+                    throw new InvalidOperationException($"A category with the name '{category.Name}' already exists.");
+                }
+
+                MessageProcessor.SendMessage(
+                    Enums.MessageType.Category,
+                    Enums.MessageAction.Add,
+                    category
+                );
+
+
+                CloseWindow?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
         }
 
-        private bool CanSubmitCategory(object obj)
-        {
-            return Validator.TryValidateObject(this, new ValidationContext(this), null, true);
-        }
+      
 
         private void EditCategory(object obj)
         {
@@ -135,10 +170,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             editCategoryView.ShowDialog();
         }
 
-        private bool CanEditCategory(object obj)
-        {
-            return SelectedCategory != null;
-        }
+      
 
         private void DeleteCategory(object obj)
         {
@@ -147,11 +179,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Enums.MessageAction.Delete,
                 SelectedCategory
             );
-        }
-
-        private bool CanDeleteCategory(object obj)
-        {
-            return SelectedCategory != null;
         }
 
 

@@ -1,26 +1,27 @@
 ﻿using DevExpress.Xpf.Core;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
+//using Timer = System.Timers.Timer;
 
 namespace OrderManagementSystem.UIComponents.Classes
 {
     public class ClientManager
     {
-        private static ClientManager m_objInstance;
+        private static ClientManager? m_objInstance;
         private System.Timers.Timer m_objHeartbeatTimer;
         private System.Timers.Timer m_objRetryTimer;
         private TcpClient m_objClient;
-        private CancellationToken m_objToken;
-        private CancellationTokenSource m_objCts;
         private NetworkStream m_objStream;
 
         public TcpClient Client
         {
             get { return m_objClient; }
         }
+
         public bool Connected = false;
         public event Action OnConnected;
         public event Action<string> OnReceive;
@@ -49,7 +50,7 @@ namespace OrderManagementSystem.UIComponents.Classes
 
             try
             {
-                m_objClient = new TcpClient(new System.Net.IPEndPoint(System.Net.IPAddress.Any, Int32.Parse(RandomPort)));
+                m_objClient = new TcpClient(new IPEndPoint(IPAddress.Any, Int32.Parse(RandomPort)));
                 m_objClient.Connect(Constants.IPAddress, Constants.Port);
                 if (m_objClient.Connected)
                 {
@@ -59,16 +60,15 @@ namespace OrderManagementSystem.UIComponents.Classes
                     m_objHeartbeatTimer.Start();
                 }
             }
-            catch (SocketException ex)
-            {
-                Debug.WriteLine($"Socket error: {ex.Message}");
-                OnDisconnected?.Invoke();
-
-            }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Connection error: {ex.Message}");
+                Debug.WriteLine($"Error: {ex.Message}");
+                OnDisconnected?.Invoke();
             }
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine($"Connection error: {ex.Message}");
+            //}
         }
 
         public void HandleDisconnection()
@@ -83,7 +83,6 @@ namespace OrderManagementSystem.UIComponents.Classes
                 ));
                 if (result == MessageBoxResult.Yes)
                 {
-                    m_objRetryTimer.Elapsed -= RetryTimerElapsed; 
                     m_objRetryTimer.Elapsed += RetryTimerElapsed; 
                     m_objRetryTimer.AutoReset = true;
                     m_objRetryTimer.Start();
@@ -109,12 +108,20 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         private async void RetryTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            m_objRetryTimer.Stop(); // Stop the timer to prevent multiple concurrent attempts
+            m_objRetryTimer.Stop();
             ConnectToServer();
             if (!Connected)
             {
-                m_objRetryTimer.Start(); // Restart the timer if the connection attempt failed
+                m_objRetryTimer.Start();
             }
+        }
+
+        public void LoadData()
+        {
+            MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Load, null);
+            MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Load, null);
+            MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Load, null);
+            MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Load, null);
         }
 
         public void ListenAsync()
@@ -184,9 +191,9 @@ namespace OrderManagementSystem.UIComponents.Classes
         {
             try
             {
-                Response responseObject = JsonSerializer.Deserialize<Response>(response);
+                Response? responseObject = JsonSerializer.Deserialize<Response>(response);
 
-                if (responseObject.Error != null)
+                if (responseObject?.Error != null)
                 {
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                                         DXMessageBox.Show(responseObject.Error,
@@ -195,7 +202,7 @@ namespace OrderManagementSystem.UIComponents.Classes
                                     ));
                     return;
                 }
-                switch (responseObject.MessageType)
+                switch (responseObject?.MessageType)
                 {
                     case Enums.MessageType.Category:
                         MessageProcessor.ProcessCategoryMessage(responseObject);
@@ -224,24 +231,24 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         public async Task InitializeHeartbeat()
         {
-            m_objHeartbeatTimer.Elapsed += async (sender, e) => await SendHeartbeat();
+            m_objHeartbeatTimer.Elapsed += async (sender, e) => MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
             m_objHeartbeatTimer.AutoReset = true;
         }
 
-        private async Task SendHeartbeat()
-        {
-            try
-            {
-                MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
-            }
-            catch (Exception ex)
-            {
+        //private async Task SendHeartbeat()
+        //{
+        //    try
+        //    {
+        //        MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                // Without Dispatcher in case of MessageBox, got error: System.InvalidOperationException: 'The calling thread must be STA, because many UI components require this.'
+        //        // Without Dispatcher in case of MessageBox, got error: System.InvalidOperationException: 'The calling thread must be STA, because many UI components require this.'
 
-                Debug.WriteLine("Error in SendHeartbeat: " + ex.Message);
-            }
-        }
+        //        Debug.WriteLine("Error in SendHeartbeat: " + ex.Message);
+        //    }
+        //}
 
        
         public async Task SendMessage(Request request)

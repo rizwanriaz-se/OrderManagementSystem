@@ -39,15 +39,17 @@ namespace OrderManagementSystem.UIComponents.Views
                     Expression = "[Status] == 'Delivered'",
                     FieldName = "Status",
                     Format = new Format() {
- // LightGreen with 50% opacity
-Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(64, 255, 255, 0))
+                        Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(128, 144, 238, 0))
 }
+
                 },
                 new FormatCondition() {
                     Expression = "[Status] == 'Shipped'",
                     FieldName = "Status",
                     Format = new Format() {
- Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(128, 144, 238, 0))
+ 
+                     // LightGreen with 50% opacity
+Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(64, 255, 255, 0))
 }
                 },
                     //rgb(157, 149, 6)

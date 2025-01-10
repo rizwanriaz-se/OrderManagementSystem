@@ -8,10 +8,7 @@
     x:Class="OrderManagementSystem.UIComponents.Views.AddOrderView"
     Height="440" MinHeight="440" MaxHeight="440"
     Title="Add Order" 
-    Width="750" MinWidth="750" MaxWidth="750" Background="Black"  Margin="0" Padding="0"
-     
-    WindowStartupLocation="CenterOwner"
-    >
+    Width="750" MinWidth="750" MaxWidth="750" Background="LightGray"  Margin="0" Padding="0" WindowStartupLocation="CenterOwner">
 
 
     <dxlc:LayoutControl Header="Add Order"
@@ -22,7 +19,7 @@
                 <StackPanel>
                     <Label Content="Employee" />
 
-                    <TextBlock Foreground="White" Text="{Binding CurrentUser.Name, Mode=TwoWay}" Padding="5,0" FontSize="15" FontWeight="SemiBold" />
+                    <TextBlock Foreground="Black" Text="{Binding CurrentUser.Name, Mode=TwoWay}" Padding="5,0" FontSize="15" FontWeight="SemiBold" />
 
                 </StackPanel>
             </dxlc:LayoutItem>
@@ -41,20 +38,22 @@
             <dxlc:LayoutItem>
                 <StackPanel HorizontalAlignment="Left">
                     <Label Content="Shipping Address" />
-                    <dxe:TextEdit EditValue="{Binding SelectedShippingAddress, UpdateSourceTrigger=PropertyChanged}" Width="350" />
+                    <dxe:TextEdit EditValue="{Binding SelectedShippingAddress, UpdateSourceTrigger=PropertyChanged}" Width="370" />
                 </StackPanel>
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
 
         <dxlc:LayoutGroup Orientation="Vertical" >
-            <dxlc:LayoutItem Background="#2C2C2C">
+            <dxlc:LayoutItem Background="Gray">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Label Content="Product(s)" Grid.Column="0"  FontWeight="Bold" />
-                    <dx:SimpleButton Content="Add Product" Margin="0" Grid.Column="1" Command="{Binding AddProductCommand}"  />
+                    <dx:SimpleButton Content="Add Product" Margin="0" Grid.Column="1" Background="#2C2C2C" Command="{Binding AddProductCommand}">
+                        
+                    </dx:SimpleButton>
                 </Grid>
             </dxlc:LayoutItem>
 

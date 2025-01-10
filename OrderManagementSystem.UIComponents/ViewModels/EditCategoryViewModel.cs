@@ -1,9 +1,11 @@
-﻿using OrderManagementSystem.UIComponents.Classes;
+﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystemServer.Repository;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -40,9 +42,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
 
         public int? Id { get; set; }
-        public byte[] Picture { get; set; }
+        //public byte[] Picture { get; set; }
 
-        public RelayCommand SaveCategoryCommand { get; set; }
+        public ICommand SaveCategoryCommand { get; set; }
 
         public bool HasErrors => Errors.Count > 0;
 
@@ -71,30 +73,59 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            SaveCategoryCommand.RaiseCanExecuteEventChanged();
+            //SaveCategoryCommand.RaiseCanExecuteEventChanged();
         }
 
         public EditCategoryViewModel()
         {
-            SaveCategoryCommand = new RelayCommand(SaveCategory, CanSaveCategory);
+            SaveCategoryCommand = new RelayCommand(SaveCategory);
         }
 
-        private bool CanSaveCategory(object obj)
-        {
-            return Validator.TryValidateObject(this, new ValidationContext(this), null, true);
-        }
+     
 
         private void SaveCategory(object obj)
         {
-            m_objCategory = new Category();
-            m_objCategory.Id = Id;
-            m_objCategory.Name = CategoryNameText;
-            m_objCategory.Description = CategoryDescriptionText;
-            m_objCategory.Picture = Picture;
+            try
+            {
+                m_objCategory = new Category();
+                m_objCategory.Id = Id;
+                m_objCategory.Name = CategoryNameText;
+                m_objCategory.Description = CategoryDescriptionText;
+                //m_objCategory.Picture = Picture;
 
-            MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Update, m_objCategory);
+                if (string.IsNullOrWhiteSpace(m_objCategory.Name))
+                {
+                    throw new ArgumentException("The category name cannot be empty.");
+                }
 
-            CloseWindow.Invoke();
+                if (string.IsNullOrWhiteSpace(m_objCategory.Description))
+                {
+                    throw new ArgumentException("The category description cannot be empty.");
+                }
+
+                if (!Validator.TryValidateObject(this, new ValidationContext(this), null, true))
+                {
+                    var errorMessages = Errors.SelectMany(e => e.Value).ToList();
+                    throw new Exception(string.Join(Environment.NewLine, errorMessages));
+                }
+
+
+                if (GUIHandler.Instance.CacheManager.GetAllCategories().Any(c => c.Name.Equals(m_objCategory.Name, StringComparison.OrdinalIgnoreCase)))
+                {
+                    throw new InvalidOperationException($"A category with the name '{m_objCategory.Name}' already exists.");
+                }
+
+
+                MessageProcessor.SendMessage(Enums.MessageType.Category, Enums.MessageAction.Update, m_objCategory);
+
+                CloseWindow.Invoke();
+            }
+            catch (Exception ex)
+            {
+
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
         }
     }
 }

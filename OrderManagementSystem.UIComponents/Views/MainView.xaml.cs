@@ -15,13 +15,7 @@ namespace OrderManagementSystem.UIComponents.Views
         private DocumentPanel? m_objCategoryPanel;
         private DocumentPanel? m_objProductPanel;
         private DocumentPanel? m_objUserPanel;
-        //private Dictionary<string, int> m_objPanelCount = new Dictionary<string, int>()
-        //{
-        //    { "Order", 0 },
-        //    { "Category", 0 },
-        //    { "Product", 0 },
-        //    { "User", 0 },
-        //};
+        
 
         public MainView()
         {
@@ -31,6 +25,16 @@ namespace OrderManagementSystem.UIComponents.Views
             this.DataContext = m_objMainViewModel;
 
             AddPanel(ref m_objOrderPanel, "Order");
+
+
+            if (activePanels.Count == 1)
+            {
+                var singlePanel = activePanels.Values.FirstOrDefault();
+                if (singlePanel != null && singlePanel.Count == 1)
+                {
+                    singlePanel[0].AllowClose = false;
+                }
+            }
         }
 
         public User? CurrentUser { get; }

@@ -10,9 +10,10 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
    
-    <dxg1:GridControl DockPanel.Dock="Top" Name="OrderGrid" ItemsSource="{Binding Orders}" Height="300" SelectedItem="{Binding SelectedOrder}" PreviewMouseDown="OrderGrid_PreviewMouseDown" >
+    <dxg1:GridControl DockPanel.Dock="Top" Name="OrderGrid" ItemsSource="{Binding Orders}" Height="300" SelectedItem="{Binding SelectedOrder}"  PreviewMouseDown="OrderGrid_PreviewMouseDown" >
         <dxg1:GridControl.View>
-            <dxg1:TableView DetailHeaderContent="Products" ShowGroupPanel="False" Name="OrderTableView" AllowConditionalFormattingManager="True"  AllowEditing="False" VerticalScrollbarVisibility="Auto">
+            <dxg1:TableView 
+                DetailHeaderContent="Products" ShowGroupPanel="False" Name="OrderTableView" AllowConditionalFormattingManager="True"  AllowEditing="False" VerticalScrollbarVisibility="Auto">
 
                 <dxg1:TableView.RowCellMenuCustomizations>
                     <dxb:BarButtonItem Name="editRowItem" Content="Edit" 
@@ -21,14 +22,16 @@
                        Command="{Binding DataContext.DeleteOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}"
                        CommandParameter="{Binding Row.Row.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
                 </dxg1:TableView.RowCellMenuCustomizations>
+
+                
                 
                 <dxg1:TableView.RowStyle>
                     <Style TargetType="{x:Type dxg1:RowControl}">
-                        <Setter Property="Foreground" Value="#FFFFFF" />
-
+                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="BorderBrush" Value="Gray" />
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#4C8BF5"/>
+                                <Setter Property="Background" Value="Gray"/>
                             </Trigger>
                             <Trigger Property="SelectionState" Value="Focused">
                                 <Setter Property="Background" Value="#2C2C2C" />
@@ -41,6 +44,8 @@
                 
                 <dxg1:TableView.CellStyle>
                     <Style TargetType="dxg1:LightweightCellEditor">
+                        <Setter Property="BorderBrush" Value="Gray" />
+                        
                         <Style.Triggers>
                             <Trigger Property="IsFocusedCell" Value="True">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -58,33 +63,39 @@
                     
                     <dxg1:GridControl.View>
                         <dxg1:TableView AutoWidth="True" ShowGroupPanel="False" AllowEditing="False">
-                            
+
                             <dxg1:TableView.RowStyle>
                                 <Style TargetType="{x:Type dxg1:RowControl}">
-                                    <Setter Property="Foreground" Value="#FFFFFF" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="BorderBrush" Value="Gray" />
 
 
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#4C8BF5"/>
+                                            <Setter Property="Background" Value="Gray"/>
                                         </Trigger>
                                         <Trigger Property="SelectionState" Value="Focused">
                                             <Setter Property="Background" Value="#2C2C2C" />
+                                            <Setter Property="Foreground" Value="#FFFFFF" />
+
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </dxg1:TableView.RowStyle>
-                            
+
                             <dxg1:TableView.CellStyle>
                                 <Style TargetType="dxg1:LightweightCellEditor">
+                                    <Setter Property="BorderBrush" Value="Gray" />
+
                                     <Style.Triggers>
                                         <Trigger Property="IsFocusedCell" Value="True">
                                             <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Foreground" Value="#FFFFFF" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </dxg1:TableView.CellStyle>
-                            
+
                         </dxg1:TableView>
                     </dxg1:GridControl.View>
                     

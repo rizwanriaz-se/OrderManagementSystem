@@ -1,17 +1,18 @@
-﻿using OrderManagementSystem.UIComponents.Classes;
+﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystemServer.Repository;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
     public class EditProductViewModel : INotifyDataErrorInfo
     {
         private Product _Product;
-
         public Action CloseWindow { get; set; }
 
         public ObservableCollection<Category> Categories { get; private set; }
@@ -27,12 +28,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         [Required(ErrorMessage = "Product Name is required")]
         public string ProductNameText
         {
-
             get { return m_stProductNameText; }
             set
             {
                 m_stProductNameText = value;
-                Validate(nameof(ProductNameText), m_stProductNameText);
+                //Validate(nameof(ProductNameText), m_stProductNameText);
             }
         }
 
@@ -44,7 +44,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stProductDescriptionText = value;
-                Validate(nameof(ProductDescriptionText), m_stProductDescriptionText);
+                //Validate(nameof(ProductDescriptionText), m_stProductDescriptionText);
             }
 
         }
@@ -55,12 +55,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
 
         [Required(ErrorMessage = "Category must be selected.")]
-        public Category SelectedCategory {
+        public Category SelectedCategory
+        {
             get { return m_objSelectedCategory; }
             set
             {
                 m_objSelectedCategory = value;
-                Validate(nameof(SelectedCategory), m_objSelectedCategory);
+                //Validate(nameof(SelectedCategory), m_objSelectedCategory);
             }
         }
         public byte[] Picture { get; set; }
@@ -74,7 +75,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_decProductUnitPriceText = Convert.ToDecimal(value); ;
-                Validate(nameof(ProductUnitPriceText), m_decProductUnitPriceText);
+                //Validate(nameof(ProductUnitPriceText), m_decProductUnitPriceText);
             }
         }
 
@@ -87,7 +88,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_nProductUnitsInStockText = Convert.ToInt32(value);
-                Validate(nameof(ProductUnitsInStockText), m_nProductUnitsInStockText);
+                //Validate(nameof(ProductUnitsInStockText), m_nProductUnitsInStockText);
             }
 
         }
@@ -102,7 +103,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return null;
         }
 
-        public void Validate(string propertyName, object propertyValue)
+        public bool Validate(string propertyName, object propertyValue)
         {
             var results = new List<ValidationResult>();
             var context = new ValidationContext(this) { MemberName = propertyName };
@@ -118,38 +119,50 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            SaveProductCommand.RaiseCanExecuteEventChanged();
+            //SaveProductCommand.RaiseCanExecuteEventChanged();
+
+            return Errors.ContainsKey(propertyName);
         }
 
-        public RelayCommand SaveProductCommand { get; set; }
+        public ICommand SaveProductCommand { get; set; }
 
 
         public EditProductViewModel()
         {
             Categories = GUIHandler.Instance.CacheManager.GetAllCategories();
-            SaveProductCommand = new RelayCommand(SaveProduct, CanSaveProduct);
-        }
-
-        private bool CanSaveProduct(object obj)
-        {
-            return !HasErrors && Validator.TryValidateObject(this, new ValidationContext(this), null, true);
+            SaveProductCommand = new RelayCommand(SaveProduct);
         }
 
         private void SaveProduct(object obj)
         {
-            _Product = new Product();
-            _Product.Id = Id;
-            _Product.Name = ProductNameText;
-            _Product.Description = ProductDescriptionText;
-            _Product.Category = SelectedCategory;
-            _Product.Picture = Picture;
-            _Product.UnitPrice = ProductUnitPriceText;
-            _Product.UnitsInStock = ProductUnitsInStockText;
 
-            MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Update, _Product);
+            try
+            {
+                if (Validate(nameof(ProductNameText), m_stProductNameText) || (Validate(nameof(ProductDescriptionText), m_stProductDescriptionText) || Validate(nameof(SelectedCategory), m_objSelectedCategory) || Validate(nameof(ProductUnitPriceText), m_decProductUnitPriceText) || Validate(nameof(ProductUnitsInStockText), m_nProductUnitsInStockText)))
+                {
+                    var errors = Errors.SelectMany(e => e.Value);
+                    throw new Exception(string.Join('\n', errors));
+                }
 
-            CloseWindow.Invoke();
 
+                _Product = new Product();
+                _Product.Id = Id;
+                _Product.Name = ProductNameText;
+                _Product.Description = ProductDescriptionText;
+                _Product.Category = SelectedCategory;
+                //_Product.Picture = Picture;
+                _Product.UnitPrice = ProductUnitPriceText;
+                _Product.UnitsInStock = ProductUnitsInStockText;
+
+                MessageProcessor.SendMessage(Enums.MessageType.Product, Enums.MessageAction.Update, _Product);
+
+                CloseWindow.Invoke();
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
         }
     }
 }

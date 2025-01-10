@@ -1,5 +1,4 @@
-﻿
-namespace OrderManagementSystem.UIComponents.Classes
+﻿namespace OrderManagementSystem.UIComponents.Classes
 {
     public static class Constants
     {
@@ -9,7 +8,5 @@ namespace OrderManagementSystem.UIComponents.Classes
         public const int BufferSize = 25600;
         public const int HeartbeatInterval = 5000;
         public const int HeartbeatTimeout = 10000;
-
-
     }
 }

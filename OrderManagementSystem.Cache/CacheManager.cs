@@ -11,9 +11,7 @@ namespace OrderManagementSystem.Cache
         private ObservableCollection<Product> m_objProducts;
         private ObservableCollection<User> m_objUsers;
 
-        private User m_objCurrentUser;
-
-        private static CacheManager m_objInstance;
+        private static CacheManager? m_objInstance;
 
         public static CacheManager Instance
         {
@@ -22,12 +20,6 @@ namespace OrderManagementSystem.Cache
                     m_objInstance = new CacheManager();
                 return m_objInstance;
             }
-        }
-
-        public User CurrentUser
-        {
-            get { return m_objCurrentUser; }
-            set { m_objCurrentUser = value; }
         }
 
         public void LoadCategories(ObservableCollection<Category> categories)
@@ -62,31 +54,36 @@ namespace OrderManagementSystem.Cache
             m_objOrders = new ObservableCollection<Order>();
         }
 
-       
         public ObservableCollection<Category> GetAllCategories()
         {
             return m_objCategories;
         }
+
         public void AddCategory(Category category)
         {
             m_objCategories.Add(category);
         }
+
         public void DeleteCategory(Category category)
         {
-            Category categoryToDelete = m_objCategories.FirstOrDefault(c => c.Id == category.Id);
+            Category? categoryToDelete = m_objCategories.FirstOrDefault(c => c.Id == category.Id);
             if (categoryToDelete != null)
             {
                 m_objCategories.Remove(categoryToDelete);
             }
-            m_objCategories.Remove(category);
         }
+
         public void UpdateCategory(Category category)
         {
-            Category categoryToUpdate = m_objCategories.FirstOrDefault(c => c.Id == category.Id);
-            categoryToUpdate.Name = category.Name;
-            categoryToUpdate.Description = category.Description;
-            categoryToUpdate.Picture = category.Picture;
+            Category? categoryToUpdate = m_objCategories.FirstOrDefault(c => c.Id == category.Id);
+            if (categoryToUpdate != null)
+            {
+                categoryToUpdate.Name = category.Name;
+                categoryToUpdate.Description = category.Description;
+                //categoryToUpdate.Picture = category.Picture;
+            }
         }
+        
         public ObservableCollection<Order> GetAllOrders()
         {
             return m_objOrders;
@@ -99,7 +96,7 @@ namespace OrderManagementSystem.Cache
         public void UpdateOrder(Order updatedOrder)
         {
             // Retrieve the existing order with the same ID
-            Order existingOrder = m_objOrders.FirstOrDefault(o => o.Id == updatedOrder.Id);
+            Order? existingOrder = m_objOrders.FirstOrDefault(o => o.Id == updatedOrder.Id);
 
             if (existingOrder != null)
             {
@@ -114,18 +111,11 @@ namespace OrderManagementSystem.Cache
         }
         public void DeleteOrder(Order order)
         {
-            Order orderToDelete = m_objOrders.FirstOrDefault(o => o.Id == order.Id);
+            Order? orderToDelete = m_objOrders.FirstOrDefault(o => o.Id == order.Id);
             if (orderToDelete != null)
             {
                 m_objOrders.Remove(orderToDelete);
             }
-
-            // try this too later on
-            //if (m_objOrders.Contains(order))
-            //{
-            //    m_objOrders.Remove(order);
-            //}
-            //m_objOrders.Remove(order);
         }
         public ObservableCollection<Product> GetAllProducts()
         {
@@ -138,20 +128,20 @@ namespace OrderManagementSystem.Cache
         }
         public void UpdateProduct(Product product)
         {
-            Product existingProduct = m_objProducts.FirstOrDefault(p => p.Id == product.Id);
+            Product? existingProduct = m_objProducts.FirstOrDefault(p => p.Id == product.Id);
             if (existingProduct != null)
             {
                 existingProduct.Name = product.Name;
                 existingProduct.Description = product.Description;
                 existingProduct.Category = product.Category;
-                existingProduct.Picture = product.Picture;
+                //existingProduct.Picture = product.Picture;
                 existingProduct.UnitPrice = product.UnitPrice;
                 existingProduct.UnitsInStock = product.UnitsInStock;
             }
         }
         public void DeleteProduct(Product product)
         {
-            Product productToDelete = m_objProducts.FirstOrDefault(p => p.Id == product.Id);
+            Product? productToDelete = m_objProducts.FirstOrDefault(p => p.Id == product.Id);
             if (productToDelete != null)
             {
                 m_objProducts.Remove(productToDelete);
@@ -161,6 +151,7 @@ namespace OrderManagementSystem.Cache
         public ObservableCollection<User> GetAllUsers()
         {
             return m_objUsers;
+            
         }
 
         public void AddUser(User user)
@@ -171,7 +162,7 @@ namespace OrderManagementSystem.Cache
         
         public void UpdateUser(User user)
         {
-            User existingUser = m_objUsers.FirstOrDefault(u => u.Id == user.Id);
+            User? existingUser = m_objUsers.FirstOrDefault(u => u.Id == user.Id);
             if (existingUser != null)
             {
                 existingUser.Name = user.Name;
@@ -179,15 +170,16 @@ namespace OrderManagementSystem.Cache
                 existingUser.Phone = user.Phone;
                 existingUser.Password = user.Password;
                 existingUser.IsAdmin = user.IsAdmin;
+                existingUser.ApprovalStatus = user.ApprovalStatus;
             }
         }
 
         public void DeleteUser(User user)
         {
-            User userToDelete = m_objUsers.FirstOrDefault(u => u.Id == user.Id);
+            User? userToDelete = m_objUsers.FirstOrDefault(u => u.Id == user.Id);
             if (userToDelete != null)
             {
-                m_objUsers.Remove(userToDelete);
+                userToDelete.IsArchived = true;
             }            
         }
 

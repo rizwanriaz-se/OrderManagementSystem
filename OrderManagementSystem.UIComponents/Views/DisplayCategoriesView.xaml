@@ -13,20 +13,20 @@
             <dxg1:TableView ShowGroupPanel="False"   VerticalScrollbarVisibility="Auto">
                 <dxg1:TableView.RowCellMenuCustomizations>
                     <dxb:BarButtonItem Name="editRowItem" Content="Edit"
-                       IsEnabled="{Binding Row.Row.CanBeDeleted}"
-                       Command="{Binding DataContext.EditCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
+                                       IsVisible="{Binding CurrentUser.IsAdmin}"
+                                       Command="{Binding DataContext.EditCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
                     <dxb:BarButtonItem Name="deleteRowItem" Content="Delete"
-                       IsEnabled="{Binding Row.Row.CanBeDeleted}"
-                       Command="{Binding DataContext.DeleteCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}"
-                       CommandParameter="{Binding Row.Row.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
+                                       IsVisible="{Binding CurrentUser.IsAdmin}"
+                                       Command="{Binding DataContext.DeleteCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}"
+                                       CommandParameter="{Binding Row.Row.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
                 </dxg1:TableView.RowCellMenuCustomizations>
                 <dxg1:TableView.RowStyle>
                     <Style TargetType="{x:Type dxg1:RowControl}">
-                        <Setter Property="Foreground" Value="#FFFFFF" />
-
+                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="BorderBrush" Value="Gray" />
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#4C8BF5"/>
+                                <Setter Property="Background" Value="Gray"/>
                             </Trigger>
                             <Trigger Property="SelectionState" Value="Focused">
                                 <Setter Property="Background" Value="#2C2C2C" />
@@ -39,6 +39,7 @@
 
                 <dxg1:TableView.CellStyle>
                     <Style TargetType="dxg1:LightweightCellEditor">
+                        <Setter Property="BorderBrush" Value="Gray" />
                         <Style.Triggers>
                             <Trigger Property="IsFocusedCell" Value="True">
                                 <Setter Property="Background" Value="Transparent"/>

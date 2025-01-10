@@ -3,6 +3,7 @@ using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.Views;
 using OrderManagementSystemServer.Repository;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -10,18 +11,18 @@ namespace OrderManagementSystem.UIComponents.ViewModels
     {
         private object m_objCurrentView;
 
-        public RelayCommand ViewOrderCommand { get; set; }
-        public RelayCommand AddOrderCommand { get; set; }
-        public RelayCommand DeleteOrderCommand { get; set; }
+        public ICommand ViewOrderCommand { get; set; }
+        public ICommand AddOrderCommand { get; set; }
+        public ICommand DeleteOrderCommand { get; set; }
 
-        public RelayCommand ViewCategoryCommand { get; set; }
-        public RelayCommand AddCategoryCommand { get; set; }
+        public ICommand ViewCategoryCommand { get; set; }
+        public ICommand AddCategoryCommand { get; set; }
 
-        public RelayCommand ViewProductCommand { get; set; }
-        public RelayCommand AddProductCommand { get; set; }
+        public ICommand ViewProductCommand { get; set; }
+        public ICommand AddProductCommand { get; set; }
 
-        public RelayCommand ViewUserCommand { get; set; }
-        public RelayCommand AddUserCommand { get; set; }
+        public ICommand ViewUserCommand { get; set; }
+        public ICommand AddUserCommand { get; set; }
 
 
 
@@ -56,14 +57,14 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             // Set the default view
             CurrentView = new DisplayOrdersView();
-            ViewOrderCommand = new RelayCommand(ExecuteViewOrder, CanExecuteViewOrder);
-            AddOrderCommand = new RelayCommand(ExecuteAddOrder, CanExecuteAddOrder);
-            ViewCategoryCommand = new RelayCommand(ExecuteViewCategory, CanExecuteViewCategory);
-            AddCategoryCommand = new RelayCommand(ExecuteAddCategory, CanExecuteAddCategory);
-            ViewProductCommand = new RelayCommand(ExecuteViewProduct, CanExecuteViewProduct);
-            AddProductCommand = new RelayCommand(ExecuteAddProduct, CanExecuteAddProduct);
-            ViewUserCommand = new RelayCommand(ExecuteViewUser, CanExecuteViewUser);
-            AddUserCommand = new RelayCommand(ExecuteAddUser, CanExecuteAddUser);
+            ViewOrderCommand = new RelayCommand(ExecuteViewOrder);
+            AddOrderCommand = new RelayCommand(ExecuteAddOrder);
+            ViewCategoryCommand = new RelayCommand(ExecuteViewCategory);
+            AddCategoryCommand = new RelayCommand(ExecuteAddCategory);
+            ViewProductCommand = new RelayCommand(ExecuteViewProduct);
+            AddProductCommand = new RelayCommand(ExecuteAddProduct);
+            ViewUserCommand = new RelayCommand(ExecuteViewUser);
+            AddUserCommand = new RelayCommand(ExecuteAddUser);
             CurrentUser = GUIHandler.Instance.CurrentUser;
         }
 
@@ -71,10 +72,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             CurrentView = new DisplayUsersView();
         }
-        public bool CanExecuteViewUser(object arg)
-        {
-            return true;
-        }
+       
         public void ExecuteAddUser(object obj)
         {
             AddUserView addUserView = new AddUserView();
@@ -82,18 +80,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             addUserView.ShowDialog();
         }
-        public bool CanExecuteAddUser(object arg)
-        {
-            return true;
-        }
+    
         public void ExecuteViewProduct(object obj)
         {
             CurrentView = new DisplayProductsView();
         }
-        public bool CanExecuteViewProduct(object arg)
-        {
-            return true;
-        }
+     
         public void ExecuteAddProduct(object obj)
         {
             AddProductView addProductView = new AddProductView();
@@ -101,19 +93,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             addProductView.ShowDialog();
         }
-        public bool CanExecuteAddProduct(object arg)
-        {
-            return true;
-        }
-
+    
         public void ExecuteViewOrder(object obj)
         {
             CurrentView = new DisplayOrdersView();
         }
-        public bool CanExecuteViewOrder(object arg)
-        {
-            return true;
-        }
+        
         public void ExecuteAddOrder(object obj)
         {
             AddOrderView addOrderView = new AddOrderView();
@@ -121,19 +106,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             addOrderView.ShowDialog();
         }
-        public bool CanExecuteAddOrder(object arg)
-        {
-            return true;
-        }
+       
 
         public void ExecuteViewCategory(object obj)
         {
             CurrentView = new DisplayCategoriesView();
         }
-        public bool CanExecuteViewCategory(object arg)
-        {
-            return true;
-        }
+     
         public void ExecuteAddCategory(object obj)
         {
             AddCategoryView addCategoryView = new AddCategoryView();
@@ -141,11 +120,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             addCategoryView.ShowDialog();
         }
-        public bool CanExecuteAddCategory(object arg)
-        {
-            return true;
-        }
-
+    
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void SwitchToOrdersView()

@@ -31,7 +31,7 @@ namespace OrderManagementSystem.UIComponents.Views
             m_objEditOrderViewModel.OrderDate = SelectedOrder.OrderDate;
             m_objEditOrderViewModel.SelectedShippingDate = SelectedOrder.ShippedDate;
             m_objEditOrderViewModel.SelectedStatus = SelectedOrder.Status;
-            m_objEditOrderViewModel.SelectedShippingAddress = SelectedOrder.ShippingAddress ?? throw new ArgumentNullException(nameof(SelectedOrder.ShippingAddress));
+            m_objEditOrderViewModel.SelectedShippingAddress = SelectedOrder.ShippingAddress;
             m_objEditOrderViewModel.OrderDetails = new ObservableCollection<OrderDetail>(SelectedOrder.OrderDetails.Select(od =>
                 new OrderDetail
                 {
@@ -41,7 +41,7 @@ namespace OrderManagementSystem.UIComponents.Views
 
             
 
-            m_objEditOrderViewModel.OrderDetails.CollectionChanged += (s, e) => m_objEditOrderViewModel.SaveOrderCommand.RaiseCanExecuteEventChanged();
+            //m_objEditOrderViewModel.OrderDetails.CollectionChanged += (s, e) => m_objEditOrderViewModel.SaveOrderCommand.RaiseCanExecuteEventChanged();
         }
     }
 }

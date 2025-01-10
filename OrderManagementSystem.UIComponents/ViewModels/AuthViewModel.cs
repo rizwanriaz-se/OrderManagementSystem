@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using DevExpress.XtraRichEdit.Fields.Expression;
 using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.Views;
@@ -8,6 +9,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Input;
 using static OrderManagementSystemServer.Repository.User;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -28,7 +30,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             [Required(ErrorMessage = "Password is required")]
             public string PasswordLoginText { get; set; }
-           
         }
 
         public class RegisterInfo
@@ -60,7 +61,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             {
                 m_objRegisterInfo.NameRegisterText = value;
                 OnPropertyChanged(nameof(m_objRegisterInfo.NameRegisterText));
-                ValidateRegister(nameof(m_objRegisterInfo.NameRegisterText), m_objRegisterInfo.NameRegisterText, m_objRegisterInfo);
+                //ValidateRegister(nameof(m_objRegisterInfo.NameRegisterText), m_objRegisterInfo.NameRegisterText, m_objRegisterInfo);
             }
         }
 
@@ -86,7 +87,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        [Required(ErrorMessage = "Role must be selected.")]
         public string SelectedLoginRole
         {
             get => m_objLoginInfo.SelectedLoginRole;
@@ -95,11 +95,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 m_objLoginInfo.SelectedLoginRole = value;
                 OnPropertyChanged(nameof(m_objLoginInfo.SelectedLoginRole));
                 IsRegisterTabVisible = m_objLoginInfo.SelectedLoginRole == "Employee";
-                ValidateLogin(nameof(m_objLoginInfo.SelectedLoginRole), m_objLoginInfo.SelectedLoginRole, m_objLoginInfo);
+                
             }
         }
 
-        [Required(ErrorMessage = "Email is required")]
         public string EmailLoginText
         {
             get { return m_objLoginInfo.EmailLoginText; }
@@ -107,11 +106,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             {
                 m_objLoginInfo.EmailLoginText = value;
                 OnPropertyChanged(nameof(m_objLoginInfo.EmailLoginText));
-                ValidateLogin(nameof(m_objLoginInfo.EmailLoginText), m_objLoginInfo.EmailLoginText, m_objLoginInfo);
+              
             }
         }
 
-        [Required(ErrorMessage = "Password is required")]
         public string PasswordLoginText
         {
             get { return m_objLoginInfo.PasswordLoginText; }
@@ -119,7 +117,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             {
                 m_objLoginInfo.PasswordLoginText = value;
                 OnPropertyChanged(nameof(m_objLoginInfo.PasswordLoginText));
-                ValidateLogin(nameof(m_objLoginInfo.PasswordLoginText), m_objLoginInfo.PasswordLoginText, m_objLoginInfo);
+               
             }
         }
         public int SelectedTabIndex
@@ -136,7 +134,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
        
 
-        [Required(ErrorMessage = "Email is required")]
         public string EmailRegisterText
         {
             get { return m_objRegisterInfo.EmailRegisterText; }
@@ -148,7 +145,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        [Required(ErrorMessage = "Phone number is required")]
         public string PhoneRegisterText
         {
             get { return m_objRegisterInfo.PhoneRegisterText; }
@@ -160,8 +156,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        [Required(ErrorMessage = "Password is required")]
-        //[PasswordPropertyText(true)]
+
         public string PasswordRegisterText
         {
             get { return m_objRegisterInfo.PasswordRegisterText; }
@@ -193,7 +188,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return null;
         }
 
-        public void ValidateRegister(string propertyName, object propertyValue, object validationObject)
+        public bool ValidateRegister(string propertyName, object propertyValue, object validationObject)
         {
             var results = new List<ValidationResult>();
             var context = new ValidationContext(validationObject) { MemberName = propertyName };
@@ -209,10 +204,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            RegisterUserCommand.RaiseCanExecuteEventChanged();
+            //RegisterUserCommand.RaiseCanExecuteEventChanged();
+
+            return RegisterErrors.ContainsKey(propertyName);
         }
 
-        public void ValidateLogin(string propertyName, object propertyValue, object validationObject)
+        public bool ValidateLogin(string propertyName, object propertyValue, object validationObject)
         {
             var results = new List<ValidationResult>();
             var context = new ValidationContext(validationObject) { MemberName = propertyName };
@@ -228,7 +225,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            LoginUserCommand.RaiseCanExecuteEventChanged();
+            //LoginUserCommand.RaiseCanExecuteEventChanged();
+
+            return LoginErrors.ContainsKey(propertyName);
         }
 
         public User CurrentUser
@@ -237,57 +236,95 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set { m_User = value; OnPropertyChanged(nameof(CurrentUser)); }
         }
         public bool RoleChecked { get; set; }
-        public RelayCommand RegisterUserCommand { get; set; }
-        public RelayCommand LoginUserCommand { get; set; }
+        public ICommand RegisterUserCommand { get; set; }
+        public ICommand LoginUserCommand { get; set; }
+
+        public ICommand NavigateToLoginCommand { get; }
+        public ICommand NavigateToRegisterCommand { get; }
 
         public AuthViewModel()
         {
-            RegisterUserCommand = new RelayCommand(RegisterUser, CanRegisterUser);
-            LoginUserCommand = new RelayCommand(LoginUser, CanLoginUser);
+            SelectedTabIndex = 0;
+
+            RegisterUserCommand = new RelayCommand(RegisterUser);
+            LoginUserCommand = new RelayCommand(LoginUser);
+
+            NavigateToLoginCommand = new RelayCommand(NavigateToLogin);
+            NavigateToRegisterCommand = new RelayCommand(NavigateToRegister);
         }
 
-        private bool CanLoginUser(object obj)
+       
+
+        private void NavigateToRegister(object obj)
         {
-            return Validator.TryValidateObject(m_objLoginInfo, new ValidationContext(m_objLoginInfo), null, true);
+            SelectedTabIndex = 1;
         }
 
+      
+
+        private void NavigateToLogin(object obj)
+        {
+            SelectedTabIndex = 0;
+        }
+
+       
         private void LoginUser(object obj)
         {
-
-
-
-            User user = GUIHandler.Instance.CacheManager.GetAllUsers().FirstOrDefault(u =>
-                u.Email == EmailLoginText &&
-                CompareHashValues(u.Password, PasswordLoginText) &&
-                u.IsAdmin == (SelectedLoginRole == "Admin")
-                );
-            if (user != null)
+            try
             {
-                if (SelectedLoginRole == "Employee" && user.ApprovalStatus != ApprovalStates.Approved)
+                User? user = GUIHandler.Instance.CacheManager.GetAllUsers().FirstOrDefault(u =>
+                        u.Email == EmailLoginText &&
+                        u.IsArchived == false &&
+                        CompareHashValues(u.Password, PasswordLoginText) &&
+                        u.IsAdmin == (SelectedLoginRole == "Admin")
+                        );
+                
+                if (ValidateLogin(nameof(m_objLoginInfo.EmailLoginText), m_objLoginInfo.EmailLoginText, m_objLoginInfo) || ValidateLogin(nameof(m_objLoginInfo.PasswordLoginText), m_objLoginInfo.PasswordLoginText, m_objLoginInfo) || ValidateLogin(nameof(m_objLoginInfo.SelectedLoginRole), m_objLoginInfo.SelectedLoginRole, m_objLoginInfo))
                 {
-                    DXMessageBox.Show($"Login failed. Your account is {user.ApprovalStatus}.", "Error");
-                    return;
+                    var errors = LoginErrors.SelectMany(o => o.Value);
+
+                    throw new Exception(string.Join('\n', errors));
+
                 }
-                GUIHandler.Instance.CurrentUser = user;
+                if (user != null)
+                {
+                    if (SelectedLoginRole == "Employee" && user.ApprovalStatus != ApprovalStates.Approved)
+                    {
+                        throw new Exception($"Login failed. Your account approval status is:  {user.ApprovalStatus}.");
+                    }
 
-                var mainWindow = new MainWindow();
-                mainWindow.Show();
+                   
 
-                CloseWindow.Invoke();
+                    GUIHandler.Instance.CurrentUser = user;
+
+                    var mainWindow = new MainWindow();
+                    mainWindow.Show();
+
+                    CloseWindow.Invoke();
+                }
+                else
+                {
+                    throw new Exception("No user found with these credentials.");
+                   
+                }
             }
-            else
+            catch (Exception ex)
             {
-                DXMessageBox.Show("No user found with these credentials.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
             }
         }
 
-        private bool CanRegisterUser(object obj)
-        {
-            return Validator.TryValidateObject(m_objRegisterInfo, new ValidationContext(m_objRegisterInfo), null, true);
-        }
-
+     
         private void RegisterUser(object obj)
         {
+            try { 
+                if (ValidateRegister(nameof(m_objRegisterInfo.EmailRegisterText), m_objRegisterInfo.EmailRegisterText, m_objRegisterInfo) || ValidateRegister(nameof(m_objRegisterInfo.PhoneRegisterText), m_objRegisterInfo.PhoneRegisterText, m_objRegisterInfo) || ValidateRegister(nameof(m_objRegisterInfo.PasswordRegisterText), m_objRegisterInfo.PasswordRegisterText, m_objRegisterInfo) || ValidateRegister(nameof(m_objRegisterInfo.NameRegisterText), m_objRegisterInfo.NameRegisterText, m_objRegisterInfo)){
+                    var errors = RegisterErrors.SelectMany(e => e.Value);
+                    throw new Exception(string.Join('\n', errors));
+                }
+
+
             var user = new User
             {
                 Id = GUIHandler.Instance.CacheManager.GetAllUsers().Last().Id + 1,
@@ -296,12 +333,18 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Phone = PhoneRegisterText,
                 Password = PasswordRegisterText,
                 IsAdmin = false,
-                ApprovalStatus = ApprovalStates.Pending // Default to Pending
-
+                IsArchived = false,
+                ApprovalStatus = User.ApprovalStates.Pending // Default to Pending
             };
-           
+
+
             MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Add, user);
-            
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
 
         }
 

@@ -29,7 +29,7 @@ namespace OrderManagementSystem.UIComponents.Views
             m_objEditProductViewModel.ProductDescriptionText = SelectedProduct.Description;
             m_objEditProductViewModel.ProductUnitPriceText = SelectedProduct.UnitPrice;
             m_objEditProductViewModel.SelectedCategory = m_objEditProductViewModel.Categories.FirstOrDefault(c => c.Id == SelectedProduct.Category.Id);
-            m_objEditProductViewModel.Picture = SelectedProduct.Picture;
+            //m_objEditProductViewModel.Picture = SelectedProduct.Picture;
             m_objEditProductViewModel.ProductUnitsInStockText = SelectedProduct.UnitsInStock;
         }
     }

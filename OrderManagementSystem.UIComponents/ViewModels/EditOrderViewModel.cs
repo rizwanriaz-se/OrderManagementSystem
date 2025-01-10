@@ -1,10 +1,12 @@
-﻿using OrderManagementSystem.UIComponents.Classes;
+﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystemServer.Repository;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Windows.Input;
 using static OrderManagementSystemServer.Repository.Order;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -14,16 +16,16 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public Action CloseWindow { get; set; }
         public ObservableCollection<Product> AllProducts { get; private set; }
 
-        public RelayCommand AddProductCommand { get; set; }
-        public RelayCommand RemoveProductCommand { get; set; }
-        public RelayCommand SaveOrderCommand { get; set; }
+        public ICommand AddProductCommand { get; set; }
+        public ICommand RemoveProductCommand { get; set; }
+        public ICommand SaveOrderCommand { get; set; }
 
         public EditOrderViewModel()
         {
             AllProducts = GUIHandler.Instance.CacheManager.GetAllProducts();
-            AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);
-            RemoveProductCommand = new RelayCommand(RemoveOrderDetails, CanRemoveOrderDetails);
-            SaveOrderCommand = new RelayCommand(SaveOrder, CanSaveOrder);
+            AddProductCommand = new RelayCommand(AddOrderDetails);
+            RemoveProductCommand = new RelayCommand(RemoveOrderDetails);
+            SaveOrderCommand = new RelayCommand(SaveOrder);
             SelectableStatuses = new ObservableCollection<OrderStatus>(
                  Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>()
                  .Where(status => status != OrderStatus.Pending)
@@ -116,7 +118,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return null;
         }
 
-        public void Validate(string propertyName, object propertyValue)
+        public bool Validate(string propertyName, object propertyValue)
         {
             var results = new List<ValidationResult>();
             var context = new ValidationContext(this) { MemberName = propertyName };
@@ -132,7 +134,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            SaveOrderCommand.RaiseCanExecuteEventChanged();
+            //SaveOrderCommand.RaiseCanExecuteEventChanged();
+
+            return Errors.ContainsKey(propertyName);
         }
 
         private void RemoveOrderDetails(object orderDetails)
@@ -143,47 +147,56 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void AddOrderDetails(object obj)
         {
             var newOrderDetail = new OrderDetail { Quantity = 1 };
-            newOrderDetail.PropertyChanged += (s, e) => SaveOrderCommand.RaiseCanExecuteEventChanged();
+            //newOrderDetail.PropertyChanged += (s, e) => SaveOrderCommand.RaiseCanExecuteEventChanged();
             OrderDetails.Add(newOrderDetail);
-        }
-
-        private bool CanSaveOrder(object obj)
-        {
-            return Validator.TryValidateObject(this, new ValidationContext(this), null, true) && OrderDetails.Count > 0 && OrderDetails.All(order =>
-            {
-                return order.Product != null && order.Quantity > 0;
-            });
-        }
-        private bool CanAddOrderDetails(object obj)
-        {
-            return true;
-        }
-        private bool CanRemoveOrderDetails(object obj)
-        {
-            return true;
         }
 
         private void SaveOrder(object obj)
         {
 
-            // Logic to save the updated order
-            Order _order = new Order();
-            _order.Id = Id;
-            _order.User = User;
-            _order.OrderDate = OrderDate;
-            _order.Status = SelectedStatus;
-            _order.ShippedDate = SelectedShippingDate;
-            _order.ShippingAddress = SelectedShippingAddress;
-            _order.OrderDetails = new ObservableCollection<OrderDetail>(OrderDetails);
+            try
+            {
+                if (OrderDetails.Count <= 0)
+                {
+                    throw new Exception("Please add some products before proceeding.");
+                  
+                }
 
-            // Update the order in the database or collection
-            MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Update, _order);
+                if (!OrderDetails.All(order => order.Product != null && order.Quantity > 0))
+                {
+                    throw new Exception("Products and their respective quantity should not be empty.");
+                    
+                }
 
-            // Close the window
-            CloseWindow?.Invoke();
+                if (Validate(nameof(SelectedShippingAddress), m_stSelectedShippingAddress) || Validate(nameof(SelectedStatus), m_objSelectedStatus) || Validate(nameof(SelectedShippingDate), m_objSelectedShippingDate))
+                {
+
+                    var errors = Errors.SelectMany(o => o.Value);
+
+                    throw new Exception(string.Join('\n', errors));
+
+                }
+
+                // Logic to save the updated order
+                Order _order = new Order();
+                _order.Id = Id;
+                _order.User = User;
+                _order.OrderDate = OrderDate;
+                _order.Status = SelectedStatus;
+                _order.ShippedDate = SelectedShippingDate;
+                _order.ShippingAddress = SelectedShippingAddress;
+                _order.OrderDetails = new ObservableCollection<OrderDetail>(OrderDetails);
+
+                // Update the order in the database or collection
+                MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Update, _order);
+
+                // Close the window
+                CloseWindow?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;            }
         }
     }
 }
-
-//Todo:
-// Look for situations when order date would need to be updated

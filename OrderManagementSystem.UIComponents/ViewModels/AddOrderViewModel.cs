@@ -1,4 +1,5 @@
-﻿using OrderManagementSystem.UIComponents.Classes;
+﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystemServer.Repository;
 using System.Collections;
@@ -6,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Windows;
+using System.Windows.Input;
 using static OrderManagementSystemServer.Repository.Order;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -18,15 +20,15 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         // Declare properties for data bindings
         private OrderStatus m_objSelectedStatus;
-        private string m_objSelectedShippingAddress;
+        private string m_stSelectedShippingAddress;
         private DateTime m_objSelectedShippingDate = DateTime.Now;
         private User m_objSelectedUser;
 
 
         // Declare Commands
-        public RelayCommand AddProductCommand { get; set; }
-        public RelayCommand RemoveProductCommand { get; set; }
-        public RelayCommand SubmitOrderCommand { get; set; }
+        public ICommand AddProductCommand { get; set; }
+        public ICommand RemoveProductCommand { get; set; }
+        public ICommand SubmitOrderCommand { get; set; }
 
         // Declare Observable Collections for data bindings
         public ObservableCollection<OrderDetail> OrderDetails { get; set; } = new ObservableCollection<OrderDetail>();
@@ -68,21 +70,17 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             {
                 m_objSelectedStatus = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedStatus)));
-                Validate(nameof(SelectedStatus), m_objSelectedStatus);
-
             }
         }
 
         [Required(ErrorMessage = "Shipping Address is required")]
         public string SelectedShippingAddress
         {
-            get { return m_objSelectedShippingAddress; }
+            get { return m_stSelectedShippingAddress; }
             set
             {
-                m_objSelectedShippingAddress = value;
+                m_stSelectedShippingAddress = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedShippingAddress)));
-                Validate(nameof(SelectedShippingAddress), m_objSelectedShippingAddress);
-
             }
         }
 
@@ -97,8 +95,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             {
                 m_objSelectedShippingDate = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedShippingDate)));
-                Validate(nameof(SelectedShippingDate), m_objSelectedShippingDate);
-
             }
         }
 
@@ -115,7 +111,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return null;
         }
 
-        public void Validate(string propertyName, object propertyValue)
+        public bool Validate(string propertyName, object propertyValue)
         {
             var results = new List<ValidationResult>();
             var context = new ValidationContext(this) { MemberName = propertyName };
@@ -131,7 +127,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            SubmitOrderCommand.RaiseCanExecuteEventChanged();
+            //SubmitOrderCommand.RaiseCanExecuteEventChanged();
+
+            return Errors.ContainsKey(propertyName);
         }
 
        
@@ -147,16 +145,20 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             if (CurrentUser == null)
             {
                 // Handle the case where CurrentUser is null
-                System.Windows.MessageBox.Show("Current user is not set.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                DXMessageBox.Show("Current user is not set.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            AddProductCommand = new RelayCommand(AddOrderDetails, CanAddOrderDetails);
-            RemoveProductCommand = new RelayCommand(RemoveOrderDetails, CanRemoveOrderDetails);
-            SubmitOrderCommand = new RelayCommand(SubmitOrder, CanSubmitOrder);
+            AddProductCommand = new RelayCommand(AddOrderDetails);
+            RemoveProductCommand = new RelayCommand(RemoveOrderDetails);
+            SubmitOrderCommand = new RelayCommand(SubmitOrder);
+
+            AddProductCommand = new RelayCommand(AddOrderDetails);
+            RemoveProductCommand = new RelayCommand(RemoveOrderDetails);
+            SubmitOrderCommand = new RelayCommand(SubmitOrder);
             
             // Subscribe to OrderDetails changes
-            OrderDetails.CollectionChanged += (s, e) => SubmitOrderCommand.RaiseCanExecuteEventChanged();
+            //OrderDetails.CollectionChanged += (s, e) => SubmitOrderCommand.RaiseCanExecuteEventChanged();
         }
         #endregion
 
@@ -164,29 +166,52 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         // Command Action to Submit Order
         private void SubmitOrder(object obj)
         {
-            // Get the last order Id to generate new order Id
-            int? lastOrderId = GUIHandler.Instance.CacheManager.GetAllOrders().Last().Id;
-
-            // Create new Order object
-            Order order = new Order
+            try
             {
-                Id = lastOrderId + 1,
-                User = CurrentUser,
-                OrderDate = DateTime.Now,
-                Status = OrderStatus.Pending,
-                OrderDetails = OrderDetails,
-                ShippedDate = m_objSelectedShippingDate,
-                ShippingAddress = m_objSelectedShippingAddress
-            };
+                int? lastOrderId = GUIHandler.Instance.CacheManager.GetAllOrders().Last().Id;
 
-            // Add the new order to the OrderManager
-            MessageProcessor.SendMessage(
-                Enums.MessageType.Order,
-                Enums.MessageAction.Add,
-                order
-            );
-            // Close the Add Order View window
-            CloseWindow?.Invoke();
+                if (OrderDetails.Count <= 0)
+                {
+                    throw new Exception("Please add some products before proceeding.");
+                }
+
+                if (!OrderDetails.All(order => order.Product != null && order.Quantity > 0))
+                {
+                    throw new Exception("Products and their respective quantity should not be empty.");
+                }
+
+                if (Validate(nameof(SelectedShippingAddress), m_stSelectedShippingAddress) || Validate(nameof(SelectedStatus), m_objSelectedStatus) || Validate(nameof(SelectedShippingDate), m_objSelectedShippingDate))
+                {
+
+                    var errors = Errors.SelectMany(o => o.Value);
+
+                    throw new Exception(string.Join('\n', errors));
+                }
+
+                Order order = new Order
+                {
+                    Id = lastOrderId + 1,
+                    User = CurrentUser,
+                    OrderDate = DateTime.Now,
+                    Status = OrderStatus.Pending,
+                    OrderDetails = OrderDetails,
+                    ShippedDate = m_objSelectedShippingDate,
+                    ShippingAddress = m_stSelectedShippingAddress
+                };
+
+                MessageProcessor.SendMessage(
+                    Enums.MessageType.Order,
+                    Enums.MessageAction.Add,
+                    order
+                );
+
+                CloseWindow?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
 
         // Command Actions for adding and removing Product Rows
@@ -198,26 +223,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void AddOrderDetails(object obj)
         {
             var newOrderDetail = new OrderDetail { Quantity = 1 };
-            newOrderDetail.PropertyChanged += (s, e) => SubmitOrderCommand.RaiseCanExecuteEventChanged();
+            //newOrderDetail.PropertyChanged += (s, e) => SubmitOrderCommand.RaiseCanExecuteEventChanged();
             OrderDetails.Add(newOrderDetail);
-        }
-
-        // Command Predicates for Submit Order, Add Product Row and Remove Product Row
-        private bool CanSubmitOrder(object obj)
-        { 
-            bool isValid = Validator.TryValidateObject(this, new ValidationContext(this), null, true);
-
-            bool hasValidOrderDetails = OrderDetails.Count > 0 && OrderDetails.All(order => order.Product != null && order.Quantity > 0);
-
-            return isValid && hasValidOrderDetails;
-        }
-        private bool CanAddOrderDetails(object obj)
-        {
-            return true;
-        }
-        private bool CanRemoveOrderDetails(object obj)
-        {
-            return true;
         }
         #endregion
     }

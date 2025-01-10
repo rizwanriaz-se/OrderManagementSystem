@@ -1,4 +1,5 @@
-﻿using OrderManagementSystem.Cache;
+﻿using DevExpress.Xpf.Core;
+using OrderManagementSystem.Cache;
 using OrderManagementSystemServer.Repository;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -12,7 +13,7 @@ namespace OrderManagementSystem.UIComponents.Classes
     {
         public Enums.MessageType MessageType { get; set; }
         public Enums.MessageAction MessageAction { get; set; }
-        public object Data { get; set; }
+        public object? Data { get; set; }
     }
 
     public class Response
@@ -28,7 +29,7 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         public MessageProcessor() { }
 
-        public static void SendMessage(Enums.MessageType messageType, Enums.MessageAction messageAction, object message = null)
+        public static void SendMessage(Enums.MessageType messageType, Enums.MessageAction messageAction, object? message = null)
         {
             Request request = new Request
             {
@@ -64,6 +65,10 @@ namespace OrderManagementSystem.UIComponents.Classes
                             CacheManager.Instance.DeleteCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Load:
+                            if (response.Data == null)
+                            {
+                                throw new Exception("Error trying to load data from server. Please try again.");
+                            }
                             ObservableCollection<Category> categories = JsonSerializer.Deserialize<ObservableCollection<Category>>(response.Data.ToString());
                             CacheManager.Instance.LoadCategories(categories);
                             break;
@@ -77,7 +82,7 @@ namespace OrderManagementSystem.UIComponents.Classes
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error in Client MessageProcessor ProcessCategoryMessage", ex.Message);
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
 
@@ -100,6 +105,10 @@ namespace OrderManagementSystem.UIComponents.Classes
                             CacheManager.Instance.UpdateOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Load:
+                            if (response.Data == null)
+                            {
+                                throw new Exception("Error trying to load data from server. Please try again.");
+                            }
                             ObservableCollection<Order> orders = JsonSerializer.Deserialize<ObservableCollection<Order>>(response.Data.ToString());
                             CacheManager.Instance.LoadOrders(orders);
                             break;
@@ -111,7 +120,7 @@ namespace OrderManagementSystem.UIComponents.Classes
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error in Client MessageProcessor ProcessOrderMessage", ex.Message);
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
 
@@ -134,7 +143,11 @@ namespace OrderManagementSystem.UIComponents.Classes
                             CacheManager.Instance.UpdateProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Load:
-                            ObservableCollection<Product> products = JsonSerializer.Deserialize<ObservableCollection<Product>>(response.Data.ToString());
+                            if (response.Data == null)
+                            {
+                                throw new Exception("Error trying to load data from server. Please try again.");
+                            }
+                                ObservableCollection<Product> products = JsonSerializer.Deserialize<ObservableCollection<Product>>(response.Data.ToString());
                             CacheManager.Instance.LoadProducts(products);
                             break;
                     }
@@ -144,7 +157,7 @@ namespace OrderManagementSystem.UIComponents.Classes
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error in Client MessageProcessor ProcessProductMessage", ex.Message);
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
 
@@ -166,6 +179,9 @@ namespace OrderManagementSystem.UIComponents.Classes
                             CacheManager.Instance.UpdateUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Load:
+                            if (response.Data == null) {
+                                throw new Exception("Error trying to load data from server. Please try again.");
+                            }
                             ObservableCollection<User> users = JsonSerializer.Deserialize<ObservableCollection<User>>(response.Data.ToString());
                             CacheManager.Instance.LoadUsers(users);
                             break;
@@ -176,7 +192,7 @@ namespace OrderManagementSystem.UIComponents.Classes
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error in Client MessageProcessor ProcessUserMessage", ex.Message);
+                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
     }

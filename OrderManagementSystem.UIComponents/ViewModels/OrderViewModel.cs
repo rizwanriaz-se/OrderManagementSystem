@@ -6,6 +6,7 @@ using OrderManagementSystemServer.Repository;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
@@ -19,8 +20,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public RelayCommand EditOrderCommand { get; set; }
-        public RelayCommand DeleteOrderCommand { get; set; }
+        public ICommand EditOrderCommand { get; set; }
+        public ICommand DeleteOrderCommand { get; set; }
 
 
         private Order m_objSelectedOrder;
@@ -40,8 +41,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             Orders = GUIHandler.Instance.CacheManager.GetAllOrders();
 
-            EditOrderCommand = new RelayCommand(ExecuteEditOrder, CanExecuteEditOrder);
-            DeleteOrderCommand = new RelayCommand(ExecuteDeleteOrder, CanExecuteDeleteOrder);
+            EditOrderCommand = new RelayCommand(ExecuteEditOrder);
+            DeleteOrderCommand = new RelayCommand(ExecuteDeleteOrder);
         }
 
         private void ExecuteEditOrder(object obj)
@@ -59,20 +60,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 DXMessageBox.Show("Select a valid order to edit.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private bool CanExecuteEditOrder(object obj)
-        {
-            return SelectedOrder != null;
-        }
-
+    
         private void ExecuteDeleteOrder(object obj)
         {
             MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Delete, SelectedOrder);
         }
 
-        private bool CanExecuteDeleteOrder(object obj)
-        {
-            return SelectedOrder != null;
-        }
+   
 
     }
 }

@@ -6,7 +6,7 @@
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Edit Category" Height="400" Width="400"
-    Background="Black" Margin="0" Padding="0">
+    Background="LightGray" Margin="0" Padding="0">
     <dx:ThemedWindow.Resources>
         <Style TargetType="StackPanel">
             <Setter Property="HorizontalAlignment" Value="Left" />
@@ -46,14 +46,7 @@
             </dxlc:LayoutItem>
 
             <dxlc:LayoutItem>
-                <StackPanel>
-                    <Label Content="Image" />
-                </StackPanel>
-            </dxlc:LayoutItem>
-
-
-            <dxlc:LayoutItem>
-                <dx:SimpleButton Content="Submit Category" Width="140" Command="{Binding SaveCategoryCommand}" />
+                <dx:SimpleButton Content="Save Category" Width="140" Command="{Binding SaveCategoryCommand}" />
             </dxlc:LayoutItem>
 
 

@@ -8,14 +8,12 @@ namespace OrderManagementSystem.UIComponents.Views
     /// </summary>
     public partial class MainWindow : ThemedWindow
     {
-
         public MainWindow()
         {
             InitializeComponent();
 
             AuthViewModel authViewModel = new AuthViewModel();
             this.DataContext = authViewModel;
-
         }
 
     }

@@ -12,80 +12,81 @@
 
     <UserControl.Resources>
         <Style TargetType="dxb:BarButtonItemLinkControl">
-            <Setter Property="Width" Value="100"/>
+            <Setter Property="Width" Value="110"/>
             <Setter Property="Padding" Value="50" />
-            <Setter Property="Background" Value="Red" />
             
         </Style>
         <Style TargetType="{x:Type dxb:BarItemLinkBase}">
             
         </Style>
         <Style TargetType="{x:Type dx:DXTabItem}">
-            <Setter Property="Width" Value="200" />
+            <Setter Property="Width" Value="250" />
         </Style>
-        
-
+       
+       
     </UserControl.Resources>
     
     <StackPanel>
 
-        <dxr:RibbonControl Name="Ribbon" SelectedPageChanged="RibbonControl_SelectedPageChanged" RibbonStyle="OfficeSlim" ShowApplicationButton="False" ToolbarShowMode="Hide" Background="#000000" >
+        <dxr:RibbonControl
+           Name="Ribbon" SelectedPageChanged="RibbonControl_SelectedPageChanged" RibbonStyle="OfficeSlim" ShowApplicationButton="False" ToolbarShowMode="Hide" Background="LightGray" >
            
 
             <dxr:RibbonDefaultPageCategory>
 
-                <dxr:RibbonPage Caption="Order" Name="OrderPage" Foreground="White">
+                <dxr:RibbonPage Caption="Order" Name="OrderPage">
+                    
                     <dxr:RibbonPage.ContentBorderStyle>
                         <Style TargetType="Border">
-                            <Setter Property="Background" Value="#2C2C2C"/>
+                            
+                            <Setter Property="Background" Value="Gray"/>
                             <Setter Property="Height" Value="40" />
                         </Style>
                     </dxr:RibbonPage.ContentBorderStyle>
                     
-       
-                    <dxr:RibbonPageGroup Caption="Manage">
 
-                        <dxb:BarButtonItem Content="Add Order" Command="{Binding AddOrderCommand}" Style="{StaticResource RibbonBarButtons}">
+
+                    <dxr:RibbonPageGroup Caption="Manage" Padding="0" Margin="0" >
+                    
+
+                    <dxb:BarButtonItem Content="Add Order" Command="{Binding AddOrderCommand}" Style="{StaticResource RibbonBarButtons}" Glyph="{dx:DXImage GrayScaleImages/Actions/Add_32x32.png}" >
+                         
                         </dxb:BarButtonItem>
-                        <dxb:BarItemLinkSeparator />
-                        <dxb:BarButtonItem Content="Add Blotter"  ItemClick="AddOrderBlotter_Click" Style="{StaticResource RibbonBarButtons}" />
+                        <dxb:BarButtonItem Content="Add Blotter"  ItemClick="AddOrderBlotter_Click" Style="{StaticResource RibbonBarButtons}" Glyph="{dx:DXImage GrayScaleImages/Other/AddText_32x32.png}" />
 
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
-                <dxr:RibbonPage Caption="Category" Name="CategoryPage"  Foreground="White">
+                <dxr:RibbonPage Caption="Category" Name="CategoryPage">
                     <dxr:RibbonPage.ContentBorderStyle>
                         <Style TargetType="Border">
-                            <Setter Property="Background" Value="#2C2C2C"/>
+                            <Setter Property="Background" Value="Gray"/>
                             <Setter Property="Height" Value="40" />
                         </Style>
                     </dxr:RibbonPage.ContentBorderStyle>
 
                     <dxr:RibbonPageGroup Caption="Manage">
-                        <dxb:BarButtonItem Content="Add Category" Command="{Binding AddCategoryCommand}" Style="{StaticResource RibbonBarButtons}"  />
-                        <dxb:BarItemLinkSeparator />
-                        <dxb:BarButtonItem Content="Add Blotter" ItemClick="AddCategoryBlotter_Click" Style="{StaticResource RibbonBarButtons}"  />
-                    
+                        <dxb:BarButtonItem Content="Add Category" Command="{Binding AddCategoryCommand}" Style="{StaticResource RibbonBarButtons}" Glyph="{dx:DXImage GrayScaleImages/Actions/Add_32x32.png}" />
+                        <dxb:BarButtonItem Content="Add Blotter" ItemClick="AddCategoryBlotter_Click" Style="{StaticResource RibbonBarButtons}" Glyph="{dx:DXImage GrayScaleImages/Other/AddText_32x32.png}" />
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
-                <dxr:RibbonPage Caption="Product" Name="ProductPage"   Foreground="White">
+                <dxr:RibbonPage Caption="Product" Name="ProductPage">
                     <dxr:RibbonPage.ContentBorderStyle>
                         <Style TargetType="Border">
-                            <Setter Property="Background" Value="#2C2C2C"/>
+                            <Setter Property="Background" Value="Gray"/>
                             <Setter Property="Height" Value="40" />
                         </Style>
                     </dxr:RibbonPage.ContentBorderStyle>
 
                     <dxr:RibbonPageGroup Caption="Manage">
-                        <dxb:BarButtonItem Content="Add Product" Command="{Binding AddProductCommand}" Style="{StaticResource RibbonBarButtons}"  />
-                        <dxb:BarItemLinkSeparator />
-                        <dxb:BarButtonItem Content="Add Blotter" ItemClick="AddProductBlotter_Click" Style="{StaticResource RibbonBarButtons}"  />
+                        <dxb:BarButtonItem Content="Add Product" Command="{Binding AddProductCommand}" Style="{StaticResource RibbonBarButtons}" Glyph="{dx:DXImage GrayScaleImages/Actions/Add_32x32.png}"  />
+                        <dxb:BarButtonItem Content="Add Blotter" ItemClick="AddProductBlotter_Click" Style="{StaticResource RibbonBarButtons}" Glyph="{dx:DXImage GrayScaleImages/Other/AddText_32x32.png}" />
         
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
-                <dxr:RibbonPage   Foreground="White" Caption="User" Name="UserPage" IsVisible="{Binding CurrentUser.IsAdmin}">
+                <dxr:RibbonPage  Caption="User" Name="UserPage" IsVisible="{Binding CurrentUser.IsAdmin}">
                     <dxr:RibbonPage.ContentBorderStyle>
                         <Style TargetType="Border">
-                            <Setter Property="Background" Value="#2C2C2C"/>
+                            <Setter Property="Background" Value="Gray"/>
                             <Setter Property="Height" Value="40" />
                         </Style>
                     </dxr:RibbonPage.ContentBorderStyle>
@@ -93,7 +94,7 @@
                     <dxr:RibbonPageGroup Caption="Manage">
                         <dxb:BarButtonItem Content="Add User" Command="{Binding AddUserCommand}" IsVisible="False" Style="{StaticResource RibbonBarButtons}"  />
                         <dxb:BarItemLinkSeparator />
-                        <dxb:BarButtonItem Content="Add Blotter" ItemClick="AddUserBlotter_Click" Style="{StaticResource RibbonBarButtons}"  />
+                        <dxb:BarButtonItem Content="Add Blotter" ItemClick="AddUserBlotter_Click" Style="{StaticResource RibbonBarButtons}" Glyph="{dx:DXImage GrayScaleImages/Other/AddText_32x32.png}" />
 
                      
                     </dxr:RibbonPageGroup>
@@ -102,7 +103,7 @@
             
         </dxr:RibbonControl>
 
-        <dxdo:DockLayoutManager Name="MyDockLayoutManager" Background="black">
+        <dxdo:DockLayoutManager Name="MyDockLayoutManager" Background="LightGray">
             <dxdo:LayoutGroup Caption="LayoutRoot" Name="MyLayoutGroup">
 
                 <dxdo:DocumentGroup x:Name="documentGroup">
