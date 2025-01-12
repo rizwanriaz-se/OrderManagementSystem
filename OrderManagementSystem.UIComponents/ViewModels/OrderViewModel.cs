@@ -63,7 +63,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
     
         private void ExecuteDeleteOrder(object obj)
         {
-            MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Delete, SelectedOrder);
+            MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Delete, SelectedOrder.Id);
         }
 
    

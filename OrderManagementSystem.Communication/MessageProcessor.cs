@@ -1,4 +1,5 @@
-﻿using DevExpress.Xpf.Core;
+﻿using DevExpress.Utils.Filtering.Internal;
+using DevExpress.Xpf.Core;
 using OrderManagementSystem.Cache;
 using OrderManagementSystemServer.Repository;
 using System.Collections.ObjectModel;
@@ -27,7 +28,6 @@ namespace OrderManagementSystem.UIComponents.Classes
     public class MessageProcessor
     {
 
-        public MessageProcessor() { }
 
         public static void SendMessage(Enums.MessageType messageType, Enums.MessageAction messageAction, object? message = null)
         {
@@ -37,6 +37,8 @@ namespace OrderManagementSystem.UIComponents.Classes
                 MessageType = messageType,
                 Data = message
             };
+
+
             try
             {
                 ClientManager.Instance.SendMessage(request);
@@ -62,12 +64,13 @@ namespace OrderManagementSystem.UIComponents.Classes
                             CacheManager.Instance.UpdateCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Delete:
-                            CacheManager.Instance.DeleteCategory(JsonSerializer.Deserialize<Category>(response.Data.ToString()));
+                            CacheManager.Instance.DeleteCategory(response.Data.ToString());
                             break;
                         case Enums.MessageAction.Load:
                             if (response.Data == null)
                             {
-                                throw new Exception("Error trying to load data from server. Please try again.");
+                                DXMessageBox.Show("Error trying to load data from server. Please try again.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                                return;
                             }
                             ObservableCollection<Category> categories = JsonSerializer.Deserialize<ObservableCollection<Category>>(response.Data.ToString());
                             CacheManager.Instance.LoadCategories(categories);
@@ -99,7 +102,7 @@ namespace OrderManagementSystem.UIComponents.Classes
                             CacheManager.Instance.AddOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Delete:
-                            CacheManager.Instance.DeleteOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
+                            CacheManager.Instance.DeleteOrder(response.Data.ToString());
                             break;
                         case Enums.MessageAction.Update:
                             CacheManager.Instance.UpdateOrder(JsonSerializer.Deserialize<Order>(response.Data.ToString()));
@@ -107,7 +110,9 @@ namespace OrderManagementSystem.UIComponents.Classes
                         case Enums.MessageAction.Load:
                             if (response.Data == null)
                             {
-                                throw new Exception("Error trying to load data from server. Please try again.");
+                                //throw new Exception("Error trying to load data from server. Please try again.");
+                                DXMessageBox.Show("Error trying to load data from server. Please try again.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                                return;
                             }
                             ObservableCollection<Order> orders = JsonSerializer.Deserialize<ObservableCollection<Order>>(response.Data.ToString());
                             CacheManager.Instance.LoadOrders(orders);
@@ -137,7 +142,7 @@ namespace OrderManagementSystem.UIComponents.Classes
                             CacheManager.Instance.AddProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Delete:
-                            CacheManager.Instance.DeleteProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
+                            CacheManager.Instance.DeleteProduct(response.Data.ToString());
                             break;
                         case Enums.MessageAction.Update:
                             CacheManager.Instance.UpdateProduct(JsonSerializer.Deserialize<Product>(response.Data.ToString()));
@@ -145,7 +150,9 @@ namespace OrderManagementSystem.UIComponents.Classes
                         case Enums.MessageAction.Load:
                             if (response.Data == null)
                             {
-                                throw new Exception("Error trying to load data from server. Please try again.");
+                                //throw new Exception("Error trying to load data from server. Please try again.");
+                                DXMessageBox.Show("Error trying to load data from server. Please try again.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                                return;
                             }
                                 ObservableCollection<Product> products = JsonSerializer.Deserialize<ObservableCollection<Product>>(response.Data.ToString());
                             CacheManager.Instance.LoadProducts(products);
@@ -173,14 +180,17 @@ namespace OrderManagementSystem.UIComponents.Classes
                             CacheManager.Instance.AddUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Delete:
-                            CacheManager.Instance.DeleteUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
+                            CacheManager.Instance.DeleteUser(response.Data.ToString());
                             break;
                         case Enums.MessageAction.Update:
                             CacheManager.Instance.UpdateUser(JsonSerializer.Deserialize<User>(response.Data.ToString()));
                             break;
                         case Enums.MessageAction.Load:
                             if (response.Data == null) {
-                                throw new Exception("Error trying to load data from server. Please try again.");
+                                //throw new Exception("Error trying to load data from server. Please try again.");
+                                DXMessageBox.Show("Error trying to load data from server. Please try again.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                                return;
+                                //DXMessage
                             }
                             ObservableCollection<User> users = JsonSerializer.Deserialize<ObservableCollection<User>>(response.Data.ToString());
                             CacheManager.Instance.LoadUsers(users);

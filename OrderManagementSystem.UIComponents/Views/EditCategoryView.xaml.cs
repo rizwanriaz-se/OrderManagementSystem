@@ -26,7 +26,6 @@ namespace OrderManagementSystem.UIComponents.Views
             m_objEditCategoryViewModel.Id = SelectedCategory.Id;
             m_objEditCategoryViewModel.CategoryNameText = SelectedCategory.Name;
             m_objEditCategoryViewModel.CategoryDescriptionText = SelectedCategory.Description;
-            //m_objEditCategoryViewModel.Picture = SelectedCategory.Picture;
         }
     }
 }

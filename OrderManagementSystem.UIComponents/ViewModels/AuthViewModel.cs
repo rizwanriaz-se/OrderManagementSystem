@@ -34,7 +34,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public class RegisterInfo
         {
-            //{
+            
             [Required(ErrorMessage = "Name is required")]
             public string NameRegisterText { get; set; }
 
@@ -47,7 +47,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             
 
             [Required(ErrorMessage = "Password is required"), RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d).{6,}$", ErrorMessage = "Password must consist of at least 6 alphanumeric characters.")]
-            //[PasswordPropertyText(true)]
             public string PasswordRegisterText { get; set; }
             
 
@@ -61,19 +60,18 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             {
                 m_objRegisterInfo.NameRegisterText = value;
                 OnPropertyChanged(nameof(m_objRegisterInfo.NameRegisterText));
-                //ValidateRegister(nameof(m_objRegisterInfo.NameRegisterText), m_objRegisterInfo.NameRegisterText, m_objRegisterInfo);
             }
         }
 
         private int m_nSelectedTabIndex;
-
+        private bool m_bIsRegisterTabVisible;
         private LoginInfo m_objLoginInfo = new LoginInfo();
         private RegisterInfo m_objRegisterInfo = new RegisterInfo();
+        private User m_User;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        private bool m_bIsRegisterTabVisible;
 
         public List<string> Roles { get; } = new List<string> { "Admin", "Employee" };
 
@@ -132,8 +130,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-       
-
         public string EmailRegisterText
         {
             get { return m_objRegisterInfo.EmailRegisterText; }
@@ -168,7 +164,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        private User m_User;
 
         Dictionary<string, List<string>> LoginErrors = new Dictionary<string, List<string>>();
         Dictionary<string, List<string>> RegisterErrors = new Dictionary<string, List<string>>();

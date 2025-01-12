@@ -42,7 +42,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
 
         public int? Id { get; set; }
-        //public byte[] Picture { get; set; }
 
         public ICommand SaveCategoryCommand { get; set; }
 
@@ -91,7 +90,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 m_objCategory.Id = Id;
                 m_objCategory.Name = CategoryNameText;
                 m_objCategory.Description = CategoryDescriptionText;
-                //m_objCategory.Picture = Picture;
 
                 if (string.IsNullOrWhiteSpace(m_objCategory.Name))
                 {

@@ -14,7 +14,6 @@ namespace OrderManagementSystem.UIComponents.Views
             InitializeComponent();
             ProductViewModel productViewModel = new ProductViewModel();
             productViewModel.CloseWindow = this.Close;
-            this.Owner = System.Windows.Application.Current.MainWindow;
             this.DataContext = productViewModel;
         }
     }

@@ -2,17 +2,20 @@
 using DevExpress.Xpf.Core;
 using OrderManagementSystemServer.Repository;
 
+
 namespace OrderManagementSystem.Cache
 {
     public class CacheManager
     {
+        #region Declarations
         private ObservableCollection<Category> m_objCategories;
         private ObservableCollection<Order> m_objOrders;
         private ObservableCollection<Product> m_objProducts;
         private ObservableCollection<User> m_objUsers;
-
         private static CacheManager? m_objInstance;
+        #endregion
 
+        #region Initialization
         public static CacheManager Instance
         {
             get { 
@@ -21,37 +24,20 @@ namespace OrderManagementSystem.Cache
                 return m_objInstance;
             }
         }
-
-        public void LoadCategories(ObservableCollection<Category> categories)
-        {
-            if (categories == null) return;
-            m_objCategories = categories;
-        }
-
-        public void LoadOrders(ObservableCollection<Order> orders)
-        {
-            if (orders == null) return;
-            m_objOrders = orders;
-        }
-
-        public void LoadProducts(ObservableCollection<Product> products)
-        {
-            if (products == null) return;
-            m_objProducts = products;
-        }
-
-        public void LoadUsers(ObservableCollection<User> users)
-        {
-            if (users == null) return;
-            m_objUsers = users;
-        }
-
         private CacheManager()
         {
             m_objUsers = new ObservableCollection<User>();
             m_objCategories = new ObservableCollection<Category>();
             m_objProducts = new ObservableCollection<Product>();
             m_objOrders = new ObservableCollection<Order>();
+        }
+        #endregion
+        
+        #region CategoryMethods
+        public void LoadCategories(ObservableCollection<Category> categories)
+        {
+            if (categories == null) return;
+            m_objCategories = categories;
         }
 
         public ObservableCollection<Category> GetAllCategories()
@@ -64,9 +50,10 @@ namespace OrderManagementSystem.Cache
             m_objCategories.Add(category);
         }
 
-        public void DeleteCategory(Category category)
+        public void DeleteCategory(string category)
         {
-            Category? categoryToDelete = m_objCategories.FirstOrDefault(c => c.Id == category.Id);
+            int categoryId = Int32.Parse(category);
+            Category? categoryToDelete = m_objCategories.FirstOrDefault(c => c.Id == categoryId);
             if (categoryToDelete != null)
             {
                 m_objCategories.Remove(categoryToDelete);
@@ -83,7 +70,15 @@ namespace OrderManagementSystem.Cache
                 //categoryToUpdate.Picture = category.Picture;
             }
         }
-        
+        #endregion
+
+        #region OrderMethods
+        public void LoadOrders(ObservableCollection<Order> orders)
+        {
+            if (orders == null) return;
+            m_objOrders = orders;
+        }
+
         public ObservableCollection<Order> GetAllOrders()
         {
             return m_objOrders;
@@ -109,14 +104,24 @@ namespace OrderManagementSystem.Cache
                 existingOrder.OrderDetails = updatedOrder.OrderDetails;
             }
         }
-        public void DeleteOrder(Order order)
+        public void DeleteOrder(string order)
         {
-            Order? orderToDelete = m_objOrders.FirstOrDefault(o => o.Id == order.Id);
+            int orderId = Int32.Parse(order);
+            Order? orderToDelete = m_objOrders.FirstOrDefault(o => o.Id == orderId);
             if (orderToDelete != null)
             {
                 m_objOrders.Remove(orderToDelete);
             }
         }
+        #endregion
+
+        #region ProductMethods
+        public void LoadProducts(ObservableCollection<Product> products)
+        {
+            if (products == null) return;
+            m_objProducts = products;
+        }
+
         public ObservableCollection<Product> GetAllProducts()
         {
             return m_objProducts;
@@ -134,18 +139,26 @@ namespace OrderManagementSystem.Cache
                 existingProduct.Name = product.Name;
                 existingProduct.Description = product.Description;
                 existingProduct.Category = product.Category;
-                //existingProduct.Picture = product.Picture;
                 existingProduct.UnitPrice = product.UnitPrice;
                 existingProduct.UnitsInStock = product.UnitsInStock;
             }
         }
-        public void DeleteProduct(Product product)
+        public void DeleteProduct(string product)
         {
-            Product? productToDelete = m_objProducts.FirstOrDefault(p => p.Id == product.Id);
+            int productId = Int32.Parse(product);
+            Product? productToDelete = m_objProducts.FirstOrDefault(p => p.Id == productId);
             if (productToDelete != null)
             {
                 m_objProducts.Remove(productToDelete);
             }
+        }
+        #endregion
+
+        #region UserMethods
+        public void LoadUsers(ObservableCollection<User> users)
+        {
+            if (users == null) return;
+            m_objUsers = users;
         }
 
         public ObservableCollection<User> GetAllUsers()
@@ -174,17 +187,18 @@ namespace OrderManagementSystem.Cache
             }
         }
 
-        public void DeleteUser(User user)
+        public void DeleteUser(string user)
         {
-            User? userToDelete = m_objUsers.FirstOrDefault(u => u.Id == user.Id);
+            int userId = Int32.Parse(user);
+            User? userToDelete = m_objUsers.FirstOrDefault(u => u.Id == userId);
             if (userToDelete != null)
             {
                 userToDelete.IsArchived = true;
-            }            
+            }
+
+            //UserViewModel userViewModel = new UserViewModel();
         }
-
-     
-
+        #endregion
 
     }
 }

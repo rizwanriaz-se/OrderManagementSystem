@@ -18,7 +18,6 @@ namespace OrderManagementSystem.UIComponents.Views
             InitializeComponent();
          
 
-            // Set the DataContext of the window to the ViewModel
             AuthViewModel authViewModel = new AuthViewModel();
             authViewModel.CloseWindow = this.Close;
             this.DataContext = authViewModel;

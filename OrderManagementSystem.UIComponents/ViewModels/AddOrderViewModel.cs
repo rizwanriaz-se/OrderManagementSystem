@@ -15,27 +15,22 @@ namespace OrderManagementSystem.UIComponents.ViewModels
     public class AddOrderViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         #region Declarations
-        // Declare Action to close Add Order View window when invoked
         public Action CloseWindow { get; set; }
 
-        // Declare properties for data bindings
         private OrderStatus m_objSelectedStatus;
         private string m_stSelectedShippingAddress;
         private DateTime m_objSelectedShippingDate = DateTime.Now;
-        private User m_objSelectedUser;
+        private User m_objCurrentUser;
+        private Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
 
-
-        // Declare Commands
         public ICommand AddProductCommand { get; set; }
         public ICommand RemoveProductCommand { get; set; }
         public ICommand SubmitOrderCommand { get; set; }
 
-        // Declare Observable Collections for data bindings
         public ObservableCollection<OrderDetail> OrderDetails { get; set; } = new ObservableCollection<OrderDetail>();
 
         public ObservableCollection<Product> AllProducts { get; set; }
         public ObservableCollection<User> AllUsers { get; set; }
-        private User m_objCurrentUser;
 
         public User CurrentUser
         {
@@ -51,17 +46,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
         public ObservableCollection<OrderStatus> SelectableStatuses { get; }
       
-
-
-
-        // Declare PropertyChanged event
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
         #endregion
 
         #region Data Bindings
 
-        // Data Bindings for Selected Properties
         [Required(ErrorMessage = "Status must be selected.")]
         public OrderStatus SelectedStatus
         {
@@ -98,7 +88,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
+       
 
         public bool HasErrors => Errors.Count > 0;
 
@@ -127,7 +117,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            //SubmitOrderCommand.RaiseCanExecuteEventChanged();
 
             return Errors.ContainsKey(propertyName);
         }
@@ -144,7 +133,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             if (CurrentUser == null)
             {
-                // Handle the case where CurrentUser is null
                 DXMessageBox.Show("Current user is not set.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -157,13 +145,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             RemoveProductCommand = new RelayCommand(RemoveOrderDetails);
             SubmitOrderCommand = new RelayCommand(SubmitOrder);
             
-            // Subscribe to OrderDetails changes
-            //OrderDetails.CollectionChanged += (s, e) => SubmitOrderCommand.RaiseCanExecuteEventChanged();
         }
         #endregion
 
         #region Command Actions
-        // Command Action to Submit Order
         private void SubmitOrder(object obj)
         {
             try
@@ -214,7 +199,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        // Command Actions for adding and removing Product Rows
         private void RemoveOrderDetails(object orderDetail)
         {
             OrderDetails.Remove(orderDetail as OrderDetail);
@@ -223,7 +207,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void AddOrderDetails(object obj)
         {
             var newOrderDetail = new OrderDetail { Quantity = 1 };
-            //newOrderDetail.PropertyChanged += (s, e) => SubmitOrderCommand.RaiseCanExecuteEventChanged();
             OrderDetails.Add(newOrderDetail);
         }
         #endregion

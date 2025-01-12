@@ -32,7 +32,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stProductNameText = value;
-                //Validate(nameof(ProductNameText), m_stProductNameText);
             }
         }
 
@@ -44,7 +43,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stProductDescriptionText = value;
-                //Validate(nameof(ProductDescriptionText), m_stProductDescriptionText);
             }
 
         }
@@ -61,7 +59,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_objSelectedCategory = value;
-                //Validate(nameof(SelectedCategory), m_objSelectedCategory);
             }
         }
         public byte[] Picture { get; set; }
@@ -75,7 +72,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_decProductUnitPriceText = Convert.ToDecimal(value); ;
-                //Validate(nameof(ProductUnitPriceText), m_decProductUnitPriceText);
             }
         }
 
@@ -88,7 +84,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_nProductUnitsInStockText = Convert.ToInt32(value);
-                //Validate(nameof(ProductUnitsInStockText), m_nProductUnitsInStockText);
             }
 
         }
@@ -119,7 +114,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            //SaveProductCommand.RaiseCanExecuteEventChanged();
 
             return Errors.ContainsKey(propertyName);
         }
@@ -150,7 +144,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 _Product.Name = ProductNameText;
                 _Product.Description = ProductDescriptionText;
                 _Product.Category = SelectedCategory;
-                //_Product.Picture = Picture;
                 _Product.UnitPrice = ProductUnitPriceText;
                 _Product.UnitsInStock = ProductUnitsInStockText;
 

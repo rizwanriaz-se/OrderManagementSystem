@@ -27,7 +27,7 @@ namespace OrderManagementSystem.UIComponents.Views
             if (SelectedOrder == null) throw new ArgumentNullException(nameof(SelectedOrder));
 
             m_objEditOrderViewModel.Id = SelectedOrder.Id;
-            m_objEditOrderViewModel.User = SelectedOrder.User ?? throw new ArgumentNullException(nameof(SelectedOrder.User));
+            m_objEditOrderViewModel.User = SelectedOrder.User;
             m_objEditOrderViewModel.OrderDate = SelectedOrder.OrderDate;
             m_objEditOrderViewModel.SelectedShippingDate = SelectedOrder.ShippedDate;
             m_objEditOrderViewModel.SelectedStatus = SelectedOrder.Status;
@@ -38,10 +38,6 @@ namespace OrderManagementSystem.UIComponents.Views
                     Product =  m_objEditOrderViewModel.AllProducts.FirstOrDefault(p => p.Id == od.Product.Id),
                     Quantity = od.Quantity
                 }));
-
-            
-
-            //m_objEditOrderViewModel.OrderDetails.CollectionChanged += (s, e) => m_objEditOrderViewModel.SaveOrderCommand.RaiseCanExecuteEventChanged();
         }
     }
 }

@@ -29,7 +29,7 @@
     <StackPanel>
 
         <dxr:RibbonControl
-           Name="Ribbon" SelectedPageChanged="RibbonControl_SelectedPageChanged" RibbonStyle="OfficeSlim" ShowApplicationButton="False" ToolbarShowMode="Hide" Background="LightGray" >
+           Name="Ribbon" RibbonStyle="OfficeSlim" ShowApplicationButton="False" ToolbarShowMode="Hide" Background="LightGray" >
            
 
             <dxr:RibbonDefaultPageCategory>
@@ -108,21 +108,10 @@
 
                 <dxdo:DocumentGroup x:Name="documentGroup">
                     
-                    <!--
-                    <dxdo:DocumentPanel Caption="Default" AllowClose="False">
-                        <ContentControl Content="{Binding CurrentView}" />
-                    </dxdo:DocumentPanel>
-                    -->
                 </dxdo:DocumentGroup>
                 
             </dxdo:LayoutGroup>
         </dxdo:DockLayoutManager>
-
-
-        <!-- ContentControl to display the selected view -->
-        
-        <!--<ContentControl Content="{Binding CurrentView}" />-->
-        
 
 
     </StackPanel>

@@ -39,28 +39,6 @@ namespace OrderManagementSystem.UIComponents.Views
 
         public User? CurrentUser { get; }
 
-        private void RibbonControl_SelectedPageChanged(object sender, DevExpress.Xpf.Ribbon.RibbonPropertyChangedEventArgs e)
-        {
-            var selectedPage = Ribbon.SelectedPage;
-
-            if (selectedPage.Name == "OrderPage")
-            {
-                m_objMainViewModel.SwitchToOrdersView();
-            }
-            else if (selectedPage.Name == "CategoryPage")
-            {
-                m_objMainViewModel.SwitchToCategoriesView();
-            }
-            else if (selectedPage.Name == "UserPage")
-            {
-                m_objMainViewModel.SwitchToUsersView();
-            }
-            else if (selectedPage.Name == "ProductPage")
-            {
-                m_objMainViewModel.SwitchToProductsView();
-            }
-        }
-
         private void AddOrderBlotter_Click(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
             AddPanel(ref m_objOrderPanel, "Order");

@@ -65,7 +65,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             {
                 m_objSelectedShippingDate = value;
                 OnPropertyChanged(nameof(SelectedShippingDate));
-                //Validate(nameof(SelectedShippingDate), m_objSelectedShippingDate);
             }
 
         }
@@ -134,7 +133,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            //SaveOrderCommand.RaiseCanExecuteEventChanged();
 
             return Errors.ContainsKey(propertyName);
         }
@@ -147,7 +145,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void AddOrderDetails(object obj)
         {
             var newOrderDetail = new OrderDetail { Quantity = 1 };
-            //newOrderDetail.PropertyChanged += (s, e) => SaveOrderCommand.RaiseCanExecuteEventChanged();
             OrderDetails.Add(newOrderDetail);
         }
 
@@ -177,7 +174,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
                 }
 
-                // Logic to save the updated order
                 Order _order = new Order();
                 _order.Id = Id;
                 _order.User = User;

@@ -14,7 +14,6 @@ namespace OrderManagementSystem.UIComponents.Views
             InitializeComponent();
 
             CategoryViewModel categoryViewModel = new CategoryViewModel();
-            this.Owner = System.Windows.Application.Current.MainWindow;
             categoryViewModel.CloseWindow = this.Close;
             this.DataContext = categoryViewModel;
 

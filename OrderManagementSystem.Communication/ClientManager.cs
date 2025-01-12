@@ -5,12 +5,14 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Threading;
 //using Timer = System.Timers.Timer;
 
 namespace OrderManagementSystem.UIComponents.Classes
 {
     public class ClientManager
     {
+        
         private static ClientManager? m_objInstance;
         private System.Timers.Timer m_objHeartbeatTimer;
         private System.Timers.Timer m_objRetryTimer;
@@ -89,6 +91,7 @@ namespace OrderManagementSystem.UIComponents.Classes
                 }
                 else
                 {
+                    //Dispatcher.CurrentDispatcher.Invoke(() => System.Windows.Application.Current.Shutdown());
                     System.Windows.Application.Current.Dispatcher.Invoke(() => System.Windows.Application.Current.Shutdown());
                 }
             }
@@ -96,7 +99,7 @@ namespace OrderManagementSystem.UIComponents.Classes
             {
                 DXMessageBox.Show($"Failed to connect to server.",
                            "Error",
-                           System.Windows.MessageBoxButton.OK
+                           MessageBoxButton.OK
                 );
             }
             m_objHeartbeatTimer.Stop();
@@ -170,7 +173,6 @@ namespace OrderManagementSystem.UIComponents.Classes
                     if (buffer[i] == '{') openBraces++;
                     if (buffer[i] == '}') closeBraces++;
 
-                    // When we find matching braces
                     if (openBraces > 0 && openBraces == closeBraces)
                     {
                         json = buffer.Substring(0, i + 1);
@@ -184,7 +186,7 @@ namespace OrderManagementSystem.UIComponents.Classes
                 Debug.WriteLine($"Error extracting JSON: {ex.Message}");
             }
 
-            return false; // No valid JSON found yet
+            return false; 
         }
 
         public void ProcessResponse(string response)
@@ -225,7 +227,7 @@ namespace OrderManagementSystem.UIComponents.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error processing response: {ex.Message}");
+                Debug.WriteLine($"Error processing response: {ex.Message}");
             }
         }
 
@@ -235,22 +237,6 @@ namespace OrderManagementSystem.UIComponents.Classes
             m_objHeartbeatTimer.AutoReset = true;
         }
 
-        //private async Task SendHeartbeat()
-        //{
-        //    try
-        //    {
-        //        MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        // Without Dispatcher in case of MessageBox, got error: System.InvalidOperationException: 'The calling thread must be STA, because many UI components require this.'
-
-        //        Debug.WriteLine("Error in SendHeartbeat: " + ex.Message);
-        //    }
-        //}
-
-       
         public async Task SendMessage(Request request)
         {
             try

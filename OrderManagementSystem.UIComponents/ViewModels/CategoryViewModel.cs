@@ -110,7 +110,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            //SubmitCategoryCommand.RaiseCanExecuteEventChanged();
             return Errors.ContainsKey(propertyName);
         }
         private void SubmitCategory(object obj)
@@ -119,7 +118,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             {
                 int? lastCategoryId = Categories.Last().Id;
 
-                // Create new Order object
                 Category category = new Category
                 {
                     Name = CategoryNameText,
@@ -177,7 +175,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             MessageProcessor.SendMessage(
                 Enums.MessageType.Category,
                 Enums.MessageAction.Delete,
-                SelectedCategory
+                SelectedCategory.Id
             );
         }
 

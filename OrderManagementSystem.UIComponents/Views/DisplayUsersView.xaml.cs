@@ -19,13 +19,11 @@ namespace OrderManagementSystem.UIComponents.Views
 
             TableView tableView = UserGrid.View as TableView;
             bool isAdminUser = GUIHandler.Instance.CurrentUser.IsAdmin;
-            //if (!isAdminUser)
-            //{
-            //    tableView.AllowEditing = false;
-            //}
+            
             tableView.AllowEditing = false;
 
-            //ApprovalStatusComboBox.ItemsSource = Enum.GetValues(typeof(User.ApprovalStates));
         }
+
+
     }
 }

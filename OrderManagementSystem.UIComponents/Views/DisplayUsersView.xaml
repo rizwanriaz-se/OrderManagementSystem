@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <dxg1:GridControl ItemsSource="{Binding FilteredUsersView}" Height="300" SelectedItem="{Binding SelectedUser}" Name="UserGrid">
+    <dxg1:GridControl ItemsSource="{Binding FilteredUsersView}" Height="300" CustomRowFilterCommand="{Binding UserFilterCommand}" SelectedItem="{Binding SelectedUser}" Name="UserGrid">
         <dxg1:GridControl.View>
             <dxg1:TableView ShowGroupPanel="False" VerticalScrollbarVisibility="Auto">
                 <dxg1:TableView.RowCellMenuCustomizations>

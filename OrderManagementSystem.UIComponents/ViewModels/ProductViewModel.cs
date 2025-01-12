@@ -19,6 +19,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private decimal m_decProductUnitPriceText;
         private int m_nProductUnitsInStockText;
         private Category m_objSelectedCategory;
+        private Product m_objSelectedProduct;
 
 
         public Action CloseWindow { get; set; }
@@ -28,7 +29,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public ICommand DeleteProductCommand { get; set; }
 
-        private Product m_objSelectedProduct;
 
         public Product SelectedProduct
         {
@@ -52,7 +52,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stProductNameText = value;
-                //Validate(nameof(ProductNameText), m_stProductNameText);
             }
 
         }
@@ -67,7 +66,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_decProductUnitPriceText = Convert.ToDecimal(value);
-                //Validate(nameof(ProductUnitPriceText), m_decProductUnitPriceText);
             }
 
         }
@@ -82,7 +80,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_nProductUnitsInStockText = Convert.ToInt32(value);
-                //Validate(nameof(ProductUnitsInStockText), m_nProductUnitsInStockText);
             }
 
         }
@@ -96,20 +93,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stProductDescriptionText = value;
-                //Validate(nameof(ProductDescriptionText), m_stProductDescriptionText);
             }
         }
 
-        //[Required(ErrorMessage = "Category must be selected.")]
-        //private Category _selectedCategory {
-
-        //    get { return m_objSelectedCategory; }
-        //    set
-        //    {
-        //        m_objSelectedCategory = value;
-        //        //Validate(nameof(SelectedCategory), m_objSelectedCategory);
-        //    }
-        //}
         public event PropertyChangedEventHandler PropertyChanged;
 
         [Required(ErrorMessage = "Category must be selected.")]
@@ -150,7 +136,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            //SubmitProductCommand.RaiseCanExecuteEventChanged();
 
             return Errors.ContainsKey(propertyName);
         }
@@ -181,7 +166,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             MessageProcessor.SendMessage(
                 Enums.MessageType.Product,
                 Enums.MessageAction.Delete,
-                SelectedProduct
+                SelectedProduct.Id
             );
         }
 
@@ -198,7 +183,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                     throw new Exception(string.Join('\n', errors));
                 }
 
-                // Create new Product object
+                if (Products.Any(p => p.Name.Equals(ProductNameText, StringComparison.OrdinalIgnoreCase)))
+                {
+                    throw new InvalidOperationException($"A product with the name '{ProductNameText}' already exists.");
+                }
+
                 Product product = new Product
                 {
                     Id = lastProductId + 1,

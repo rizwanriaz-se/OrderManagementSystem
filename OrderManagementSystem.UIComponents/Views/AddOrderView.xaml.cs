@@ -11,14 +11,12 @@ namespace OrderManagementSystem.UIComponents.Views
     {
         public AddOrderView()
         {
+            
             InitializeComponent();
 
             AddOrderViewModel addOrderViewModel = new AddOrderViewModel();
             addOrderViewModel.CloseWindow = this.Close;
-            this.Owner = System.Windows.Application.Current.MainWindow;
-            this.DataContext = addOrderViewModel;
-            
-
+            DataContext = addOrderViewModel;
 
         }
     }

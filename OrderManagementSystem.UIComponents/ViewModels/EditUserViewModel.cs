@@ -31,7 +31,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stUserNameText = value;
-                //Validate(nameof(UserNameText), m_stUserNameText);
             }
         }
 
@@ -42,7 +41,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stUserEmailText = value;
-                //Validate(nameof(UserEmailText), m_stUserEmailText);
             }
         }
 
@@ -53,7 +51,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_objSelectedStatus = value;
-                //Validate(nameof(UserApprovalStatus), m_objSelectedStatus);
             }
         }
 
@@ -65,7 +62,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stUserPhoneText = value;
-                //Validate(nameof(UserPhoneText), m_stUserPhoneText);
             }
         }
 
@@ -77,7 +73,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             set
             {
                 m_stUserPasswordText = value;
-                //Validate(nameof(UserPasswordText), m_stUserPasswordText);
             }
         }
 
@@ -97,7 +92,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            //SaveUserCommand.RaiseCanExecuteEventChanged();
 
             return Errors.ContainsKey(propertyName);
         }
