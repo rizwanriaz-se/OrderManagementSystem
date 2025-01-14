@@ -72,7 +72,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
 
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            //SaveCategoryCommand.RaiseCanExecuteEventChanged();
         }
 
         public EditCategoryViewModel()

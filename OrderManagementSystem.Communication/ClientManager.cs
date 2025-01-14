@@ -85,13 +85,13 @@ namespace OrderManagementSystem.UIComponents.Classes
                 ));
                 if (result == MessageBoxResult.Yes)
                 {
+                    m_objRetryTimer.Elapsed -= RetryTimerElapsed;
                     m_objRetryTimer.Elapsed += RetryTimerElapsed; 
                     m_objRetryTimer.AutoReset = true;
                     m_objRetryTimer.Start();
                 }
                 else
                 {
-                    //Dispatcher.CurrentDispatcher.Invoke(() => System.Windows.Application.Current.Shutdown());
                     System.Windows.Application.Current.Dispatcher.Invoke(() => System.Windows.Application.Current.Shutdown());
                 }
             }
@@ -233,7 +233,8 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         public async Task InitializeHeartbeat()
         {
-            m_objHeartbeatTimer.Elapsed += async (sender, e) => MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
+            m_objHeartbeatTimer.Elapsed += async (sender, e) => 
+            MessageProcessor.SendMessage(Enums.MessageType.Heartbeat, Enums.MessageAction.Ping, "PING");
             m_objHeartbeatTimer.AutoReset = true;
         }
 

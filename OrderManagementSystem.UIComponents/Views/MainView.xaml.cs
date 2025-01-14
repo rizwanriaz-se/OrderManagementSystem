@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Docking;
+using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.ViewModels;
 using OrderManagementSystemServer.Repository;
 
@@ -33,6 +34,8 @@ namespace OrderManagementSystem.UIComponents.Views
                 if (singlePanel != null && singlePanel.Count == 1)
                 {
                     singlePanel[0].AllowClose = false;
+                    
+                    //singlePanel[0].CloseCommand
                 }
             }
         }
@@ -74,6 +77,8 @@ namespace OrderManagementSystem.UIComponents.Views
                     Caption = panelCaption,
                     Content = CreateViewForPanel(panelCaption)
                 };
+                
+                docPanel.CloseCommand = new RelayCommand(OnPanelCloseCommand);
                 documentGroup.Add(docPanel);
                 activePanels[panelCaption].Add(docPanel);
             }
@@ -88,6 +93,15 @@ namespace OrderManagementSystem.UIComponents.Views
                     documentGroup.SelectedTabIndex = documentGroup.Items.IndexOf(panelToSelect);
                 }
             }
+        }
+
+        private void OnPanelCloseCommand(object param)
+        {
+            DocumentPanel documentPanel = param as DocumentPanel;
+            string panelCaption = documentPanel.Caption as string;
+
+            MyDockLayoutManager.DockController.Close(documentPanel);
+            activePanels[panelCaption].Remove(documentPanel);
         }
 
         private object CreateViewForPanel(string panelCaption)

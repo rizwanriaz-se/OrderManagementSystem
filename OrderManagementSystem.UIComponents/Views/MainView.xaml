@@ -103,7 +103,7 @@
             
         </dxr:RibbonControl>
 
-        <dxdo:DockLayoutManager Name="MyDockLayoutManager" Background="LightGray">
+        <dxdo:DockLayoutManager Name="MyDockLayoutManager" Background="LightGray" dx:ThemeManager.ThemeName="Office2019Colorful">
             <dxdo:LayoutGroup Caption="LayoutRoot" Name="MyLayoutGroup">
 
                 <dxdo:DocumentGroup x:Name="documentGroup">

@@ -11,6 +11,7 @@
             Heartbeat,
             Error
         }
+
         public enum MessageAction
         {
             Add,
@@ -20,7 +21,5 @@
             Ping,
             Error
         }
-
-
     }
 }

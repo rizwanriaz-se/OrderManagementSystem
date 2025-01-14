@@ -16,7 +16,6 @@ namespace OrderManagementSystem.UIComponents.Views
             InitializeComponent();
 
             m_objEditCategoryViewModel = new EditCategoryViewModel();
-            this.Owner = System.Windows.Application.Current.MainWindow;
             DataContext = m_objEditCategoryViewModel;
             m_objEditCategoryViewModel.CloseWindow = this.Close;
         }

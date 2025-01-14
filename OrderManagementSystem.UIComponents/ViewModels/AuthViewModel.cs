@@ -267,6 +267,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             try
             {
+                // list safe check
+                // easily debuggable
+                // can add safe checks and conditions
+
+
                 User? user = GUIHandler.Instance.CacheManager.GetAllUsers().FirstOrDefault(u =>
                         u.Email == EmailLoginText &&
                         u.IsArchived == false &&
@@ -329,7 +334,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Password = PasswordRegisterText,
                 IsAdmin = false,
                 IsArchived = false,
-                ApprovalStatus = User.ApprovalStates.Pending // Default to Pending
+                ApprovalStatus = ApprovalStates.Pending // Default to Pending
             };
 
 

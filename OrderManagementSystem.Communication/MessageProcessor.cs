@@ -2,6 +2,7 @@
 using DevExpress.Xpf.Core;
 using OrderManagementSystem.Cache;
 using OrderManagementSystemServer.Repository;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text.Json;
@@ -110,7 +111,6 @@ namespace OrderManagementSystem.UIComponents.Classes
                         case Enums.MessageAction.Load:
                             if (response.Data == null)
                             {
-                                //throw new Exception("Error trying to load data from server. Please try again.");
                                 DXMessageBox.Show("Error trying to load data from server. Please try again.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                                 return;
                             }
@@ -190,7 +190,6 @@ namespace OrderManagementSystem.UIComponents.Classes
                                 //throw new Exception("Error trying to load data from server. Please try again.");
                                 DXMessageBox.Show("Error trying to load data from server. Please try again.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                                 return;
-                                //DXMessage
                             }
                             ObservableCollection<User> users = JsonSerializer.Deserialize<ObservableCollection<User>>(response.Data.ToString());
                             CacheManager.Instance.LoadUsers(users);

@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-    public class EditUserViewModel : INotifyDataErrorInfo
+    public class EditUserViewModel : INotifyDataErrorInfo, INotifyPropertyChanged
     {
         private User m_objUser;
 
@@ -17,6 +17,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private string m_stUserEmailText;
         private string m_stUserPhoneText;
         private string m_stUserPasswordText;
+        private bool m_bUserIsArchived;
         private User.ApprovalStates m_objSelectedStatus;
 
         public Action CloseWindow { get; set; }
@@ -76,6 +77,19 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
+        [Required(ErrorMessage = "User Archived value is required")]
+        public bool UserIsArchived
+        {
+
+            get { return m_bUserIsArchived; }
+            set
+            {
+                m_bUserIsArchived = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserIsArchived)));
+            }
+        }
+
+
         public bool Validate(string propertyName, object propertyValue)
         {
             var results = new List<ValidationResult>();
@@ -97,11 +111,13 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         }
 
         public bool UserIsAdmin { get; set; }
-        public bool UserIsArchived { get; set; }
+        //public bool UserIsArchived { get; set; }
 
         public bool HasErrors => Errors.Count > 0;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
 
         public IEnumerable GetErrors(string propertyName)

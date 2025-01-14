@@ -1,7 +1,9 @@
-﻿using DevExpress.Xpf.Grid;
+﻿using DevExpress.Xpf.Core.ConditionalFormatting;
+using DevExpress.Xpf.Grid;
 using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.ViewModels;
 using OrderManagementSystemServer.Repository;
+using System.Windows.Media;
 
 namespace OrderManagementSystem.UIComponents.Views
 {
@@ -21,6 +23,9 @@ namespace OrderManagementSystem.UIComponents.Views
             bool isAdminUser = GUIHandler.Instance.CurrentUser.IsAdmin;
             
             tableView.AllowEditing = false;
+
+            
+            //UserGrid.FilterString = "[IsArchived] == 'False'";
 
         }
 

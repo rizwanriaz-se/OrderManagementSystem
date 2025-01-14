@@ -9,9 +9,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <dxg1:GridControl ItemsSource="{Binding FilteredUsersView}" Height="300" CustomRowFilterCommand="{Binding UserFilterCommand}" SelectedItem="{Binding SelectedUser}" Name="UserGrid">
-        <dxg1:GridControl.View>
-            <dxg1:TableView ShowGroupPanel="False" VerticalScrollbarVisibility="Auto">
+    <dxg1:GridControl ItemsSource="{Binding FilteredUsersView}" Height="300"  SelectedItem="{Binding SelectedUser}" Name="UserGrid">
+        <dxg1:GridControl.View >
+            <dxg1:TableView ShowGroupPanel="False" VerticalScrollbarVisibility="Auto" >
                 <dxg1:TableView.RowCellMenuCustomizations>
                     <dxb:BarButtonItem Name="editRowItem" Content="Edit"
                         
@@ -55,6 +55,7 @@
             <dxg1:GridColumn FieldName="Email" Binding="{Binding Email}" Header="Email" Width="3*" />
             <dxg1:GridColumn FieldName="Phone" Binding="{Binding Phone}" Header="Phone" Width="2*" />
             <dxg1:GridColumn FieldName="IsAdmin" Binding="{Binding IsAdmin}" Header="Is Admin" Width="*" />
+           <!-- <dxg1:GridColumn FieldName="Archived" Binding="{Binding IsArchived}" Header="Is Archived" Width="*"  /> -->
             <dxg1:GridColumn FieldName="ApprovalStatus" Binding="{Binding ApprovalStatus}" Header="Approval Status" Width="*" />
         </dxg1:GridControl.Columns>
     </dxg1:GridControl>

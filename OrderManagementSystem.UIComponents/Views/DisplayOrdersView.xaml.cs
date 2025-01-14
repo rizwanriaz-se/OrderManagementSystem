@@ -60,18 +60,18 @@ Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(64, 255, 25
 
         }
 
-        private void OrderGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            //var grid = sender as GridControl;
-            TableView tableView = OrderGrid.View as TableView;
-            var hitInfo = tableView.CalcHitInfo(e.OriginalSource as DependencyObject);
+        //private void OrderGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    //var grid = sender as GridControl;
+        //    TableView tableView = OrderGrid.View as TableView;
+        //    var hitInfo = tableView.CalcHitInfo(e.OriginalSource as DependencyObject);
 
-            if (hitInfo == null || hitInfo.RowHandle == GridControl.InvalidRowHandle)
-            {
-                Keyboard.ClearFocus();
-                return;
-            }
-        }
+        //    if (hitInfo == null || hitInfo.RowHandle == GridControl.InvalidRowHandle)
+        //    {
+        //        Keyboard.ClearFocus();
+        //        return;
+        //    }
+        //}
 
     }
 }

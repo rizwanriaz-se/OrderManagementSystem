@@ -10,7 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
    
-    <dxg1:GridControl DockPanel.Dock="Top" Name="OrderGrid" ItemsSource="{Binding Orders}" Height="300" SelectedItem="{Binding SelectedOrder}"  PreviewMouseDown="OrderGrid_PreviewMouseDown" >
+    <dxg1:GridControl DockPanel.Dock="Top" Name="OrderGrid" ItemsSource="{Binding Orders}" Height="300" SelectedItem="{Binding SelectedOrder}">
         <dxg1:GridControl.View>
             <dxg1:TableView 
                 DetailHeaderContent="Products" ShowGroupPanel="False" Name="OrderTableView" AllowConditionalFormattingManager="True"  AllowEditing="False" VerticalScrollbarVisibility="Auto">

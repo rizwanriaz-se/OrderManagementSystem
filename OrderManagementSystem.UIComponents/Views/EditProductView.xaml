@@ -37,14 +37,14 @@
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Name" />
-                    <dxe:TextEdit Text="{Binding ProductNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <dxe:TextEdit EditValue="{Binding ProductNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 
-            <dxlc:LayoutItem >
+            <dxlc:LayoutItem>
                 <StackPanel >
                     <Label Content="Description"  />
-                    <dxe:TextEdit TextWrapping="Wrap" Text="{Binding ProductDescriptionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <dxe:TextEdit TextWrapping="Wrap" EditValue="{Binding ProductDescriptionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
 

@@ -17,7 +17,6 @@ namespace OrderManagementSystem.UIComponents.Views
 
             m_objEditUserViewModel = new EditUserViewModel();
             DataContext = m_objEditUserViewModel;
-            Owner = System.Windows.Application.Current.MainWindow;
             m_objEditUserViewModel.CloseWindow = this.Close;
 
             ApprovalStatusComboBox.ItemsSource = Enum.GetValues(typeof(User.ApprovalStates));

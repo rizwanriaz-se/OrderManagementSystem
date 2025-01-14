@@ -9,7 +9,7 @@ namespace OrderManagementSystem.Cache
     {
         #region Declarations
         private ObservableCollection<Category> m_objCategories;
-        private ObservableCollection<Order> m_objOrders;
+        private ObservableCollection<Order> m_lstOrders; //OrderList or Orders
         private ObservableCollection<Product> m_objProducts;
         private ObservableCollection<User> m_objUsers;
         private static CacheManager? m_objInstance;
@@ -29,7 +29,7 @@ namespace OrderManagementSystem.Cache
             m_objUsers = new ObservableCollection<User>();
             m_objCategories = new ObservableCollection<Category>();
             m_objProducts = new ObservableCollection<Product>();
-            m_objOrders = new ObservableCollection<Order>();
+            m_lstOrders = new ObservableCollection<Order>();
         }
         #endregion
         
@@ -76,22 +76,22 @@ namespace OrderManagementSystem.Cache
         public void LoadOrders(ObservableCollection<Order> orders)
         {
             if (orders == null) return;
-            m_objOrders = orders;
+            m_lstOrders = orders;
         }
 
         public ObservableCollection<Order> GetAllOrders()
         {
-            return m_objOrders;
+            return m_lstOrders;
         }
        
         public void AddOrder(Order order)
         {
-            m_objOrders.Add(order);
+            m_lstOrders.Add(order);
         }
         public void UpdateOrder(Order updatedOrder)
         {
             // Retrieve the existing order with the same ID
-            Order? existingOrder = m_objOrders.FirstOrDefault(o => o.Id == updatedOrder.Id);
+            Order? existingOrder = m_lstOrders.FirstOrDefault(o => o.Id == updatedOrder.Id);
 
             if (existingOrder != null)
             {
@@ -107,10 +107,10 @@ namespace OrderManagementSystem.Cache
         public void DeleteOrder(string order)
         {
             int orderId = Int32.Parse(order);
-            Order? orderToDelete = m_objOrders.FirstOrDefault(o => o.Id == orderId);
+            Order? orderToDelete = m_lstOrders.FirstOrDefault(o => o.Id == orderId);
             if (orderToDelete != null)
             {
-                m_objOrders.Remove(orderToDelete);
+                m_lstOrders.Remove(orderToDelete);
             }
         }
         #endregion
@@ -184,6 +184,7 @@ namespace OrderManagementSystem.Cache
                 existingUser.Password = user.Password;
                 existingUser.IsAdmin = user.IsAdmin;
                 existingUser.ApprovalStatus = user.ApprovalStatus;
+                existingUser.IsArchived = user.IsArchived;
             }
         }
 
@@ -191,12 +192,9 @@ namespace OrderManagementSystem.Cache
         {
             int userId = Int32.Parse(user);
             User? userToDelete = m_objUsers.FirstOrDefault(u => u.Id == userId);
-            if (userToDelete != null)
-            {
-                userToDelete.IsArchived = true;
-            }
 
-            //UserViewModel userViewModel = new UserViewModel();
+            userToDelete.IsArchived = true;
+
         }
         #endregion
 

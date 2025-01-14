@@ -58,13 +58,23 @@
                 </StackPanel>
             </dxlc:LayoutItem>
 
+            <!--
+            <dxlc:LayoutItem>
+                <StackPanel>
+                    <Label Content="IsArchive" />
+                    <CheckBox  IsChecked="{Binding UserIsArchived, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="40" Height="40" />
+
+                </StackPanel>
+            </dxlc:LayoutItem>
+            -->
+            
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Password" />
                     <dxe:TextEdit TextWrapping="Wrap" Text="{Binding UserPasswordText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
-
+            
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Approval Status" />

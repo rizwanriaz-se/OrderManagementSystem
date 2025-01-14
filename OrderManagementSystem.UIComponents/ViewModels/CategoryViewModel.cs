@@ -122,7 +122,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 {
                     Name = CategoryNameText,
                     Description = CategoryDescriptionText,
-                    //Picture = null
                 };
 
                 if (string.IsNullOrWhiteSpace(category.Name))

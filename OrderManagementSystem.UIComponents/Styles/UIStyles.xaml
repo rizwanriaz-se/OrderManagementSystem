@@ -47,16 +47,7 @@
     <Style TargetType="{x:Type dx:DXTabItem}">
         <Setter Property="Padding" Value="20,10" />
     </Style>
-<!--
-    <Style TargetType="{x:Type dxlc:LayoutGroup}">
-        <Setter Property="Background" Value="SandyBrown" />
-    </Style>
 
-    <Style TargetType="{x:Type dxlc:LayoutItem}">
-        <Setter Property="Background" Value="green" />
-    </Style>
--->
-   
 
     <Style TargetType="{x:Type dxe:SpinEdit}">
         <Setter Property="Width" Value="50" />
@@ -64,11 +55,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         
     </Style>
-<!--
-    <Style TargetType="StackPanel">
-        <Setter Property="Background" Value="Red" />
-    </Style>
--->
+
     <Style TargetType="{x:Type dx:ThemedWindow}">
         <Setter Property="Background" Value="Black" />
     </Style>
