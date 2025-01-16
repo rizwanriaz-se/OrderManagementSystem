@@ -18,11 +18,11 @@ namespace OrderManagementSystem.UIComponents.Classes
         private GUIHandler() { }
 
         private CacheManager? m_objCacheManager;
-        private MessageProcessor? m_objMessageProcessor;
+        //private MessageProcessor? m_objMessageProcessor;
         private ClientManager? m_objClientManager;
 
         public CacheManager? CacheManager => m_objCacheManager;
-        public MessageProcessor? MessageProcessor => m_objMessageProcessor;
+        //public MessageProcessor? MessageProcessor => m_objMessageProcessor;
         public ClientManager? ClientManager => m_objClientManager;
 
         public static GUIHandler Instance
@@ -38,7 +38,7 @@ namespace OrderManagementSystem.UIComponents.Classes
         public void Init()
         {
             m_objCacheManager = CacheManager.Instance;
-            m_objMessageProcessor = new MessageProcessor();
+            //m_objMessageProcessor = new MessageProcessor();
             m_objClientManager = ClientManager.Instance;
         }
     }

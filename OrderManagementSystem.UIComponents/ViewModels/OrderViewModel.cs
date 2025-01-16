@@ -39,7 +39,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public OrderViewModel()
         {
-            Orders = GUIHandler.Instance.CacheManager.GetAllOrders();
+            Orders = GUIHandler.Instance.CacheManager.Orders;
 
             EditOrderCommand = new RelayCommand(ExecuteEditOrder);
             DeleteOrderCommand = new RelayCommand(ExecuteDeleteOrder);
@@ -47,23 +47,16 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void ExecuteEditOrder(object obj)
         {
-
-            if (SelectedOrder != null)
-            {
                 EditOrderView editOrderView = new EditOrderView();
                 editOrderView.LoadOrder(SelectedOrder);
                
                 editOrderView.ShowDialog();
-            }
-            else
-            {
-                DXMessageBox.Show("Select a valid order to edit.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+           
         }
     
         private void ExecuteDeleteOrder(object obj)
         {
-            MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Delete, SelectedOrder.Id);
+            GUIHandler.Instance.ClientManager.SendMessage(MessageType.Order, MessageAction.Delete, SelectedOrder.Id);
         }
 
    

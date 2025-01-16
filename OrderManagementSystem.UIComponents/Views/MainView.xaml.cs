@@ -23,7 +23,7 @@ namespace OrderManagementSystem.UIComponents.Views
             InitializeComponent();
 
             m_objMainViewModel = new MainViewModel();
-            this.DataContext = m_objMainViewModel;
+            DataContext = m_objMainViewModel;
 
             AddPanel(ref m_objOrderPanel, "Order");
 
@@ -112,7 +112,6 @@ namespace OrderManagementSystem.UIComponents.Views
                 "Category" => new DisplayCategoriesView(),
                 "Product" => new DisplayProductsView(),
                 "User" => new DisplayUsersView(),
-                _ => throw new ArgumentException("Invalid panel caption", nameof(panelCaption)),
             };
         }
     }

@@ -16,7 +16,6 @@ namespace OrderManagementSystem.UIComponents.Views
         {
             InitializeComponent();
             m_objEditOrderViewModel = new EditOrderViewModel();
-            this.Owner = System.Windows.Application.Current.MainWindow;
             DataContext = m_objEditOrderViewModel;
             m_objEditOrderViewModel.CloseWindow = this.Close;
         

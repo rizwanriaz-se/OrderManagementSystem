@@ -17,7 +17,7 @@ namespace OrderManagementSystem.UIComponents.Views
             InitializeComponent();
 
             UserViewModel userViewModel = new UserViewModel();
-            this.DataContext = userViewModel;
+            DataContext = userViewModel;
 
             TableView tableView = UserGrid.View as TableView;
             bool isAdminUser = GUIHandler.Instance.CurrentUser.IsAdmin;

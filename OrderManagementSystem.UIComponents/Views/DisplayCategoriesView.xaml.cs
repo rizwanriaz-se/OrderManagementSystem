@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Grid;
+using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.ViewModels;
 
 namespace OrderManagementSystem.UIComponents.Views
@@ -13,10 +14,14 @@ namespace OrderManagementSystem.UIComponents.Views
             InitializeComponent();
 
             CategoryViewModel categoryViewModel = new CategoryViewModel();
-            this.DataContext = categoryViewModel;
+            DataContext = categoryViewModel;
 
             TableView tableView = CategoryGrid.View as TableView;
             tableView.AllowEditing = false;
+
+            
+            editRowItem.IsVisible = GUIHandler.Instance.CurrentUser.IsAdmin;
+            deleteRowItem.IsVisible = GUIHandler.Instance.CurrentUser.IsAdmin;
         }
     }
 }

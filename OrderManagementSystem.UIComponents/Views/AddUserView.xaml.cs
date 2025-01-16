@@ -15,7 +15,7 @@ namespace OrderManagementSystem.UIComponents.Views
 
             UserViewModel userViewModel = new UserViewModel();
             userViewModel.CloseWindow = this.Close;
-            this.DataContext = userViewModel;
+            DataContext = userViewModel;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace OrderManagementSystem.UIComponents.Views
             InitializeComponent();
 
             ProductViewModel productViewModel = new ProductViewModel();
-            this.DataContext = productViewModel;
+            DataContext = productViewModel;
 
             TableView tableView = ProductGrid.View as TableView;
             tableView.AllowEditing = false;

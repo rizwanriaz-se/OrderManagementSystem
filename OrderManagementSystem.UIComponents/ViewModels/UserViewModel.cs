@@ -17,19 +17,14 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 {
     public class UserViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<User> _users;
         public event PropertyChangedEventHandler PropertyChanged;
-        public ObservableCollection<User> Users {
-            get { return _users; }
-            set {
-                _users = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Users)));
-                //FilteredUsersView.Refresh();
-            } 
-        }
-        public ICollectionView FilteredUsersView { get; private set; }
+        public ObservableCollection<User> Users
+        {
+            get; set;
 
-        private bool m_bUserIsArchived;
+        }
+        public ICollectionView FilteredUsersView { get; set; }
+
         public Action CloseWindow { get; set; }
 
         public string UserNameText { get; set; }
@@ -38,61 +33,30 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public string UserPhoneText { get; set; }
         public bool UserIsAdmin { get; set; }
 
-        public bool UserIsArchived {
-            get { return m_bUserIsArchived; }
-            set {
-                m_bUserIsArchived = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserIsArchived)));
-                FilteredUsersView.Refresh();
-            } 
-        }
+        public bool UserIsArchived { get; set; }
 
-        private User m_SelectedUser { get; set; }
+        public User SelectedUser { get; set; }
 
-        public User SelectedUser
-        {
-            get { return m_SelectedUser; }
-            set
-            {
-                m_SelectedUser = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedUser)));
-            }
-        }
         public ICommand EditUserCommand { get; set; }
-        public ICommand<RowFilterArgs> UserFilterCommand { get; set; }
 
         public ICommand DeleteUserCommand { get; set; }
 
         public UserViewModel()
         {
-            Users = GUIHandler.Instance.CacheManager.GetAllUsers();
-
+            Users = GUIHandler.Instance.CacheManager.Users;
             Users.ForEach(u => u.PropertyChanged += OnUserPropertyChanged);
 
             FilteredUsersView = CollectionViewSource.GetDefaultView(Users);
             FilteredUsersView.Filter = FilterUsers;
 
-           
-           
-
             EditUserCommand = new RelayCommand(EditUser);
-            //UserFilterCommand = new DelegateCommand<RowFilterArgs>(FilterUser);
             DeleteUserCommand = new RelayCommand(DeleteUser);
-            //Users.CollectionChanged += (s, e) => FilteredUsersView.Refresh();
         }
 
         private void OnUserPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             FilteredUsersView.Refresh();
         }
-
-        //private void UsersCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    foreach (var item in Users)
-        //    {
-        //        item.PropertyChanged += OnUserPropertyChanged;
-        //    }
-        //}
 
 
 
@@ -104,27 +68,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             return true;
         }
 
-        //private void FilterUser(RowFilterArgs args)
-        //{
-        //    //RowFilterArgs rowFilterArgs = dataRows as RowFilterArgs;
-        //    User user = args.Item as User;
-        //    if (user.IsArchived)
-        //    {
-        //        args.Visible = false;
-        //    }
-        //    else
-        //    {
-        //        args.Visible = true;
-        //    }
-        //}
 
 
         private void DeleteUser(object obj)
         {
-            
-            MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Delete, SelectedUser.Id);
-            
-
+            GUIHandler.Instance.ClientManager.SendMessage(MessageType.User, MessageAction.Delete, SelectedUser.Id);
         }
 
 

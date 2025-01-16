@@ -19,7 +19,7 @@ namespace OrderManagementSystem.UIComponents.Views
             DataContext = m_objEditUserViewModel;
             m_objEditUserViewModel.CloseWindow = this.Close;
 
-            ApprovalStatusComboBox.ItemsSource = Enum.GetValues(typeof(User.ApprovalStates));
+            ApprovalStatusComboBox.ItemsSource = Enum.GetValues(typeof(User.UserApprovalStates));
 
         }
 
@@ -31,7 +31,7 @@ namespace OrderManagementSystem.UIComponents.Views
             m_objEditUserViewModel.UserPhoneText = SelectedUser.Phone;
             m_objEditUserViewModel.UserIsArchived = SelectedUser.IsArchived;
             m_objEditUserViewModel.UserIsAdmin = SelectedUser.IsAdmin;
-            m_objEditUserViewModel.UserApprovalStatus = SelectedUser.ApprovalStatus;
+            m_objEditUserViewModel.UserApprovalStatus = SelectedUser.UserApprovalStatus;
         }
     }
 }

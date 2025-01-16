@@ -20,7 +20,9 @@ namespace OrderManagementSystem.UIComponents.Views
 
             AuthViewModel authViewModel = new AuthViewModel();
             authViewModel.CloseWindow = this.Close;
-            this.DataContext = authViewModel;
+            DataContext = authViewModel;
+
+
         }
 
         

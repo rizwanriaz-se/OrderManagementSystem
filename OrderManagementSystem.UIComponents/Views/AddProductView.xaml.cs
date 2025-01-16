@@ -14,7 +14,7 @@ namespace OrderManagementSystem.UIComponents.Views
             InitializeComponent();
             ProductViewModel productViewModel = new ProductViewModel();
             productViewModel.CloseWindow = this.Close;
-            this.DataContext = productViewModel;
+            DataContext = productViewModel;
         }
     }
 }

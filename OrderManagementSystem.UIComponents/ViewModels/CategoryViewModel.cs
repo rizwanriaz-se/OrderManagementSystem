@@ -11,34 +11,18 @@ using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-    public class CategoryViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
+    public class CategoryViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Category> Categories { get; private set; }
-        private string m_stCategoryNameText;
-        private string m_stCategoryDescriptionText;
+        public ObservableCollection<Category> Categories { get; set; }
+     
         public Action CloseWindow { get; set; }
 
-        [Required(ErrorMessage = "Category name is required")]
-        public string CategoryNameText
-        {
-            get { return m_stCategoryNameText; }
-            set
-            {
-                m_stCategoryNameText = value;
-                Validate(nameof(CategoryNameText), m_stCategoryNameText);
-            }
-        }
-
-        [Required(ErrorMessage = "Category description is required")]
-        public string CategoryDescriptionText
-        {
-            get { return m_stCategoryDescriptionText; }
-            set
-            {
-                m_stCategoryDescriptionText = value;
-                Validate(nameof(CategoryDescriptionText), m_stCategoryDescriptionText);
-            }
-        }
+       
+        public string CategoryNameText { get; set; }
+       
+       
+        public string CategoryDescriptionText { get; set; }
+       
 
         public ICommand SubmitCategoryCommand { get; set; }
 
@@ -46,7 +30,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public ICommand DeleteCategoryCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         private Category m_objSelectedCategory { get; set; }
 
@@ -60,104 +43,64 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
-
-        public bool HasErrors => Errors.Count > 0;
-
-        public IEnumerable GetErrors(string propertyName)
-        {
-            if (Errors.ContainsKey(propertyName))
-            {
-                return Errors[propertyName];
-            }
-            return null;
-        }
+        
 
         private User m_objCurrentUser { get; set; }
 
-        public User CurrentUser
-        {
-            get { return m_objCurrentUser; }
-            set
-            {
-                m_objCurrentUser = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentUser)));
-            }
-        }
+        public User CurrentUser { get; set; }
+       
 
         public CategoryViewModel()
         {
-            Categories = GUIHandler.Instance.CacheManager.GetAllCategories();
+            Categories = GUIHandler.Instance.CacheManager.Categories;
             SubmitCategoryCommand = new RelayCommand(SubmitCategory);
             EditCategoryCommand = new RelayCommand(EditCategory);
             DeleteCategoryCommand = new RelayCommand(DeleteCategory);
             CurrentUser = GUIHandler.Instance.CurrentUser;
         }
 
-        public bool Validate(string propertyName, object propertyValue)
-        {
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(this) { MemberName = propertyName };
-            Validator.TryValidateProperty(propertyValue, context, results);
-
-            if (results.Any())
-            {
-                Errors[propertyName] = results.Select(c => c.ErrorMessage).ToList();
-            }
-            else
-            {
-                Errors.Remove(propertyName);
-            }
-
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            return Errors.ContainsKey(propertyName);
-        }
         private void SubmitCategory(object obj)
         {
-            try
+            ValidateInputs();
+
+            Category category = new Category
             {
-                int? lastCategoryId = Categories.Last().Id;
+                Name = CategoryNameText,
+                Description = CategoryDescriptionText,
+            };
 
-                Category category = new Category
-                {
-                    Name = CategoryNameText,
-                    Description = CategoryDescriptionText,
-                };
-
-                if (string.IsNullOrWhiteSpace(category.Name))
-                {
-                    throw new ArgumentException("The category name cannot be empty.");
-                }
-
-                if (string.IsNullOrWhiteSpace(category.Description))
-                {
-                    throw new ArgumentException("The category description cannot be empty.");
-                }
-
-                
-
-                if (Categories.Any(c => c.Name.Equals(category.Name, StringComparison.OrdinalIgnoreCase)))
-                {
-                    throw new InvalidOperationException($"A category with the name '{category.Name}' already exists.");
-                }
-
-                MessageProcessor.SendMessage(
-                    Enums.MessageType.Category,
-                    Enums.MessageAction.Add,
+            GUIHandler.Instance.ClientManager.SendMessage(
+                    MessageType.Category,
+                    MessageAction.Add,
                     category
                 );
 
 
-                CloseWindow?.Invoke();
-            }
-            catch (Exception ex)
+            CloseWindow?.Invoke();
+
+        }
+
+        private void ValidateInputs()
+        {
+            if (string.IsNullOrWhiteSpace(CategoryNameText))
             {
-                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                DXMessageBox.Show("The category name cannot be empty.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(CategoryDescriptionText))
+            {
+                DXMessageBox.Show("The category description cannot be empty.");
+                return;
+            }
+
+            if (Categories.Any(c => c.Name.Equals(CategoryNameText, StringComparison.OrdinalIgnoreCase)))
+            {
+                DXMessageBox.Show($"A category with the name '{CategoryNameText}' already exists.");
                 return;
             }
         }
 
-      
 
         private void EditCategory(object obj)
         {
@@ -167,13 +110,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             editCategoryView.ShowDialog();
         }
 
-      
-
         private void DeleteCategory(object obj)
         {
-            MessageProcessor.SendMessage(
-                Enums.MessageType.Category,
-                Enums.MessageAction.Delete,
+            GUIHandler.Instance.ClientManager.SendMessage(
+                MessageType.Category,
+                MessageAction.Delete,
                 SelectedCategory.Id
             );
         }

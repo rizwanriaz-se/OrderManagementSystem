@@ -46,7 +46,7 @@
 
             <dxlc:LayoutItem>
                 <StackPanel>
-                    <Label Content="Description" />
+                    <Label Content="Email" />
                     <dxe:TextEdit Text="{Binding UserEmailText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </dxlc:LayoutItem>
@@ -54,7 +54,7 @@
             <dxlc:LayoutItem>
                 <StackPanel>
                     <Label Content="Phone" />
-                    <dxe:TextEdit Text="{Binding UserPhoneText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <dxe:TextEdit Text="{Binding UserPhoneText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Simple" Mask="0000-0000000" />
                 </StackPanel>
             </dxlc:LayoutItem>
 

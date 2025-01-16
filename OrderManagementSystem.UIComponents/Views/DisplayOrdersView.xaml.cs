@@ -18,9 +18,8 @@ namespace OrderManagementSystem.UIComponents.Views
         {
             InitializeComponent();
 
-            // Set the data context of the view to the view model
             m_objOrderViewModel = new OrderViewModel();
-            this.DataContext = m_objOrderViewModel;
+            DataContext = m_objOrderViewModel;
 
             TableView tableView = OrderGrid.View as TableView;
             tableView.AllowEditing = false;
@@ -32,7 +31,7 @@ namespace OrderManagementSystem.UIComponents.Views
                     Expression = "[Status] == 'Pending'",
                     FieldName = "Status",
                     Format = new Format() {
-                            Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(128, 255, 69, 0)) // OrangeRed with 50% opacity
+                            Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(128, 255, 69, 0)) 
 }
                 },
                 new FormatCondition() {
@@ -48,11 +47,11 @@ namespace OrderManagementSystem.UIComponents.Views
                     FieldName = "Status",
                     Format = new Format() {
  
-                     // LightGreen with 50% opacity
+                     
 Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(64, 255, 255, 0))
 }
                 },
-                    //rgb(157, 149, 6)
+                    
 
 
             });
@@ -60,18 +59,6 @@ Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(64, 255, 25
 
         }
 
-        //private void OrderGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    //var grid = sender as GridControl;
-        //    TableView tableView = OrderGrid.View as TableView;
-        //    var hitInfo = tableView.CalcHitInfo(e.OriginalSource as DependencyObject);
-
-        //    if (hitInfo == null || hitInfo.RowHandle == GridControl.InvalidRowHandle)
-        //    {
-        //        Keyboard.ClearFocus();
-        //        return;
-        //    }
-        //}
 
     }
 }

@@ -15,7 +15,7 @@ namespace OrderManagementSystem.UIComponents.Views
 
             CategoryViewModel categoryViewModel = new CategoryViewModel();
             categoryViewModel.CloseWindow = this.Close;
-            this.DataContext = categoryViewModel;
+            DataContext = categoryViewModel;
 
         }
 

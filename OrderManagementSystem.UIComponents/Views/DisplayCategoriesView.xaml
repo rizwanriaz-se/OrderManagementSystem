@@ -13,10 +13,10 @@
             <dxg1:TableView ShowGroupPanel="False"   VerticalScrollbarVisibility="Auto">
                 <dxg1:TableView.RowCellMenuCustomizations>
                     <dxb:BarButtonItem Name="editRowItem" Content="Edit"
-                                       IsVisible="{Binding CurrentUser.IsAdmin}"
+                                       
                                        Command="{Binding DataContext.EditCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
                     <dxb:BarButtonItem Name="deleteRowItem" Content="Delete"
-                                       IsVisible="{Binding CurrentUser.IsAdmin}"
+                                       
                                        Command="{Binding DataContext.DeleteCategoryCommand, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}"
                                        CommandParameter="{Binding Row.Row.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
                 </dxg1:TableView.RowCellMenuCustomizations>

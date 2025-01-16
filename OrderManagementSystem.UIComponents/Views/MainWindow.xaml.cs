@@ -13,7 +13,7 @@ namespace OrderManagementSystem.UIComponents.Views
             InitializeComponent();
 
             AuthViewModel authViewModel = new AuthViewModel();
-            this.DataContext = authViewModel;
+            DataContext = authViewModel;
         }
 
     }

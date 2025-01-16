@@ -6,12 +6,13 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Windows;
 using System.Windows.Input;
 using static OrderManagementSystemServer.Repository.Order;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-    public class EditOrderViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
+    public class EditOrderViewModel : INotifyPropertyChanged
     {
         public Action CloseWindow { get; set; }
         public ObservableCollection<Product> AllProducts { get; private set; }
@@ -22,7 +23,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public EditOrderViewModel()
         {
-            AllProducts = GUIHandler.Instance.CacheManager.GetAllProducts();
+            AllProducts = GUIHandler.Instance.CacheManager.Products;
             AddProductCommand = new RelayCommand(AddOrderDetails);
             RemoveProductCommand = new RelayCommand(RemoveOrderDetails);
             SaveOrderCommand = new RelayCommand(SaveOrder);
@@ -31,8 +32,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                  .Where(status => status != OrderStatus.Pending)
              );
         }
-     
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
 
         private DateTime? m_objOrderDate;
         private DateTime? m_objSelectedShippingDate;
@@ -42,100 +42,28 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public int? Id { get; set; }
         public User User { get; set; }
-        
 
-        [Required(ErrorMessage = "Order Date is required.")]
-        public DateTime? OrderDate
-        {
-            get { return m_objOrderDate; }
-            set
-            {
-                m_objOrderDate = value;
-                OnPropertyChanged(nameof(OrderDate));
-                Validate(nameof(OrderDate), m_objOrderDate);
-            }
-        }
 
-        //[Required(ErrorMessage = "Shipping Date must be selected.")]
-        public DateTime? SelectedShippingDate
-        {
+        public DateTime? OrderDate { get; set; }
 
-            get { return m_objSelectedShippingDate; }
-            set
-            {
-                m_objSelectedShippingDate = value;
-                OnPropertyChanged(nameof(SelectedShippingDate));
-            }
+        public DateTime? SelectedShippingDate { get; set; }
 
-        }
 
-        [Required(ErrorMessage = "Status must be selected.")]
-        public OrderStatus? SelectedStatus
-        {
-
-            get { return m_objSelectedStatus; }
-            set
-            {
-                m_objSelectedStatus = value;
-                OnPropertyChanged(nameof(SelectedStatus));
-                Validate(nameof(SelectedStatus), m_objSelectedStatus);
-            }
-        }
+        public OrderStatus? SelectedStatus { get; set; }
 
         public ObservableCollection<OrderDetail> OrderDetails { get; set; }
 
-        [Required(ErrorMessage = "Shipping Address must be selected.")]
-        public string SelectedShippingAddress
-        {
+        public string SelectedShippingAddress { get; set; }
 
-            get { return m_stSelectedShippingAddress; }
-            set
-            {
-                m_stSelectedShippingAddress = value;
-                OnPropertyChanged(nameof(SelectedShippingAddress));
-                Validate(nameof(SelectedShippingAddress), m_stSelectedShippingAddress);
-            }
-        }
 
         public ObservableCollection<OrderStatus> SelectableStatuses { get; }
 
-        Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
 
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public bool HasErrors => Errors.Count > 0;
-
-        public IEnumerable GetErrors(string propertyName)
-        {
-            if (Errors.ContainsKey(propertyName))
-            {
-                return Errors[propertyName];
-            }
-            return null;
-        }
-
-        public bool Validate(string propertyName, object propertyValue)
-        {
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(this) { MemberName = propertyName };
-            Validator.TryValidateProperty(propertyValue, context, results);
-
-            if (results.Any())
-            {
-                Errors[propertyName] = results.Select(c => c.ErrorMessage).ToList();
-            }
-            else
-            {
-                Errors.Remove(propertyName);
-            }
-
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-
-            return Errors.ContainsKey(propertyName);
-        }
 
         private void RemoveOrderDetails(object orderDetails)
         {
@@ -150,49 +78,44 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void SaveOrder(object obj)
         {
+            ValidateInputs();
 
-            try
+            Order order = new Order
             {
-                if (OrderDetails.Count <= 0)
-                {
-                    throw new Exception("Please add some products before proceeding.");
-                  
-                }
+                Id = Id,
+                User = User,
+                OrderDate = OrderDate,
+                Status = SelectedStatus,
+                ShippedDate = SelectedShippingDate,
+                ShippingAddress = SelectedShippingAddress,
+                OrderDetails = new ObservableCollection<OrderDetail>(OrderDetails),
+            };
 
-                if (!OrderDetails.All(order => order.Product != null && order.Quantity > 0))
-                {
-                    throw new Exception("Products and their respective quantity should not be empty.");
-                    
-                }
 
-                if (Validate(nameof(SelectedShippingAddress), m_stSelectedShippingAddress) || Validate(nameof(SelectedStatus), m_objSelectedStatus) || Validate(nameof(SelectedShippingDate), m_objSelectedShippingDate))
-                {
+            GUIHandler.Instance.ClientManager.SendMessage(MessageType.Order, MessageAction.Update, order);
 
-                    var errors = Errors.SelectMany(o => o.Value);
+            CloseWindow?.Invoke();
 
-                    throw new Exception(string.Join('\n', errors));
+        }
 
-                }
-
-                Order _order = new Order();
-                _order.Id = Id;
-                _order.User = User;
-                _order.OrderDate = OrderDate;
-                _order.Status = SelectedStatus;
-                _order.ShippedDate = SelectedShippingDate;
-                _order.ShippingAddress = SelectedShippingAddress;
-                _order.OrderDetails = new ObservableCollection<OrderDetail>(OrderDetails);
-
-                // Update the order in the database or collection
-                MessageProcessor.SendMessage(Enums.MessageType.Order, Enums.MessageAction.Update, _order);
-
-                // Close the window
-                CloseWindow?.Invoke();
+        private void ValidateInputs()
+        {
+            if (OrderDetails.Count <= 0)
+            {
+                DXMessageBox.Show("Please add some products before proceeding.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
-            catch (Exception ex)
+
+            if (!OrderDetails.All(order => order.Product != null && order.Quantity > 0))
             {
-                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return;            }
+                DXMessageBox.Show("Products and their respective quantity should not be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (SelectedShippingAddress == null)
+            {
+                DXMessageBox.Show("Shipping address field can not be empty.");
+                return;
+            }
         }
     }
 }

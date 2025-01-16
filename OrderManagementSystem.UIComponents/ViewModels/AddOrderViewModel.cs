@@ -10,9 +10,10 @@ using System.Windows;
 using System.Windows.Input;
 using static OrderManagementSystemServer.Repository.Order;
 
+
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-    public class AddOrderViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
+    public class AddOrderViewModel : INotifyPropertyChanged
     {
         #region Declarations
         public Action CloseWindow { get; set; }
@@ -21,7 +22,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private string m_stSelectedShippingAddress;
         private DateTime m_objSelectedShippingDate = DateTime.Now;
         private User m_objCurrentUser;
-        private Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
 
         public ICommand AddProductCommand { get; set; }
         public ICommand RemoveProductCommand { get; set; }
@@ -29,8 +29,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public ObservableCollection<OrderDetail> OrderDetails { get; set; } = new ObservableCollection<OrderDetail>();
 
-        public ObservableCollection<Product> AllProducts { get; set; }
-        public ObservableCollection<User> AllUsers { get; set; }
+        public ObservableCollection<Product> Products { get; set; }
+        public ObservableCollection<User> Users { get; set; }
 
         public User CurrentUser
         {
@@ -47,12 +47,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public ObservableCollection<OrderStatus> SelectableStatuses { get; }
       
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        //public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
         #endregion
 
         #region Data Bindings
 
-        [Required(ErrorMessage = "Status must be selected.")]
         public OrderStatus SelectedStatus
         {
             get { return m_objSelectedStatus; }
@@ -63,7 +62,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        [Required(ErrorMessage = "Shipping Address is required")]
         public string SelectedShippingAddress
         {
             get { return m_stSelectedShippingAddress; }
@@ -74,7 +72,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        [Required(ErrorMessage = "Shipping Date is required")]
         public DateTime SelectedShippingDate
         {
             get
@@ -88,54 +85,14 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-       
-
-        public bool HasErrors => Errors.Count > 0;
-
-        public IEnumerable GetErrors(string propertyName)
-        {
-            if (Errors.ContainsKey(propertyName))
-            {
-                return Errors[propertyName];
-            }
-            return null;
-        }
-
-        public bool Validate(string propertyName, object propertyValue)
-        {
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(this) { MemberName = propertyName };
-            Validator.TryValidateProperty(propertyValue, context, results);
-
-            if (results.Any())
-            {
-                Errors[propertyName] = results.Select(c => c.ErrorMessage).ToList();
-            }
-            else
-            {
-                Errors.Remove(propertyName);
-            }
-
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-
-            return Errors.ContainsKey(propertyName);
-        }
-
-       
         #endregion
 
         #region Constructor
         public AddOrderViewModel()
         {
-            AllProducts = GUIHandler.Instance.CacheManager.GetAllProducts();
-            AllUsers = GUIHandler.Instance.CacheManager.GetAllUsers();
+            Products = GUIHandler.Instance.CacheManager.Products;
+            Users = GUIHandler.Instance.CacheManager.Users;
             CurrentUser = GUIHandler.Instance.CurrentUser;
-
-            if (CurrentUser == null)
-            {
-                DXMessageBox.Show("Current user is not set.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
 
             AddProductCommand = new RelayCommand(AddOrderDetails);
             RemoveProductCommand = new RelayCommand(RemoveOrderDetails);
@@ -151,50 +108,45 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         #region Command Actions
         private void SubmitOrder(object obj)
         {
-            try
+            ValidateInputs();
+
+            Order order = new Order
             {
-                int? lastOrderId = GUIHandler.Instance.CacheManager.GetAllOrders().Last().Id;
+                User = CurrentUser,
+                OrderDate = DateTime.Now,
+                Status = OrderStatus.Pending,
+                OrderDetails = OrderDetails,
+                ShippedDate = m_objSelectedShippingDate,
+                ShippingAddress = m_stSelectedShippingAddress
+            };
 
-                if (OrderDetails.Count <= 0)
-                {
-                    throw new Exception("Please add some products before proceeding.");
-                }
+            ClientManager.Instance.SendMessage(
+                MessageType.Order,
+                MessageAction.Add,
+                order
+            );
 
-                if (!OrderDetails.All(order => order.Product != null && order.Quantity > 0))
-                {
-                    throw new Exception("Products and their respective quantity should not be empty.");
-                }
+            CloseWindow?.Invoke();
 
-                if (Validate(nameof(SelectedShippingAddress), m_stSelectedShippingAddress) || Validate(nameof(SelectedStatus), m_objSelectedStatus) || Validate(nameof(SelectedShippingDate), m_objSelectedShippingDate))
-                {
+        }
 
-                    var errors = Errors.SelectMany(o => o.Value);
-
-                    throw new Exception(string.Join('\n', errors));
-                }
-
-                Order order = new Order
-                {
-                    Id = lastOrderId + 1,
-                    User = CurrentUser,
-                    OrderDate = DateTime.Now,
-                    Status = OrderStatus.Pending,
-                    OrderDetails = OrderDetails,
-                    ShippedDate = m_objSelectedShippingDate,
-                    ShippingAddress = m_stSelectedShippingAddress
-                };
-
-                MessageProcessor.SendMessage(
-                    Enums.MessageType.Order,
-                    Enums.MessageAction.Add,
-                    order
-                );
-
-                CloseWindow?.Invoke();
+        private void ValidateInputs()
+        {
+            if (OrderDetails.Count <= 0)
+            {
+                DXMessageBox.Show("Please add some products before proceeding.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
-            catch (Exception ex)
+
+            if (!OrderDetails.All(order => order.Product != null && order.Quantity > 0))
             {
-                DXMessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                DXMessageBox.Show("Products and their respective quantity should not be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (SelectedShippingAddress == null)
+            {
+                DXMessageBox.Show("Shipping address field can not be empty.");
                 return;
             }
         }

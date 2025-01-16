@@ -9,125 +9,31 @@ using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
 {
-    public class EditUserViewModel : INotifyDataErrorInfo, INotifyPropertyChanged
+    public class EditUserViewModel : INotifyPropertyChanged
     {
-        private User m_objUser;
-
-        private string m_stUserNameText;
-        private string m_stUserEmailText;
-        private string m_stUserPhoneText;
-        private string m_stUserPasswordText;
-        private bool m_bUserIsArchived;
-        private User.ApprovalStates m_objSelectedStatus;
 
         public Action CloseWindow { get; set; }
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Name is required")]
-        public string UserNameText
-        {
-
-            get { return m_stUserNameText; }
-            set
-            {
-                m_stUserNameText = value;
-            }
-        }
-
-        [Required(ErrorMessage = "Email is required")]
-        public string UserEmailText
-        {
-            get { return m_stUserEmailText; }
-            set
-            {
-                m_stUserEmailText = value;
-            }
-        }
-
-        [Required(ErrorMessage = "User Appoval Status value is required")]
-        public User.ApprovalStates UserApprovalStatus
-        {
-            get { return m_objSelectedStatus; }
-            set
-            {
-                m_objSelectedStatus = value;
-            }
-        }
-
-        [Required(ErrorMessage = "Phone Number is required")]
-        public string UserPhoneText
-        {
-
-            get { return m_stUserPhoneText; }
-            set
-            {
-                m_stUserPhoneText = value;
-            }
-        }
-
-        [Required(ErrorMessage = "Password is required")]
-        public string UserPasswordText
-        {
-
-            get { return m_stUserPasswordText; }
-            set
-            {
-                m_stUserPasswordText = value;
-            }
-        }
-
-        [Required(ErrorMessage = "User Archived value is required")]
-        public bool UserIsArchived
-        {
-
-            get { return m_bUserIsArchived; }
-            set
-            {
-                m_bUserIsArchived = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserIsArchived)));
-            }
-        }
+        public string UserNameText { get; set; }
 
 
-        public bool Validate(string propertyName, object propertyValue)
-        {
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(this) { MemberName = propertyName };
-            Validator.TryValidateProperty(propertyValue, context, results);
+        public string UserEmailText { get; set; }
 
-            if (results.Any())
-            {
-                Errors[propertyName] = results.Select(c => c.ErrorMessage).ToList();
-            }
-            else
-            {
-                Errors.Remove(propertyName);
-            }
+        public User.UserApprovalStates UserApprovalStatus { get; set; }
 
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
 
-            return Errors.ContainsKey(propertyName);
-        }
+        public string UserPhoneText { get; set; }
+
+        public string UserPasswordText { get; set; }
+
+        public bool UserIsArchived { get; set; }
 
         public bool UserIsAdmin { get; set; }
-        //public bool UserIsArchived { get; set; }
 
-        public bool HasErrors => Errors.Count > 0;
-
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
-
-        public IEnumerable GetErrors(string propertyName)
-        {
-            if (Errors.ContainsKey(propertyName))
-            {
-                return Errors[propertyName];
-            }
-            return null;
-        }
 
         public ICommand SaveUserCommand { get; set; }
 
@@ -139,35 +45,57 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void SaveUser(object obj)
         {
+            
+            ValidateInputs();
 
-            try
+            User user = new User
             {
-                if (Validate(nameof(UserNameText), m_stUserNameText) || Validate(nameof(UserEmailText), m_stUserEmailText) || Validate(nameof(UserApprovalStatus), m_objSelectedStatus) || Validate(nameof(UserPhoneText), m_stUserPhoneText) || Validate(nameof(UserPasswordText), m_stUserPasswordText))
-                {
-                    var errors = Errors.SelectMany(e => e.Value);
-                    throw new Exception(string.Join('\n', errors));
-                }
+                Id = Id,
+                Name = UserNameText,
+                Email = UserEmailText,
+                Phone = UserPhoneText,
+                IsArchived = UserIsArchived,
+                Password = UserPasswordText,
+                IsAdmin = UserIsAdmin,
+                UserApprovalStatus = UserApprovalStatus,
+            };
 
-                m_objUser = new User();
-                m_objUser.Id = Id;
-                m_objUser.Name = UserNameText;
-                m_objUser.Email = UserEmailText;
-                m_objUser.Phone = UserPhoneText;
-                m_objUser.IsArchived = UserIsArchived;
-                m_objUser.Password = UserPasswordText;
-                m_objUser.IsAdmin = UserIsAdmin;
-                m_objUser.ApprovalStatus = UserApprovalStatus;
 
-                MessageProcessor.SendMessage(Enums.MessageType.User, Enums.MessageAction.Update, m_objUser);
 
-                CloseWindow.Invoke();
-            }
-            catch (Exception ex)
+            GUIHandler.Instance.ClientManager.SendMessage(MessageType.User, MessageAction.Update, user);
+
+            CloseWindow.Invoke();
+
+
+        }
+
+        private void ValidateInputs()
+        {
+            if (UserNameText == null)
             {
-                DXMessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                DXMessageBox.Show("Name field must not be empty.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return;
             }
-
+            if (UserEmailText == null || !UserEmailText.Contains('@') || UserEmailText.Length <= 6)
+            {
+                DXMessageBox.Show("Email field must not be empty, should contain @ and have atleast 6 characters", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
+            if (UserApprovalStatus == null)
+            {
+                DXMessageBox.Show("User Approval Status must be selected.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
+            if (UserPhoneText == null || UserPhoneText.Length != 12)
+            {
+                DXMessageBox.Show("Phone number field must not be empty, and should contain 11 digits", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
+            if (UserPasswordText == null || UserPasswordText.Length <= 6)
+            {
+                DXMessageBox.Show("Password field must not be empty, and should contain atleast 6 characters", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
         }
     }
 }

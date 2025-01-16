@@ -56,7 +56,7 @@
             <dxg1:GridColumn FieldName="Phone" Binding="{Binding Phone}" Header="Phone" Width="2*" />
             <dxg1:GridColumn FieldName="IsAdmin" Binding="{Binding IsAdmin}" Header="Is Admin" Width="*" />
            <!-- <dxg1:GridColumn FieldName="Archived" Binding="{Binding IsArchived}" Header="Is Archived" Width="*"  /> -->
-            <dxg1:GridColumn FieldName="ApprovalStatus" Binding="{Binding ApprovalStatus}" Header="Approval Status" Width="*" />
+            <dxg1:GridColumn FieldName="ApprovalStatus" Binding="{Binding UserApprovalStatus}" Header="Approval Status" Width="*" />
         </dxg1:GridControl.Columns>
     </dxg1:GridControl>
 </UserControl>

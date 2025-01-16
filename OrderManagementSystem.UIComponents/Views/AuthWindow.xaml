@@ -4,9 +4,14 @@
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Authorization" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"  Margin="0" Padding="0" Background="LightGray" >
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:Views="clr-namespace:OrderManagementSystem.UIComponents.Views"
 
+    Title="Authorization" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"  Margin="0" Padding="0" Background="LightGray" >
+    <dxmvvm:Interaction.Behaviors>
+        <dx:SplashScreenManagerService SplashScreenType="Views:ThemedSplashScreen" />
+    </dxmvvm:Interaction.Behaviors>
+    
     <dx:ThemedWindow.Resources>
         <dx:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
@@ -113,7 +118,7 @@
                             <StackPanel>
                                 <Label Content="Role" />
                                 <ComboBox x:Name="RoleComboBox" 
-                                ItemsSource="{Binding Roles}" 
+                                ItemsSource="{Binding UserRoles}" 
                                 SelectedItem="{Binding SelectedLoginRole, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                         </dxlc:LayoutItem>
@@ -156,7 +161,7 @@
                         <dxlc:LayoutItem>
                             <StackPanel>
                                 <Label Content="Phone" />
-                                <dxe:TextEdit EditValue="{Binding PhoneRegisterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="16" />
+                                <dxe:TextEdit  EditValue="{Binding PhoneRegisterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaskType="Simple" Mask="0000-0000000" />
                             </StackPanel>
                         </dxlc:LayoutItem>
 
