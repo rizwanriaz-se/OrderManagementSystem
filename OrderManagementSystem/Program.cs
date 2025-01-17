@@ -24,8 +24,7 @@ namespace OrderManagementSystem
                 };
                 mainApp.Resources.MergedDictionaries.Add(resourceDictionary);
 
-                //ClientManager.Instance.LoadData();
-                GUIHandler.Instance.ClientManager.SendMessage(MessageType.User, MessageAction.Load, null);
+                ClientManager.Instance.SendMessage(MessageType.User, MessageAction.Load, null);
 
                 AuthWindow authWindow = new AuthWindow();
                 mainApp.MainWindow = authWindow;

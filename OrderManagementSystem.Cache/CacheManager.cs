@@ -17,22 +17,22 @@ namespace OrderManagementSystem.Cache
 
         public ObservableCollection<Order>? Orders
         {
-            get { if (m_lstOrders != null) return m_lstOrders; return null; }
+            get { return m_lstOrders; }
             set { m_lstOrders = value; }
         }
         public ObservableCollection<Category>? Categories
         {
-            get { if (m_lstCategories != null) return m_lstCategories; return null; }
+            get { return m_lstCategories; }
             set { m_lstCategories = value; }
         }
         public ObservableCollection<Product>? Products
         {
-            get { if (m_lstProducts != null) return m_lstProducts; return null; }
+            get { return m_lstProducts; }
             set { m_lstProducts = value; }
         }
         public ObservableCollection<User>? Users
         {
-            get { if (m_lstUsers != null) return m_lstUsers; return null; }
+            get { return m_lstUsers; }
             set { m_lstUsers = value; }
         }
 
@@ -175,10 +175,9 @@ namespace OrderManagementSystem.Cache
             if (user != null)
             {
                 Users.Add(user);
-                DXMessageBox.Show("Registration successful!! Your account is pending approval.");
+                DXMessageBox.Show("Registration successful!! Your account is pending approval.", "Success", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
             }
         }
-
         public void UpdateUser(User user)
         {
             if (user != null)
@@ -196,7 +195,6 @@ namespace OrderManagementSystem.Cache
                 }
             }
         }
-
         public void DeleteUser(string user)
         {
             if (user != null)
@@ -208,6 +206,6 @@ namespace OrderManagementSystem.Cache
             }
         }
         #endregion
-
+        
     }
 }

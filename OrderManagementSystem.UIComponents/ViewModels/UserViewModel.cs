@@ -18,11 +18,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
     public class UserViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public ObservableCollection<User> Users
-        {
-            get; set;
-
-        }
+        public ObservableCollection<User> Users { get; set; }
         public ICollectionView FilteredUsersView { get; set; }
 
         public Action CloseWindow { get; set; }
@@ -72,7 +68,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void DeleteUser(object obj)
         {
-            GUIHandler.Instance.ClientManager.SendMessage(MessageType.User, MessageAction.Delete, SelectedUser.Id);
+            ClientManager.Instance.SendMessage(MessageType.User, MessageAction.Delete, SelectedUser.Id);
         }
 
 

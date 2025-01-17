@@ -4,13 +4,9 @@
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-        xmlns:Views="clr-namespace:OrderManagementSystem.UIComponents.Views"
-
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Authorization" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"  Margin="0" Padding="0" Background="LightGray" >
-    <dxmvvm:Interaction.Behaviors>
-        <dx:SplashScreenManagerService SplashScreenType="Views:ThemedSplashScreen" />
-    </dxmvvm:Interaction.Behaviors>
+   
     
     <dx:ThemedWindow.Resources>
         <dx:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -45,7 +41,7 @@
 
     </dx:ThemedWindow.Resources>
 
-    <Grid Margin="30" ClipToBounds="True">
+    <Grid Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="69*"/>
             <RowDefinition Height="247*"/>
@@ -98,6 +94,7 @@
             </dx:DXTabControl.Resources>
             <dx:DXTabItem Header="Login" FontWeight="SemiBold" Padding="12,10">
                 <dxlc:LayoutControl Header="User Authentication" >
+                    
                     <dxlc:LayoutGroup Orientation="Vertical" >
                         <Label Content="Login" HorizontalAlignment="Center" FontSize="30" FontWeight="SemiBold" />
                         <dxlc:LayoutItem>

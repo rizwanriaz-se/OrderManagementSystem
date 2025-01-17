@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -25,8 +26,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public Product SelectedProduct { get; set; }
 
 
-        public ObservableCollection<Product> Products { get; private set; }
-        public ObservableCollection<Category> Categories { get; private set; }
+        public ObservableCollection<Product> Products { get;  set; }
+        public ObservableCollection<Category> Categories { get;  set; }
 
 
         public string ProductNameText { get; set; }
@@ -65,7 +66,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void DeleteProduct(object obj)
         {
-            GUIHandler.Instance.ClientManager.SendMessage(
+            ClientManager.Instance.SendMessage(
                 MessageType.Product,
                 MessageAction.Delete,
                 SelectedProduct.Id
@@ -75,7 +76,37 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public void SubmitProduct(object obj)
         {
-            ValidateInputs();
+            if (ProductNameText == null)
+            {
+                DXMessageBox.Show("The product name cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (ProductDescriptionText == null)
+            {
+                DXMessageBox.Show("The product description cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (SelectedCategory == null)
+            {
+                DXMessageBox.Show("Category must be selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (ProductUnitPriceText == null || ProductUnitPriceText < 1)
+            {
+                DXMessageBox.Show("The product unit price must be greater than 0.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (ProductUnitsInStockText == null || ProductUnitsInStockText < 1)
+            {
+                DXMessageBox.Show("The product units in stock value must be greater than 0.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (Products.Any(p => p.Name.Equals(ProductNameText, StringComparison.OrdinalIgnoreCase)))
+            {
+                DXMessageBox.Show($"A product with the name '{ProductNameText}' already exists.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             Product product = new Product
             {
@@ -86,7 +117,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Category = SelectedCategory
             };
 
-            GUIHandler.Instance.ClientManager.SendMessage(
+            ClientManager.Instance.SendMessage(
                 MessageType.Product,
                 MessageAction.Add,
                 product
@@ -94,39 +125,5 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             CloseWindow?.Invoke();
         }
 
-        private void ValidateInputs()
-        {
-            if (ProductNameText == null)
-            {
-                DXMessageBox.Show("The product name cannot be empty.");
-                return;
-            }
-            if (ProductDescriptionText == null)
-            {
-                DXMessageBox.Show("The product description cannot be empty.");
-                return;
-            }
-            if (SelectedCategory == null)
-            {
-                DXMessageBox.Show("Category must be selected.");
-                return;
-            }
-            if (ProductUnitPriceText == null || ProductUnitPriceText < 1)
-            {
-                DXMessageBox.Show("The product unit price must be greater than 0.");
-                return;
-            }
-            if (ProductUnitsInStockText == null || ProductUnitsInStockText < 1)
-            {
-                DXMessageBox.Show("The product units in stock value must be greater than 0.");
-                return;
-            }
-
-            if (Products.Any(p => p.Name.Equals(ProductNameText, StringComparison.OrdinalIgnoreCase)))
-            {
-                DXMessageBox.Show($"A product with the name '{ProductNameText}' already exists.", "Error");
-                return;
-            }
-        }
     }
 }

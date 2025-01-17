@@ -5,6 +5,7 @@ using OrderManagementSystemServer.Repository;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Windows;
 using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -32,7 +33,22 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void SaveCategory(object obj)
         {
-            ValidateInputs();
+            if (string.IsNullOrWhiteSpace(CategoryNameText))
+            {
+                DXMessageBox.Show("The category name cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(CategoryDescriptionText))
+            {
+                DXMessageBox.Show("The category description cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (GUIHandler.Instance.CacheManager.Categories.Any(c => c.Name.Equals(CategoryNameText, StringComparison.OrdinalIgnoreCase)))
+            {
+                DXMessageBox.Show($"A category with the name '{CategoryNameText}' already exists.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             Category category = new Category
             {
@@ -43,30 +59,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
 
 
-            GUIHandler.Instance.ClientManager.SendMessage(MessageType.Category, MessageAction.Update, category);
+            ClientManager.Instance.SendMessage(MessageType.Category, MessageAction.Update, category);
 
             CloseWindow.Invoke();
 
         }
 
-        private void ValidateInputs()
-        {
-            if (string.IsNullOrWhiteSpace(CategoryNameText))
-            {
-                DXMessageBox.Show("The category name cannot be empty.");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(CategoryDescriptionText))
-            {
-                DXMessageBox.Show("The category description cannot be empty.");
-                return;
-            }
-            if (GUIHandler.Instance.CacheManager.Categories.Any(c => c.Name.Equals(CategoryNameText, StringComparison.OrdinalIgnoreCase)))
-            {
-                DXMessageBox.Show($"A category with the name '{CategoryNameText}' already exists.");
-                return;
-            }
-        }
     }
 }

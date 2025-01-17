@@ -2,10 +2,8 @@
 using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystemServer.Repository;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using System.Windows.Input;
 using static OrderManagementSystemServer.Repository.Order;
@@ -47,7 +45,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         public ObservableCollection<OrderStatus> SelectableStatuses { get; }
       
         public event PropertyChangedEventHandler PropertyChanged;
-        //public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
         #endregion
 
         #region Data Bindings
@@ -97,18 +94,29 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             AddProductCommand = new RelayCommand(AddOrderDetails);
             RemoveProductCommand = new RelayCommand(RemoveOrderDetails);
             SubmitOrderCommand = new RelayCommand(SubmitOrder);
-
-            AddProductCommand = new RelayCommand(AddOrderDetails);
-            RemoveProductCommand = new RelayCommand(RemoveOrderDetails);
-            SubmitOrderCommand = new RelayCommand(SubmitOrder);
-            
         }
         #endregion
 
         #region Command Actions
         private void SubmitOrder(object obj)
         {
-            ValidateInputs();
+            if (OrderDetails.Count <= 0)
+            {
+                DXMessageBox.Show("Please add some products before proceeding.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (!OrderDetails.All(order => order.Product != null && order.Quantity > 0))
+            {
+                DXMessageBox.Show("Products and their respective quantity should not be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (SelectedShippingAddress == null)
+            {
+                DXMessageBox.Show("Shipping address field can not be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             Order order = new Order
             {
@@ -130,26 +138,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         }
 
-        private void ValidateInputs()
-        {
-            if (OrderDetails.Count <= 0)
-            {
-                DXMessageBox.Show("Please add some products before proceeding.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            if (!OrderDetails.All(order => order.Product != null && order.Quantity > 0))
-            {
-                DXMessageBox.Show("Products and their respective quantity should not be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            if (SelectedShippingAddress == null)
-            {
-                DXMessageBox.Show("Shipping address field can not be empty.");
-                return;
-            }
-        }
+       
 
         private void RemoveOrderDetails(object orderDetail)
         {
@@ -158,7 +147,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void AddOrderDetails(object obj)
         {
-            var newOrderDetail = new OrderDetail { Quantity = 1 };
+            OrderDetail newOrderDetail = new OrderDetail { Quantity = 1 };
             OrderDetails.Add(newOrderDetail);
         }
         #endregion

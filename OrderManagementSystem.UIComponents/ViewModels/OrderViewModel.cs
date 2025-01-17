@@ -35,7 +35,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        public ObservableCollection<Order> Orders { get; private set; }
+        public ObservableCollection<Order> Orders { get;  set; }
 
         public OrderViewModel()
         {
@@ -56,7 +56,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
     
         private void ExecuteDeleteOrder(object obj)
         {
-            GUIHandler.Instance.ClientManager.SendMessage(MessageType.Order, MessageAction.Delete, SelectedOrder.Id);
+            ClientManager.Instance.SendMessage(MessageType.Order, MessageAction.Delete, SelectedOrder.Id);
         }
 
    

@@ -15,7 +15,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
     public class EditOrderViewModel : INotifyPropertyChanged
     {
         public Action CloseWindow { get; set; }
-        public ObservableCollection<Product> AllProducts { get; private set; }
+        public ObservableCollection<Product> AllProducts { get;  set; }
 
         public ICommand AddProductCommand { get; set; }
         public ICommand RemoveProductCommand { get; set; }
@@ -72,33 +72,11 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void AddOrderDetails(object obj)
         {
-            var newOrderDetail = new OrderDetail { Quantity = 1 };
+            OrderDetail newOrderDetail = new OrderDetail { Quantity = 1 };
             OrderDetails.Add(newOrderDetail);
         }
 
         private void SaveOrder(object obj)
-        {
-            ValidateInputs();
-
-            Order order = new Order
-            {
-                Id = Id,
-                User = User,
-                OrderDate = OrderDate,
-                Status = SelectedStatus,
-                ShippedDate = SelectedShippingDate,
-                ShippingAddress = SelectedShippingAddress,
-                OrderDetails = new ObservableCollection<OrderDetail>(OrderDetails),
-            };
-
-
-            GUIHandler.Instance.ClientManager.SendMessage(MessageType.Order, MessageAction.Update, order);
-
-            CloseWindow?.Invoke();
-
-        }
-
-        private void ValidateInputs()
         {
             if (OrderDetails.Count <= 0)
             {
@@ -113,9 +91,27 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
             if (SelectedShippingAddress == null)
             {
-                DXMessageBox.Show("Shipping address field can not be empty.");
+                DXMessageBox.Show("Shipping address field can not be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            Order order = new Order
+            {
+                Id = Id,
+                User = User,
+                OrderDate = OrderDate,
+                Status = SelectedStatus,
+                ShippedDate = SelectedShippingDate,
+                ShippingAddress = SelectedShippingAddress,
+                OrderDetails = new ObservableCollection<OrderDetail>(OrderDetails),
+            };
+
+
+            ClientManager.Instance.SendMessage(MessageType.Order, MessageAction.Update, order);
+
+            CloseWindow?.Invoke();
+
         }
+
     }
 }

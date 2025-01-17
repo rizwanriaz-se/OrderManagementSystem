@@ -30,30 +30,18 @@ namespace OrderManagementSystem.UIComponents.Views
                 new FormatCondition() {
                     Expression = "[Status] == 'Pending'",
                     FieldName = "Status",
-                    Format = new Format() {
-                            Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(128, 255, 69, 0)) 
-}
+                    Format = new Format() { Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(128, 255, 69, 0))}
                 },
                 new FormatCondition() {
                     Expression = "[Status] == 'Delivered'",
                     FieldName = "Status",
-                    Format = new Format() {
-                        Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(128, 144, 238, 0))
-}
-
+                    Format = new Format() { Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(128, 144, 238, 0))}
                 },
                 new FormatCondition() {
                     Expression = "[Status] == 'Shipped'",
                     FieldName = "Status",
-                    Format = new Format() {
- 
-                     
-Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(64, 255, 255, 0))
-}
+                    Format = new Format() { Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(64, 255, 255, 0))}
                 },
-                    
-
-
             });
 
 

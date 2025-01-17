@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Windows;
 using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -61,7 +62,24 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void SubmitCategory(object obj)
         {
-            ValidateInputs();
+            //ValidateInputs();
+            if (string.IsNullOrWhiteSpace(CategoryNameText))
+            {
+                DXMessageBox.Show("The category name cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(CategoryDescriptionText))
+            {
+                DXMessageBox.Show("The category description cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (Categories.Any(c => c.Name.Equals(CategoryNameText, StringComparison.OrdinalIgnoreCase)))
+            {
+                DXMessageBox.Show($"A category with the name '{CategoryNameText}' already exists.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             Category category = new Category
             {
@@ -69,7 +87,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 Description = CategoryDescriptionText,
             };
 
-            GUIHandler.Instance.ClientManager.SendMessage(
+            ClientManager.Instance.SendMessage(
                     MessageType.Category,
                     MessageAction.Add,
                     category
@@ -78,27 +96,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             CloseWindow?.Invoke();
 
-        }
-
-        private void ValidateInputs()
-        {
-            if (string.IsNullOrWhiteSpace(CategoryNameText))
-            {
-                DXMessageBox.Show("The category name cannot be empty.");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(CategoryDescriptionText))
-            {
-                DXMessageBox.Show("The category description cannot be empty.");
-                return;
-            }
-
-            if (Categories.Any(c => c.Name.Equals(CategoryNameText, StringComparison.OrdinalIgnoreCase)))
-            {
-                DXMessageBox.Show($"A category with the name '{CategoryNameText}' already exists.");
-                return;
-            }
         }
 
 
@@ -112,7 +109,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void DeleteCategory(object obj)
         {
-            GUIHandler.Instance.ClientManager.SendMessage(
+            ClientManager.Instance.SendMessage(
                 MessageType.Category,
                 MessageAction.Delete,
                 SelectedCategory.Id

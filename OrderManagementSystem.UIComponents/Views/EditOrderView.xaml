@@ -80,8 +80,6 @@
                                             DisplayMember="Name" 
                                             AutoComplete="True"  
                                             />
-
-
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="5,0">
                                         <Label Content="Quantity" />

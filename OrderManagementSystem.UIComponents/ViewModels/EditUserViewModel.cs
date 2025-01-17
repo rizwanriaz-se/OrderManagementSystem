@@ -42,35 +42,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             SaveUserCommand = new RelayCommand(SaveUser);
         }
 
-
         private void SaveUser(object obj)
         {
-            
-            ValidateInputs();
 
-            User user = new User
-            {
-                Id = Id,
-                Name = UserNameText,
-                Email = UserEmailText,
-                Phone = UserPhoneText,
-                IsArchived = UserIsArchived,
-                Password = UserPasswordText,
-                IsAdmin = UserIsAdmin,
-                UserApprovalStatus = UserApprovalStatus,
-            };
-
-
-
-            GUIHandler.Instance.ClientManager.SendMessage(MessageType.User, MessageAction.Update, user);
-
-            CloseWindow.Invoke();
-
-
-        }
-
-        private void ValidateInputs()
-        {
             if (UserNameText == null)
             {
                 DXMessageBox.Show("Name field must not be empty.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
@@ -91,11 +65,33 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 DXMessageBox.Show("Phone number field must not be empty, and should contain 11 digits", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return;
             }
-            if (UserPasswordText == null || UserPasswordText.Length <= 6)
+            if (UserPasswordText == null || UserPasswordText.Length < 6)
             {
                 DXMessageBox.Show("Password field must not be empty, and should contain atleast 6 characters", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return;
             }
+
+            User user = new User
+            {
+                Id = Id,
+                Name = UserNameText,
+                Email = UserEmailText,
+                Phone = UserPhoneText,
+                IsArchived = UserIsArchived,
+                Password = UserPasswordText,
+                IsAdmin = UserIsAdmin,
+                UserApprovalStatus = UserApprovalStatus,
+            };
+
+
+
+            ClientManager.Instance.SendMessage(MessageType.User, MessageAction.Update, user);
+
+            CloseWindow.Invoke();
+
+
         }
+
+      
     }
 }

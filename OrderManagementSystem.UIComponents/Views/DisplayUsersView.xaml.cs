@@ -24,11 +24,6 @@ namespace OrderManagementSystem.UIComponents.Views
             
             tableView.AllowEditing = false;
 
-            
-            //UserGrid.FilterString = "[IsArchived] == 'False'";
-
         }
-
-
     }
 }

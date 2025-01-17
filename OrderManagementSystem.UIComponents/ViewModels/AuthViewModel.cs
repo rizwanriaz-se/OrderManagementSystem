@@ -27,11 +27,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             Employee
         }
 
-        //private ISplashScreenManagerService m_objSplashScreenService;
-
-
         public ISplashScreenManagerService SplashScreenManagerService = new SplashScreenManagerService();
-        
+
 
         public Action CloseWindow { get; set; }
 
@@ -128,12 +125,23 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             // list safe check
             // easily debuggable
             // can add safe checks and conditions
-            ValidateLoginInputs();
+
+            if (EmailLoginText == null || !EmailLoginText.Contains('@') || EmailLoginText.Length <= 6)
+            {
+                DXMessageBox.Show("Email field must not be empty, should contain @ and have atleast 6 characters", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (PasswordLoginText == null || PasswordLoginText.Length < 6)
+            {
+                DXMessageBox.Show("Password field must not be empty, and should contain atleast 6 characters", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             User user = null;
             if (GUIHandler.Instance.CacheManager.Users == null)
             {
-                DXMessageBox.Show("No user currently exists. Please register first.", "Error");
+                DXMessageBox.Show("No user currently exists. Please register first.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -155,29 +163,21 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
             if (user == null)
             {
-                DXMessageBox.Show("No user found with these credentials", "Error");
+                DXMessageBox.Show("No user found with these credentials", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
 
             if (SelectedLoginRole == Roles.Employee && user.UserApprovalStatus != UserApprovalStates.Approved)
             {
-                DXMessageBox.Show($"Login failed. Your account approval status is:  {user.UserApprovalStatus}.");
+                DXMessageBox.Show($"Login failed. Your account approval status is:  {user.UserApprovalStatus}.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
 
             GUIHandler.Instance.CurrentUser = user;
 
-            if (!ClientManager.Instance.IsDataLoaded)
-                ShowSplashScreen();
-
-            //ClientManager.Instance.LoadData();
-                
-            
-            //var mainWindow = new MainWindow();
-            //mainWindow.Show();
-            //CloseWindow.Invoke();
+            ShowSplashScreen();
 
         }
 
@@ -190,38 +190,51 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             SplashScreenManagerService.ViewModel.Logo = null;
             SplashScreenManagerService.ViewModel.Copyright = null;
             SplashScreenManagerService.ViewModel.Status = "Loading data from server...";
+            SplashScreenManagerService.Show();
 
             ClientManager.Instance.LoadData();
 
-            while (!GUIHandler.Instance.ClientManager.IsDataLoaded)
+            if (ClientManager.Instance.IsDataLoaded)
             {
-                SplashScreenManagerService.Show();
-            }
 
-            //Thread.Sleep(TimeSpan.FromSeconds(5));
-            SplashScreenManagerService.Close();
-        }
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
 
-        private void ValidateLoginInputs()
-        {
-            if (EmailLoginText == null || !EmailLoginText.Contains('@') || EmailLoginText.Length <= 6)
-            {
-                DXMessageBox.Show("Email field must not be empty, should contain @ and have atleast 6 characters", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return;
-            }
+                SplashScreenManagerService.Close();
 
-            if (PasswordLoginText == null || PasswordLoginText.Length < 6)
-            {
-                DXMessageBox.Show("Password field must not be empty, and should contain atleast 6 characters", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return;
+                CloseWindow.Invoke();
             }
         }
+
+
 
         private void RegisterUser(object obj)
         {
-            ValidateRegisterInputs();
+            if (NameRegisterText == null)
+            {
+                DXMessageBox.Show("Name field must not be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
-            var user = new User
+            if (EmailRegisterText == null || !EmailRegisterText.Contains('@') || EmailRegisterText.Length <= 6)
+            {
+                DXMessageBox.Show("Email field must not be empty, should contain @ and have atleast 6 characters", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (PhoneRegisterText == null || PhoneRegisterText.Length != 12)
+            {
+                DXMessageBox.Show("Phone number field must not be empty, and should contain 11 digits", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (PasswordRegisterText == null || PasswordRegisterText.Length < 6)
+            {
+                DXMessageBox.Show("Password field must not be empty, and should contain atleast 6 characters", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            User user = new User
             {
                 Name = NameRegisterText,
                 Email = EmailRegisterText,
@@ -233,36 +246,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             };
 
 
-            GUIHandler.Instance.ClientManager.SendMessage(MessageType.User, MessageAction.Add, user);
+            ClientManager.Instance.SendMessage(MessageType.User, MessageAction.Add, user);
 
         }
 
-        private void ValidateRegisterInputs()
-        {
-            if (NameRegisterText == null)
-            {
-                DXMessageBox.Show("Name field must not be empty.", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return;
-            }
-
-            if (EmailRegisterText == null || !EmailRegisterText.Contains('@') || EmailRegisterText.Length <= 6)
-            {
-                DXMessageBox.Show("Email field must not be empty, should contain @ and have atleast 6 characters", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return;
-            }
-
-            if (PhoneRegisterText == null || PhoneRegisterText.Length != 12)
-            {
-                DXMessageBox.Show("Phone number field must not be empty, and should contain 11 digits", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return;
-            }
-
-            if (PasswordRegisterText == null || PasswordRegisterText.Length <= 6)
-            {
-                DXMessageBox.Show("Password field must not be empty, and should contain atleast 6 characters", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return;
-            }
-        }
 
         public bool CompareHashValues(string userStoredPasswordHash, string userInputPassword)
         {

@@ -27,15 +27,12 @@ namespace OrderManagementSystem.UIComponents.Views
 
             AddPanel(ref m_objOrderPanel, "Order");
 
-
             if (activePanels.Count == 1)
             {
-                var singlePanel = activePanels.Values.FirstOrDefault();
+                List<DocumentPanel> singlePanel = activePanels.Values.FirstOrDefault();
                 if (singlePanel != null && singlePanel.Count == 1)
                 {
                     singlePanel[0].AllowClose = false;
-                    
-                    //singlePanel[0].CloseCommand
                 }
             }
         }
@@ -84,7 +81,7 @@ namespace OrderManagementSystem.UIComponents.Views
             }
             else
             {
-                var panelToSelect = documentGroup.Items
+                DocumentPanel? panelToSelect = documentGroup.Items
                     .OfType<DocumentPanel>()
                     .FirstOrDefault(panel => string.Equals(panel.Caption.ToString(), panelCaption, StringComparison.Ordinal));
 
