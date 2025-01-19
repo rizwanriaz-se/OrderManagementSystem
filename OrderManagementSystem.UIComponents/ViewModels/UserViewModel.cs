@@ -2,6 +2,7 @@
 using DevExpress.Mvvm.Native;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Mvvm.Xpf;
+using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
 using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
@@ -10,6 +11,7 @@ using OrderManagementSystemServer.Repository;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -68,7 +70,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void DeleteUser(object obj)
         {
-            ClientManager.Instance.SendMessage(MessageType.User, MessageAction.Delete, SelectedUser.Id);
+            MessageBoxResult confirmationResult = DXMessageBox.Show($"Are you sure you want to delete selected user: {SelectedUser.Name}?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (confirmationResult == MessageBoxResult.Yes)
+                ClientManager.Instance.SendMessage(MessageType.User, MessageAction.Delete, SelectedUser.Id);
         }
 
 

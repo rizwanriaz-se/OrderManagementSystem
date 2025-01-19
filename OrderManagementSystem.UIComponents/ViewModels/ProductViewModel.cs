@@ -66,7 +66,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void DeleteProduct(object obj)
         {
-            ClientManager.Instance.SendMessage(
+            MessageBoxResult confirmationResult = DXMessageBox.Show($"Are you sure you want to delete selected product: {SelectedProduct.Name}?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (confirmationResult == MessageBoxResult.Yes)
+                ClientManager.Instance.SendMessage(
                 MessageType.Product,
                 MessageAction.Delete,
                 SelectedProduct.Id

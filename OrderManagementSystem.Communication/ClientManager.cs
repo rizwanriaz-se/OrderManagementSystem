@@ -105,10 +105,10 @@ namespace OrderManagementSystem.UIComponents.Classes
                 {
                     Connected = true;
 
-                    if (CacheManager.Instance.Products.Count != 0 && CacheManager.Instance.Orders.Count != 0 && CacheManager.Instance.Categories.Count != 0)
-                    {
-                        IsDataLoaded = true;
-                    }
+                    //if (CacheManager.Instance.Products.Count != 0 && CacheManager.Instance.Orders.Count != 0 && CacheManager.Instance.Categories.Count != 0)
+                    //{
+                    //    IsDataLoaded = true;
+                    //}
                     m_objStream = Client.GetStream();
                     OnConnected?.Invoke();
                     m_objHeartbeatTimer.Start();
@@ -209,7 +209,7 @@ namespace OrderManagementSystem.UIComponents.Classes
             catch (Exception ex)
             {
                 Debug.WriteLine("Error in listener: " + ex.Message);
-                
+
             }
         }
 
@@ -299,12 +299,8 @@ namespace OrderManagementSystem.UIComponents.Classes
         {
             try
             {
-                if (responseData != null)
-                {
-                    string data = responseData.ToString();
-                    return (T)JsonSerializer.Deserialize<T>(data);
-                }
-                return default;
+                string data = responseData.ToString();
+                return (T)JsonSerializer.Deserialize<T>(data);
             }
             catch (Exception)
             {

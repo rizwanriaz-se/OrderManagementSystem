@@ -1,19 +1,14 @@
-﻿using DevExpress.Mvvm;
-using DevExpress.Mvvm.POCO;
-using DevExpress.Xpf.Core;
-using DevExpress.XtraRichEdit.Fields.Expression;
-using OrderManagementSystem.UIComponents.Classes;
-using OrderManagementSystem.UIComponents.Commands;
-using OrderManagementSystem.UIComponents.Views;
-using OrderManagementSystemServer.Repository;
-using System.Collections;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Navigation;
+using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
+using OrderManagementSystem.UIComponents.Classes;
+using OrderManagementSystem.UIComponents.Commands;
+using OrderManagementSystem.UIComponents.Views;
+using OrderManagementSystemServer.Repository;
 using static OrderManagementSystemServer.Repository.User;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -27,7 +22,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             Employee
         }
 
-        public ISplashScreenManagerService SplashScreenManagerService = new SplashScreenManagerService();
+        //public ISplashScreenManagerService SplashScreenManagerService = new SplashScreenManagerService();
 
 
         public Action CloseWindow { get; set; }
@@ -183,14 +178,25 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void ShowSplashScreen()
         {
+            //SplashScreenManagerService.ViewModel = new DXSplashScreenViewModel();
+            //SplashScreenManagerService.ViewModel.Title = "Order Management System";
+            //SplashScreenManagerService.ViewModel.Subtitle = null;
+            //SplashScreenManagerService.ViewModel.Logo = null;
+            //SplashScreenManagerService.ViewModel.Copyright = null;
+            //SplashScreenManagerService.ViewModel.Status = "Loading data from server...";
 
-            SplashScreenManagerService.ViewModel = new DXSplashScreenViewModel();
-            SplashScreenManagerService.ViewModel.Title = "Order Management System";
-            SplashScreenManagerService.ViewModel.Subtitle = null;
-            SplashScreenManagerService.ViewModel.Logo = null;
-            SplashScreenManagerService.ViewModel.Copyright = null;
-            SplashScreenManagerService.ViewModel.Status = "Loading data from server...";
-            SplashScreenManagerService.Show();
+            SplashScreenManager splashScreen = SplashScreenManager.Create(() => new SplashScreenView(), new DXSplashScreenViewModel
+            {
+                IsIndeterminate = true,
+                Title = "Order Management System",
+                Subtitle = "Loading data from server...",
+
+            });
+
+
+
+            //SplashScreenManagerService.Show();
+            splashScreen.Show();
 
             ClientManager.Instance.LoadData();
 
@@ -200,7 +206,8 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
 
-                SplashScreenManagerService.Close();
+                splashScreen.Close();
+                //SplashScreenManagerService.Close();
 
                 CloseWindow.Invoke();
             }

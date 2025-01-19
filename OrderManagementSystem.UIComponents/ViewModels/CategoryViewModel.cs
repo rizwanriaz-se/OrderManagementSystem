@@ -109,11 +109,15 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void DeleteCategory(object obj)
         {
-            ClientManager.Instance.SendMessage(
-                MessageType.Category,
-                MessageAction.Delete,
-                SelectedCategory.Id
-            );
+
+            MessageBoxResult confirmationResult = DXMessageBox.Show($"Are you sure you want to delete selected category: {SelectedCategory.Name}?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (confirmationResult == MessageBoxResult.Yes)
+                ClientManager.Instance.SendMessage(
+                    MessageType.Category,
+                    MessageAction.Delete,
+                    SelectedCategory.Id
+                );
+        
         }
 
 

@@ -6,6 +6,7 @@ using OrderManagementSystemServer.Repository;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -34,12 +35,16 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 OnPropertyChanged(nameof(SelectedOrder));
             }
         }
+        private object _syncLock = new Object();
+        public ICollectionView Collection { get; set; }
+
 
         public ObservableCollection<Order> Orders { get;  set; }
 
         public OrderViewModel()
         {
             Orders = GUIHandler.Instance.CacheManager.Orders;
+
 
             EditOrderCommand = new RelayCommand(ExecuteEditOrder);
             DeleteOrderCommand = new RelayCommand(ExecuteDeleteOrder);
@@ -56,7 +61,10 @@ namespace OrderManagementSystem.UIComponents.ViewModels
     
         private void ExecuteDeleteOrder(object obj)
         {
-            ClientManager.Instance.SendMessage(MessageType.Order, MessageAction.Delete, SelectedOrder.Id);
+            MessageBoxResult confirmationResult = DXMessageBox.Show($"Are you sure you want to delete selected order?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (confirmationResult == MessageBoxResult.Yes)
+                ClientManager.Instance.SendMessage(MessageType.Order, MessageAction.Delete, SelectedOrder.Id);
         }
 
    
