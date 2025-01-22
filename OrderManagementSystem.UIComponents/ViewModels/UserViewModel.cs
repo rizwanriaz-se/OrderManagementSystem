@@ -11,6 +11,7 @@ using OrderManagementSystemServer.Repository;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -43,6 +44,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         {
             Users = GUIHandler.Instance.CacheManager.Users;
             Users.ForEach(u => u.PropertyChanged += OnUserPropertyChanged);
+            
 
             FilteredUsersView = CollectionViewSource.GetDefaultView(Users);
             FilteredUsersView.Filter = FilterUsers;
@@ -53,7 +55,15 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void OnUserPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            FilteredUsersView.Refresh();
+            if (!System.Windows.Application.Current.Dispatcher.CheckAccess()) {
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(() => FilteredUsersView.Refresh());
+            }
+            else
+            {
+                FilteredUsersView.Refresh();
+            }
+
+            
         }
 
 

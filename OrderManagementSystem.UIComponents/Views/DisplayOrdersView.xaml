@@ -9,7 +9,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
 
-   
+
     <dxg1:GridControl DockPanel.Dock="Top" Name="OrderGrid" ItemsSource="{Binding Orders}" Height="300" SelectedItem="{Binding SelectedOrder}">
         <dxg1:GridControl.View>
             <dxg1:TableView 
@@ -23,7 +23,6 @@
                        CommandParameter="{Binding Row.Row.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type dxg1:GridControl}}}" />
                 </dxg1:TableView.RowCellMenuCustomizations>
 
-                
                 
                 <dxg1:TableView.RowStyle>
                     <Style TargetType="{x:Type dxg1:RowControl}">
@@ -111,8 +110,6 @@
         <dxg1:GridColumn FieldName="Employee"  Binding="{Binding User.Name}" Header="Employee" Width="130" AllowResizing="False" />
         <dxg1:GridColumn FieldName="OrderDate" Binding="{Binding OrderDate}" Header="Order Date" Width="3*" />
         <dxg1:GridColumn FieldName="Status" Binding="{Binding Status}" Header="Status" Width="2*" HorizontalHeaderContentAlignment="Center">
-        
-        
         </dxg1:GridColumn>
 
         <dxg1:GridColumn FieldName="ShippingDate" Binding="{Binding ShippedDate}" Header="Shipped Date"  Width="3*" />

@@ -24,7 +24,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-
         public Category SelectedCategory { get; set; }
 
         public decimal ProductUnitPriceText { get; set; }

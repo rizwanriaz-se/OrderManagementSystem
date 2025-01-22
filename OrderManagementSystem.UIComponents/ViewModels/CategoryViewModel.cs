@@ -1,13 +1,16 @@
-﻿using DevExpress.Xpf.Core;
+﻿using DevExpress.Mvvm.POCO;
+using DevExpress.Xpf.Core;
 using OrderManagementSystem.UIComponents.Classes;
 using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.Views;
 using OrderManagementSystemServer.Repository;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -15,15 +18,12 @@ namespace OrderManagementSystem.UIComponents.ViewModels
     public class CategoryViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<Category> Categories { get; set; }
-     
+
         public Action CloseWindow { get; set; }
 
-       
         public string CategoryNameText { get; set; }
-       
-       
+
         public string CategoryDescriptionText { get; set; }
-       
 
         public ICommand SubmitCategoryCommand { get; set; }
 
@@ -44,25 +44,48 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             }
         }
 
-        
+        private object m_objCategoryLock = new object();
 
         private User m_objCurrentUser { get; set; }
 
         public User CurrentUser { get; set; }
-       
+        public ICollectionView CategoryCollectionView { get; set; }
 
         public CategoryViewModel()
         {
             Categories = GUIHandler.Instance.CacheManager.Categories;
+            CategoryCollectionView = CollectionViewSource.GetDefaultView(Categories);
+
             SubmitCategoryCommand = new RelayCommand(SubmitCategory);
             EditCategoryCommand = new RelayCommand(EditCategory);
             DeleteCategoryCommand = new RelayCommand(DeleteCategory);
             CurrentUser = GUIHandler.Instance.CurrentUser;
+
+            Categories.CollectionChanged += OnCollectionChanged;
+            BindingOperations.EnableCollectionSynchronization(Categories, m_objCategoryLock);
         }
+
+        private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (Category c in e.NewItems)
+                {
+                    if (c != null) c.OnPropertyChanged(nameof(c));
+                }
+            }
+            if (e.OldItems != null)
+            {
+                foreach (Category c in e.OldItems)
+                {
+                    if (c != null) c.OnPropertyChanged(nameof(c));
+                }
+            }
+        }
+
 
         private void SubmitCategory(object obj)
         {
-            //ValidateInputs();
             if (string.IsNullOrWhiteSpace(CategoryNameText))
             {
                 DXMessageBox.Show("The category name cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -93,9 +116,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                     category
                 );
 
-
             CloseWindow?.Invoke();
-
         }
 
 
@@ -117,7 +138,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                     MessageAction.Delete,
                     SelectedCategory.Id
                 );
-        
+
         }
 
 

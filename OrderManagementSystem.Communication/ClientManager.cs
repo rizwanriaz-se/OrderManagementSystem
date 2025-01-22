@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Threading;
 //using Timer = System.Timers.Timer;
 
 namespace OrderManagementSystem.UIComponents.Classes
@@ -35,7 +36,8 @@ namespace OrderManagementSystem.UIComponents.Classes
         Product,
         User,
         Heartbeat,
-        Error
+        Error,
+        All
     }
 
     public enum MessageAction
@@ -48,6 +50,7 @@ namespace OrderManagementSystem.UIComponents.Classes
         Error
     }
 
+
     public class ClientManager
     {
         private static ClientManager? m_objInstance;
@@ -56,7 +59,6 @@ namespace OrderManagementSystem.UIComponents.Classes
         private TcpClient m_objClient;
         private NetworkStream m_objStream;
         private bool m_IsDataLoaded = false;
-
 
         public TcpClient Client
         {
@@ -96,7 +98,6 @@ namespace OrderManagementSystem.UIComponents.Classes
             Random RandomInt = new Random();
             string RandomPort = $"444{RandomInt.Next(1, 10)}";
 
-
             try
             {
                 m_objClient = new TcpClient(new IPEndPoint(IPAddress.Any, Int32.Parse(RandomPort)));
@@ -105,10 +106,6 @@ namespace OrderManagementSystem.UIComponents.Classes
                 {
                     Connected = true;
 
-                    //if (CacheManager.Instance.Products.Count != 0 && CacheManager.Instance.Orders.Count != 0 && CacheManager.Instance.Categories.Count != 0)
-                    //{
-                    //    IsDataLoaded = true;
-                    //}
                     m_objStream = Client.GetStream();
                     OnConnected?.Invoke();
                     m_objHeartbeatTimer.Start();
@@ -133,14 +130,14 @@ namespace OrderManagementSystem.UIComponents.Classes
                 ));
                 if (result == MessageBoxResult.Yes)
                 {
-
                     m_objRetryTimer.Elapsed += RetryTimerElapsed;
                     m_objRetryTimer.AutoReset = true;
                     m_objRetryTimer.Start();
                 }
                 else
                 {
-                    System.Windows.Application.Current.Dispatcher.Invoke(() => System.Windows.Application.Current.Shutdown());
+                    Dispatcher dispatcher = System.Windows.Application.Current.Dispatcher;
+                    dispatcher.Invoke(() => System.Windows.Application.Current.Shutdown());
                 }
             }
             else
@@ -169,10 +166,7 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         public void LoadData()
         {
-            SendMessage(MessageType.Category, MessageAction.Load, null);
-            SendMessage(MessageType.Product, MessageAction.Load, null);
-            SendMessage(MessageType.Order, MessageAction.Load, null);
-
+            SendMessage(MessageType.All, MessageAction.Load, null);
 
             if (CacheManager.Instance.Products != null && CacheManager.Instance.Orders != null && CacheManager.Instance.Categories != null)
             {
@@ -209,14 +203,12 @@ namespace OrderManagementSystem.UIComponents.Classes
             catch (Exception ex)
             {
                 Debug.WriteLine("Error in listener: " + ex.Message);
-
             }
         }
 
         private static bool TryExtractJson(ref string buffer, out string json)
         {
             json = null;
-
 
             int openBraces = 0, closeBraces = 0;
 
@@ -275,7 +267,8 @@ namespace OrderManagementSystem.UIComponents.Classes
                 case MessageType.User:
                     ProcessUserMessage(responseObject);
                     break;
-                default:
+                case MessageType.All:
+                    ProcessAllDataMessage(responseObject);
                     break;
             }
         }
@@ -309,63 +302,70 @@ namespace OrderManagementSystem.UIComponents.Classes
             }
         }
 
+        public void ProcessAllDataMessage(Response response)
+        {
+            Dictionary<string, object> allData = DeserializeJson<Dictionary<string, object>>(response.Data);
+
+            CacheManager.Instance.Categories = DeserializeJson<ObservableCollection<Category>>(allData["Categories"]);
+            CacheManager.Instance.Products = DeserializeJson<ObservableCollection<Product>>(allData["Products"]);
+            CacheManager.Instance.Orders = DeserializeJson<ObservableCollection<Order>>(allData["Orders"]);
+        }
+
         public void ProcessCategoryMessage(Response response)
         {
             switch (response.MessageAction)
             {
                 case MessageAction.Add:
                     Category? categoryAddData = DeserializeJson<Category>(response.Data);
-                    if (categoryAddData == null || categoryAddData is not Category)
+                    if (categoryAddData == null)
                     {
                         DXMessageBox.Show("Error trying to Add Category. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() => CacheManager.Instance.AddCategory(categoryAddData));
+                    CacheManager.Instance.AddCategory(categoryAddData);
+
                     break;
 
                 case MessageAction.Update:
                     Category categoryUpdateData = DeserializeJson<Category>(response.Data);
-                    if (categoryUpdateData == null || categoryUpdateData is not Category)
+                    if (categoryUpdateData == null)
                     {
                         DXMessageBox.Show("Error trying to Update Category. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() => CacheManager.Instance.UpdateCategory(categoryUpdateData));
+                    CacheManager.Instance.UpdateCategory(categoryUpdateData);
                     break;
 
                 case MessageAction.Delete:
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() => CacheManager.Instance.DeleteCategory(response.Data.ToString()));
+
+                    CacheManager.Instance.DeleteCategory(response.Data.ToString());
                     break;
 
                 case MessageAction.Load:
                     ObservableCollection<Category> categories = DeserializeJson<ObservableCollection<Category>>(response.Data);
-                    if (categories == null || categories is not ObservableCollection<Category>)
+                    if (categories == null)
                     {
                         DXMessageBox.Show("Error trying to load data from server. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                     CacheManager.Instance.Categories = categories;
                     break;
-
-                default:
-                    break;
-
             }
         }
 
         public void ProcessOrderMessage(Response response)
         {
-
             switch (response.MessageAction)
             {
                 case MessageAction.Add:
                     Order? orderAddData = DeserializeJson<Order>(response.Data);
-                    if (orderAddData == null || orderAddData is not Order)
+                    if (orderAddData == null)
                     {
                         DXMessageBox.Show("Error trying to Add Order. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                     System.Windows.Application.Current.Dispatcher.BeginInvoke(() => CacheManager.Instance.AddOrder(orderAddData));
+                    
                     break;
 
                 case MessageAction.Delete:
@@ -374,17 +374,18 @@ namespace OrderManagementSystem.UIComponents.Classes
 
                 case MessageAction.Update:
                     Order orderUpdateData = DeserializeJson<Order>(response.Data);
-                    if (orderUpdateData == null || orderUpdateData is not Order)
+                    if (orderUpdateData == null)
                     {
                         DXMessageBox.Show("Error trying to Update Order. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() => CacheManager.Instance.UpdateOrder(orderUpdateData));
+                    System.Windows.Application.Current.Dispatcher.BeginInvoke(()=>
+                    CacheManager.Instance.UpdateOrder(orderUpdateData));
                     break;
 
                 case MessageAction.Load:
                     ObservableCollection<Order> orders = DeserializeJson<ObservableCollection<Order>>(response.Data);
-                    if (orders == null || orders is not ObservableCollection<Order>)
+                    if (orders == null)
                     {
                         DXMessageBox.Show("Error trying to load data from server. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
@@ -397,43 +398,41 @@ namespace OrderManagementSystem.UIComponents.Classes
 
         public void ProcessProductMessage(Response response)
         {
-
             switch (response.MessageAction)
             {
                 case MessageAction.Add:
                     Product? productAddData = DeserializeJson<Product>(response.Data);
-                    if (productAddData == null || productAddData is not Product)
+                    if (productAddData == null)
                     {
                         DXMessageBox.Show("Error trying to Add Product. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() => CacheManager.Instance.AddProduct(productAddData));
+                    CacheManager.Instance.AddProduct(productAddData);
                     break;
 
                 case MessageAction.Delete:
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() => CacheManager.Instance.DeleteProduct(response.Data.ToString()));
+                    CacheManager.Instance.DeleteProduct(response.Data.ToString());
                     break;
 
                 case MessageAction.Update:
                     Product? productUpdateData = DeserializeJson<Product>(response.Data);
-                    if (productUpdateData == null || productUpdateData is not Product)
+                    if (productUpdateData == null)
                     {
                         DXMessageBox.Show("Error trying to Update Product. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() => CacheManager.Instance.UpdateProduct(productUpdateData));
+                   CacheManager.Instance.UpdateProduct(productUpdateData);
                     break;
 
                 case MessageAction.Load:
                     ObservableCollection<Product> products = DeserializeJson<ObservableCollection<Product>>(response.Data);
-                    if (products == null || products is not ObservableCollection<Product>)
+                    if (products == null)
                     {
                         DXMessageBox.Show("Error trying to load data from server. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                     CacheManager.Instance.Products = products;
                     break;
-
             };
 
 
@@ -446,31 +445,31 @@ namespace OrderManagementSystem.UIComponents.Classes
             {
                 case MessageAction.Add:
                     User? userAddData = DeserializeJson<User>(response.Data);
-                    if (userAddData == null || userAddData is not User)
+                    if (userAddData == null)
                     {
                         DXMessageBox.Show("Error trying to Add User. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() => CacheManager.Instance.AddUser(userAddData));
+                    CacheManager.Instance.AddUser(userAddData);
                     break;
 
                 case MessageAction.Delete:
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() => CacheManager.Instance.DeleteUser(response.Data.ToString()));
+                    CacheManager.Instance.DeleteUser(response.Data.ToString());
                     break;
 
                 case MessageAction.Update:
                     User? userUpdateData = DeserializeJson<User>(response.Data);
-                    if (userUpdateData == null || userUpdateData is not User)
+                    if (userUpdateData == null)
                     {
                         DXMessageBox.Show("Error trying to Update User. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    System.Windows.Application.Current.Dispatcher.BeginInvoke(() => CacheManager.Instance.UpdateUser(userUpdateData));
+                    CacheManager.Instance.UpdateUser(userUpdateData);
                     break;
 
                 case MessageAction.Load:
                     ObservableCollection<User> users = DeserializeJson<ObservableCollection<User>>(response.Data);
-                    if (users == null || users is not ObservableCollection<User>)
+                    if (users == null)
                     {
                         DXMessageBox.Show("Error trying to load data from server. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
@@ -485,15 +484,13 @@ namespace OrderManagementSystem.UIComponents.Classes
         public async Task InitializeHeartbeat()
         {
             m_objHeartbeatTimer.Elapsed += async (sender, e) =>
-            SendMessage(MessageType.Heartbeat, MessageAction.Ping, "PING");
+                SendMessage(MessageType.Heartbeat, MessageAction.Ping, "PING");
             m_objHeartbeatTimer.AutoReset = true;
         }
 
 
         public async void SendMessage(MessageType messageType, MessageAction messageAction, object? message = null)
         {
-
-
             try
             {
                 string? json = SerializeJson(new Request
@@ -514,8 +511,6 @@ namespace OrderManagementSystem.UIComponents.Classes
             {
                 Debug.WriteLine("Error in SendMessage: " + ex.Message);
                 OnDisconnected?.Invoke();
-
-
             }
         }
     }

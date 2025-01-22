@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Data;
 using DevExpress.Xpf.Core;
 using OrderManagementSystemServer.Repository;
 
@@ -13,6 +14,14 @@ namespace OrderManagementSystem.Cache
         private ObservableCollection<Product>? m_lstProducts;
         private ObservableCollection<User>? m_lstUsers;
         private static CacheManager? m_objInstance;
+
+        private object m_objUserLock = new Object();
+        private object m_objCategoryLock = new Object();
+        private object m_objOrderLock = new Object();
+        private object m_objProductLock = new Object();
+
+
+
         #endregion
 
         public ObservableCollection<Order>? Orders
@@ -59,7 +68,10 @@ namespace OrderManagementSystem.Cache
         public void AddCategory(Category category)
         {
             if (category != null)
-                Categories.Add(category);
+                lock (m_objCategoryLock)
+                
+                    Categories.Add(category);
+                
         }
 
         public void DeleteCategory(string category)
@@ -70,7 +82,10 @@ namespace OrderManagementSystem.Cache
                 Category? categoryToDelete = Categories.FirstOrDefault(c => c.Id == categoryId);
                 if (categoryToDelete != null)
                 {
-                    Categories.Remove(categoryToDelete);
+                    lock (m_objCategoryLock)
+                    
+                        Categories.Remove(categoryToDelete);
+                    
                 }
             }
         }
@@ -95,7 +110,10 @@ namespace OrderManagementSystem.Cache
 
         public void AddOrder(Order order)
         {
-            if (order != null) { Orders.Add(order); }
+            if (order != null) { 
+                lock (m_objOrderLock)  
+                    Orders.Add(order);  
+            }
 
         }
         public void UpdateOrder(Order updatedOrder)
@@ -125,7 +143,7 @@ namespace OrderManagementSystem.Cache
                 Order? orderToDelete = Orders.FirstOrDefault(o => o.Id == orderId);
 
                 if (orderToDelete != null)
-                {
+                {lock(m_objOrderLock)
                     Orders.Remove(orderToDelete);
                 }
             }
@@ -136,8 +154,9 @@ namespace OrderManagementSystem.Cache
         public void AddProduct(Product product)
         {
             if (product != null)
-                Products.Add(product);
-            
+                lock(m_objProductLock)
+                    Products.Add(product);
+
         }
         public void UpdateProduct(Product product)
         {
@@ -162,7 +181,8 @@ namespace OrderManagementSystem.Cache
                 Product? productToDelete = Products.FirstOrDefault(p => p.Id == productId);
                 if (productToDelete != null)
                 {
-                    Products.Remove(productToDelete);
+                    lock(m_objProductLock)
+                        Products.Remove(productToDelete);
                 }
             }
         }
@@ -174,7 +194,9 @@ namespace OrderManagementSystem.Cache
 
             if (user != null)
             {
-                Users.Add(user);
+                lock (m_objUserLock) { 
+                    Users.Add(user);
+                }
                 DXMessageBox.Show("Registration successful!! Your account is pending approval.", "Success", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
             }
         }
@@ -206,6 +228,6 @@ namespace OrderManagementSystem.Cache
             }
         }
         #endregion
-        
+
     }
 }

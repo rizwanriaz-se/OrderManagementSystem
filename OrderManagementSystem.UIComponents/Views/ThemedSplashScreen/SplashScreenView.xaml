@@ -13,9 +13,9 @@
     
     <Grid Background="LightGray">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="{Binding Title}" FontSize="34" HorizontalAlignment="Center" Foreground="#2C2C2C" FontWeight="SemiBold" Margin="0,0,0,60" />
-            <TextBlock Text="{Binding Subtitle}" FontWeight="SemiBold" FontSize="14" HorizontalAlignment="Left" Foreground="#2C2C2C" Margin="0,0,0,4" />
-            <ProgressBar Foreground="#2C2C2C" IsIndeterminate="{Binding IsIndeterminate}" Height="13" />
+            <TextBlock Text="{Binding Title}" FontSize="30" HorizontalAlignment="Center" Foreground="#2C2C2C" FontWeight="SemiBold" Margin="0,0,0,60" />
+            <TextBlock Text="{Binding Subtitle}" FontWeight="SemiBold" FontSize="12" HorizontalAlignment="Left" Foreground="#2C2C2C" Margin="0,0,0,4" />
+            <ProgressBar Foreground="#2C2C2C" IsIndeterminate="{Binding IsIndeterminate}" Height="15" />
         </StackPanel>
     </Grid>
 </dx:SplashScreenWindow>

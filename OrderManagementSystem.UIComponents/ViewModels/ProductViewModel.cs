@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace OrderManagementSystem.UIComponents.ViewModels
@@ -19,40 +20,34 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         public ICommand SubmitProductCommand { get; set; }
         public ICommand EditProductCommand { get; set; }
-
         public ICommand DeleteProductCommand { get; set; }
 
 
         public Product SelectedProduct { get; set; }
-
-
         public ObservableCollection<Product> Products { get;  set; }
         public ObservableCollection<Category> Categories { get;  set; }
-
-
         public string ProductNameText { get; set; }
-
-
         public decimal ProductUnitPriceText { get; set; }
-
-
         public int ProductUnitsInStockText { get; set; }
-
-
         public string ProductDescriptionText { get; set; }
+        public Category SelectedCategory { get; set; }
+        public ICollectionView ProductCollectionView { get; set; }
 
+        private object m_objProductLock = new object();
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public Category SelectedCategory { get; set; }
 
         public ProductViewModel()
         {
             Categories = GUIHandler.Instance.CacheManager.Categories;
             Products = GUIHandler.Instance.CacheManager.Products;
+            ProductCollectionView = CollectionViewSource.GetDefaultView(Products);
+
             SubmitProductCommand = new RelayCommand(SubmitProduct);
             EditProductCommand = new RelayCommand(EditProduct);
             DeleteProductCommand = new RelayCommand(DeleteProduct);
+
+            BindingOperations.EnableCollectionSynchronization(Products, m_objProductLock);
         }
 
         private void EditProduct(object obj)
@@ -67,6 +62,7 @@ namespace OrderManagementSystem.UIComponents.ViewModels
         private void DeleteProduct(object obj)
         {
             MessageBoxResult confirmationResult = DXMessageBox.Show($"Are you sure you want to delete selected product: {SelectedProduct.Name}?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
             if (confirmationResult == MessageBoxResult.Yes)
                 ClientManager.Instance.SendMessage(
                 MessageType.Product,

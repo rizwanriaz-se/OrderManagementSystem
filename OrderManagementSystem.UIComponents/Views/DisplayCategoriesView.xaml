@@ -7,10 +7,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    <dxg1:GridControl ItemsSource="{Binding Categories}" Name="CategoryGrid" Height="300" SelectedItem="{Binding SelectedCategory}">
+
+    <dxg1:GridControl ItemsSource="{Binding CategoryCollectionView}" Name="CategoryGrid" Height="300" SelectedItem="{Binding SelectedCategory}">
         <dxg1:GridControl.View>
-            <dxg1:TableView ShowGroupPanel="False"   VerticalScrollbarVisibility="Auto">
+            <dxg1:TableView ShowGroupPanel="False" IsSynchronizedWithCurrentItem="True"  VerticalScrollbarVisibility="Auto">
                 <dxg1:TableView.RowCellMenuCustomizations>
                     <dxb:BarButtonItem Name="editRowItem" Content="Edit"
                                        

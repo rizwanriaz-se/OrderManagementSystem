@@ -22,9 +22,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             Employee
         }
 
-        //public ISplashScreenManagerService SplashScreenManagerService = new SplashScreenManagerService();
-
-
         public Action CloseWindow { get; set; }
 
         private bool m_bIsRegisterTabVisible;
@@ -153,7 +150,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                         }
                     }
                 }
-
             }
 
             if (user == null)
@@ -178,36 +174,24 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
         private void ShowSplashScreen()
         {
-            //SplashScreenManagerService.ViewModel = new DXSplashScreenViewModel();
-            //SplashScreenManagerService.ViewModel.Title = "Order Management System";
-            //SplashScreenManagerService.ViewModel.Subtitle = null;
-            //SplashScreenManagerService.ViewModel.Logo = null;
-            //SplashScreenManagerService.ViewModel.Copyright = null;
-            //SplashScreenManagerService.ViewModel.Status = "Loading data from server...";
-
+           
             SplashScreenManager splashScreen = SplashScreenManager.Create(() => new SplashScreenView(), new DXSplashScreenViewModel
             {
                 IsIndeterminate = true,
                 Title = "Order Management System",
                 Subtitle = "Loading data from server...",
-
             });
 
-
-
-            //SplashScreenManagerService.Show();
             splashScreen.Show();
 
             ClientManager.Instance.LoadData();
 
             if (ClientManager.Instance.IsDataLoaded)
             {
-
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
 
                 splashScreen.Close();
-                //SplashScreenManagerService.Close();
 
                 CloseWindow.Invoke();
             }
@@ -254,7 +238,6 @@ namespace OrderManagementSystem.UIComponents.ViewModels
 
 
             ClientManager.Instance.SendMessage(MessageType.User, MessageAction.Add, user);
-
         }
 
 

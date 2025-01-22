@@ -58,11 +58,9 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             };
 
 
-
             ClientManager.Instance.SendMessage(MessageType.Category, MessageAction.Update, category);
 
             CloseWindow.Invoke();
-
         }
 
     }

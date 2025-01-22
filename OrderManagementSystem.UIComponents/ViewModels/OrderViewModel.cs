@@ -4,6 +4,7 @@ using OrderManagementSystem.UIComponents.Commands;
 using OrderManagementSystem.UIComponents.Views;
 using OrderManagementSystemServer.Repository;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
@@ -35,19 +36,24 @@ namespace OrderManagementSystem.UIComponents.ViewModels
                 OnPropertyChanged(nameof(SelectedOrder));
             }
         }
-        private object _syncLock = new Object();
-        public ICollectionView Collection { get; set; }
+
+
+        private object m_objOrderLock = new object();
+
 
 
         public ObservableCollection<Order> Orders { get;  set; }
+        public ICollectionView OrderCollectionView { get; set; }
 
         public OrderViewModel()
         {
             Orders = GUIHandler.Instance.CacheManager.Orders;
-
+            
 
             EditOrderCommand = new RelayCommand(ExecuteEditOrder);
             DeleteOrderCommand = new RelayCommand(ExecuteDeleteOrder);
+
+            
         }
 
         private void ExecuteEditOrder(object obj)
@@ -66,8 +72,5 @@ namespace OrderManagementSystem.UIComponents.ViewModels
             if (confirmationResult == MessageBoxResult.Yes)
                 ClientManager.Instance.SendMessage(MessageType.Order, MessageAction.Delete, SelectedOrder.Id);
         }
-
-   
-
     }
 }
